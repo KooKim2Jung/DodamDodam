@@ -2,6 +2,7 @@
 HELP.md
 .gradle
 
+.tmp
 caches
 daemon
 native
