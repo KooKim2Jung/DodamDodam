@@ -9,15 +9,13 @@ services:
 
   mysqldb:
     image: mysql:latest
-    environment:
-      MYSQL_DATABASE: 'dodam'
-      MYSQL_USER: 'dodam'
-      MYSQL_PASSWORD: '1234'
-      MYSQL_ROOT_PASSWORD: 'rootpassword'
+    env_file:
+      - .env
     ports:
       - "3306:3306"
     volumes:
       - mysqldb-data:/var/lib/mysql
+
 
   phpmyadmin:
     image: phpmyadmin
