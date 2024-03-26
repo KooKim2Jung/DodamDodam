@@ -8,11 +8,11 @@ import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
 @Service
-public class ChatGptService {
+public class ChatGptProdService {
     private final WebClient webClient;
     private final String apiKey;
 
-    public ChatGptService(WebClient.Builder webClientBuilder) {
+    public ChatGptProdService(WebClient.Builder webClientBuilder) {
         Dotenv dotenv = Dotenv.load();
         this.webClient = webClientBuilder.baseUrl("https://api.openai.com/v1").build();
         this.apiKey = dotenv.get("OPENAI_API_KEY");
