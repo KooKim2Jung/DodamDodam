@@ -1,0 +1,22 @@
+.signup-image {
+    background-image: url(/public/도담이3.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: FEFAED;
+    background-size: 60%;
+}
+  
+.signup-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 120px 0px 25px 0px;
+    width: 500px;
+    height: 550px;
+    border-radius: 20px;
+    box-shadow: 6px 4px 10px #a5996e;
+}
+  
+.signup-box h1 {
+    padding-top: 169px;
+}
