@@ -1,12 +1,11 @@
-import './App.css';
-import LoginForm from './component/LoginForm';
-import UserHeaderForm from './component/UserHeaderForm';
-import SignupForm from './component/SignupForm';
-import Unprotector from './pages/Unprotector';
-import Protector from './pages/Protector';
 import { useState } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import NonUserHeaderForm from './component/NonUserHeaderForm';
+import LoginPage from './pages/Login/LoginPage';
+import SignupPage from './pages/Signup/SignupPage';
+import UnprotectorPage from './pages/Unprotector/UnprotectorPage';
+import ProtectorPage from './pages/Protector/ProtectorPage';
+import UserHeaderForm from './components/Header/UserHeaderForm';
+import NonUserHeaderForm from './components/Header/NonUserHeaderForm';
 
 
 function App() {
@@ -17,10 +16,10 @@ function App() {
       {isLoggedIn ? <UserHeaderForm/> : <NonUserHeaderForm/>}
       <BrowserRouter>
         <Routes>
-          <Route path="/LoginForm" element={<LoginForm isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}/>}/>
-          <Route path="/SignupForm" element={<SignupForm/>}/>
-          <Route path="/Unprotector" element={<Unprotector/>}/>
-          <Route path="/protector" element={<Protector/>}/>
+          <Route path="/LoginPage" element={<LoginPage isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}/>}/>
+          <Route path="/SignupPage" element={<SignupPage/>}/>
+          <Route path="/UnprotectorPage" element={<UnprotectorPage/>}/>
+          <Route path="/protectorPage" element={<ProtectorPage/>}/>
         </Routes>
       </BrowserRouter>
     </div>
