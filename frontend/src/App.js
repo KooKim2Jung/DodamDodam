@@ -7,6 +7,7 @@ import ProtectorPage from './pages/Protector/ProtectorPage';
 import UserHeaderForm from './components/Header/UserHeaderForm';
 import NonUserHeaderForm from './components/Header/NonUserHeaderForm';
 import MainPage from './pages/Main/MainPage';
+import AboutPage from './pages/Main/AboutPage';
 
 
 function App() {
@@ -17,6 +18,7 @@ function App() {
       {isLoggedIn ? <UserHeaderForm/> : <NonUserHeaderForm/>}
       <BrowserRouter>
         <Routes>
+          <Route path="/AboutPage" element={<AboutPage/>}/>
           <Route path="/" element={<MainPage/>}/>
           <Route path="/LoginPage" element={<LoginPage isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}/>}/>
           <Route path="/SignupPage" element={<SignupPage/>}/>
