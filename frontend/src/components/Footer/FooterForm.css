@@ -1,0 +1,31 @@
+footer {
+    position: fixed;
+    left: 0;
+    bottom: 0; 
+    width: 100%;
+    height: 80px;
+    box-sizing: border-box;
+    z-index: 1; 
+    text-align: center; 
+    padding: 20px; 
+}
+
+.icon-container {
+    display: inline-flex;
+    align-items: center;
+}
+
+.icon-flower {
+    width: 30px;
+    height: 30px;
+    margin-right: 20px;
+}
+
+.icon-circle {
+    background-color: #FFEAA7;
+    border: 1px solid #000;
+    border-radius: 100%;
+    width: 15px;
+    height: 15px;
+    margin-right: 20px;
+}
