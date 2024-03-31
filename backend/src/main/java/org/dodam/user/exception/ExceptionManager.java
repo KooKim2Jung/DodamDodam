@@ -12,10 +12,11 @@ public class ExceptionManager {
         return ResponseEntity.status(e.getErrorCode().getHttpStatus())
                 .body(e.getErrorCode().name() + " " + e.getMessage());
     }
-
+/*
     @ExceptionHandler(RuntimeException.class) //RuntimeException 유형의 예외를 처리하는 메소드
     public ResponseEntity<?> runtimeExceptionHandler(RuntimeException e){
         return ResponseEntity.status(HttpStatus.CONFLICT) //HTTP 상태 코드 409 충돌
                 .body(e.getMessage());
     }
+    */
 }
