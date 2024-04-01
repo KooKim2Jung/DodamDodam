@@ -17,6 +17,7 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.Arrays;
+import java.util.List;
 
 @EnableWebSecurity //Spring Security 설정을 활성화
 @EnableMethodSecurity //메소드 수준의 보안을 활성화
@@ -29,9 +30,9 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("*")); // 모든 오리진(도메인) 허용
+        configuration.setAllowedOrigins(List.of("*")); // 모든 오리진(도메인) 허용
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS")); // 모든 HTTP 메서드 허용
-        configuration.setAllowedHeaders(Arrays.asList("*")); // 모든 헤더 허용
+        configuration.setAllowedHeaders(List.of("*")); // 모든 헤더 허용
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration); // 모든 경로에 CORS 설정 적용
@@ -47,8 +48,17 @@ public class SecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) //세션을 사용하지 않음
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(requests -> requests // HTTP 요청에 대한 접근 제어
-                        .requestMatchers("/", "api/v1/auth/login", "api/v1/auth/join").permitAll() //인증 여부와 상관없이 해당 경로에 대해 접근 허용
-                        .anyRequest().authenticated()
+                        .requestMatchers(
+                                "/",
+                                "api/v1/auth/login",
+                                "api/v1/auth/join",
+                                "/swagger-ui/index.html",
+                                "/swagger-resources/**",
+                                "/v2/api-docs",
+                                "/webjars/**",
+                                "/swagger/**"
+                        ).permitAll() //인증 여부와 상관없이 해당 경로에 대해 접근 허용
+                            .anyRequest().permitAll()//.authenticated() //일단 다 허용하게함
                 );
 
         return http.build();

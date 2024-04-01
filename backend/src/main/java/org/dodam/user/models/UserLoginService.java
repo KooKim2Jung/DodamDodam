@@ -22,7 +22,7 @@ public class UserLoginService {
                 .orElseThrow(() -> new AppException(ErrorCode.USEREMAIL_NOT_FOUND, "가입된" + userLoginRequest.getUserEmail() + "이 없습니다."));
 
         //userPw 틀림
-        if(!encoder.matches(selectedUser.getUserPw(), userLoginRequest.getUserPw())) {
+        if(!encoder.matches(userLoginRequest.getUserPw(), selectedUser.getUserPw())) {
             throw new AppException(ErrorCode.INVALID_PASSWORD, "패스워드를 잘못 입력 했습니다.");
         }
 
