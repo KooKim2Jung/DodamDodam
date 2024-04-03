@@ -1,12 +1,12 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import './SignupForm.css';
+import './SignupPage.css';
 
 const SignupForm = () => {
     const navigate = useNavigate();
 
     const handleSignup = () => {
-        navigate('/loginForm');
+        navigate('/loginPage');
     }
     return (
         <div className='signup-image'>

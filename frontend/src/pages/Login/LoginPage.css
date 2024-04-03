@@ -5,6 +5,7 @@
     margin: 120px 0px 25px 0px;
     background-color: #FEFAED;
     width: 500px;
+    height: 550px;
     border-radius: 20px;
     box-shadow: 6px 4px 10px #a5996e;
 }
@@ -13,7 +14,7 @@
     position: relative;
     width: 240px; 
     height: 240px;
-    margin: -7px 0px;
+    margin: -4px 0px;
 }
   
 .dodam {
@@ -23,27 +24,45 @@
     height: 220px;
     margin-top: 20px;
 }
-  
-  .input-box input {
+
+.input-box input {
     padding: 10px 20px;
     margin-bottom: 10px;
     border-radius: 20px;
     background-color: #FEEBA4;
-    border: none;
+    border: 2px solid transparent;
     font-size: 1.3rem;
     width: 100%;
     box-sizing: border-box;
-  }
+}
+
+.login-box h1 {
+    margin: 8px;
+}
+
+.input-box input:focus {
+    outline: none;
+    border: #000 solid 2px;
+    box-sizing: border-box;
+}
   
 .remember-forgot {
+    display: flex;
+    flex-direction: column;
     font-size: 1.1em;
     font-weight: bold;
 }
-  
+
+.remember-forgot label {
+    margin-top: 3px;
+}
+
 .remember-forgot a {
     text-decoration: none;
     color: #000;
     font-size: 1em;
+    margin-top: 7px;
+    margin-bottom: 15px;
 }
   
 .btn {

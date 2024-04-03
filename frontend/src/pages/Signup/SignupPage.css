@@ -1,9 +1,9 @@
 .signup-image {
-    background-image: url(/public/도담이3.png);
+    background-image: url(/public/image/dodam_signup.png);
     background-repeat: no-repeat;
     background-position: center;
     background-color: FEFAED;
-    background-size: 60%;
+    background-size: 58%;
 }
   
 .signup-box {
@@ -18,5 +18,6 @@
 }
   
 .signup-box h1 {
-    padding-top: 169px;
+    padding-top: 158px;
+    margin: 5px;
 }

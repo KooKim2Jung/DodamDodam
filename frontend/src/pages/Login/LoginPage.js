@@ -1,19 +1,19 @@
 import { useNavigate  } from 'react-router-dom';
-import './LoginForm.css';
+import './LoginPage.css';
 
-const LoginForm = ({setIsLoggedIn}) => {
+const LoginPage = ({setIsLoggedIn}) => {
     const navigate = useNavigate();
 
     const handleLogin = () => {
         setIsLoggedIn(true);
-        navigate('/Protector')
+        navigate('/ProtectorPage')
     }
 
     return (
         <div className="login-box">
             <form onSubmit={handleLogin}>
                 <div className="dodam-crop">
-                    <img className='dodam' src='도담이2.png' ></img>
+                    <img className='dodam' src='./image/dodam_basic.png' ></img>
                 </div>
                 <h1>로그인</h1>
                 <div className="input-box">
@@ -30,9 +30,8 @@ const LoginForm = ({setIsLoggedIn}) => {
                 </div>
                 <button className='btn'>로그인</button>
                  <div className="remember-forgot">
-                    <input type="checkbox" id="check-box"/>
-                    <label for="check-box">이메일 기억하기</label>
-                    <p><a href="#">비밀번호를 잊어버리셨나요?</a></p>
+                    <label for="check-box"><input type="checkbox" id="check-box"/>이메일 기억하기</label>
+                    <a href="#">비밀번호를 잊어버리셨나요?</a>
                 </div>
                 
             </form>
@@ -40,4 +39,4 @@ const LoginForm = ({setIsLoggedIn}) => {
     );
 };
 
-export default LoginForm;
+export default LoginPage;
