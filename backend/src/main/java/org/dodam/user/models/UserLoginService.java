@@ -5,6 +5,8 @@ import org.dodam.user.entities.User;
 import org.dodam.user.exception.AppException;
 import org.dodam.user.exception.ErrorCode;
 import org.dodam.user.repositories.UserRepository;
+import org.dodam.user.utils.JwtTokenUtil;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
@@ -13,7 +15,14 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 public class UserLoginService {
 
     private final UserRepository userRepository;
+
     private final BCryptPasswordEncoder encoder;
+
+    //application.properties 파일에서 정의된 jwt.token.secret 프로퍼티의 값을 읽어와서 key 필드에 할당  - ${jwt.token.screte}
+    @Value(value = "${jwt.token.secret}")
+    private String key;
+
+    private Long expireTimeMs = 1000 * 60 * 60l; //1시간
 
     public String login(UserLoginRequest userLoginRequest){
         //userEmail 없음
@@ -27,8 +36,9 @@ public class UserLoginService {
         }
 
         //앞에서 Exception 발생하지 않으면 토큰 발행
+        String token = JwtTokenUtil.createToken(selectedUser.getUserEmail(), key, expireTimeMs);
 
-        return "Token 리턴";
+        return token;
     }
 
 

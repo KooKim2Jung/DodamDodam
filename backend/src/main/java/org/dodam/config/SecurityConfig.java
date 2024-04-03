@@ -48,16 +48,16 @@ public class SecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) //세션을 사용하지 않음
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(requests -> requests // HTTP 요청에 대한 접근 제어
-                        .requestMatchers(
-                                "/",
-                                "api/v1/auth/login",
-                                "api/v1/auth/join",
-                                "/swagger-ui/index.html",
-                                "/swagger-resources/**",
-                                "/v2/api-docs",
-                                "/webjars/**",
-                                "/swagger/**"
-                        ).permitAll() //인증 여부와 상관없이 해당 경로에 대해 접근 허용
+//                        .requestMatchers(
+//                                "/",
+//                                "api/v1/auth/login",
+//                                "api/v1/auth/join",
+//                                "/swagger-ui/index.html",
+//                                "/swagger-resources/**",
+//                                "/v2/api-docs",
+//                                "/webjars/**",
+//                                "/swagger/**"
+//                        ).permitAll() //인증 여부와 상관없이 해당 경로에 대해 접근 허용
                             .anyRequest().permitAll()//.authenticated() //일단 다 허용하게함
                 );
 
