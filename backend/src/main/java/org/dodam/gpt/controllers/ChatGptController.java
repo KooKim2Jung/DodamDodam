@@ -4,7 +4,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.dodam.gpt.models.ChatGptRequest;
 import org.dodam.gpt.models.ChatGptResponse;
-import org.dodam.gpt.models.ChatGptProdService;
+import org.dodam.gpt.models.ChatGptService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,7 +18,7 @@ import reactor.core.publisher.Mono;
 public class ChatGptController {
 
     @Autowired
-    private ChatGptProdService chatGptProdService;
+    private ChatGptService chatGptService;
 
     @PostMapping("/gpt")
     public Mono<ResponseEntity<ChatGptResponse>> getResponse(@RequestBody ChatGptRequest request) {
@@ -27,7 +27,7 @@ public class ChatGptController {
             request.setModel("gpt-3.5-turbo"); // 여기서 모델을 설정합니다
         }
 
-        return chatGptProdService.getGptResponse(request)
+        return chatGptService.getGptResponse(request)
                 .map(response -> ResponseEntity.ok(response));
     }
 }
