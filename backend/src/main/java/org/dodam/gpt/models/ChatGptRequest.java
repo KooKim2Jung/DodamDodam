@@ -7,6 +7,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ChatGptRequest {
+
+    private String messages;
     private String model;
-    private String prompt;
 }

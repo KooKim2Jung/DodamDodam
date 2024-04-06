@@ -12,9 +12,4 @@ public class AppConfig {
         return Dotenv.load();
     }
 
-    @Bean
-    public WebClient webClient(Dotenv dotenv) {
-        String baseUrl = dotenv.get("API_BASE_URL", "https://api.openai.com/v1");
-        return WebClient.builder().baseUrl(baseUrl).build();
-    }
 }

@@ -7,6 +7,5 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ChatGptResponse {
-    private String prompt;
     private String response;
 }
