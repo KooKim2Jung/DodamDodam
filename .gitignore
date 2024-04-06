@@ -1,3 +1,4 @@
+backend/src/main/resources/application.properties
 
 .env
 
@@ -46,3 +47,6 @@ out/
 .vscode/
 
 .env
+
+resources/
+

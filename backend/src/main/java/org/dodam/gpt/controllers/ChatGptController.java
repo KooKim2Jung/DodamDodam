@@ -1,26 +1,30 @@
 package org.dodam.gpt.controllers;
 
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import org.dodam.gpt.models.ChatGptRequest;
 import org.dodam.gpt.models.ChatGptResponse;
 import org.dodam.gpt.models.ChatGptService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import reactor.core.publisher.Mono;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.Flux;
 
 @RestController
-@RequestMapping("/api/chat")
 public class ChatGptController {
 
-    @Autowired
-    private ChatGptService chatGptService;
+    private final ChatGptService gptService;
 
-    @PostMapping("/gpt")
-    public Mono<ResponseEntity<ChatGptResponse>> getResponse(@RequestBody ChatGptRequest request) {
-        return chatGptService.getGptResponse(request)
-                .map(response -> ResponseEntity.ok(response));
+    @Autowired
+    public ChatGptController(ChatGptService gptService) {
+        this.gptService = gptService;
+    }
+
+    @GetMapping(value = "/chat/default", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Flux<ChatGptResponse> getDefaultResponse() {
+        return gptService.getDefaultGptResponseAsStream();
+    }
+
+    @PostMapping(value = "/chat", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public Flux<ChatGptResponse> getGptResponse(@RequestBody ChatGptRequest request) {
+        return gptService.getGptResponse(request);
     }
 }
