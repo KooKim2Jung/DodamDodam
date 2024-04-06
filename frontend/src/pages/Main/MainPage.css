@@ -1,0 +1,61 @@
+.main-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 125px auto 85px auto;
+    width: 100vw;
+    max-width: 100%;
+    height: 500px;
+}
+
+.main-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 500px;
+}
+
+.dodam-main {
+    position: relative;
+    left: -170px;
+    width: 390px;
+    height: 440px;
+}
+
+.main-container h1 {
+    font-size: 9em;
+}
+
+.main-container h1:nth-child(1) {
+    position: relative;
+    left: -100px;
+    top: 180px;
+}
+
+.main-container h1:nth-child(2) {
+    position: relative;
+    top: -30px;
+    left: 70px;
+}
+
+.flower-main {
+    position: relative;
+    top: -450px;
+    left: 115px;
+    width: 140px;
+    height: 140px;
+}
+
+.main-box .btn {
+    position: relative;
+    width: auto;
+    height: auto;
+    top:-250px;
+    left: 160px;
+    font-size: 2.5em;
+    padding: 5px 30px;
+    border-radius: 10px;
+    background-color: transparent;
+    border: 3px solid #000;
+}
