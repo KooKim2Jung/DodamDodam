@@ -19,7 +19,7 @@ public class UserLoginService {
     private final BCryptPasswordEncoder encoder;
 
     //application.properties 파일에서 정의된 jwt.token.secret 프로퍼티의 값을 읽어와서 key 필드에 할당  - ${jwt.token.screte}
-    @Value(value = "${jwt.token.secret}")
+    @Value("${jwt.token.secret}")
     private String key;
 
     private Long expireTimeMs = 1000 * 60 * 60l; //1시간
