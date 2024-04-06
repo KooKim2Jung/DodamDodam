@@ -23,6 +23,7 @@
 .about-text {
     width: 190px;
     font-size: 1.3rem;
+    padding-top: 20px;
 }
 
 .about-text h2 {
@@ -42,22 +43,22 @@
     position: relative; 
 }
 
-.about-image1 {
+.front-image1 {
     position: absolute; 
-    width: 50px; 
-    height: 50px; 
+    width: 80px; 
+    height: 80px; 
     z-index: 1; 
     top: 50%; 
     left: 50%; 
-    transform: translate(-240%, -50%); 
+    transform: translate(-170%, -35%); 
 }
 
-.about-image2 {
+.front-image2 {
     position: absolute; 
-    width: 50px; 
-    height: 50px; 
+    width: 80px; 
+    height: 83px; 
     z-index: 1; 
     top: 50%; 
     left: 50%; 
-    transform: translate(140%, -50%); 
+    transform: translate(70%, -35%); 
 }

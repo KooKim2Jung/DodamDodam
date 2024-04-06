@@ -15,15 +15,29 @@ footer {
     align-items: center;
 }
 
+.main-footer-form .icon-flower {
+    left: 24px;
+}
+
+.about-footer-form .icon-flower {
+    left: 62px;
+}
+
+.detail-footer-form .icon-flower {
+    left: 100px;
+}
+
 .icon-flower {
+    position: relative;
     width: 30px;
     height: 30px;
-    margin-right: 20px;
+    z-index: 1;
+    top: 6px;
 }
 
 .icon-circle {
     background-color: #FFEAA7;
-    border: 1px solid #000;
+    border: 1.5px solid #000;
     border-radius: 100%;
     width: 15px;
     height: 15px;
