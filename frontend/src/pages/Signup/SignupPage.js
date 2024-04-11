@@ -1,6 +1,5 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import './SignupPage.css';
 
 const SignupForm = () => {
     const navigate = useNavigate();
@@ -9,30 +8,31 @@ const SignupForm = () => {
         navigate('/loginPage');
     }
     return (
-        <div className='signup-image'>
-            <div className="signup-box">
+        <div className='flex justify-center items-center bg-signup-image bg-center bg-no-repeat mt-[120px] mb-[25px] 
+        w-[500px] h-[550px] rounded-[20px] shadow-[6px_4px_10px_#a5996e]'>
+            <div className='mt-[155px]'>
                 <form onSubmit={handleSignup}>
-                    <h1>회원가입</h1>
-                    <div className="input-box">
-                        <input
+                    <h1 className='text-basic-size'>회원가입</h1>
+                    <div>
+                        <input className='input-box'
                             type="email"
                             placeholder='이메일 입력'
                         />
                     </div>
-                    <div className="input-box">
-                        <input
+                    <div>
+                        <input className='input-box'
                             type="password"
                             placeholder='비밀번호 입력'
                         />
                     </div>
-                    <div className="input-box">
-                        <input
+                    <div>
+                        <input className='input-box'
                             type="password"
                             placeholder='비밀번호 확인'
                         />
                     </div>
-                    <div className="input-box">
-                        <input
+                    <div>
+                        <input className='input-box'
                             type="number"
                             placeholder='전화번호 입력'
                         />
