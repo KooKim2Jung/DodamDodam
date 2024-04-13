@@ -9,9 +9,9 @@ const SettingsPage = () => {
     return (
         <div className='Settings'> 
             <DetailForm 
-                function_icon='./image/setting.png'
-                function_title='맞춤 설정'
-                function_explanation='피보호자의 정보를 입력해서 맞춤 서비스를 제공받을 수 있어요.'
+                icon='./image/setting.png'
+                title='맞춤 설정'
+                description='피보호자의 정보를 입력해서 맞춤 서비스를 제공받을 수 있어요.'
                 hideRightTriangle={hideTriangle}
                 left_link='/SchedulingPage'
             />

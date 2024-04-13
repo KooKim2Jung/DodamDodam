@@ -19,9 +19,17 @@ body {
   display: none;
 }
 
+.visibility-visible {
+  visibility: visible;
+}
+
+.visibility-hidden {
+  visibility: hidden;
+}
+
 .input-box {
   @apply bg-secondary rounded-[20px] py-[7px] px-[20px] mb-[10px] border-secondary border-2
-  focus:outline-none focus:border-2 focus:border-black  text-input-size;
+  focus:outline-none focus:border-2 focus:border-black  text-middle-size;
 }
 
 .btn {
