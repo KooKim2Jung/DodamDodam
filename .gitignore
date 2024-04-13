@@ -50,3 +50,23 @@ out/
 
 resources/
 
+
+### PyCharm ###
+__pycache__/
+*.py[cod]
+venv/
+.venv/
+env/
+.env/
+ENV/
+.idea/
+.DS_Store    # macOS에서 생성되는 파일
+Thumbs.db    # Windows에서 생성되는 파일
+.log
+.tmp
+dist/
+build/
+*.egg-info/
+.env
+.flaskenv
+venvs/
