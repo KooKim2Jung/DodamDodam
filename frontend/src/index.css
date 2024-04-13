@@ -1,4 +1,6 @@
-@import url('https://fonts.googleapis.com/css2?family=Gamja+Flower&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 body {
   margin: 0;
@@ -9,21 +11,27 @@ body {
   background-color: #FEFAED;
   text-align: center;
   -ms-overflow-style: none;
+  font-family: 'Gamja Flower', cursive;
+  font-weight: bolder;
 }
 
 ::-webkit-scrollbar {
   display: none;
 }
 
+.visibility-visible {
+  visibility: visible;
+}
+
+.visibility-hidden {
+  visibility: hidden;
+}
+
+.input-box {
+  @apply bg-secondary rounded-[20px] py-[7px] px-[20px] mb-[10px] border-secondary border-2
+  focus:outline-none focus:border-2 focus:border-black  text-middle-size;
+}
+
 .btn {
-  cursor: pointer;
-  font-weight: bold;
-}
-
-h1 {
-  font-size: 2.7em;
-}
-
-* {
-  font-family: "Gamja Flower", sans-serif;
+  @apply bg-secondary w-[240px] h-[50px] rounded-[20px] py-[6px] mb-[10px] text-2xl
 }
