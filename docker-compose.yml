@@ -6,6 +6,7 @@ services:
 #      - "8082:8082"
 #    depends_on:
 #      - mysqldb
+  ### ㄴㄴㄴㄴㄴ
 
   mysqldb:
     image: mysql:latest
