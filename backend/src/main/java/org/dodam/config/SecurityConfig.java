@@ -1,17 +1,17 @@
 package org.dodam.config;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
+import org.dodam.user.models.UserLoginService;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -24,6 +24,12 @@ import java.util.List;
 @Configuration //이 클래스가 Spring 설정 클래스임을 나타내며, Spring 컨테이너에 의해 관리됨
 @RequiredArgsConstructor //final 필드나 @NonNull 필드에 대한 생성자를 자동으로 생성
 public class SecurityConfig {
+
+    private final UserLoginService userLoginService;
+
+    @Value("${jwt.token.secret}")
+    private String key;
+
 
     //CORS(Cross-Origin Resource Sharing) 설정 구성
     //CORS - 웹 애플리케이션에서 다른 출처(도메인, 프로토콜, 포트)의 리소스에 대한 접근을 허용하는 메커니즘
@@ -51,15 +57,11 @@ public class SecurityConfig {
 //                        .requestMatchers(
 //                                "/",
 //                                "api/v1/auth/login",
-//                                "api/v1/auth/join",
-//                                "/swagger-ui/index.html",
-//                                "/swagger-resources/**",
-//                                "/v2/api-docs",
-//                                "/webjars/**",
-//                                "/swagger/**"
+//                                "api/v1/auth/join"
 //                        ).permitAll() //인증 여부와 상관없이 해당 경로에 대해 접근 허용
-                            .anyRequest().permitAll()//.authenticated() //일단 다 허용하게함
-                );
+                            .anyRequest().permitAll() //.authenticated() //나머지 요청은 인증 필요 //일단 다 허용 해놓음
+                )
+                .addFilterBefore(new JwtFilter(userLoginService, key), UsernamePasswordAuthenticationFilter.class); // jwt 인증 필터
 
         return http.build();
     }
