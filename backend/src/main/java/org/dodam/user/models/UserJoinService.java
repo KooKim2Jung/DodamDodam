@@ -18,16 +18,15 @@ public class UserJoinService {
     public void join(UserJoinRequest userJoinRequest){
 
         //userEmail 중복 체크
-        userRepository.findByUserEmail(userJoinRequest.getUserEmail())
+        userRepository.findByEmail(userJoinRequest.getEmail())
                 .ifPresent(user -> {
-                    throw new AppException(ErrorCode.USEREMAIL_DUPLICATED, userJoinRequest.getUserEmail() + "는 이미 있습니다.");
+                    throw new AppException(ErrorCode.USEREMAIL_DUPLICATED, userJoinRequest.getEmail() + "는 이미 있습니다.");
                 });
 
         //DB에 저장
         userRepository.save(User.builder()
-                .userEmail(userJoinRequest.getUserEmail())
-                .userPw(encoder.encode(userJoinRequest.getUserPw())) //비밀번호 암호화
-                .phone(userJoinRequest.getPhone())
+                .email(userJoinRequest.getEmail())
+                .password(encoder.encode(userJoinRequest.getPassword())) //비밀번호 암호화
                 .build());
     }
 }

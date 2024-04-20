@@ -5,24 +5,30 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-@Entity
 @Builder //빌더 패턴을 자동으로 생성
 @AllArgsConstructor //모든 필드를 파라미터로 갖는 생성자를 생성
 @NoArgsConstructor //파라미터가 없는 기본 생성자를 생성
 @Data //@ToString, @EqualsAndHashCode, @Getter, @Setter, @RequiredArgsConstructor
-@Table(name="Member") //엔티티와 매핑할 테이블 지정
+@Document(collection = "users")
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) //값을 따로 설정하지 않아도 1부터 1씩 자동으로 증가하며 저장
-    private Long userNo; //회원 번호
+    private String id;
+    private String email;
+    private String password;
+    private Profile profile;
+    private Setting setting;
 
-    @Column(nullable = false, unique = true)
-    private String userEmail; //아이디(이메일)
+    public static class Profile {
+        private String name;
+        private String gender;
+        private String photo;
+        private String remark;
+    }
 
-    @Column(nullable = false)
-    private String userPw; //비밀번호
-
-    @Column(nullable = false)
-    private String phone; //전화번호
+    public static class Setting {
+        private String voice;
+        private String speech;
+    }
 }

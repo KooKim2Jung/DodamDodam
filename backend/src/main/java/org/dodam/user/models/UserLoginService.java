@@ -22,21 +22,21 @@ public class UserLoginService {
     @Value("${jwt.token.secret}")
     private String key;
 
-    private Long expireTimeMs = 1000 * 60 * 60l; //1시간
+    private Long expireTimeMs = Long.MAX_VALUE; // 무한
 
     public String login(UserLoginRequest userLoginRequest){
         //userEmail 없음
         //이메일에 해당하는 사용자가 데이터베이스에 존재한다면 selectedUser 변수에 할당, 없는 경우 예외 발생
-        User selectedUser = userRepository.findByUserEmail(userLoginRequest.getUserEmail())
-                .orElseThrow(() -> new AppException(ErrorCode.USEREMAIL_NOT_FOUND, "가입된" + userLoginRequest.getUserEmail() + "이 없습니다."));
+        User selectedUser = userRepository.findByEmail(userLoginRequest.getEmail())
+                .orElseThrow(() -> new AppException(ErrorCode.USEREMAIL_NOT_FOUND, "가입된" + userLoginRequest.getEmail() + "이 없습니다."));
 
         //userPw 틀림
-        if(!encoder.matches(userLoginRequest.getUserPw(), selectedUser.getUserPw())) {
+        if(!encoder.matches(userLoginRequest.getPassword(), selectedUser.getPassword())) {
             throw new AppException(ErrorCode.INVALID_PASSWORD, "패스워드를 잘못 입력 했습니다.");
         }
 
         //앞에서 Exception 발생하지 않으면 토큰 발행
-        String token = JwtTokenUtil.createToken(selectedUser.getUserEmail(), key, expireTimeMs);
+        String token = JwtTokenUtil.createToken(selectedUser.getEmail(), key, expireTimeMs);
 
         return token;
     }
