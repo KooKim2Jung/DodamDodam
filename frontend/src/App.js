@@ -2,8 +2,7 @@ import { useState } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import LoginPage from './pages/Login/LoginPage';
 import SignupPage from './pages/Signup/SignupPage';
-import UnprotectorPage from './pages/Unprotector/UnprotectorPage';
-import ProtectorPage from './pages/Protector/ProtectorPage';
+import WardPage from './pages/Ward/WardPage';
 import UserHeaderForm from './components/Header/UserHeaderForm';
 import NonUserHeaderForm from './components/Header/NonUserHeaderForm';
 import MainPage from './pages/Main/MainPage';
@@ -12,6 +11,11 @@ import EmotionalAnalysisPage from './pages/Main/Detail/EmotionalAnalysisPage';
 import ConversationSummaryPage from './pages/Main/Detail/ConversationSummaryPage';
 import SchedulingPage from './pages/Main/Detail/SchedulingPage';
 import SettingsPage from './pages/Main/Detail/SettingsPage';
+import ViewConversationPage from './pages/Gaurdian/ViewConversationPage';
+import ViewEmotionAnalysisPage from './pages/Gaurdian/ViewEmotionAnalysisPage';
+import SchedulePage from './pages/Gaurdian/SchedulePage';
+import DodamSettingsPage from './pages/Gaurdian/DodamSettingsPage';
+import WardSettingsPage from './pages/Gaurdian/WardSettingsPage';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -21,16 +25,22 @@ function App() {
       {isLoggedIn ? <UserHeaderForm/> : <NonUserHeaderForm/>}
       <BrowserRouter>
         <Routes>
+          <Route path="/UserHeaderForm" element={<UserHeaderForm/>}/>
+          <Route path='/NonUserHeaderForm' element={<NonUserHeaderForm/>}/>
           <Route path="/AboutPage" element={<AboutPage/>}/>
           <Route path="/" element={<MainPage/>}/>
           <Route path="/LoginPage" element={<LoginPage isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}/>}/>
           <Route path="/SignupPage" element={<SignupPage/>}/>
-          <Route path="/UnprotectorPage" element={<UnprotectorPage/>}/>
-          <Route path="/protectorPage" element={<ProtectorPage/>}/>
+          <Route path="/WardPage" element={<WardPage/>}/>
           <Route path="/ConversationSummaryPage" element={<ConversationSummaryPage/>}/>
           <Route path="/EmotionalAnalysisPage" element={<EmotionalAnalysisPage/>}/>
           <Route path="/SchedulingPage" element={<SchedulingPage/>}/>
           <Route path="/SettingsPage" element={<SettingsPage/>}/>
+          <Route path="/ViewConversationPage" element={<ViewConversationPage/>}/>
+          <Route path="/ViewEmotionAnalysisPage" element={<ViewEmotionAnalysisPage/>}/>
+          <Route path='/SchedulePage' element={<SchedulePage/>}/>
+          <Route path='/DodamSettingsPage' element={<DodamSettingsPage/>}/>
+          <Route path='/WardSettingsPage' element={<WardSettingsPage/>}/>
         </Routes>
       </BrowserRouter>
     </div>
