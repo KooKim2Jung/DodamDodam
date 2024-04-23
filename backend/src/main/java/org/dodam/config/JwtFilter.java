@@ -49,14 +49,14 @@ public class JwtFilter extends OncePerRequestFilter {
             return;
         }
 
-        //Token에서 email 꺼내기
-        String email = JwtTokenUtil.getEmail(token, key);
-        log.info("email :{}", email);
+        //Token에서 id 꺼내기
+        String id = JwtTokenUtil.getId(token, key);
+        log.info("id :{}", id);
 
         //권한부여
         //인증 정보를 Spring Security의 SecurityContext에 저장
         UsernamePasswordAuthenticationToken authenticationToken =
-                new UsernamePasswordAuthenticationToken(email, null, List.of(new SimpleGrantedAuthority("USER")));
+                new UsernamePasswordAuthenticationToken(id, null, List.of(new SimpleGrantedAuthority("USER")));
 
         //Detail을 넣어줌
         authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request)); // 인증 세부 사항을 인증 토큰에 설정

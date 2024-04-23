@@ -8,9 +8,9 @@ import java.util.Date;
 
 public class JwtTokenUtil {
 
-    //Token에서 email 꺼내기
-    public static String getEmail(String token, String key){
-        return Jwts.parser().setSigningKey(key).parseClaimsJws(token).getBody().get("email", String.class);
+    //Token에서 id 꺼내기
+    public static String getId(String token, String key){
+        return Jwts.parser().setSigningKey(key).parseClaimsJws(token).getBody().get("id", String.class);
     }
 
      //지금보다 이전에 expired 되었는지 확인
@@ -19,9 +19,9 @@ public class JwtTokenUtil {
     }
 
     //토큰 생성
-    public static String createToken(String email, String key, Long expireTimeMs) { //key: 유효성 검증에 사용, expireTimeMs: 토큰이 만료되는 시간(밀리초 단위)
+    public static String createToken(String id, String key, Long expireTimeMs) { //key: 유효성 검증에 사용, expireTimeMs: 토큰이 만료되는 시간(밀리초 단위)
         Claims claims = Jwts.claims(); //claim: 토큰의 내용을 저장하는 역할
-        claims.put("email", email); //사용자 이메일(아이디)를 클레임에 추가
+        claims.put("id", id); //사용자 아이디를 클레임에 추가
 
         return Jwts.builder() //jwt 빌더를 초기화
                 .setClaims(claims) //생성한 클레임을 토큰에 추가
