@@ -7,47 +7,56 @@ import os
 import logging
 from jwt.exceptions import ExpiredSignatureError, InvalidTokenError, PyJWTError
 
-
 router = APIRouter(prefix="/api/v1")
 
 load_dotenv()
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
-
 SECRET_KEY = os.getenv("JWT_TOKEN_SECRET")
-ALGORITHM = "HS256"
+ALGORITHM ="HS256"
 
 http_bearer_scheme = HTTPBearer()
 
 print("JWT_TOKEN_SECRET:", SECRET_KEY)
 
+
 #http_auth_credentials: HTTPAuthorizationCredentials = Depends(http_bearer_scheme)
 #token: str = Depends(http_bearer_scheme)
 def get_current_user(http_auth_credentials: HTTPAuthorizationCredentials = Depends(http_bearer_scheme)):
-    token = http_auth_credentials.credentials #http_auth_credentials 객체에서 credentials 속성을 통해 토큰을 추출
+    token = http_auth_credentials.credentials  #http_auth_credentials 객체에서 credentials 속성을 통해 토큰을 추출
     credentials_exception = HTTPException(
         status_code=status.HTTP_403_FORBIDDEN,
         detail="Could not validate credentials",
         headers={"WWW-Authenticate": "Bearer"},
     )
     try:
-        #token = http_auth_credentials.credentials
-        #token_bytes = token.encode('utf-8') #토큰을 UTF-8 형식의 바이트로 인코딩
-        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM]) #토큰을 디코딩하고 비밀키 및 지정된 알고리즘을 사용하여 서명을 검증
-        user_id: str = payload.get("id")
+        print("토큰:", token)
+        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        user_id = payload.get("id")
         if user_id is None:
-            raise credentials_exception
+            raise Exception("유저 ID가 토큰에 없습니다.")
         return user_id
+
+    except jwt.ExpiredSignatureError:
+        print("토큰의 유효 기간이 만료되었습니다.")
     except PyJWTError as e:
-        logging.error("JWT 디코딩 오류: %s", str(e))
-        raise credentials_exception
+        print("JWT 디코딩 오류:", str(e))
+        raise Exception("인증 실패: JWT 디코딩 오류")
+    except jwt.InvalidTokenError:
+        print("유효하지 않은 토큰입니다.")
+    except Exception as e:
+        print("디코딩 중 오류가 발생했습니다:", str(e))
+        raise Exception("인증 실패")
+
+
 
 
 #Swagger 확인 코드
 @router.get("/users/me")
 async def read_users_me(current_user_id: str = Depends(get_current_user)):
     return {"user_id": current_user_id}
+
 
 @router.get("/items/")
 async def read_items(http_authorization_credentials=Depends(http_bearer_scheme)):
