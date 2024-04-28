@@ -32,6 +32,16 @@ body {
   focus:outline-none focus:border-2 focus:border-black  text-middle-size;
 }
 
+.input-box2 {
+  @apply bg-transparent border-borderColor border-[3px] rounded-[10px] checked:border-borderColor
+  focus:outline-none focus:border-[3px] focus:border-borderColor
+}
+
+.radio-box {
+  @apply appearance-none w-5 h-5 rounded-full border-[3px]
+  checked:bg-borderColor border-white shadow-custom1
+}
+
 .btn {
   @apply bg-secondary w-[240px] h-[50px] rounded-[20px] py-[6px] mb-[10px] text-2xl
 }
