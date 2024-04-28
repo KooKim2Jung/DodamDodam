@@ -5,6 +5,7 @@ import os
 
 from conversations.routes import router as conversations_router
 from s3_connection import router as s3_router
+from jwt_utils import router as jwt_router
 
 
 load_dotenv()
@@ -15,3 +16,4 @@ app = FastAPI()
 
 app.include_router(conversations_router)
 app.include_router(s3_router)
+app.include_router(jwt_router)
