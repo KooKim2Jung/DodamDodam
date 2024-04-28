@@ -1,10 +1,9 @@
 from starlette import status
-from fastapi import APIRouter, HTTPException, File, UploadFile
+from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 from .schemas import MessageCreate
 from .services import create_message
 from .services import chat
-from .services import transcribe_audio
 
 router = APIRouter(prefix="/api/v1")
 
@@ -25,14 +24,3 @@ def add_message(message: MessageCreate):
     if not message_id:
         raise HTTPException(status_code=400, detail="Failed to create the message")
     return message_id
-
-
-@router.post("/transcribe")
-async def transcribe(file: UploadFile = File(...)):
-    try:
-        # 서비스 레이어를 호출하여 오디오 파일 전송 및 응답 처리
-        result = await transcribe_audio(file)
-        return result
-    except Exception as e:
-        # 오류 발생시 처리
-        raise HTTPException(status_code=400, detail=str(e))
