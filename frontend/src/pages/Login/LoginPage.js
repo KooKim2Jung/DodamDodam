@@ -5,7 +5,7 @@ const LoginPage = ({setIsLoggedIn}) => {
 
     const handleLogin = () => {
         setIsLoggedIn(true);
-        navigate('/ProtectorPage')
+        navigate('/ViewConversationPage')
     }
 
     return (
