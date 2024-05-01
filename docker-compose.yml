@@ -1,14 +1,16 @@
-version: '3'
+version: '3.8'
 services:
   fastapi:
     build: ./fastapi
     ports:
-      - "8000:8000"
+      - "8080:8080"
     volumes:
-      - .:/app
+      - ./fastapi:/app
     environment:
       - POETRY_VERSION=1.2.0
-    command: poetry run uvicorn main:app --host 0.0.0.0 --port 8000
+    env_file:
+      - .env
+    command: poetry run uvicorn main:app --host 0.0.0.0 --port 8080
 
   spring:
     build: ./backend
@@ -16,6 +18,10 @@ services:
       - "8082:8082"
     depends_on:
       - mysqldb
+    env_file:
+      - .env
+    volumes:
+      - ./backend:/apps
 
   mysqldb:
     image: mysql:latest
@@ -26,14 +32,13 @@ services:
     volumes:
       - mysqldb-data:/var/lib/mysql
 
-
   phpmyadmin:
     image: phpmyadmin
     restart: always
     links:
       - mysqldb
     ports:
-      - 8080:80
+      - 8083:80
     environment:
       PMA_ARBITRARY: 1
       PMA_HOST: mysqldb
@@ -67,7 +72,6 @@ services:
       ME_CONFIG_BASICAUTH_PASSWORD: ${ME_CONFIG_BASICAUTH_PASSWORD}
     depends_on:
       - mongodb
-
 
 volumes:
   mysqldb-data:

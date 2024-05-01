@@ -1,38 +1,23 @@
-FROM --platform=linux/amd64 gradle:8.6-jdk17-alpine as build
+# 빌드를 위한 스테이지
+FROM gradle:8.6-jdk17 AS build
 
-ENV APP_HOME=/apps
+# 작업 디렉토리 설정
+WORKDIR /app
 
-WORKDIR $APP_HOME
+# 소유권을 gradle 사용자에게 할당
+COPY --chown=gradle:gradle . /app
 
-COPY build.gradle settings.gradle gradlew $APP_HOME
+# Gradle을 사용하여 패키지 빌드
+RUN gradle clean build -x test --no-daemon
 
-COPY gradle $APP_HOME/gradle
+# 최종 실행을 위한 스테이지
+FROM openjdk:17-slim
 
-RUN chmod +x gradlew
+# 애플리케이션 포트 설정
+EXPOSE 8082
 
-# dos2unix 설치
-RUN apk add --no-cache dos2unix
+# 빌드 스테이지에서 생성된 JAR 파일을 최종 이미지로 복사
+COPY --from=build /app/build/libs/*.jar app.jar
 
-# gradlew 파일의 line endings 변환
-RUN dos2unix gradlew
-
-
-RUN ./gradlew build || return 0
-
-COPY src $APP_HOME/src
-
-RUN ./gradlew clean build -x check --parallel
-
-FROM --platform=linux/amd64 openjdk:17
-
-ENV APP_HOME=/apps
-ARG ARTIFACT_NAME=app.jar
-ARG JAR_FILE_PATH=build/libs/dodam-0.0.1-SNAPSHOT.jar
-
-WORKDIR $APP_HOME
-
-COPY --from=build $APP_HOME/$JAR_FILE_PATH $ARTIFACT_NAME
-
-EXPOSE 8081
-
-ENTRYPOINT ["java", "-jar", "app.jar"]
+# 스프링 부트 애플리케이션 실행
+ENTRYPOINT ["java","-jar","/app.jar"]
