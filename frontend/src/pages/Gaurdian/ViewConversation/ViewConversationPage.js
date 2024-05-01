@@ -1,5 +1,5 @@
 import React from 'react';
-import AsideForm from '../../components/Aside/AsideForm';
+import AsideForm from '../../../components/Aside/AsideForm';
 
 const ViewConversationPage = () => {
     const dodam = [

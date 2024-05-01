@@ -11,11 +11,11 @@ import EmotionalAnalysisPage from './pages/Main/Detail/EmotionalAnalysisPage';
 import ConversationSummaryPage from './pages/Main/Detail/ConversationSummaryPage';
 import SchedulingPage from './pages/Main/Detail/SchedulingPage';
 import SettingsPage from './pages/Main/Detail/SettingsPage';
-import ViewConversationPage from './pages/Gaurdian/ViewConversationPage';
-import ViewEmotionAnalysisPage from './pages/Gaurdian/ViewEmotionAnalysisPage';
-import SchedulePage from './pages/Gaurdian/SchedulePage';
-import DodamSettingsPage from './pages/Gaurdian/DodamSettingsPage';
-import WardSettingsPage from './pages/Gaurdian/WardSettingsPage';
+import ViewConversationPage from './pages/Gaurdian/ViewConversation/ViewConversationPage';
+import ViewEmotionAnalysisPage from './pages/Gaurdian/ViewEmotionAnalysis/ViewEmotionAnalysisPage';
+import SchedulePage from './pages/Gaurdian/Schedule/SchedulePage';
+import DodamSettingsPage from './pages/Gaurdian/DodamSettings/DodamSettingsPage';
+import WardSettingsPage from './pages/Gaurdian/WardSettings/WardSettingsPage';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -25,8 +25,6 @@ function App() {
       {isLoggedIn ? <UserHeaderForm/> : <NonUserHeaderForm/>}
       <BrowserRouter>
         <Routes>
-          <Route path="/UserHeaderForm" element={<UserHeaderForm/>}/>
-          <Route path='/NonUserHeaderForm' element={<NonUserHeaderForm/>}/>
           <Route path="/AboutPage" element={<AboutPage/>}/>
           <Route path="/" element={<MainPage/>}/>
           <Route path="/LoginPage" element={<LoginPage isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}/>}/>

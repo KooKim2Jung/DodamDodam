@@ -1,5 +1,5 @@
 import React, { useState }  from 'react';
-import AsideForm from '../../components/Aside/AsideForm';
+import AsideForm from '../../../components/Aside/AsideForm';
 
 const DodamSettingsPage = () => {
     const [voice, setVoice] = useState();
