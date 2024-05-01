@@ -1,11 +1,21 @@
 version: '3'
 services:
-#  spring:
-#    build: ./backend
-#    ports:
-#      - "8082:8082"
-#    depends_on:
-#      - mysqldb
+  fastapi:
+    build: ./fastapi
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+    environment:
+      - POETRY_VERSION=1.2.0
+    command: poetry run uvicorn main:app --host 0.0.0.0 --port 8000
+
+  spring:
+    build: ./backend
+    ports:
+      - "8082:8082"
+    depends_on:
+      - mysqldb
 
   mysqldb:
     image: mysql:latest
