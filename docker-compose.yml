@@ -12,16 +12,16 @@ services:
       - .env
     command: poetry run uvicorn main:app --host 0.0.0.0 --port 8080
 
-  spring:
-    build: ./backend
-    ports:
-      - "8082:8082"
-    depends_on:
-      - mysqldb
-    env_file:
-      - .env
-    volumes:
-      - ./backend:/apps
+#  spring:
+#    build: ./backend
+#    ports:
+#      - "8082:8082"
+#    depends_on:
+#      - mysqldb
+#    env_file:
+#      - .env
+#    volumes:
+#      - ./backend:/apps
 
   mysqldb:
     image: mysql:latest
