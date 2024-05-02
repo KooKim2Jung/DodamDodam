@@ -1,4 +1,4 @@
-backend/src/main/resources/application.properties
+
 
 .env
 
@@ -70,3 +70,5 @@ build/
 .env
 .flaskenv
 venvs/
+static/
+
