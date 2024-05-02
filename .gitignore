@@ -70,3 +70,5 @@ build/
 .env
 .flaskenv
 venvs/
+static/
+

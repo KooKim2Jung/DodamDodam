@@ -31,6 +31,8 @@ RUN poetry config virtualenvs.create false \
 
 # 나머지 프로젝트 파일 복사
 COPY . /app
+COPY static /app/static
+
 
 # 프로젝트 실행
 CMD ["poetry", "run", "uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
