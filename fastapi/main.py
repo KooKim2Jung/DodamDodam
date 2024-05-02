@@ -6,9 +6,7 @@ from fastapi import FastAPI
 from dotenv import load_dotenv
 import openai
 import os
-from starlette.requests import Request
-from starlette.responses import Response
-
+from test.sql_routes import router as sql_router
 
 from conversations.routes import router as conversations_router
 from s3_connection import router as s3_router
@@ -23,3 +21,4 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 
 app.include_router(conversations_router)
 app.include_router(s3_router)
+app.include_router(sql_router)
