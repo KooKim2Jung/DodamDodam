@@ -23,7 +23,7 @@ ENV PATH="$POETRY_HOME/bin:$PATH"
 RUN curl -sSL https://install.python-poetry.org | POETRY_HOME=$POETRY_HOME POETRY_VERSION=$POETRY_VERSION python3 -
 
 # 프로젝트 의존성 파일 복사
-COPY pyproject.toml poetry.lock* /app/
+COPY pyproject.toml poetry.lock */app/
 
 # 의존성 설치, 개발 의존성은 제외하고 메인 의존성만 설치
 RUN poetry config virtualenvs.create false \
@@ -31,8 +31,8 @@ RUN poetry config virtualenvs.create false \
 
 # 나머지 프로젝트 파일 복사
 COPY . /app
+# static 폴더 복사
 COPY static /app/static
-
 
 # 프로젝트 실행
 CMD ["poetry", "run", "uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
