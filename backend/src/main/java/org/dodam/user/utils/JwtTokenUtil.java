@@ -19,9 +19,9 @@ public class JwtTokenUtil {
     }
 
     //토큰 생성
-    public static String createToken(String id, String key, Long expireTimeMs) { //key: 유효성 검증에 사용, expireTimeMs: 토큰이 만료되는 시간(밀리초 단위)
+    public static String createToken(Long id, String key, Long expireTimeMs) { //key: 유효성 검증에 사용, expireTimeMs: 토큰이 만료되는 시간(밀리초 단위)
         Claims claims = Jwts.claims(); //claim: 토큰의 내용을 저장하는 역할
-        claims.put("id", id); //사용자 아이디를 클레임에 추가
+        claims.put("id", String.valueOf(id)); //사용자 아이디를 클레임에 추가
 
         return Jwts.builder() //jwt 빌더를 초기화
                 .setClaims(claims) //생성한 클레임을 토큰에 추가
