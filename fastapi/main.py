@@ -6,8 +6,8 @@ from fastapi import FastAPI
 from dotenv import load_dotenv
 import openai
 import os
-from test.sql_routes import router as sql_router
 
+from test.sql_routes import router as sql_router
 from conversations.routes import router as conversations_router
 from s3_connection import router as s3_router
 from jwt_utils import router as jwt_router
