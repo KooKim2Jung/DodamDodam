@@ -16,6 +16,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.http.HttpHeaders;
 
 import java.io.IOException;
+import java.util.Base64;
 import java.util.List;
 
 @RequiredArgsConstructor //final 필드나 @NonNull 필드에 대한 생성자를 자동으로 생성
@@ -33,8 +34,8 @@ public class JwtFilter extends OncePerRequestFilter {
         log.info("authorization : {}", authorization);
 
         //Token 없으면 return
-        if(authorization == null){
-            log.error("authorization이 없습니다.");
+        if(authorization == null || !authorization.startsWith("Bearer ")){
+            log.error("유효하지 않은 Authorization 헤더입니다.");
             filterChain.doFilter(request, response);
             return;
         }
@@ -42,15 +43,17 @@ public class JwtFilter extends OncePerRequestFilter {
         //Token 꺼내기
         String token = authorization.split(" ")[1];
 
+        String encodedKey = Base64.getEncoder().encodeToString(key.getBytes());
+
         //Token Expired 되었는지 확인
-        if(JwtTokenUtil.isExpired(token, key)){
+        if(JwtTokenUtil.isExpired(token, encodedKey)){
             log.error("Token이 만료 되었습니다.");
             filterChain.doFilter(request, response);
             return;
         }
 
         //Token에서 id 꺼내기
-        String id = JwtTokenUtil.getId(token, key);
+        String id = JwtTokenUtil.getId(token, encodedKey);
         log.info("id :{}", id);
 
         //권한부여
