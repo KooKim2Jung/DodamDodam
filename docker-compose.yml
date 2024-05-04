@@ -1,11 +1,30 @@
-version: '3'
+version: '3.8'
 services:
+#  fastapi:
+#    build: ./fastapi
+#    ports:
+#      - "8080:8080"
+#    volumes:
+#      - ./fastapi:/app
+#      - ./fastapi/static/:/fastapi/static
+#    environment:
+#      - POETRY_VERSION=1.2.0
+#    env_file:
+#      - .env
+#    command: poetry run uvicorn main:app --host 0.0.0.0 --port 8080
+#    networks:
+#      - webnet
+
 #  spring:
 #    build: ./backend
 #    ports:
 #      - "8082:8082"
 #    depends_on:
 #      - mysqldb
+#    env_file:
+#      - .env
+#    volumes:
+#      - ./backend:/apps
 
   mysqldb:
     image: mysql:latest
@@ -16,49 +35,50 @@ services:
     volumes:
       - mysqldb-data:/var/lib/mysql
 
-
   phpmyadmin:
     image: phpmyadmin
     restart: always
     links:
       - mysqldb
     ports:
-      - 8080:80
+      - 8083:80
     environment:
       PMA_ARBITRARY: 1
       PMA_HOST: mysqldb
       PMA_PORT: 3306
 
-  mongodb:
-    image: mongo:latest
-    container_name: mongodb
-    restart: always
-    env_file:
-      - .env
-    volumes:
-      - mongodb-data:/data/db
-    ports:
-      - '27017:27017'
-
-  mongo-express:
-    image: mongo-express
-    container_name: mongo-express
-    restart: always
-    ports:
-      - '8085:8081'
-    environment:
-      ME_CONFIG_MONGODB_ADMINUSERNAME: ${MONGO_INITDB_ROOT_USERNAME}
-      ME_CONFIG_MONGODB_ADMINPASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
-      ME_CONFIG_MONGODB_SERVER: mongodb
-      ME_CONFIG_MONGODB_PORT: 27017
-      ME_CONFIG_MONGODB_ENABLE_ADMIN: 'true'
-      ME_CONFIG_MONGODB_AUTH_DATABASE: admin
-      ME_CONFIG_BASICAUTH_USERNAME: ${ME_CONFIG_BASICAUTH_USERNAME}
-      ME_CONFIG_BASICAUTH_PASSWORD: ${ME_CONFIG_BASICAUTH_PASSWORD}
-    depends_on:
-      - mongodb
-
+#  mongodb:
+#    image: mongo:latest
+#    container_name: mongodb
+#    restart: always
+#    env_file:
+#      - .env
+#    volumes:
+#      - mongodb-data:/data/db
+#    ports:
+#      - '27017:27017'
+#
+#  mongo-express:
+#    image: mongo-express
+#    container_name: mongo-express
+#    restart: always
+#    ports:
+#      - '8085:8081'
+#    environment:
+#      ME_CONFIG_MONGODB_ADMINUSERNAME: ${MONGO_INITDB_ROOT_USERNAME}
+#      ME_CONFIG_MONGODB_ADMINPASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
+#      ME_CONFIG_MONGODB_SERVER: mongodb
+#      ME_CONFIG_MONGODB_PORT: 27017
+#      ME_CONFIG_MONGODB_ENABLE_ADMIN: 'true'
+#      ME_CONFIG_MONGODB_AUTH_DATABASE: admin
+#      ME_CONFIG_BASICAUTH_USERNAME: ${ME_CONFIG_BASICAUTH_USERNAME}
+#      ME_CONFIG_BASICAUTH_PASSWORD: ${ME_CONFIG_BASICAUTH_PASSWORD}
+#    depends_on:
+#      - mongodb
 
 volumes:
   mysqldb-data:
-  mongodb-data:
+#  mongodb-data:
+
+networks:
+  webnet:
