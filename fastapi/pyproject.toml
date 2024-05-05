@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "dodamdodam"
-version = "0.1.0"
+version = "1.1.13"
 description = ""
 authors = ["Kookim2jung <kookim2jung@gmail.com>"]
 license = "MIT"
