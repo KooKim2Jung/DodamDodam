@@ -1,5 +1,5 @@
 from dotenv import load_dotenv
-from fastapi import FastAPI, UploadFile, File, APIRouter
+from fastapi import UploadFile, File, APIRouter
 from fastapi.responses import JSONResponse
 
 import os

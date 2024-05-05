@@ -1,5 +1,3 @@
-from starlette.middleware.base import BaseHTTPMiddleware
-from starlette.middleware.cors import CORSMiddleware
 from starlette.staticfiles import StaticFiles
 
 from fastapi import FastAPI
