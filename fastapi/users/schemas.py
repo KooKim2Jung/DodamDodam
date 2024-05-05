@@ -1,11 +1,11 @@
 from pydantic import BaseModel
 from fastapi import UploadFile
-from typing import Optional
+from typing import Optional, Union
 
 class ProfileUpdate(BaseModel):
     name: str
     gender: str
-    photo: Optional[UploadFile] = None #파일이 없으면 기본값 None
+    photo: Optional[Union[UploadFile, str]] = None  # 파일 또는 URL
     remark: str
 
 class ProfileRead(BaseModel):

@@ -5,7 +5,7 @@ class Profile(Base):
     __tablename__ = "profiles"
 
     id = Column(Integer, primary_key=True)
-    user = Column(Integer, ForeignKey("users.id"), nullable=False)
+    user = Column(Integer, nullable=False)
     name = Column(String, nullable=False)
     gender = Column(String, nullable=False)
     photo = Column(String)
