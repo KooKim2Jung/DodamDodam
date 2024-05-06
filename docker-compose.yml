@@ -1,11 +1,17 @@
 version: '3'
 services:
+
 #  spring:
 #    build: ./backend
 #    ports:
 #      - "8082:8082"
 #    depends_on:
 #      - mysqldb
+
+# react:
+#     build: ./frontend
+#     ports:
+#       - "3000:80"
 
   mysqldb:
     image: mysql:latest
