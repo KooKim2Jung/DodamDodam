@@ -14,16 +14,15 @@ services:
 #    networks:
 #      - webnet
 
-#  spring:
-#    build: ./backend
-#    ports:
-#      - "8082:8082"
-#    depends_on:
-#      - mysqldb
-#    env_file:
-#      - .env
-#    volumes:
-#      - ./backend:/apps
+  spring:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    restart: always
+    depends_on:
+      - mysqldb
+    ports:
+      - 8082:8082
 
   mysqldb:
     image: mysql:latest
