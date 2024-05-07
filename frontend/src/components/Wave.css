@@ -1,4 +1,9 @@
-.wave a::after {
+.wave {
+    position: relative;
+    display: inline-flex;
+}
+
+.wave h2::after {
     content: '';
     position: absolute;
     left: 0;
@@ -11,8 +16,8 @@
     transform: scaleX(0);
     transition: transform .5s;
 }
-    
-.wave a:hover::after {
+
+.wave h2:hover::after {
     transform-origin: left;
     transform: scaleX(1);
 }

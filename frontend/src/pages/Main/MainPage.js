@@ -6,7 +6,7 @@ const MainPage = () => {
     const navigate = useNavigate();
 
     const handlestart = () => {
-        navigate('/ProtectorPage');
+        navigate('/ViewConversationPage');
     }
 
     return (
