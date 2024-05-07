@@ -21,7 +21,7 @@ public class UserLoginService {
     @Value("${jwt.token.secret}")
     private String key;
 
-    private Long expireTimeMs = 1000 * 60 * 60l; //1시간
+    private Long expireTimeMs = 1000 * 60 * 60 *24l; //24시간
 
     public String login(UserLoginRequest userLoginRequest){
         //userEmail 없음

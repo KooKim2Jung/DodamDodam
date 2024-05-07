@@ -7,9 +7,9 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 @Configuration
 public class AppConfig {
-    @Bean
-    public Dotenv dotenv() {
-        return Dotenv.load();
-    }
+//    @Bean
+//    public Dotenv dotenv() {
+//        return Dotenv.configure().directory("/app").load();
+//    }
 
 }

@@ -1,4 +1,4 @@
-backend/src/main/resources/application.properties
+
 
 .env
 
@@ -26,6 +26,8 @@ build/
 bin/
 !**/src/main/**/bin/
 !**/src/test/**/bin/
+
+wrapper
 
 ### IntelliJ IDEA ###
 .idea
@@ -70,3 +72,5 @@ build/
 .env
 .flaskenv
 venvs/
+static/
+

@@ -1,38 +1,21 @@
-FROM --platform=linux/amd64 gradle:8.6-jdk17-alpine as build
+# Bellsoft Liberica OpenJDK 17 이미지를 기반으로 설정합니다.
+FROM bellsoft/liberica-openjdk-alpine:17
 
-ENV APP_HOME=/apps
+# 작업 디렉토리 설정
+WORKDIR /app
 
-WORKDIR $APP_HOME
+# 소스 코드 및 Gradle Wrapper를 컨테이너에 복사
+COPY . /app
 
-COPY build.gradle settings.gradle gradlew $APP_HOME
+# gradlew 파일에 실행 권한 부여
+RUN chmod +x ./gradlew
 
-COPY gradle $APP_HOME/gradle
+# 프로젝트 빌드
+RUN ./gradlew build --no-daemon
 
-RUN chmod +x gradlew
+# Java 실행 명령 고정
+ENTRYPOINT ["java", "-jar"]
 
-# dos2unix 설치
-RUN apk add --no-cache dos2unix
+# 기본으로 실행할 JAR 파일 및 기타 매개변수
+CMD ["build/libs/spring-0.0.1-SNAPSHOT.jar"]
 
-# gradlew 파일의 line endings 변환
-RUN dos2unix gradlew
-
-
-RUN ./gradlew build || return 0
-
-COPY src $APP_HOME/src
-
-RUN ./gradlew clean build -x check --parallel
-
-FROM --platform=linux/amd64 openjdk:17
-
-ENV APP_HOME=/apps
-ARG ARTIFACT_NAME=app.jar
-ARG JAR_FILE_PATH=build/libs/dodam-0.0.1-SNAPSHOT.jar
-
-WORKDIR $APP_HOME
-
-COPY --from=build $APP_HOME/$JAR_FILE_PATH $ARTIFACT_NAME
-
-EXPOSE 8081
-
-ENTRYPOINT ["java", "-jar", "app.jar"]
