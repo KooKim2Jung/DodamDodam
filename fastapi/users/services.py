@@ -16,6 +16,7 @@ class ProfileService:
             return ProfileRead(
                 name="이름을 입력해 주세요",
                 gender="성별을 입력해 주세요",
+                age="나이를 입력해 주세요",
                 photo="사진을 넣어 주세요",
                 remark="추가 정보 및 특이 사항을 입력해 주세요"
             )
@@ -28,15 +29,18 @@ class ProfileService:
         if profile is None:
             raise HTTPException(status_code=404, detail="Profile not found")
 
-        # 이름과 성별이 제공되지 않았거나 기본 안내 메시지가 입력된 경우 예외 처리
+        # 이름, 성별, 나이가 제공되지 않았거나 기본 안내 메시지가 입력된 경우 예외 처리
         if not profile_data.name or profile_data.name == "이름을 입력해 주세요":
             raise HTTPException(status_code=400, detail="이름을 입력해 주세요")
         if not profile_data.gender or profile_data.gender == "성별을 입력해 주세요":
             raise HTTPException(status_code=400, detail="성별을 입력해 주세요")
+        if not profile_data.age or profile_data.age == "나이를 입력해 주세요":
+            raise HTTPException(status_code=400, detail="나이를 입력해 주세요")
 
         # 프로필 정보를 업데이트합니다.
         profile.name = profile_data.name
         profile.gender = profile_data.gender
+        profile.age = profile_data.age
 
         if profile_data.photo:
             if isinstance(profile_data.photo, UploadFile):
