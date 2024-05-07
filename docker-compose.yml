@@ -21,6 +21,11 @@ services:
     ports:
       - 8000:8000
 
+# react:
+#     build: ./frontend
+#     ports:
+#       - "3000:80"
+
   mysqldb:
     image: mysql:latest
     env_file:
