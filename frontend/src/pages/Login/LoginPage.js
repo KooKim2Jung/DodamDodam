@@ -50,7 +50,7 @@ const LoginPage = ({ setIsLoggedIn }) => {
         event.preventDefault();
         if (validateForm()) {
             try {
-                const response = await api.post('/v1/users/login', {
+                const response = await api.post('/v1/auth/login', {
                     email: user.email,
                     password: user.passwd,
                 });

@@ -63,7 +63,7 @@ const SignupForm = () => {
         event.preventDefault();
         if (validateForm()) {
             try {
-                const response = await api.post('/v1/users/join', {
+                const response = await api.post('/v1/auth/join', {
                     email: welcomeUser.email,
                     password: welcomeUser.password,
                 });
