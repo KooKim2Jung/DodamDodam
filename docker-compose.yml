@@ -19,7 +19,10 @@ services:
     depends_on:
       - mysqldb
     ports:
-      - 8000:8000
+      - 8080:8080
+    command: uvicorn main:app --host 0.0.0.0 --port 8080
+
+
 
 # react:
 #     build: ./frontend
