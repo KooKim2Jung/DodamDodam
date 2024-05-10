@@ -27,24 +27,26 @@ const SignupForm = () => {
     const validateForm = () => {
         resetForm();
 
+        let isValid = true;
         if (!welcomeUser.email) {
             setErrorCheck(prevState => ({
                 ...prevState,
                 emailError: '이메일을 입력해주세요.'
-            }));
+            })); isValid = false;
         }
         if (welcomeUser.email && !welcomeUser.password) {
             setErrorCheck(prevState => ({
                 ...prevState,
                 passwordError: '비밀번호를 입력해주세요.'
-            }));
+            })); isValid = false;
         }
         if (welcomeUser.password !== welcomeUser.passwordCheck) {
             setErrorCheck(prevState => ({
                 ...prevState,
-                passwordError: '비밀번호를 확인해주세요.'
-            }));
-        }
+                passwordCheckError: '비밀번호를 확인해주세요.'
+            })); isValid = false;
+        } console.log(isValid);
+        return isValid;
     }
 
     const resetForm = () => {
@@ -107,7 +109,7 @@ const SignupForm = () => {
                     <div className='text-small-size text-red-500 mb-4'>{errorCheck.emailError}</div>
                     <div className='text-small-size text-red-500 mb-4'>{errorCheck.passwordError}</div>
                     <div className='text-small-size text-red-500 mb-4'>{errorCheck.passwordCheckError}</div>
-                    <button className='btn -mt-9' type='submit'>가입하기</button>
+                    <button className='btn -mt-4' type='submit'>가입하기</button>
                 </div>
             </div>
         </form>

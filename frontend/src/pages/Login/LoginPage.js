@@ -33,12 +33,17 @@ const LoginPage = ({ setIsLoggedIn }) => {
     const validateForm = () => {
         resetForm();
 
+        let isValid = true;
         if (!user.email) {
             setEmailError('이메일을 입력해주세요.')
-        }
+            isValid = false;
+        } 
         if (user.email && !user.password) {
             setPasswordError('비밀번호를 입력해주세요.')
+            isValid = false;
         }
+        console.log(isValid);
+        return isValid;
     }
 
     const resetForm = () => {
@@ -52,7 +57,7 @@ const LoginPage = ({ setIsLoggedIn }) => {
             try {
                 const response = await api.post('/v1/auth/login', {
                     email: user.email,
-                    password: user.passwd,
+                    password: user.password,
                 });
                 console.log(response);
                 const token = response.data.token; // 응답에서 토큰을 추출
