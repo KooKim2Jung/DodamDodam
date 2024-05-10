@@ -24,10 +24,17 @@ services:
 
 
 
-# react:
-#     build: ./frontend
-#     ports:
-#       - "3000:80"
+  react:
+    build:
+      context: ./frontend
+    container_name: react
+    stdin_open: true
+    command: sh -c "yarn start —host"
+    ports:
+      - 3000:3000
+    volumes:
+      - ./frontend:/app/frontend
+    
 
   mysqldb:
     image: mysql:latest
