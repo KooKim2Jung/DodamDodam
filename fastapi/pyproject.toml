@@ -64,6 +64,7 @@ typing-extensions = "4.11.0"
 urllib3 = "1.26.18"
 uvicorn = "0.29.0"
 yarl = "1.9.4"
+pinecone-client = "^4.0.0"
 
 
 [build-system]
