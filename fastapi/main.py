@@ -2,6 +2,7 @@ from starlette.staticfiles import StaticFiles
 
 from fastapi import FastAPI
 from dotenv import load_dotenv
+from conversations.pinecone import init_pinecone
 import openai
 import os
 
@@ -15,6 +16,8 @@ load_dotenv()
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
 app = FastAPI()
+
+init_pinecone()
 
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
