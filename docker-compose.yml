@@ -1,29 +1,40 @@
 services:
-#  fastapi:
-#    build: ./fastapi
-#    ports:
-#      - "8080:8080"
-#    volumes:
-#      - ./fastapi:/app
-#      - ./fastapi/static/:/fastapi/static
-#    environment:
-#      - POETRY_VERSION=1.8.0
-#    env_file:
-#      - .env
-#    command: poetry run uvicorn main:app --host 0.0.0.0 --port 8080
-#    networks:
-#      - webnet
+  spring:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    restart: always
+    depends_on:
+      - mysqldb
+    ports:
+      - 8082:8082
 
-#  spring:
-#    build: ./backend
-#    ports:
-#      - "8082:8082"
-#    depends_on:
-#      - mysqldb
-#    env_file:
-#      - .env
-#    volumes:
-#      - ./backend:/apps
+  fastapi:
+    build:
+      context: ./fastapi
+      dockerfile: Dockerfile
+    restart: always
+    env_file:
+      - .env
+    depends_on:
+      - mysqldb
+    ports:
+      - 8080:8080
+    command: uvicorn main:app --host 0.0.0.0 --port 8080
+
+
+
+  react:
+    build:
+      context: ./frontend
+    container_name: react
+    stdin_open: true
+    command: sh -c "yarn start —host"
+    ports:
+      - 3000:3000
+    volumes:
+      - ./frontend:/app/frontend
+    
 
   mysqldb:
     image: mysql:latest
@@ -79,5 +90,3 @@ volumes:
   mysqldb-data:
 #  mongodb-data:
 
-networks:
-  webnet:

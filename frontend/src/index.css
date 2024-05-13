@@ -19,6 +19,12 @@ body {
   display: none;
 }
 
+input::-webkit-inner-spin-button {
+  appearance: none;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+}
+
 .visibility-visible {
   visibility: visible;
 }
@@ -28,10 +34,21 @@ body {
 }
 
 .input-box {
-  @apply bg-secondary rounded-[20px] py-[7px] px-[20px] mb-[10px] border-secondary border-2
+  @apply bg-secondary rounded-[10px] py-[8px] px-[20px] mb-[10px] border-secondary border-2
   focus:outline-none focus:border-2 focus:border-black  text-middle-size;
 }
 
+.input-box2 {
+  @apply bg-transparent border-borderColor border-[3px] rounded-[10px] checked:border-borderColor
+  focus:outline-none focus:border-[3px] focus:border-borderColor
+}
+
+.radio-box {
+  @apply appearance-none w-5 h-5 rounded-full border-[3px]
+  checked:bg-borderColor border-white shadow-custom1
+}
+
 .btn {
-  @apply bg-secondary w-[240px] h-[50px] rounded-[20px] py-[6px] mb-[10px] text-2xl
+  @apply bg-secondary w-[240px] h-[50px] rounded-[10px] py-[6px] mb-[10px] text-2xl
+  hover:bg-tertiay transition-all
 }

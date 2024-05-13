@@ -12,6 +12,10 @@ module.exports = {
         primary: '#FEFAED',
         secondary: '#FEEBA4',
         tertiay: '#FFF1C5',
+        borderColor: 'rgb(127, 91, 61)'
+      },
+      boxShadow: {
+        custom1: '0 0 0 3px rgb(127, 91, 61)',
       },
       fontSize: {
         'basic-size': '2.5rem',
