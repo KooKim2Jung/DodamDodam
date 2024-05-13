@@ -1,10 +1,12 @@
 import json
 
 import openai
-from fastapi import requests
+import requests
+from fastapi import HTTPException
 
 from .models import Message
 from .schemas import MessageCreate
+from .stt_connection import get_jwt_token
 
 def chat(message: str) -> str:
     response = openai.ChatCompletion.create(
@@ -26,16 +28,14 @@ def create_message(message_data: MessageCreate) -> str:
     return str(message.inserted_id)
 
 async def transcribe_audio(file):
-    # RTZR STT API URL
     url = "https://openapi.vito.ai/v1/transcribe"
+    token = get_jwt_token()  # 토큰 가져오기
+    if not token:
+        raise HTTPException(status_code=500, detail="JWT Token is not available")
 
-    # 헤더에 포함할 JWT 토큰.
-    token = "JWT_TOKEN"
     headers = {"Authorization": f"Bearer {token}"}
 
-    # 설정을 JSON, 문자열로 반환 추후 업데이트 예정
     config = {}
-    data = {'config': json.dumps(config)}
 
     # 파일을 읽고 멀티파트 인코딩 포맷에 맞게 준비
     file_content = await file.read()
@@ -44,6 +44,6 @@ async def transcribe_audio(file):
     }
 
     # 요청 보내기
-    response = requests.post(url, headers=headers, data=data, files=files)
+    response = requests.post(url, headers=headers, data={'config': json.dumps(config)}, files=files)
     response.raise_for_status()
     return response.json()
