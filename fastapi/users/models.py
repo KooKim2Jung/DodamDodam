@@ -8,6 +8,6 @@ class Profile(Base):
     user = Column(Integer, nullable=False, unique=True)
     name = Column(String, nullable=False)
     gender = Column(String, nullable=False)
-    age = Column(Integer, nullable=False)
+    age = Column(String, nullable=False)
     photo = Column(String)
     remark = Column(String)

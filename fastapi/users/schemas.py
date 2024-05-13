@@ -2,16 +2,22 @@ from pydantic import BaseModel
 from fastapi import UploadFile
 from typing import Optional, Union
 
-class ProfileUpdate(BaseModel):
-    name: str
-    gender: str
-    age: int
-    photo: Optional[Union[UploadFile, str]] = None  # 파일 또는 URL
-    remark: str
+#form 형식으로 변경
+# class ProfileUpdate(BaseModel):
+#     name: str
+#     gender: str
+#     age: str
+#     photo: UploadFile
+#     photo_url: str
+#     remark: str
 
 class ProfileRead(BaseModel):
     name: str
     gender: str
-    age: int
+    age: str
     photo: str
     remark: str
+
+    class Config:
+        #from_attributes = True #Pydantic v2 이상
+        orm_mode = True #Pydantic v1 이하
