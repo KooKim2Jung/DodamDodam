@@ -11,6 +11,7 @@ from s3_connection import router as s3_router
 from conversations.routes import router as transcribe_router
 from jwt_utils import router as jwt_router
 from users.routes import router as users_router
+from conversations.stt_connection import stt_authenticate
 
 
 load_dotenv()
@@ -19,6 +20,7 @@ openai.api_key = os.getenv("OPENAI_API_KEY")
 app = FastAPI()
 
 app.mount("/static", StaticFiles(directory="static"), name="static")
+stt_authenticate()
 
 app.include_router(conversations_router)
 app.include_router(s3_router)
