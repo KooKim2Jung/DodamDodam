@@ -70,8 +70,14 @@ async def upload_file(file: UploadFile = File(...)):
             file_name,
             ExtraArgs={'ContentType': mime_type}
         )
+        url = s3_client.generate_presigned_url(
+            'get_object',
+            Params={'Bucket': bucket_name, 'Key': file_name},
+            ExpiresIn=3600  # Link expires in 1 hour
+        )
         return {"message": "File uploaded successfully",
-                "file_name": file_name}
+                "file_name": file_name,
+                "url": url}
     except Exception as e:
         return JSONResponse(status_code=500, content={"message": str(e)})
 
