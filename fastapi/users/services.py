@@ -1,7 +1,7 @@
 from sqlalchemy.orm import Session
 from fastapi import HTTPException
 from . import models
-from .schemas import ProfileRead #, ProfileUpdate
+from .schemas import ProfileRead, Setting
 from s3_connection import upload_file
 from fastapi import UploadFile
 import asyncio
@@ -51,3 +51,49 @@ class ProfileService:
         db.refresh(profile)
 
         return "정보 수정을 완료했습니다."
+
+class SettingService:
+
+    def read_setting(user: int, db: Session) -> Setting:
+        # 데이터베이스에서 setting 정보를 가져옵니다.
+        setting = db.query(models.Setting).filter(models.Setting.user == user).first()
+        if setting is None:
+            # 데이터베이스에 Setting 정보가 없으면 기본 메시지를 반환합니다.
+            return Setting(
+                voice="혜리",
+                speech="반말"
+            )
+        return Setting.from_orm(setting)
+
+
+    async def update_setting(user: int, setting: Setting, db: Session) -> str:
+        # 데이터베이스에서 setting 정보를 가져옵니다.
+        db_setting = db.query(models.Setting).filter(models.Setting.user == user).first()
+
+        # setting이 없다면 새로 생성
+        if db_setting is None:
+            db_setting = models.Setting(user=user)
+            db.add(db_setting)
+
+        # 입력된 voice 값에 따라 clova_voice 설정
+        voice_to_clova_voice = {
+            "혜리": "vhyeri",
+            "아라": "vara",
+            "다인": "ndain",
+            "소현": "nes_c_sohyun",
+            "이안": "vian"
+        }
+
+        clova_voice = voice_to_clova_voice.get(setting.voice)
+        if not clova_voice:
+            raise HTTPException(status_code=400, detail="Unsupported voice type")
+
+        # setting 정보를 업데이트합니다.
+        db_setting.voice = setting.voice
+        db_setting.speech = setting.speech
+        db_setting.clova_voice = clova_voice
+
+        db.commit()
+        db.refresh(db_setting)
+
+        return "도담이 정보 수정을 완료했습니다."
