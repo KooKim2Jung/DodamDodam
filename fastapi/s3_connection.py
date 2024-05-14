@@ -15,9 +15,6 @@ router = APIRouter(prefix="/test")
 aws_access_key_id = os.getenv("AWS_S3_ACCESS_KEY")
 aws_secret_access_key = os.getenv("AWS_S3_PRIVATE_KEY")
 
-print("AWS_ACCESS_KEY_ID:", os.getenv("AWS_ACCESS_KEY_ID"))
-print("AWS_SECRET_ACCESS_KEY:", os.getenv("AWS_SECRET_ACCESS_KEY"))
-
 s3_client = boto3.client(
     "s3",
     region_name="ap-northeast-2",
