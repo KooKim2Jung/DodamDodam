@@ -1,7 +1,8 @@
 import json
 
+import httpx
 import openai
-import requests
+import asyncio
 from fastapi import HTTPException
 
 from .models import Message
@@ -29,21 +30,41 @@ def create_message(message_data: MessageCreate) -> str:
 
 async def transcribe_audio(file):
     url = "https://openapi.vito.ai/v1/transcribe"
-    token = get_jwt_token()  # 토큰 가져오기
+    token = get_jwt_token()
     if not token:
         raise HTTPException(status_code=500, detail="JWT Token is not available")
 
     headers = {"Authorization": f"Bearer {token}"}
-
     config = {}
 
-    # 파일을 읽고 멀티파트 인코딩 포맷에 맞게 준비
     file_content = await file.read()
     files = {
         'file': (file.filename, file_content, file.content_type)
     }
 
-    # 요청 보내기
-    response = requests.post(url, headers=headers, data={'config': json.dumps(config)}, files=files)
-    response.raise_for_status()
-    return response.json()
+    async with httpx.AsyncClient() as client:
+        post_response = await client.post(url, headers=headers, data={'config': json.dumps(config)}, files=files)
+        post_response.raise_for_status()
+        transcribe_id = post_response.json().get('id')
+
+        if not transcribe_id:
+            raise HTTPException(status_code=500, detail="Failed to obtain transcribe ID")
+
+        # Polling loop
+        while True:
+            get_response = await client.get(
+                f'https://openapi.vito.ai/v1/transcribe/{transcribe_id}',
+                headers=headers
+            )
+            get_response.raise_for_status()
+            result = get_response.json()
+
+            if result['status'] == 'completed' or result['status'] == 'failed':
+                return result  # 종료 조건: 최종 상태에 도달
+            else:
+                await asyncio.sleep(5)  # 5초 동안 대기 후 다시 확인
+
+        return result
+
+
+
