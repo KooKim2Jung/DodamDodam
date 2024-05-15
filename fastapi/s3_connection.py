@@ -77,7 +77,3 @@ async def upload_file(file: UploadFile = File(...)):
                 "url": url}
     except Exception as e:
         return JSONResponse(status_code=500, content={"message": str(e)})
-
-if __name__ == "__main__":
-    import uvicorn
-    uvicorn.run(router, host="0.0.0.0", port=8000)
