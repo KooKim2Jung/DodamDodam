@@ -15,7 +15,7 @@ const LoginPage = ({ setIsLoggedIn }) => {
 
     const handleLogin = () => {
         setIsLoggedIn(true);
-        navigate('/ViewConversationPage')
+        navigate('/WardPage')
     }
 
     const handleSignup = () => {
@@ -30,47 +30,48 @@ const LoginPage = ({ setIsLoggedIn }) => {
         }))
     }
 
-    const validateForm = () => {
-        resetForm();
+    // const validateForm = () => {
+    //     resetForm();
 
-        let isValid = true;
-        if (!user.email) {
-            setEmailError('이메일을 입력해주세요.')
-            isValid = false;
-        } 
-        if (user.email && !user.password) {
-            setPasswordError('비밀번호를 입력해주세요.')
-            isValid = false;
-        }
-        console.log(isValid);
-        return isValid;
-    }
+    //     let isValid = true;
+    //     if (!user.email) {
+    //         setEmailError('이메일을 입력해주세요.')
+    //         isValid = false;
+    //     } 
+    //     if (user.email && !user.password) {
+    //         setPasswordError('비밀번호를 입력해주세요.')
+    //         isValid = false;
+    //     }
+    //     console.log(isValid);
+    //     return isValid;
+    // }
 
-    const resetForm = () => {
-        setEmailError('')
-        setPasswordError('')
-    }
+    // const resetForm = () => {
+    //     setEmailError('')
+    //     setPasswordError('')
+    // }
 
     const submitLogin = async (event) => {
         event.preventDefault();
-        if (validateForm()) {
-            try {
-                const response = await api.post('/v1/auth/login', {
-                    email: user.email,
-                    password: user.password,
-                });
-                console.log(response);
-                const token = response.data.token; // 응답에서 토큰을 추출
-                localStorage.setItem('jwtToken', token); // localStorage에 토큰 저장
-                // 성공적인 응답 처리
-                handleLogin();
+        handleLogin();
+        // if (validateForm()) {
+        //     try {
+        //         const response = await api.post('/v1/auth/login', {
+        //             email: user.email,
+        //             password: user.password,
+        //         });
+        //         console.log(response);
+        //         const token = response.data.token; // 응답에서 토큰을 추출
+        //         localStorage.setItem('jwtToken', token); // localStorage에 토큰 저장
+        //         // 성공적인 응답 처리
+        //         handleLogin();
 
-            } catch (error) {
-                console.error("로그인 요청 오류", error);
-                setEmailError('존재하지 않는 이메일입니다.')
-                // 오류 처리
-            }
-        }
+        //     } catch (error) {
+        //         console.error("로그인 요청 오류", error);
+        //         setEmailError('존재하지 않는 이메일입니다.')
+        //         // 오류 처리
+        //     }
+        // }
     };
 
     return (
