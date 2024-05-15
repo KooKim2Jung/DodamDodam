@@ -65,6 +65,7 @@ yarl = "1.9.4"
 pydantic = "2.7.0"
 python-magic = "^0.4.27"
 #python-magic-bin = "^0.4.14"
+responses = "^0.25.0"
 
 
 [build-system]
