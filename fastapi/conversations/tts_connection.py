@@ -1,6 +1,11 @@
 import os
+import ssl
 import sys
 import urllib.request
+from io import BytesIO
+
+import certifi
+
 
 def text_to_speech(message, filename='output.mp3'):
     client_id = os.getenv("CLOVA_TTS_Client_ID")
@@ -13,16 +18,17 @@ def text_to_speech(message, filename='output.mp3'):
     request = urllib.request.Request(url)
     request.add_header("X-NCP-APIGW-API-KEY-ID", client_id)
     request.add_header("X-NCP-APIGW-API-KEY", client_secret)
+    # context = ssl._create_unverified_context()  # SSL 검증 무시
+    context = ssl.create_default_context(cafile=certifi.where())  # certifi를 사용하여 CA 인증서 경로 설정
 
     try:
-        response = urllib.request.urlopen(request, data=data.encode('utf-8'))
-        rescode = response.getcode()
-        if rescode == 200:
-            print("TTS mp3 파일이 저장되었습니다.")
-            response_body = response.read()
-            with open(filename, 'wb') as f:
-                f.write(response_body)
-        else:
-            print(f"Error Code: {rescode}")
+        # TTS API를 호출하고 스트리밍 응답을 받습니다.
+        with urllib.request.urlopen(request, data=data.encode('utf-8'), context=context) as response:
+            if response.status == 200:
+                # 스트리밍 응답을 메모리 스트림으로 저장
+                return BytesIO(response.read())
+            else:
+                return None
     except Exception as e:
-        print(f"요청 처리 중 오류가 발생했습니다: {e}")
+        print(f"An error occurred: {e}")
+        return None
