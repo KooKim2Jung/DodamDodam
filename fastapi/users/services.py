@@ -2,7 +2,6 @@ from sqlalchemy.orm import Session
 from fastapi import HTTPException
 from . import models
 from .schemas import ProfileRead, Setting
-from s3_connection import upload_file
 from fastapi import UploadFile
 import asyncio
 
