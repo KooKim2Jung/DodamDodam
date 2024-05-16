@@ -7,6 +7,11 @@ WORKDIR /app
 # 소스 코드 및 Gradle Wrapper를 컨테이너에 복사
 COPY . /app
 
+
+# gradlew 파일의 줄바꿈 변환
+RUN apk add --no-cache dos2unix
+RUN dos2unix ./gradlew
+
 # gradlew 파일에 실행 권한 부여
 RUN chmod +x ./gradlew
 

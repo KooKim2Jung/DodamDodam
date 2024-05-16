@@ -1,0 +1,35 @@
+.toggle-label {
+    width: 50%;
+    height: 33px;
+    line-height: 34px;
+    cursor: pointer;
+    z-index: 20;
+    transition: background-color 0.3s;
+    color: #9c9c9c;
+}
+
+#guardian:checked + .toggle-label,
+#ward:checked + .toggle-label {
+    color: #000;
+}
+
+.slider {
+    position: absolute;
+    height: 45px;
+    top: -3px;
+    background-color: #FFFFFF;
+    box-shadow: 2px 2px 1px 1px rgb(163, 153, 115);
+    border-radius: 20px;
+    transition: left 0.3s, right 0.3s;
+}
+
+#guardian:checked ~ .slider {
+    left: 0px;
+    right: 53%;
+}
+
+#ward:checked ~ .slider {
+    right: 0px;
+    left: 45%;
+    width: 108px;
+}
