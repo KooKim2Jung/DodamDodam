@@ -4,7 +4,6 @@ from pinecone import Index
 import json
 
 import httpx
-import openai
 import asyncio
 from fastapi import HTTPException
 from .models import Message
