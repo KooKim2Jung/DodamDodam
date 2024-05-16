@@ -73,3 +73,4 @@ async def upload_endpoint(file: UploadFile = File(...)):
         return result
     except Exception as e:
         return {"message": str(e)}
+
