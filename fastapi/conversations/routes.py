@@ -1,12 +1,14 @@
+import uuid
+
 from starlette import status
 from fastapi import APIRouter, HTTPException, File, UploadFile, Form
-from fastapi.responses import FileResponse
 from pydantic import BaseModel
 from .schemas import MessageCreate
 from .services import create_message
 from .services import chat
 from .services import transcribe_audio
 from .tts_connection import text_to_speech
+from s3_connection import upload_file_to_s3
 
 router = APIRouter(prefix="/api/v1")
 
@@ -41,10 +43,18 @@ async def transcribe(file: UploadFile = File(...)):
 
 
 @router.post("/chat/dodam")
-async def create_audio_file(text: str = Form(...)):
-    filename = 'speech.mp3'  # 저장할 파일명
+async def create_audio_file(message: str = Form(...)):
     try:
-        result_filename = text_to_speech(text, filename)
-        return FileResponse(path=result_filename, filename=filename, media_type='audio/mpeg')
-    except HTTPException as e:
-        raise e
+        # TTS를 호출하여 오디오 스트림을 생성
+        speech_stream = text_to_speech(message)
+        if not speech_stream:
+            raise HTTPException(status_code=500, detail="Failed to generate speech")
+
+        # UUID를 사용하여 고유한 파일 이름을 생성
+        unique_filename = f"{uuid.uuid4()}.mp3"
+
+        # S3에 스트림을 업로드하고 결과를 반환
+        upload_result = upload_file_to_s3(speech_stream, unique_filename)
+        return upload_result
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
