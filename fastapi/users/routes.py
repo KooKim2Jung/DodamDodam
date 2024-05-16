@@ -5,7 +5,7 @@ from .services import ProfileService, SettingService
 from .schemas import ProfileRead, Setting
 from mysql_connection import get_db
 from jwt_utils import get_current_user
-from s3_connection import upload_file
+from s3_connection import upload_file_to_s3
 
 router = APIRouter(prefix="/api/v1")
 
@@ -32,7 +32,7 @@ async def update_profile(
     photo_data = None
     if photo:
         # 파일이 제공된 경우
-        upload_result = await upload_file(photo)
+        upload_result = await upload_file_to_s3(photo)
         if upload_result.get("message") == "File uploaded successfully":
             photo_data = upload_result.get('url')
         else:
