@@ -20,8 +20,6 @@ openai.api_key = os.getenv("OPENAI_API_KEY")
 
 app = FastAPI()
 
-init_pinecone()
-
 app.mount("/static", StaticFiles(directory="static"), name="static")
 stt_authenticate()
 
