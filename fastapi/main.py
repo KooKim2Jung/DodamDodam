@@ -2,6 +2,7 @@ from starlette.staticfiles import StaticFiles
 
 from fastapi import FastAPI
 from dotenv import load_dotenv
+from conversations.pinecone import init_pinecone
 import openai
 import os
 

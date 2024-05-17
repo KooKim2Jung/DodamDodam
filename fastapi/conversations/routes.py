@@ -2,7 +2,8 @@ import uuid
 
 from starlette import status
 from fastapi import APIRouter, HTTPException, File, UploadFile, Form
-from pydantic import BaseModel
+from .models import *
+from .services import *
 from .schemas import MessageCreate
 from .services import create_message
 from .services import chat
@@ -12,16 +13,22 @@ from s3_connection import upload_file_to_s3
 
 router = APIRouter(prefix="/api/v1")
 
-class Chat(BaseModel):
-    message: str
-
 @router.post("/chat/me")
 async def chat_api(message: Chat):
     try:
+        # message.message를 사용하여 메시지 속성에 접근합니다.
+        similar_response = get_similar_response(message.message)
+        if similar_response:
+            return {"response": similar_response}
+
+        # chat 함수 호출 시에도 message.message를 전달합니다.
         response = chat(message.message)
+        store_response(message.message, response)
         return {"response": response}
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e))
+
+
 
 @router.post("/messages", response_model=str, status_code=status.HTTP_201_CREATED)
 def add_message(message: MessageCreate):

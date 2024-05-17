@@ -1,25 +1,37 @@
+import uuid
+
+from .gpt_model_utility import chat, vectorize_message
 import json
 
 import httpx
-import openai
 import asyncio
 from fastapi import HTTPException
-
 from .models import Message
 from .schemas import MessageCreate
 from .stt_connection import get_jwt_token
+from .pinecone import init_pinecone  # import init_pinecone
 
-def chat(message: str) -> str:
-    response = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo",
-        messages=[
-            {"role": "system", "content": "You are a friendly and casual assistant."},
-            {"role": "user", "content": message},
-        ],
-        max_tokens=500,
-        temperature=0.9,
-    )
-    return response.choices[0].message["content"]
+def get_similar_response(message: str) -> str or None:
+    index = init_pinecone()
+    message_vector = vectorize_message(message)
+    results = index.query(vector=[message_vector], top_k=1, include_metadata=True)
+
+    print(f"Query results: {results}")
+
+    if results['matches'] and 'metadata' in results['matches'][0]:
+        if results['matches'][0]['score'] > 0.8:
+            return results['matches'][0]['metadata']['response']
+    return None
+
+def store_response(message: str, response: str):
+    index = init_pinecone()
+    message_vector = vectorize_message(message)
+    vector_id = str(uuid.uuid4())
+    index.upsert(vectors=[{"id": vector_id, "values": message_vector, "metadata": {"response": response, "original_text": message}}])
+
+    print(f"Stored vector ID: {vector_id}")
+    print(f"Original text: {message}")
+    print(f"Response: {response}")
 
 def create_message(message_data: MessageCreate) -> str:
     # Message란 이름의 collection에 message_data를 집어넣겠다
@@ -65,6 +77,3 @@ async def transcribe_audio(file):
                 await asyncio.sleep(5)  # 5초 동안 대기 후 다시 확인
 
         return result
-
-
-
