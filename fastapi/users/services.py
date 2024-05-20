@@ -22,7 +22,7 @@ class ProfileService:
         return ProfileRead.from_orm(profile)
 
 
-    async def update_profile(user: int, name: str, gender: str, age: str, photo: str, remark: str, db: Session) -> str:
+    def update_profile(user: int, name: str, gender: str, age: str, photo: str, remark: str, db: Session) -> str:
         # 데이터베이스에서 프로필 정보를 가져옵니다.
         profile = db.query(models.Profile).filter(models.Profile.user == user).first()
 

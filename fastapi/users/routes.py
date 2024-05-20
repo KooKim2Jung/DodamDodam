@@ -1,3 +1,5 @@
+import uuid
+
 from fastapi import APIRouter, Depends, HTTPException, Form, File, UploadFile
 from sqlalchemy.orm import Session
 from typing import Optional
@@ -18,21 +20,33 @@ async def get_profile(current_user_id: int = Depends(get_current_user), db: Sess
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-@router.post("/profile", response_model=str)
-async def update_profile(
+@router.post("/update_profile", response_model=str)
+def update_profile(
         name: str = Form(...),
         gender: str = Form(...),
         age: str = Form(...),
-        photo: Optional[UploadFile] = File(None),
+        #photo: Optional[UploadFile] = File(None),
+        photo: UploadFile = File(...),
         photo_url: Optional[str] = Form(None),  # 문자열 형태로 URL을 받는 필드 추가
         remark: str = Form(...),
     db: Session = Depends(get_db),
     current_user_id: int = Depends(get_current_user)
 ):
+    print("000")
     photo_data = None
     if photo:
         # 파일이 제공된 경우
-        upload_result = await upload_file_to_s3(photo)
+        print("111")
+        #이미지 확장자 추출
+        filename_parts = photo.filename.split('.')
+        if len(filename_parts) > 1:
+            extension = filename_parts[-1]
+        else:
+            extension = ''  # 확장자가 없는 경우 빈 문자열 처리
+        unique_filename = f"{uuid.uuid4()}.{extension}"
+        print("unique_filename: "+unique_filename)
+        upload_result = upload_file_to_s3(photo, unique_filename)
+        print("333")
         if upload_result.get("message") == "File uploaded successfully":
             photo_data = upload_result.get('url')
         else:
@@ -43,7 +57,7 @@ async def update_profile(
         photo_data = photo_url
 
     try:
-        return await ProfileService.update_profile(user=current_user_id, name=name, gender=gender, age=age, photo=photo_data, remark=remark, db=db)
+        return ProfileService.update_profile(user=current_user_id, name=name, gender=gender, age=age, photo=photo_data, remark=remark, db=db)
     except HTTPException as e:
         raise HTTPException(status_code=e.status_code, detail=e.detail)
     except Exception as e:
