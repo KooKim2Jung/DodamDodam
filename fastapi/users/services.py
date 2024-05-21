@@ -2,8 +2,6 @@ from sqlalchemy.orm import Session
 from fastapi import HTTPException
 from . import models
 from .schemas import ProfileRead, Setting
-from fastapi import UploadFile
-import asyncio
 
 class ProfileService:
 
@@ -65,7 +63,7 @@ class SettingService:
         return Setting.from_orm(setting)
 
 
-    async def update_setting(user: int, setting: Setting, db: Session) -> str:
+    def update_setting(user: int, setting: Setting, db: Session) -> str:
         # 데이터베이스에서 setting 정보를 가져옵니다.
         db_setting = db.query(models.Setting).filter(models.Setting.user == user).first()
 
