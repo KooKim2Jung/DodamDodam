@@ -2,8 +2,6 @@ from sqlalchemy.orm import Session
 from fastapi import HTTPException
 from . import models
 from .schemas import ProfileRead, Setting
-from fastapi import UploadFile
-import asyncio
 
 class ProfileService:
 
@@ -22,7 +20,7 @@ class ProfileService:
         return ProfileRead.from_orm(profile)
 
 
-    async def update_profile(user: int, name: str, gender: str, age: str, photo: str, remark: str, db: Session) -> str:
+    def update_profile(user: int, name: str, gender: str, age: str, photo: str, remark: str, db: Session) -> str:
         # 데이터베이스에서 프로필 정보를 가져옵니다.
         profile = db.query(models.Profile).filter(models.Profile.user == user).first()
 
@@ -65,7 +63,7 @@ class SettingService:
         return Setting.from_orm(setting)
 
 
-    async def update_setting(user: int, setting: Setting, db: Session) -> str:
+    def update_setting(user: int, setting: Setting, db: Session) -> str:
         # 데이터베이스에서 setting 정보를 가져옵니다.
         db_setting = db.query(models.Setting).filter(models.Setting.user == user).first()
 
