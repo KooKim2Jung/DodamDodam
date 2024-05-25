@@ -6,8 +6,8 @@ const DodamSettingsPage = () => {
     const [voice, setVoice] = useState('혜리');
     const voices = [
         { name: "혜리", },
-        { name: "아라", },
-        { name: "다인", },
+        { name: "가은", },
+        { name: "선재", },
         { name: "유인나", },
         { name: "오상진", },
     ];
