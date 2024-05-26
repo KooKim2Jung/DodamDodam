@@ -16,14 +16,14 @@ def get_similar_response(message: str) -> str or None:
     message_vector = vectorize_message(message)  # 메시지를 벡터로 변환
 
     # Pinecone 데이터베이스에서 유사한 항목 검색
-    results = index.query(vector=message_vector, top_k=1, include_metadata=True)
+    results = index.query(vector=message_vector, top_k=3, include_metadata=True)
 
     print(f"Query results: {results}")
 
     # 결과가 존재하고 메타데이터가 포함되어 있는지 확인
     if results['matches'] and 'metadata' in results['matches'][0]:
-        # 가장 유사한 항목의 유사도 점수가 0.8 이상인 경우 응답 반환
-        if results['matches'][0]['score'] > 0.8:
+        # 가장 유사한 항목의 유사도 점수가 0.6 이상인 경우 응답 반환
+        if results['matches'][0]['score'] > 0.6:
             return results['matches'][0]['metadata']['response']
     return None
 
