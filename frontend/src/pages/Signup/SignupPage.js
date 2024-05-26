@@ -83,7 +83,7 @@ const SignupForm = () => {
     };
 
     return (
-        <form onSubmit={submitSignup} onChange={submitWelcomeUser}>
+        <form onSubmit={submitSignup}>
             <div className='flex justify-center items-center bg-signup-image bg-center bg-no-repeat mt-[120px] mb-[25px] 
             w-[700px] h-[550px] rounded-[10px] shadow-[6px_4px_10px_#a5996e] bg-[length:42%_98%]'>
                 <div className='flex flex-col mt-[150px]'>
@@ -93,18 +93,21 @@ const SignupForm = () => {
                         name='email'
                         value={welcomeUser.email}
                         placeholder='이메일'
+                        onChange={submitWelcomeUser}
                     />
                     <input className='input-box'
                         type="password"
                         name='password'
                         value={welcomeUser.password}
                         placeholder='비밀번호'
+                        onChange={submitWelcomeUser}
                     />
                     <input className='input-box'
                         type="password"
                         name='passwordCheck'
                         value={welcomeUser.passwordCheck}
                         placeholder='비밀번호 확인'
+                        onChange={submitWelcomeUser}
                     />
                     <div className='text-small-size text-red-500 mb-4'>{errorCheck.emailError}</div>
                     <div className='text-small-size text-red-500 mb-4'>{errorCheck.passwordError}</div>
