@@ -6,10 +6,12 @@ import json
 import httpx
 import asyncio
 from fastapi import HTTPException
-from .models import Message
+from .models import Message, Conversation
 from .schemas import MessageCreate
 from .stt_connection import get_jwt_token
 from .pinecone import init_pinecone  # import init_pinecone
+from sqlalchemy.orm import Session
+from datetime import date, datetime
 
 def get_similar_response(message: str) -> str or None:
     index = init_pinecone()
@@ -33,12 +35,31 @@ def store_response(message: str, response: str):
     print(f"Original text: {message}")
     print(f"Response: {response}")
 
-def create_message(message_data: MessageCreate) -> str:
-    # Message란 이름의 collection에 message_data를 집어넣겠다
-    # .dict()을 통해 데이터를 JSON 형태로 직렬화
-    message = Message.collection.insert_one(message_data.dict())
-    # 확인을 위해 일단 들어간 객체의 아이디를 반환하게 해둠
-    return str(message.inserted_id)
+def create_message(user: int, content: str, voice_url: str, speaker: str, db: Session) -> str:
+    today = date.today()
+
+    # 해당 유저와 오늘 날짜에 해당하는 Conversation이 있는지 확인
+    conversation = db.query(Conversation).filter_by(user=user, date=today).first()
+
+    # Conversation이 없으면 새로 생성
+    if conversation is None:
+        conversation = Conversation(user=user, date=today, summary=None)
+        db.add(conversation)
+        db.commit()
+
+    # Message 객체 생성
+    new_message = Message(
+        conversation_id=conversation.id,
+        time=datetime.now(),
+        speaker=speaker,
+        content=content,
+        voice=voice_url
+    )
+
+    db.add(new_message)
+    db.commit()
+
+    return "Message 저장 완료"
 
 async def transcribe_audio(file):
     url = "https://openapi.vito.ai/v1/transcribe"
