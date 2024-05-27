@@ -6,7 +6,8 @@ const api = axios.create({
 
 api.interceptors.request.use((config) => {
     const token = localStorage.getItem("jwtToken");
-    if (token) {
+    // 회원가입 및 로그인 요청일 경우 Authorization 헤더를 추가하지 않음
+    if (token && !config.url.endsWith('/auth/join') && !config.url.endsWith('/auth/login')) {
         config.headers.Authorization = `Bearer ${token}`;
     }
     return config;

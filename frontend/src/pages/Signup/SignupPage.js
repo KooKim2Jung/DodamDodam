@@ -70,8 +70,6 @@ const SignupForm = () => {
                     password: welcomeUser.password,
                 });
                 console.log(response);
-                // const token = response.data.token; // 응답에서 토큰을 추출
-                // localStorage.setItem('jwtToken', token); // localStorage에 토큰 저장
                 // 성공적인 응답 처리
                 handleLogin();
 
