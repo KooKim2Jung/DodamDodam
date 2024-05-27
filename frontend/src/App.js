@@ -17,6 +17,7 @@ import SchedulePage from './pages/Gaurdian/Schedule/SchedulePage';
 import DodamSettingsPage from './pages/Gaurdian/DodamSettings/DodamSettingsPage';
 import WardSettingsPage from './pages/Gaurdian/WardSettings/WardSettingsPage';
 import Toggle from './components/Toggle/Toggle';
+import SpeechToText from './components/Conversation/SpeechToText';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -41,6 +42,7 @@ function App() {
           <Route path='/DodamSettingsPage' element={<DodamSettingsPage/>}/>
           <Route path='/WardSettingsPage' element={<WardSettingsPage/>}/>
           <Route path='/Toggle' element={<Toggle/>}/>
+          <Route path='/SpeechToText' element={<SpeechToText/>}/>
         </Routes>
       </BrowserRouter>
     </div>
