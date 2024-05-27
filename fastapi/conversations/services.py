@@ -35,6 +35,7 @@ def store_response(message: str, response: str):
     print(f"Original text: {message}")
     print(f"Response: {response}")
 
+#대화 내용 저장
 def create_message(user: int, content: str, voice_url: str, speaker: str, db: Session) -> str:
     today = date.today()
 
@@ -60,6 +61,33 @@ def create_message(user: int, content: str, voice_url: str, speaker: str, db: Se
     db.commit()
 
     return "Message 저장 완료"
+
+#사용자, 날짜 정보를 통해 대화 데이터를 반환
+def get_messages(db: Session, user: int, date: str):
+    try:
+        date_object = datetime.strptime(date, "%Y-%m-%d").date()  # date를 파이썬의 datetime.date 객체로 변환
+
+        # 사용자와 날짜에 해당하는 Conversation 찾기
+        conversation = db.query(Conversation).filter(
+            Conversation.user == user,
+            Conversation.date == date_object
+        ).first()
+
+        results = []
+        if conversation:
+            messages = db.query(Message).filter(Message.conversation_id == conversation.id).all()
+            results = [{
+                "speaker": message.speaker,
+                "content": message.content,
+                "time": message.time.strftime('%H:%M'),
+                "voice": message.voice
+            } for message in messages]
+            return results  # 메시지 목록을 JSON 배열 형태로 반환
+        else:
+            return "해당 날짜에 대한 대화 데이터가 존재하지 않습니다."
+
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
 
 async def transcribe_audio(file):
     url = "https://openapi.vito.ai/v1/transcribe"

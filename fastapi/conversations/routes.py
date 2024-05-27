@@ -1,6 +1,7 @@
 import uuid
 import io
 import tempfile
+from fastapi import Query
 from starlette import status
 from fastapi import APIRouter, HTTPException, File, UploadFile, Form, Depends
 from .models import *
@@ -14,7 +15,6 @@ from s3_connection import upload_file_to_s3
 from mysql_connection import get_db
 from jwt_utils import get_current_user
 from sqlalchemy.orm import Session
-from starlette.datastructures import UploadFile as StarletteUploadFile
 
 router = APIRouter(prefix="/api/v1")
 
@@ -89,3 +89,11 @@ async def add_message(
         return create_message(user=current_user_id, content=content, voice_url=voice_url, speaker="user", db=db)
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
+@router.get("/messages")
+async def get_messages(
+        date: str = Query(..., regex=r"^\d{4}-\d{2}-\d{2}$"), # ...:매개변수가 필수임을 나타냄, YYYY-MM-DD 형식
+        db: Session = Depends(get_db),
+        current_user_id: int = Depends(get_current_user)
+):
+   return get_messages(db=db, user=current_user_id, date=date)
