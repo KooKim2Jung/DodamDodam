@@ -28,7 +28,7 @@ const DodamSettingsPage = () => {
     const saveVoiceSetting = async (voice, speech) => {
         try {
             const response = await api.post('/v1/setting', { voice, speech });
-            alert(response.data);  // 서버로부터의 응답 메시지를 alert로 표시
+            alert(response.data,'로 설정되었습니다.');  // 서버로부터의 응답 메시지를 alert로 표시
         } catch (error) {
             console.error('Error saving voice setting:', error);
             alert('설정 저장 실패');
