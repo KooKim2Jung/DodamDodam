@@ -31,7 +31,10 @@ public class UserController {
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody UserLoginRequest userLoginRequest){
          String token = userLoginService.login(userLoginRequest);
-         return ResponseEntity.ok().body(userLoginRequest.getEmail()+"님 안녕하세요.\n" + token);
+         Map<String, String> response = new HashMap<>();
+        response.put("token", token);
+
+        return ResponseEntity.ok(response);
     }
 
 }
