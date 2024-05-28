@@ -7,7 +7,6 @@ import os
 import boto3
 import magic
 
-
 load_dotenv()
 
 router = APIRouter(prefix="/test")
@@ -56,13 +55,10 @@ def upload_file_to_s3(file_stream, original_file_name):
             file_stream,
             bucket_name,
             file_name,
-            ExtraArgs={'ContentType': mime_type}
+            ExtraArgs={'ContentType': mime_type}  # ACL 제거
         )
-        url = s3_client.generate_presigned_url(
-            'get_object',
-            Params={'Bucket': bucket_name, 'Key': file_name},
-            ExpiresIn=3600  # 링크는 1시간 후 만료
-        )
+        # 영구적인 S3 객체 URL 생성
+        url = f"https://{bucket_name}.s3.amazonaws.com/{file_name}"
         return {"message": "File uploaded successfully", "url": url}
     except Exception as e:
         raise Exception(f"Error uploading file: {str(e)}")
@@ -74,4 +70,3 @@ async def upload_endpoint(file: UploadFile = File(...)):
         return result
     except Exception as e:
         return {"message": str(e)}
-
