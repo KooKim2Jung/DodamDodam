@@ -23,16 +23,16 @@ services:
     command: sh -c "alembic upgrade head && uvicorn main:app --host 0.0.0.0 --port 8080"
 
   react:
-    build:
-      context: ./frontend
-    container_name: react
-    stdin_open: true
-    command: sh -c "yarn start --host"
-    ports:
-      - 3000:3000
-    volumes:
-      - ./frontend:/app
-    working_dir: /app
+   build:
+     context: ./frontend
+   container_name: react
+   stdin_open: true
+   command: sh -c "yarn start --host"
+   ports:
+     - 3000:3000
+   volumes:
+     - ./frontend:/app
+   working_dir: /app
 
   mysqldb:
     image: mysql:latest
