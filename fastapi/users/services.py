@@ -14,7 +14,8 @@ class ProfileService:
                 name="이름을 입력해 주세요",
                 gender="성별을 입력해 주세요",
                 age="나이를 입력해 주세요",
-                photo="사진을 넣어 주세요",
+                #기본 프로필사진 이미지
+                photo="https://dodambuket.s3.amazonaws.com/%ED%94%84%EB%A1%9C%ED%95%84%EA%B8%B0%EB%B3%B8%EC%9D%B4%EB%AF%B8%EC%A7%80.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIA6ODU4JT3BXSRDOPO%2F20240528%2Fap-northeast-2%2Fs3%2Faws4_request&X-Amz-Date=20240528T042329Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Signature=a9f120db0c12a9a315a82ee9ee4706761a674648b1555193485bcd8bf0aa73c6",
                 remark="추가 정보 및 특이 사항을 입력해 주세요"
             )
         return ProfileRead.from_orm(profile)
