@@ -1,5 +1,6 @@
 import uuid
 import io
+import re
 import tempfile
 from fastapi import Query
 from starlette import status
@@ -90,10 +91,14 @@ async def add_message(
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-@router.get("/messages")
-async def get_messages(
-        date: str = Query(..., regex=r"^\d{4}-\d{2}-\d{2}$"), # ...:매개변수가 필수임을 나타냄, YYYY-MM-DD 형식
+@router.get("/conversation/{date}")
+async def get_conversation(
+        date: str,
         db: Session = Depends(get_db),
         current_user_id: int = Depends(get_current_user)
 ):
-   return get_messages(db=db, user=current_user_id, date=date)
+    # 날짜 형식 검증 YYYY-MM-DD 형식
+    if not re.match(r"^\d{4}-\d{2}-\d{2}$", date):
+        raise HTTPException(status_code=400, detail="Invalid date format. Use YYYY-MM-DD.")
+
+    return get_messages(db=db, user=current_user_id, date=date)
