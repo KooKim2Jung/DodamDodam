@@ -1,34 +1,75 @@
-import React, { useState }  from 'react';
+import React, { useState, useEffect }  from 'react';
 import AsideForm from '../../../components/Aside/AsideForm';
+import api from '../../../services/Api';
 
 const DodamSettingsPage = () => {
-    const [voice, setVoice] = useState();
+    const [voice, setVoice] = useState('혜리');
     const voices = [
         { name: "혜리", },
-        { name: "아라", },
-        { name: "다인", },
+        { name: "가은", },
+        { name: "선재", },
         { name: "유인나", },
         { name: "오상진", },
     ];
+
+    const [speech, setSpeech] = useState('반말');
+
+    // 서버에서 현재 목소리 설정을 가져오는 함수
+    const fetchVoiceSetting = async () => {
+        try {
+            const response = await api.get('/v1/setting');
+            return response.data;  // { voice: '...', speech: '...' } 형태로 반환
+        } catch (error) {
+            console.error('Error fetching voice setting:', error);
+        }
+    };
+
+    // 목소리 설정을 서버에 저장하는 함수
+    const saveVoiceSetting = async (voice, speech) => {
+        try {
+            const response = await api.post('/v1/setting', { voice, speech });
+            alert(response.data);  // 서버로부터의 응답 메시지를 alert로 표시
+        } catch (error) {
+            console.error('Error saving voice setting:', error);
+            alert('설정 저장 실패');
+        }
+    };
+
+    useEffect(() => {
+        const loadSettings = async () => {
+            const settings = await fetchVoiceSetting();
+            if (settings) {
+                setVoice(settings.voice);
+                setSpeech(settings.speech);
+            }
+        };
+        loadSettings();
+    }, []);
+
     const voiceChange = (e) => {
-        console.log(e.target.value)
         setVoice(e.target.value)
     }
-    const voiceSetting = () => {
-        voice ? alert("설정 되었습니다.") : alert("목소리를 설정해 주세요.")
+
+    const speechChange = (e) => {
+        setSpeech(e.target.value)
     }
+
+    const voiceSetting = () => {
+        saveVoiceSetting(voice, speech);
+    };
+
     return (
         <div className='flex flex-col h-screen w-screen pl-[240px]'>
             <AsideForm/>
             <div className='pt-28 pl-5'>
                 <h2 className='text-3xl text-left'>도담이 목소리</h2>
-                <div className='flex justify-center relative -top-3'>
+                <div className='flex justify-center relative -top-8'>
                     <img className='relative h-64 w-60 m-10' src='./image/dodam_circle.png'/>
                 </div>
-                <div className="text-3xl relative -top-3">
+                <div className="text-3xl relative -top-9">
                     <React.Fragment>
                         {voices.map((voices) => (
-                            <label>
+                            <label key={voices.name}>
                                 <input className='ml-8 mr-3 radio-box'
                                     type='radio' 
                                     value={voices.name} 
@@ -36,11 +77,23 @@ const DodamSettingsPage = () => {
                                     onChange={voiceChange}/>{voices.name}
                             </label>
                         ))}<p className='relative top-5 bg-red-30'>
-                            <button className='relative -top-2 -left-3 w-0 h-0 border-t-[20px] border-t-transparent 
+                        <div className='inline-flex items-center'>
+                            <button className='relative -left-3 w-0 h-0 border-t-[20px] border-t-transparent 
                             border-b-[20px] border-b-transparent border-l-[30px] border-l-borderColor drop-shadow-[1px_4px_1px_#c0c0c0]'></button>
-                            <input className='input-box2 w-[600px] p-3'
-                                type='text' value="안녕 나는 도담이야. 앞으로 잘 부탁해."/>
-                            <p><button className='input-box2 relative p-2 w-40 top-5' onClick={voiceSetting}>확인</button></p>
+                            <input 
+                                className='input-box2 w-[600px] p-3 mr-2'
+                                type='text' value='안녕 나는 도담이야. 잘 부탁해.' 
+                            />
+                            <div className='flex flex-col text-middle-size text-left'>
+                                <label className='flex items-center'>반말<input className='radio-box ml-2 '
+                                    type='radio' value='반말' onChange={speechChange} checked={speech==='반말'}/>
+                                </label>
+                                <label className='flex items-center'>존댓말<input className='radio-box ml-2'
+                                    type='radio' value='존댓말' onChange={speechChange} checked={speech==='존댓말'}/>
+                                </label>
+                            </div>
+                        </div>
+                        <p><button className='input-box2 relative p-2 w-40 top-5' onClick={voiceSetting}>확인</button></p>
                         </p>
                     </React.Fragment>
                 </div>

@@ -1,13 +1,13 @@
 services:
-#  spring:
-#    build:
-#      context: ./backend
-#      dockerfile: Dockerfile
-#    restart: always
-#    depends_on:
-#      - mysqldb
-#    ports:
-#      - 8082:8082
+  spring:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    restart: always
+    depends_on:
+      - mysqldb
+    ports:
+      - 8082:8082
 
   fastapi:
     build:
@@ -20,21 +20,19 @@ services:
       - mysqldb
     ports:
       - 8080:8080
-    command: uvicorn main:app --host 0.0.0.0 --port 8080
+    command: sh -c "alembic upgrade head && uvicorn main:app --host 0.0.0.0 --port 8080"
 
-
-
-#  react:
-#    build:
-#      context: ./frontend
-#    container_name: react
-#    stdin_open: true
-#    command: sh -c "yarn start —host"
-#    ports:
-#      - 3000:3000
-#    volumes:
-#      - ./frontend:/app/frontend
-    
+  react:
+   build:
+     context: ./frontend
+   container_name: react
+   stdin_open: true
+   command: sh -c "yarn start --host"
+   ports:
+     - 3000:3000
+   volumes:
+     - ./frontend:/app
+   working_dir: /app
 
   mysqldb:
     image: mysql:latest
