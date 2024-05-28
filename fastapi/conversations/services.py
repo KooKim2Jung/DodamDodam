@@ -1,8 +1,6 @@
 import uuid
-
 from .gpt_model_utility import chat, vectorize_message
 import json
-
 import httpx
 import asyncio
 from fastapi import HTTPException
@@ -14,7 +12,9 @@ from sqlalchemy.orm import Session
 from datetime import date, datetime
 
 def get_similar_response(message: str) -> str or None:
-    index = init_pinecone()  # Pinecone 인덱스 초기화
+    filename = 'dataset.json'
+    dimension = 1536
+    index = init_pinecone(filename, dimension)  # Pinecone 인덱스 초기화
     message_vector = vectorize_message(message)  # 메시지를 벡터로 변환
 
     # Pinecone 데이터베이스에서 유사한 항목 검색
@@ -30,7 +30,9 @@ def get_similar_response(message: str) -> str or None:
     return None
 
 def store_response(message: str, response: str):
-    index = init_pinecone()
+    filename = 'dataset.json'
+    dimension = 1536
+    index = init_pinecone(filename, dimension)
     message_vector = vectorize_message(message)
     vector_id = str(uuid.uuid4())
     index.upsert(vectors=[{"id": vector_id, "values": message_vector, "metadata": {"response": response, "original_text": message}}])
