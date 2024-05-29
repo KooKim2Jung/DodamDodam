@@ -14,9 +14,10 @@ const WardSettingsEditForm = ({ isEdit, setIsEdit }) => {
         remark: '',
     });
 
-    const [photoUpdated, setPhotoUpdated] = useState(false); //사용자의 사진 업데이트 여부
+    const [photoUpdated, setPhotoUpdated] = useState(false); // 사용자의 사진 업데이트 여부
     const [previewUrl, setPreviewUrl] = useState(''); // 미리보기 URL 상태
 
+    // 서버로부터 피보호자의 데이터를 가져옴
     const fetchWardSetting = async () => {
         try {
             const response = await api.get('/v1/profile');
@@ -25,19 +26,20 @@ const WardSettingsEditForm = ({ isEdit, setIsEdit }) => {
                     ...response.data, // API에서 받은 값으로 업데이트
                 });
                 setPhotoUpdated(false); 
-                setPreviewUrl(response.data.photo_url); // 서버에서 받은 URL을 미리보기로 설정
+                setPreviewUrl(response.data.photo); // 서버에서 받은 URL을 미리보기로 설정
             }
         } catch (error) {
             console.error('Error fetching ward setting:', error);
         }
     };
 
+    //사용자가 입력한 피보호자 설정을 서버에 저장
     const saveWardSetting = async () => {
         const formData = new FormData();
         if (photoUpdated) {
-            formData.append('photo', wardinfo.photo);
+            formData.append('photo', wardinfo.photo); // 파일 객체 추가
         } else {
-            formData.append('photo_url', wardinfo.photo_url);
+            formData.append('photo_url', wardinfo.photo_url); // 기존의 사진 URL 추가
         }
         formData.append('name', wardinfo.name);
         formData.append('gender', wardinfo.gender);
@@ -45,15 +47,11 @@ const WardSettingsEditForm = ({ isEdit, setIsEdit }) => {
         formData.append('remark', wardinfo.remark);
 
         try {
-            const response = await api.post('/v1/profile', formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data'
-                }
-            });
+            const response = await api.post('/v1/profile', formData);
             alert(response.data); 
         } catch (error) {
             console.error('Error saving ward setting:', error);
-            alert('설정 저장 실패');
+            alert('설정 저장을 실패하였습니다.');
         }
     };
 
@@ -81,9 +79,11 @@ const WardSettingsEditForm = ({ isEdit, setIsEdit }) => {
             // 미리보기 URL 생성
             const reader = new FileReader();
             reader.onloadend = () => {
+                // 파일 읽기가 완료되면 미리보기 URL을 상태로 설정
                 setPreviewUrl(reader.result);
             };
             reader.readAsDataURL(file);
+            // 파일을 데이터 URL 형식으로 읽음
         }
     };
 
