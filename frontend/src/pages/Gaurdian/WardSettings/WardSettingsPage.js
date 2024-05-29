@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import WardSettingsEditForm from '../../../components/WardSettings/WardSettingsEditForm';
 import AsideForm from '../../../components/Aside/AsideForm';
 
 const WardSettingsPage = () => {
+    const [isEdit, setIsEdit] = useState(false)
+
     return (
         <div>
             <h2 className='absolute top-28 left-[265px] text-3xl'>피보호자 설정</h2>
@@ -14,7 +16,7 @@ const WardSettingsPage = () => {
                 <div className='m-9'>나이</div>
                 <div className='mt-12 mx-9 '>특이사항</div>
             </div>
-            <WardSettingsEditForm/>
+            <WardSettingsEditForm isEdit={isEdit} setIsEdit={setIsEdit}/>
         </div>
     )
 };
