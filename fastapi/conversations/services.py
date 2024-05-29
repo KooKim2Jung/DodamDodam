@@ -1,8 +1,6 @@
 import uuid
-
 from .gpt_model_utility import chat, vectorize_message
 import json
-
 import httpx
 import asyncio
 from fastapi import HTTPException
@@ -14,19 +12,27 @@ from sqlalchemy.orm import Session
 from datetime import date, datetime
 
 def get_similar_response(message: str) -> str or None:
-    index = init_pinecone()
-    message_vector = vectorize_message(message)
-    results = index.query(vector=[message_vector], top_k=1, include_metadata=True)
+    filename = 'dataset.json'
+    dimension = 1536
+    index = init_pinecone(filename, dimension)  # Pinecone 인덱스 초기화
+    message_vector = vectorize_message(message)  # 메시지를 벡터로 변환
+
+    # Pinecone 데이터베이스에서 유사한 항목 검색
+    results = index.query(vector=message_vector, top_k=3, include_metadata=True)
 
     print(f"Query results: {results}")
 
+    # 결과가 존재하고 메타데이터가 포함되어 있는지 확인
     if results['matches'] and 'metadata' in results['matches'][0]:
-        if results['matches'][0]['score'] > 0.8:
+        # 가장 유사한 항목의 유사도 점수가 0.6 이상인 경우 응답 반환
+        if results['matches'][0]['score'] > 0.6:
             return results['matches'][0]['metadata']['response']
     return None
 
 def store_response(message: str, response: str):
-    index = init_pinecone()
+    filename = 'dataset.json'
+    dimension = 1536
+    index = init_pinecone(filename, dimension)
     message_vector = vectorize_message(message)
     vector_id = str(uuid.uuid4())
     index.upsert(vectors=[{"id": vector_id, "values": message_vector, "metadata": {"response": response, "original_text": message}}])
