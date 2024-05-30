@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import api from '../../services/Api';
 import axios from 'axios';
 
 const SpeechToText = ({ conversation, setConversation }) => {
@@ -8,33 +7,6 @@ const SpeechToText = ({ conversation, setConversation }) => {
 
     const [mediaRecorder, setMediaRecorder] = useState(null); // MediaRecorder 객체 저장
     const [audioChunks, setAudioChunks] = useState([]); // 녹음된 오디오 데이터 저장
-
-    const fetchConversation = async (date) => { // 특정 날짜에 대한 대화 내용 가져오기
-        try {
-            const response = await api.get(`/v1/conversation/${date}`);
-            if (response.data) {
-                const { speaker, content, time, voice } = response.data;
-                console.log('Received date from server:', time);
-                if (/^\d{4}-\d{2}-\d{2}$/.test(time)) { // 날짜 형식 확인
-                    setConversation({
-                        speaker: speaker,
-                        content: content,
-                        time: time,
-                        voice: voice,
-                    });
-                } else {
-                    console.error(response.data);
-                }
-            }
-        } catch (error) {
-            console.error('Error fetching view conversation:', error);
-        }
-    }
-    
-    useEffect(() => {
-        const today = new Date().toISOString().split('T')[0];
-        fetchConversation(today);
-    }, []);
 
     // 음성 인식 설정
     useEffect(() => {
@@ -55,9 +27,11 @@ const SpeechToText = ({ conversation, setConversation }) => {
                 startRecording(); // 녹음 시작
             } else if (isDetected) {
                 setText(transcript);
-                if (event.results[0].isFinal) {
-                    stopRecording(); // 녹음 종료
-                }
+                setTimeout(() => {
+                    if (mediaRecorder && mediaRecorder.state === "recording") {
+                        stopRecording();
+                    }
+                }, 5000);
             }
         };
 
