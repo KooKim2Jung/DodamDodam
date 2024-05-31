@@ -8,7 +8,7 @@ from fastapi import APIRouter, HTTPException, File, UploadFile, Form, Depends
 from .models import *
 from .services import *
 from .schemas import MessageCreate
-from .services import create_message
+from .services import create_message, create_summary
 from .services import chat
 from .services import transcribe_audio
 from .tts_connection import text_to_speech
@@ -102,3 +102,11 @@ async def get_conversation(
         raise HTTPException(status_code=400, detail="Invalid date format. Use YYYY-MM-DD.")
 
     return get_messages(db=db, user=current_user_id, date=date)
+
+@router.post("/conversation/summary")
+def create_conversaton_summary(
+        date: str = Query(..., regex=r"^\d{4}-\d{2}-\d{2}$"),
+        db: Session = Depends(get_db),
+        current_user_id: int = Depends(get_current_user)
+):
+    return create_summary(db=db, user=current_user_id, date=date)

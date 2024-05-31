@@ -126,3 +126,33 @@ async def transcribe_audio(file):
                 await asyncio.sleep(5)  # 5초 동안 대기 후 다시 확인
 
         return result
+
+def create_summary(db: Session, user: int, date: str):
+    conversation = db.query(Conversation).filter(
+        Conversation.user == user,
+        Conversation.date == date
+    ).first()
+
+    if not conversation:
+        raise HTTPException(status_code=404, detail="Conversation not found")
+
+    # 해당 대화의 모든 메시지 가져오기
+    messages = db.query(Message).filter(Message.conversation_id == conversation.id).all()
+
+    if not messages:
+        raise HTTPException(status_code=404, detail="No messages found for the conversation")
+
+    # 메시지 내용을 하나의 문자열로 합치기
+    full_conversation = "\n".join([msg.content for msg in messages])
+
+    # 대화 요약 생성을 위한 프롬프팅
+    prompt = f"Here is a conversation log for a user on {date}. Please provide a summary of the key points discussed:\n\n{full_conversation}"
+
+    # 대화 요약 생성
+    summary = chat(prompt)
+
+    # 요약을 Conversation 객체에 저장
+    conversation.summary = summary
+    db.commit()
+
+    return {"summary": summary}
