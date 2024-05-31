@@ -29,7 +29,7 @@ async def chat_api(message: Chat):
 
         # chat 함수 호출 시에도 message.message를 전달합니다.
         response = chat(message.message)
-        store_response(message.message, response)
+        # store_response(message.message, response)
         return {"response": response}
     except Exception as e:
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e))

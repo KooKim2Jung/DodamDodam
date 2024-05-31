@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import LoginPage from './pages/Login/LoginPage';
 import SignupPage from './pages/Signup/SignupPage';
@@ -18,18 +18,24 @@ import DodamSettingsPage from './pages/Gaurdian/DodamSettings/DodamSettingsPage'
 import WardSettingsPage from './pages/Gaurdian/WardSettings/WardSettingsPage';
 import Toggle from './components/Toggle/Toggle';
 
-
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    const storedLoggedInState = localStorage.getItem('isLoggedIn');
+    if (storedLoggedInState === 'true') {
+        setIsLoggedIn(true);
+    }
+  }, []);
 
   return (
     <div>
       <BrowserRouter>
-      {isLoggedIn ? <UserHeaderForm/> : <NonUserHeaderForm/>}
+      {isLoggedIn ? <UserHeaderForm setIsLoggedIn={setIsLoggedIn}/> : <NonUserHeaderForm/>}
         <Routes>
           <Route path="/AboutPage" element={<AboutPage/>}/>
           <Route path="/" element={<MainPage/>}/>
-          <Route path="/LoginPage" element={<LoginPage isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}/>}/>
+          <Route path="/LoginPage" element={<LoginPage setIsLoggedIn={setIsLoggedIn}/>}/>
           <Route path="/SignupPage" element={<SignupPage/>}/>
           <Route path="/WardPage" element={<WardPage/>}/>
           <Route path="/ConversationSummaryPage" element={<ConversationSummaryPage/>}/>
@@ -42,7 +48,6 @@ function App() {
           <Route path='/DodamSettingsPage' element={<DodamSettingsPage/>}/>
           <Route path='/WardSettingsPage' element={<WardSettingsPage/>}/>
           <Route path='/Toggle' element={<Toggle/>}/>
-
         </Routes>
       </BrowserRouter>
     </div>

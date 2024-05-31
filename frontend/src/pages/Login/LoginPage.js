@@ -15,6 +15,7 @@ const LoginPage = ({ setIsLoggedIn }) => {
 
     const handleLogin = () => {
         setIsLoggedIn(true);
+        localStorage.setItem('isLoggedIn', 'true');
         navigate('/WardPage')
     }
 
