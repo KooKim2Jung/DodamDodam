@@ -103,6 +103,7 @@ async def get_conversation(
 
     return get_messages(db=db, user=current_user_id, date=date)
 
+# 대화 요약 테스트 라우터
 @router.post("/conversation/summary")
 def create_conversaton_summary(
         date: str = Query(..., regex=r"^\d{4}-\d{2}-\d{2}$"),

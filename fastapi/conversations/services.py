@@ -148,11 +148,21 @@ def create_summary(db: Session, user: int, date: str):
     if not messages:
         raise HTTPException(status_code=404, detail="No messages found for the conversation")
 
-    # 메시지 내용을 하나의 문자열로 합치기
-    full_conversation = "\n".join([msg.content for msg in messages])
+    # 메시지 내용을 JSON 배열 형태로 만들기
+    messages_json = [{"speaker": msg.speaker, "content": msg.content} for msg in messages]
+
+    # JSON 배열을 문자열로 변환
+    messages_str = json.dumps(messages_json, ensure_ascii=False)
 
     # 대화 요약 생성을 위한 프롬프팅
-    prompt = f"Here is a conversation log for a user on {date}. Please provide a summary of the key points discussed:\n\n{full_conversation}"
+    prompt = (
+        "Here is a conversation log for a user on {date}. "
+        "Please provide a summary of the key points discussed, "
+        "using formal Korean sentence endings such as '-입니다' and '-습니다'. "
+        "The AI model 도담이 is pronounced as 'Dodam' in Korean. "
+        "Here are the details:\n\n"
+        f"{messages_str}"
+    )
 
     # 대화 요약 생성
     summary = chat(prompt)
