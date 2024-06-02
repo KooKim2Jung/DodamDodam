@@ -1,5 +1,6 @@
 import uuid
 from .gpt_model_utility import chat, vectorize_message
+from .gpt_model_utility import summary as gpt_summary
 import json
 import httpx
 import asyncio
@@ -156,16 +157,11 @@ def create_summary(db: Session, user: int, date: str):
 
     # 대화 요약 생성을 위한 프롬프팅
     prompt = (
-        "Here is a conversation log for a user on {date}. "
-        "Please provide a summary of the key points discussed, "
-        "using formal Korean sentence endings such as '-입니다' and '-습니다'. "
-        "The AI model 도담이 is pronounced as 'Dodam' in Korean. "
-        "Here are the details:\n\n"
+        "Here is a conversation log for a user. "
         f"{messages_str}"
     )
-
     # 대화 요약 생성
-    summary = chat(prompt)
+    summary = gpt_summary(prompt)
 
     # 요약을 Conversation 객체에 저장
     conversation.summary = summary
