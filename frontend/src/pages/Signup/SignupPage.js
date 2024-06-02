@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '../../services/Api';
+import SignupForm from '../../components/Signup/SignupForm';
+import SignupCheck from '../../components/Signup/SignupCheck';
 
-const SignupForm = () => {
+const SignupPage = () => {
     const [welcomeUser, setWelcomeUser] = useState({
         email: '',
         password: '',
@@ -10,51 +12,29 @@ const SignupForm = () => {
     })
     const navigate = useNavigate();
 
-    const [errorCheck, setErrorCheck] = useState({
-        emailError: '',
-        passwordError: '',
-        passwordCheckError: '',
-    })    
-
-    const submitWelcomeUser = (e) => {
-        const { name, value } = e.target;
-        setWelcomeUser(welcomeUser => ({
-            ...welcomeUser,
-            [name]: value
-        }))
-    }
+    const [errorMessage, setErrorMessage] = useState('')    
 
     const validateForm = () => {
         resetForm();
 
         let isValid = true;
         if (!welcomeUser.email) {
-            setErrorCheck(prevState => ({
-                ...prevState,
-                emailError: '이메일을 입력해주세요.'
-            })); isValid = false;
+            setErrorMessage('이메일을 입력해주세요.')
+            isValid = false;
         }
         if (welcomeUser.email && !welcomeUser.password) {
-            setErrorCheck(prevState => ({
-                ...prevState,
-                passwordError: '비밀번호를 입력해주세요.'
-            })); isValid = false;
+            setErrorMessage('비밀번호를 입력해주세요.')
+            isValid = false;
         }
         if (welcomeUser.password !== welcomeUser.passwordCheck) {
-            setErrorCheck(prevState => ({
-                ...prevState,
-                passwordCheckError: '비밀번호를 확인해주세요.'
-            })); isValid = false;
-        } console.log(isValid);
+            setErrorMessage('비밀번호를 확인해주세요.')
+            isValid = false;
+        } 
         return isValid;
     }
 
     const resetForm = () => {
-        setErrorCheck({
-            emailError: '',
-            passwordError: '',
-            passwordCheckError: '',
-        });
+        setErrorMessage('');
     }
 
     const handleLogin = () => {
@@ -75,41 +55,26 @@ const SignupForm = () => {
 
             } catch (error) {
                 console.error("회원가입 요청 오류", error);
-                // 오류 처리
+                // 오류 메시지에서 에러 코드를 제외하고 사용자에게 보여줄 메시지만 설정
+                const errorMsg = error.response.data;
+                if (errorMsg.includes('USEREMAIL_DUPLICATED')) {
+                    setErrorMessage(errorMsg.replace('USEREMAIL_DUPLICATED', ''));
+                } 
+                else {
+                    setErrorMessage('회원가입 처리 중 오류가 발생했습니다. 다시 시도해주세요.');
+                }
             }
         }
     };
 
     return (
         <form onSubmit={submitSignup}>
-            <div className='flex justify-center items-center bg-signup-image bg-center bg-no-repeat mt-[120px] mb-[25px] 
-            w-[700px] h-[550px] rounded-[10px] shadow-[6px_4px_10px_#a5996e] bg-[length:42%_98%]'>
-                <div className='flex flex-col mt-[150px]'>
+            <div className='flex justify-center items-center bg-signup-image bg-contain bg-center bg-no-repeat mt-[120px] mb-[25px] 
+            w-[700px] h-[550px] rounded-[10px] shadow-[6px_4px_10px_#a5996e]'>
+                <div className='mt-[150px] w-[300px]'>
                     <h1 className='text-basic-size mt-2'>회원가입</h1>
-                    <input className='input-box'
-                        type="email"
-                        name='email'
-                        value={welcomeUser.email}
-                        placeholder='이메일'
-                        onChange={submitWelcomeUser}
-                    />
-                    <input className='input-box'
-                        type="password"
-                        name='password'
-                        value={welcomeUser.password}
-                        placeholder='비밀번호'
-                        onChange={submitWelcomeUser}
-                    />
-                    <input className='input-box'
-                        type="password"
-                        name='passwordCheck'
-                        value={welcomeUser.passwordCheck}
-                        placeholder='비밀번호 확인'
-                        onChange={submitWelcomeUser}
-                    />
-                    <div className='text-small-size text-red-500 mb-4'>{errorCheck.emailError}</div>
-                    <div className='text-small-size text-red-500 mb-4'>{errorCheck.passwordError}</div>
-                    <div className='text-small-size text-red-500 mb-4'>{errorCheck.passwordCheckError}</div>
+                    <SignupForm welcomeUser={welcomeUser} setWelcomeUser={setWelcomeUser}/>
+                    <SignupCheck errorMessage={errorMessage}/>
                     <button className='btn -mt-4' type='submit'>가입하기</button>
                 </div>
             </div>
@@ -117,4 +82,4 @@ const SignupForm = () => {
     );
 };
 
-export default SignupForm;
+export default SignupPage;
