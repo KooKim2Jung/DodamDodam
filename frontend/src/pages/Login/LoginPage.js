@@ -1,6 +1,8 @@
 import { useNavigate } from 'react-router-dom';
 import React, { useState } from 'react';
 import api from '../../services/Api';
+import LoginForm from '../../components/Login/LoginForm';
+import LoginCheck from '../../components/Login/LoginCheck';
 
 const LoginPage = ({ setIsLoggedIn }) => {
     const [user, setUser] = useState({
@@ -8,8 +10,7 @@ const LoginPage = ({ setIsLoggedIn }) => {
         password: '',
     });
 
-    const [emailError, setEmailError] = useState('');
-    const [passwordError, setPasswordError] = useState('');
+    const [errorMessage, setErrorMessage] = useState('');
 
     const navigate = useNavigate();
 
@@ -21,35 +22,6 @@ const LoginPage = ({ setIsLoggedIn }) => {
 
     const handleSignup = () => {
         navigate('/SignupPage')
-    }
-
-    const submitUser = (e) => {
-        const { name, value } = e.target;
-        setUser(user => ({
-            ...user,
-            [name]: value
-        }))
-    }
-
-    const validateForm = () => {
-        resetForm();
-
-        let isValid = true;
-        if (!user.email) {
-            setEmailError('이메일을 입력해주세요.')
-            isValid = false;
-        } 
-        if (user.email && !user.password) {
-            setPasswordError('비밀번호를 입력해주세요.')
-            isValid = false;
-        }
-        console.log(isValid);
-        return isValid;
-    }
-
-    const resetForm = () => {
-        setEmailError('')
-        setPasswordError('')
     }
 
     const submitLogin = async (event) => {
@@ -68,11 +40,39 @@ const LoginPage = ({ setIsLoggedIn }) => {
 
             } catch (error) {
                 console.error("로그인 요청 오류", error);
-                setEmailError('존재하지 않는 이메일입니다.')
-                // 오류 처리
+                // 오류 메시지에서 에러 코드를 제외하고 사용자에게 보여줄 메시지만 설정
+                const errorMsg = error.response.data;
+                if (errorMsg.includes('USEREMAIL_NOT_FOUND')) {
+                    setErrorMessage(errorMsg.replace('USEREMAIL_NOT_FOUND', ''));
+                } 
+                else if (errorMsg.includes('INVALID_PASSWORD')) {
+                    setErrorMessage(errorMsg.replace('INVALID_PASSWORD', ''));
+                }
+                else {
+                    setErrorMessage('로그인 처리 중 오류가 발생했습니다. 다시 시도해주세요.');
+                }
             }
         }
     };
+
+    const validateForm = () => {
+        resetForm();
+
+        let isValid = true;
+        if (!user.email) {
+            setErrorMessage('이메일을 입력해주세요.')
+            isValid = false;
+        } 
+        if (user.email && !user.password) {
+            setErrorMessage('비밀번호를 입력해주세요.')
+            isValid = false;
+        }
+        return isValid;
+    }
+
+    const resetForm = () => {
+        setErrorMessage('')
+    }
 
     return (
         <form onSubmit={submitLogin}>
@@ -80,24 +80,10 @@ const LoginPage = ({ setIsLoggedIn }) => {
                 <div className='w-[205px] h-[235px] mr-8 bg-basic-image bg-center bg-no-repeat bg-[length:98%_97%]'></div>
                 <div className='w-[300px]'>
                     <h1 className='text-basic-size mb-5'>로그인</h1>
-                    <input className='input-box'
-                        type="email"
-                        name='email'
-                        value={user.email}
-                        placeholder='이메일'
-                        onChange={submitUser}
-                    />
-                    <input className='input-box'
-                        type="password"
-                        name='password'
-                        value={user.password}
-                        placeholder='비밀번호'
-                        onChange={submitUser}
-                    />
+                    <LoginForm user={user} setUser={setUser}/>
                     <div className='text-small-size mb-4 mt-2 text-gray-500'><a href="#">비밀번호를 잊으셨나요?</a></div>
-                    <div className='text-small-size text-red-500 mb-4'>{emailError}</div>
-                    <div className='text-small-size text-red-500 mb-4'>{passwordError}</div>
-                    <button className='btn' type='submit'>로그인하기</button>
+                    <LoginCheck errorMessage={errorMessage}/>
+                    <button className='btn' type='submit' onClick={validateForm}>로그인하기</button>
                     <button className='btn' type='button' onClick={handleSignup}>회원 가입하기</button>
                 </div>
             </div>
