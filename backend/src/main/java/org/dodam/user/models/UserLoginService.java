@@ -27,11 +27,11 @@ public class UserLoginService {
         //userEmail 없음
         //이메일에 해당하는 사용자가 데이터베이스에 존재한다면 selectedUser 변수에 할당, 없는 경우 예외 발생
         User selectedUser = userRepository.findByEmail(userLoginRequest.getEmail())
-                .orElseThrow(() -> new AppException(ErrorCode.USEREMAIL_NOT_FOUND, "가입된" + userLoginRequest.getEmail() + "이 없습니다."));
+                .orElseThrow(() -> new AppException(ErrorCode.USEREMAIL_NOT_FOUND, "가입된 " + userLoginRequest.getEmail() + "이 없습니다."));
 
         //userPw 틀림
         if(!encoder.matches(userLoginRequest.getPassword(), selectedUser.getPassword())) {
-            throw new AppException(ErrorCode.INVALID_PASSWORD, "패스워드를 잘못 입력 했습니다.");
+            throw new AppException(ErrorCode.INVALID_PASSWORD, "비밀번호를 잘못 입력했습니다.");
         }
 
         //앞에서 Exception 발생하지 않으면 토큰 발행
