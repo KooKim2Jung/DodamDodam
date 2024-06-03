@@ -1,63 +1,53 @@
+# conversations.routes.py
 import uuid
 import io
 import re
 import tempfile
-from fastapi import Query
+from fastapi import Query, APIRouter, HTTPException, File, UploadFile, Form, Depends
 from starlette import status
-from fastapi import APIRouter, HTTPException, File, UploadFile, Form, Depends
-from .models import *
+from sqlalchemy.orm import Session
 from .services import *
-from .schemas import MessageCreate
-from .services import create_message
-from .services import chat
-from .services import transcribe_audio
+from .schemas import Chat
+from .services import create_message, transcribe_audio
 from .tts_connection import text_to_speech
 from s3_connection import upload_file_to_s3
 from mysql_connection import get_db
 from jwt_utils import get_current_user
-from sqlalchemy.orm import Session
+from .gpt_model_utility import chat  # 수정: chat 임포트
 
 router = APIRouter(prefix="/api/v1")
 
 @router.post("/chat/me")
-async def chat_api(message: Chat):
+async def chat_api(message: Chat, current_user_id: int = Depends(get_current_user), db: Session = Depends(get_db)):
     try:
         # message.message를 사용하여 메시지 속성에 접근합니다.
         similar_response = get_similar_response(message.message)
         if similar_response:
             return {"response": similar_response}
 
-        # chat 함수 호출 시에도 message.message를 전달합니다.
-        response = chat(message.message)
+        # chat 함수 호출 시 current_user_id와 db를 전달합니다.
+        response = chat(message.message, current_user_id, db)
         # store_response(message.message, response)
         return {"response": response}
     except Exception as e:
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e))
 
-
 @router.post("/transcribe")
 async def transcribe(file: UploadFile = File(...)):
     try:
-        # 서비스 레이어를 호출하여 오디오 파일 전송 및 응답 처리
         result = await transcribe_audio(file)
         return result
     except Exception as e:
-        # 오류 발생시 처리
         raise HTTPException(status_code=400, detail=str(e))
-
 
 @router.post("/chat/dodam")
 async def create_audio_file(message: str = Form(...)):
     try:
-        # TTS를 호출하여 오디오 스트림을 생성
         speech_stream = text_to_speech(message)
         if not speech_stream:
             raise HTTPException(status_code=500, detail="Failed to generate speech")
 
-        # UUID를 사용하여 고유한 파일 이름을 생성
         unique_filename = f"{uuid.uuid4()}.mp3"
-
-        # S3에 스트림을 업로드하고 결과를 반환
         upload_result = upload_file_to_s3(speech_stream, unique_filename)
         return upload_result
     except Exception as e:
@@ -70,7 +60,6 @@ async def add_message(
         db: Session = Depends(get_db),
         current_user_id: int = Depends(get_current_user)
 ):
-    # voice 파일을 io.BytesIO 타입으로 변환
     with tempfile.SpooledTemporaryFile() as temp_file:
         voice_content = await voice.read()
         temp_file.write(voice_content)
@@ -97,7 +86,6 @@ async def get_conversation(
         db: Session = Depends(get_db),
         current_user_id: int = Depends(get_current_user)
 ):
-    # 날짜 형식 검증 YYYY-MM-DD 형식
     if not re.match(r"^\d{4}-\d{2}-\d{2}$", date):
         raise HTTPException(status_code=400, detail="Invalid date format. Use YYYY-MM-DD.")
 
