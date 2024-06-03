@@ -1,5 +1,6 @@
 import uuid
 from .gpt_model_utility import chat, vectorize_message
+from .gpt_model_utility import summary as gpt_summary
 import json
 import httpx
 import asyncio
@@ -132,3 +133,57 @@ async def transcribe_audio(file):
                 await asyncio.sleep(5)  # 5초 동안 대기 후 다시 확인
 
         return result
+
+def create_summary(db: Session, user: int, date: str):
+    conversation = db.query(Conversation).filter(
+        Conversation.user == user,
+        Conversation.date == date
+    ).first()
+
+    if not conversation:
+        raise HTTPException(status_code=404, detail="Conversation not found")
+
+    # 해당 대화의 모든 메시지 가져오기
+    messages = db.query(Message).filter(Message.conversation_id == conversation.id).all()
+
+    if not messages:
+        raise HTTPException(status_code=404, detail="No messages found for the conversation")
+
+    # 메시지 내용을 JSON 배열 형태로 만들기
+    messages_json = [{"speaker": msg.speaker, "content": msg.content} for msg in messages]
+
+    # JSON 배열을 문자열로 변환
+    messages_str = json.dumps(messages_json, ensure_ascii=False)
+
+    # 대화 요약 생성을 위한 프롬프팅
+    prompt = (
+        "Here is a conversation log for a user. "
+        f"{messages_str}"
+    )
+    # 대화 요약 생성
+    summary = gpt_summary(prompt)
+
+    # 요약을 Conversation 객체에 저장
+    conversation.summary = summary
+    db.commit()
+
+    return {"summary": summary}
+
+def get_summary(db: Session, user: int, date_str: str):
+    # 문자열로 된 날짜를 date 객체로 변환
+    target_date = datetime.strptime(date_str, "%Y-%m-%d").date()
+
+    conversation = db.query(Conversation).filter(
+        Conversation.user == user,
+        Conversation.date == date_str
+    ).first()
+
+    # 오늘 날짜를 구함
+    today = date.today()
+
+    # 대화 요약이 있고, 요청된 날짜가 오늘 이전인 경우
+    if conversation and conversation.summary and target_date < today:
+        return {"summary": conversation.summary}  # JSON 형태로 반환
+
+    # 요약이 없거나, 날짜가 오늘 날짜인 경우 새로운 요약 생성
+    return create_summary(db=db, user=user, date=date_str)
