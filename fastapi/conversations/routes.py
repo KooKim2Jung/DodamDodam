@@ -37,7 +37,7 @@ async def chat_api(message: Chat, current_user_id: int = Depends(get_current_use
         mp3_url = upload_result.get("url")
 
         # response str과 mp3_url을 데이터베이스에 넣는 과정
-        # create_message(user=current_user_id, content=final_response, voice_url=mp3_url, speaker="dodam", db=db)
+        create_message(user=current_user_id, content=final_response, voice_url=mp3_url, speaker="dodam", db=db)
 
         # mp3_url json 형식으로 리턴
         return {"mp3_url": mp3_url}
