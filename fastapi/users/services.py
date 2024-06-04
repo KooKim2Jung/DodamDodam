@@ -58,8 +58,7 @@ class SettingService:
         if setting is None:
             # 데이터베이스에 Setting 정보가 없으면 기본 메시지를 반환합니다.
             return Setting(
-                voice="혜리",
-                speech="반말"
+                voice="혜리"
             )
         return Setting.from_orm(setting)
 
@@ -88,7 +87,6 @@ class SettingService:
 
         # setting 정보를 업데이트합니다.
         db_setting.voice = setting.voice
-        db_setting.speech = setting.speech
         db_setting.clova_voice = clova_voice
 
         db.commit()

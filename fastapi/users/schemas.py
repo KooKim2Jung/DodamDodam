@@ -24,7 +24,6 @@ class ProfileRead(BaseModel):
 
 class Setting(BaseModel):
     voice: str
-    speech: str
 
     class Config:
         from_attributes = True
