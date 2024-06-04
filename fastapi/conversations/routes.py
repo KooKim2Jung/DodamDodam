@@ -90,3 +90,24 @@ async def get_conversation(
         raise HTTPException(status_code=400, detail="Invalid date format. Use YYYY-MM-DD.")
 
     return get_messages(db=db, user=current_user_id, date=date)
+
+# 대화 요약 테스트 라우터
+@router.post("/conversation/summary")
+def create_conversaton_summary(
+        date: str = Query(..., regex=r"^\d{4}-\d{2}-\d{2}$"),
+        db: Session = Depends(get_db),
+        current_user_id: int = Depends(get_current_user)
+):
+    return create_summary(db=db, user=current_user_id, date=date)
+
+@router.get("/conversation/summary/{date}")
+def conversaton_summary(
+        date: str,
+        db: Session = Depends(get_db),
+        current_user_id: int = Depends(get_current_user)
+):
+    # 날짜 형식 검증 YYYY-MM-DD 형식
+    if not re.match(r"^\d{4}-\d{2}-\d{2}$", date):
+        raise HTTPException(status_code=400, detail="Invalid date format. Use YYYY-MM-DD.")
+
+    return get_summary(db=db, user=current_user_id, date_str=date)

@@ -28,6 +28,23 @@ def chat(message: str, user_id: int, db: Session) -> str:
     )
     return response.choices[0].message["content"]
 
+def summary(message: str) -> str:
+    response = openai.ChatCompletion.create(
+        model="gpt-3.5-turbo",
+        messages=[
+            {"role": "system", "content": "Please provide a summary of the key points discussed, "
+                                           "using a natural and friendly honorific in Korean. "
+                                           "Just convey the content of the summary, without any introductory remarks or greetings. "
+                                           "This conversation is between a protected person and the AI, Dodam. "
+                                           "The summary will be reviewed by a guardian."
+                                           "When referring to the AI model, please use the name 도담이."},
+            {"role": "user", "content": message},
+        ],
+        max_tokens=500,
+        temperature=0.7,
+    )
+    return response.choices[0].message["content"]
+
 def vectorize_message(message: str) -> list:
     response = openai.Embedding.create(
         input=message,
