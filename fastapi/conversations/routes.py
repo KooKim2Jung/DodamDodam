@@ -41,9 +41,13 @@ async def transcribe(file: UploadFile = File(...)):
         raise HTTPException(status_code=400, detail=str(e))
 
 @router.post("/chat/dodam")
-async def create_audio_file(message: str = Form(...)):
+async def create_audio_file(
+        message: str = Form(...),
+        db: Session = Depends(get_db),
+        current_user_id: int = Depends(get_current_user)
+):
     try:
-        speech_stream = text_to_speech(message)
+        speech_stream = text_to_speech(message=message, user=current_user_id, db=db)
         if not speech_stream:
             raise HTTPException(status_code=500, detail="Failed to generate speech")
 
