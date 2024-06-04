@@ -1,5 +1,3 @@
-# conversations.routes.py
-import uuid
 import io
 import re
 import tempfile
@@ -17,8 +15,40 @@ from .gpt_model_utility import chat  # 수정: chat 임포트
 
 router = APIRouter(prefix="/api/v1")
 
-@router.post("/chat/me")
+@router.post("/chat/dodam")
 async def chat_api(message: Chat, current_user_id: int = Depends(get_current_user), db: Session = Depends(get_db)):
+    # message를 받고 gpt에게 넘겨주는 과정
+    try:
+        similar_response = get_similar_response(message.message)
+        final_response = similar_response if similar_response else chat(message.message, current_user_id, db)
+
+        # response를 tts화 하는 과정
+        speech_stream = text_to_speech(final_response)
+        if not speech_stream:
+            raise HTTPException(status_code=500, detail="Failed to generate speech")
+
+        # tts한 mp3를 s3에 넣고 url을 받아오는 과정
+        unique_filename = f"{uuid.uuid4()}.mp3"
+        upload_result = upload_file_to_s3(speech_stream, unique_filename)
+        if upload_result.get("message") != "File uploaded successfully":
+            error_message = upload_result.get("message", "An unexpected error occurred during file upload.")
+            raise HTTPException(status_code=500, detail=error_message)
+
+        mp3_url = upload_result.get("url")
+
+        # response str과 mp3_url을 데이터베이스에 넣는 과정
+        # create_message(user=current_user_id, content=final_response, voice_url=mp3_url, speaker="dodam", db=db)
+
+        # mp3_url json 형식으로 리턴
+        return {"mp3_url": mp3_url}
+    except Exception as e:
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e))
+
+
+
+
+@router.post("/chat/me/test")
+async def chat_api_test(message: Chat, current_user_id: int = Depends(get_current_user), db: Session = Depends(get_db)):
     try:
         # message.message를 사용하여 메시지 속성에 접근합니다.
         similar_response = get_similar_response(message.message)
@@ -40,7 +70,7 @@ async def transcribe(file: UploadFile = File(...)):
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
 
-@router.post("/chat/dodam")
+@router.post("/chat/dodam/test")
 async def create_audio_file(message: str = Form(...)):
     try:
         speech_stream = text_to_speech(message)
