@@ -1,10 +1,26 @@
+# gpt_model_utility.py
 import openai
+from sqlalchemy.orm import Session
+from users.services import ProfileService
+from users.schemas import ProfileRead
 
-def chat(message: str) -> str:
+def chat_prompt_info(user_id: int, db: Session) -> str:
+    profile: ProfileRead = ProfileService.read_profile(user=user_id, db=db)
+    prompt = (
+        f"Your name is 도담, and you are a friendly and casual assistant. "
+        f"The user's name is {profile.name}, they are {profile.age} years old, "
+        f"their gender is {profile.gender}, and their remark is '{profile.remark}'. "
+        "Please respond informally in Korean. Do not use emoticons. "
+        "Include the user's profile information in your responses only if the conversation naturally leads to it."
+    )
+    return prompt
+
+def chat(message: str, user_id: int, db: Session) -> str:
+    prompt = chat_prompt_info(user_id, db)
     response = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
         messages=[
-            {"role": "system", "content": "You are a friendly and casual assistant."},
+            {"role": "system", "content": prompt},
             {"role": "user", "content": message},
         ],
         max_tokens=500,
@@ -34,5 +50,4 @@ def vectorize_message(message: str) -> list:
         input=message,
         model="text-embedding-3-small"
     )
-    # 'data' 키 아래 리스트의 첫 번째 항목에서 'embedding' 키에 접근
     return response['data'][0]['embedding']

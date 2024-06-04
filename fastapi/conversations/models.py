@@ -24,7 +24,3 @@ class Message(Base):
     voice = Column(String, nullable=True)
 
     conversation = relationship("Conversation", back_populates="messages")
-
-
-class Chat(BaseModel):
-    message: str
