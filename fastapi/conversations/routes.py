@@ -16,14 +16,14 @@ from .gpt_model_utility import chat  # 수정: chat 임포트
 router = APIRouter(prefix="/api/v1")
 
 @router.post("/chat/dodam")
-async def chat_api(message: Chat, current_user_id: int = Depends(get_current_user), db: Session = Depends(get_db)):
+async def chat_api(message: Chat, db: Session = Depends(get_db), current_user_id: int = Depends(get_current_user)):
     # message를 받고 gpt에게 넘겨주는 과정
     try:
         similar_response = get_similar_response(message.message)
         final_response = similar_response if similar_response else chat(message.message, current_user_id, db)
 
         # response를 tts화 하는 과정
-        speech_stream = text_to_speech(final_response)
+        speech_stream = text_to_speech(gpt_message=final_response, user=current_user_id, db=db)
         if not speech_stream:
             raise HTTPException(status_code=500, detail="Failed to generate speech")
 
@@ -70,10 +70,15 @@ async def transcribe(file: UploadFile = File(...)):
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
 
+
 @router.post("/chat/dodam/test")
-async def create_audio_file(message: str = Form(...)):
+async def create_audio_file(
+        message: Chat,
+        db: Session = Depends(get_db),
+        current_user_id: int = Depends(get_current_user)
+):
     try:
-        speech_stream = text_to_speech(message)
+        speech_stream = text_to_speech(gpt_message=message, user=current_user_id, db=db)
         if not speech_stream:
             raise HTTPException(status_code=500, detail="Failed to generate speech")
 
