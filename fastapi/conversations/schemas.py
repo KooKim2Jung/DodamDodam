@@ -9,5 +9,5 @@ class MessageCreate(BaseModel):
     content: str
     mp3: Optional[str] = None
 
-class ChatRequest(BaseModel):
+class Chat(BaseModel):
     message: str

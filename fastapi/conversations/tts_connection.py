@@ -1,18 +1,26 @@
+from sqlalchemy.orm import Session
 import os
 import ssl
 import sys
 import urllib.request
 from io import BytesIO
+from users.models import Setting
 
 import certifi
 
 
-def text_to_speech(message, filename='output.mp3'):
+def text_to_speech(user: int, message, db: Session, filename='output.mp3'):
+    setting = db.query(Setting).filter(Setting.user == user).first()
+    if setting:
+        speaker = setting.clova_voice
+    else:
+        speaker = "nhajun"  # 기본값 설정
+
     client_id = os.getenv("CLOVA_TTS_Client_ID")
     client_secret = os.getenv("CLOVA_TTS_Client_Secret")
 
     encText = urllib.parse.quote(message)
-    data = f"speaker=nara&volume=0&speed=0&pitch=0&format=mp3&text={encText}"
+    data = f"speaker={speaker}&volume=0&speed=0&pitch=0&format=mp3&text={encText}"
     url = "https://naveropenapi.apigw.ntruss.com/tts-premium/v1/tts"
 
     request = urllib.request.Request(url)

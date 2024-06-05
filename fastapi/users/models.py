@@ -21,4 +21,3 @@ class Setting(Base):
     user = Column(Integer, nullable=False, unique=True)
     voice = Column(String, nullable=False) #목소리
     clova_voice = Column(String, nullable=False) #클로바 api 요청 목소리
-    speech = Column(String, nullable=False) #말투
