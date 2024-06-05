@@ -2,6 +2,7 @@ import React from 'react';
 import AsideForm from '../../../components/Aside/AsideForm';
 import Calender from '../../../components/EmotionAnalysis/Calendar';
 import EmotionAnalysisBoard from '../../../components/EmotionAnalysis/EmotionAnalysisBoard';
+import Spinner from '../../../components/EmotionAnalysis/Spinner';
 
 const ViewEmotionAnalysisPage = () => {
     return (
@@ -11,6 +12,7 @@ const ViewEmotionAnalysisPage = () => {
                 <div className='flex justify-between text-2xl'>
                     <Calender/>
                     <EmotionAnalysisBoard/>
+                    <Spinner/>
                 </div>
             </div>
         </div>
