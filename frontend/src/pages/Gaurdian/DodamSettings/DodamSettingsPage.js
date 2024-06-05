@@ -3,16 +3,13 @@ import AsideForm from '../../../components/Aside/AsideForm';
 import api from '../../../services/Api';
 
 const DodamSettingsPage = () => {
-    const [voice, setVoice] = useState('혜리');
+    const [voice, setVoice] = useState('하준');
     const voices = [
-        { name: "혜리", },
-        { name: "가은", },
-        { name: "선재", },
-        { name: "유인나", },
-        { name: "오상진", },
+        { name: "다정", }, //하준
+        { name: "씩씩", }, //다인
+        { name: "활발", }, //야옹
+        { name: "명량", }, //가람
     ];
-
-    const [speech, setSpeech] = useState('반말');
 
     // 서버에서 현재 목소리 설정을 가져오는 함수
     const fetchVoiceSetting = async () => {
@@ -40,7 +37,6 @@ const DodamSettingsPage = () => {
             const settings = await fetchVoiceSetting();
             if (settings) {
                 setVoice(settings.voice);
-                setSpeech(settings.speech);
             }
         };
         loadSettings();
@@ -50,12 +46,8 @@ const DodamSettingsPage = () => {
         setVoice(e.target.value)
     }
 
-    const speechChange = (e) => {
-        setSpeech(e.target.value)
-    }
-
     const voiceSetting = () => {
-        saveVoiceSetting(voice, speech);
+        saveVoiceSetting(voice);
     };
 
     return (
@@ -84,14 +76,6 @@ const DodamSettingsPage = () => {
                                 className='input-box2 w-[600px] p-3 mr-2'
                                 type='text' value='안녕 나는 도담이야. 잘 부탁해.' 
                             />
-                            <div className='flex flex-col text-middle-size text-left'>
-                                <label className='flex items-center'>반말<input className='radio-box ml-2 '
-                                    type='radio' value='반말' onChange={speechChange} checked={speech==='반말'}/>
-                                </label>
-                                <label className='flex items-center'>존댓말<input className='radio-box ml-2'
-                                    type='radio' value='존댓말' onChange={speechChange} checked={speech==='존댓말'}/>
-                                </label>
-                            </div>
                         </div>
                         <p><button className='input-box2 relative p-2 w-40 top-5' onClick={voiceSetting}>확인</button></p>
                         </p>
