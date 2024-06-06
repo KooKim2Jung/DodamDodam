@@ -161,7 +161,7 @@ def create_summary(db: Session, user: int, date: str):
         f"{messages_str}"
     )
     # 대화 요약 생성
-    summary = gpt_summary(prompt)
+    summary = gpt_summary(message=prompt, user_id=user, db=db)
 
     # 오늘 날짜가 아닌 경우만 저장
     today = datetime.today().strftime('%Y-%m-%d')
