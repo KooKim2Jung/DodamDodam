@@ -14,6 +14,7 @@ const Toggle = () => {
         console.log(isToggled, isOpen)
         if (isToggled === '보호자' && location.pathname !== '/ViewConversationPage') {
             setIsOpen(true);
+            navigate('/GaurdianPage')
         } else {
             setIsOpen(false);
             if (isToggled === '피보호자') {

@@ -83,9 +83,9 @@ const SpeechToText = ({ conversation, setConversation }) => {
     };
     
     return (
-        <div className='absolute bottom-4 w-full px-4 pt-3 pb-1 bg-secondary border-2 rounded-[20px] border-black text-middle-size shadow-[3px_4px_1px_#a5996e]'>
+        <div className='flex justify-center'>
             <textarea readOnly
-                className='bg-transparent w-full resize-none overflow-hidden'
+                className='w-9/12 resize-none overflow-hidden absolute bottom-8 px-4 pt-3 pb-1 bg-secondary border-2 rounded-[20px] border-black text-middle-size shadow-[3px_4px_1px_#a5996e]'
                 value={text} 
                 onChange={(e) => setText(e.target.value)} 
                 placeholder="'도담아' 라고 말하면 시작합니다." 
