@@ -9,7 +9,7 @@ from users.models import Setting
 import certifi
 
 
-def text_to_speech(user: int, message, db: Session, filename='output.mp3'):
+def text_to_speech(user: int, gpt_message, db: Session, filename='output.mp3'):
     setting = db.query(Setting).filter(Setting.user == user).first()
     if setting:
         speaker = setting.clova_voice
@@ -19,7 +19,7 @@ def text_to_speech(user: int, message, db: Session, filename='output.mp3'):
     client_id = os.getenv("CLOVA_TTS_Client_ID")
     client_secret = os.getenv("CLOVA_TTS_Client_Secret")
 
-    encText = urllib.parse.quote(message)
+    encText = urllib.parse.quote(gpt_message)
     data = f"speaker={speaker}&volume=0&speed=0&pitch=0&format=mp3&text={encText}"
     url = "https://naveropenapi.apigw.ntruss.com/tts-premium/v1/tts"
 
