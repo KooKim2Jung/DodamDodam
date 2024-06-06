@@ -163,9 +163,12 @@ def create_summary(db: Session, user: int, date: str):
     # 대화 요약 생성
     summary = gpt_summary(prompt)
 
-    # 요약을 Conversation 객체에 저장
-    conversation.summary = summary
-    db.commit()
+    # 오늘 날짜가 아닌 경우만 저장
+    today = datetime.today().strftime('%Y-%m-%d')
+    if date != today:
+        # 요약을 Conversation 객체에 저장
+        conversation.summary = summary
+        db.commit()
 
     return {"summary": summary}
 
