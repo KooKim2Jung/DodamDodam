@@ -4,7 +4,7 @@ import api from '../../services/Api';
 import LoginForm from '../../components/Login/LoginForm';
 import LoginCheck from '../../components/Login/LoginCheck';
 
-const LoginPage = ({ setIsLoggedIn }) => {
+const LoginPage = ({ setIsLoggedIn, setUserEmail }) => {
     const [user, setUser] = useState({
         email: '',
         password: '',
@@ -17,6 +17,7 @@ const LoginPage = ({ setIsLoggedIn }) => {
     const handleLogin = () => {
         setIsLoggedIn(true);
         localStorage.setItem('isLoggedIn', 'true');
+        setUserEmail(user.email)
         navigate('/WardPage')
     }
 
@@ -83,7 +84,7 @@ const LoginPage = ({ setIsLoggedIn }) => {
                     <LoginForm user={user} setUser={setUser}/>
                     <div className='text-small-size mb-4 mt-2 text-gray-500'><a href="#">비밀번호를 잊으셨나요?</a></div>
                     <LoginCheck errorMessage={errorMessage}/>
-                    <button className='btn' type='submit' onClick={validateForm}>로그인하기</button>
+                    <button className='btn' type='submit' >로그인하기</button>
                     <button className='btn' type='button' onClick={handleSignup}>회원 가입하기</button>
                 </div>
             </div>
