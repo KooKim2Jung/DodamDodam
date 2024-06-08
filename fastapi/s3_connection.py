@@ -36,7 +36,8 @@ def get_extension(mime_type):
         'image/gif': '.gif',
         'image/bmp': '.bmp',
         'image/svg+xml': '.svg',
-        'image/webp': '.webp'
+        'image/webp': '.webp',
+        'video/webm': '.webm'
     }
     return extension_map.get(mime_type, '')
 
