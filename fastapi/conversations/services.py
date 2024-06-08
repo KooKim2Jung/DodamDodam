@@ -186,7 +186,7 @@ def get_summary(db: Session, user: int, date_str: str):
 
     # 대화 요약이 있고, 요청된 날짜가 오늘 이전인 경우
     if conversation and conversation.summary and target_date < today:
-        return {"summary": conversation.summary}  # JSON 형태로 반환
+        return {"summary": conversation.summary}
 
     # 요약이 없거나, 날짜가 오늘 날짜인 경우 새로운 요약 생성
     return create_summary(db=db, user=user, date=date_str)
