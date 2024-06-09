@@ -3,7 +3,7 @@ import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognitio
 import api from '../../services/Api';
 
 const SpeechToText = () => {
-    const [content, setContent] = useState(''); // 음성 인식 결과 텍스트 저장
+    const contentRef = useRef(''); // 음성 인식 텍스트 저장
     const [isDetected, setIsDetected] = useState(false); // "도담아"라는 말이 감지되었는지 여부
     const [isRecording, setIsRecording] = useState(false); // 녹음 중인지 여부
     const { transcript, resetTranscript } = useSpeechRecognition();
@@ -11,7 +11,7 @@ const SpeechToText = () => {
     const [mediaRecorder, setMediaRecorder] = useState(null); // MediaRecorder 객체 저장
     const [stream, setStream] = useState(null); // MediaStream 객체 저장
     const [audioBlob, setAudioBlob] = useState(null); // 녹음된 오디오 Blob 저장
-    const timerRef = useRef(null); // 타이머 ref
+    const timerRef = useRef(null); 
 
     // 음성 인식 시작 및 중지 & 마이크 접근 권한 요청 및 스트림 설정
     useEffect(() => {
@@ -39,9 +39,11 @@ const SpeechToText = () => {
         } else if (isDetected && !isRecording) {
             startRecording();
             setIsRecording(true); 
-            setContent(transcript);
+            console.log('Initial transcript:', transcript);
+            contentRef.current = transcript;
         } else if (isDetected && isRecording) {
-            setContent(transcript);
+            console.log('Updated transcript:', transcript);
+            contentRef.current = transcript;
             // 타이머 재설정 로직 추가
             if (timerRef.current) {
                 clearTimeout(timerRef.current);
@@ -51,7 +53,7 @@ const SpeechToText = () => {
                 setIsRecording(false);
                 stopRecording();
                 console.log('녹음이 끝났습니다.');
-            }, 5000); // 사용자가 말이 끝난 뒤 5초 후에 녹음을 중단
+            }, 5000); // 사용자가 말이 끝난 뒤 5초 후에 녹음 중단
         }
         
         return () => {
@@ -60,7 +62,6 @@ const SpeechToText = () => {
             }
         };
     }, [transcript, isDetected, isRecording]);
-    
 
     // 녹음 기능
     const startRecording = () => {
@@ -107,65 +108,50 @@ const SpeechToText = () => {
             console.log('녹음 중지 호출됨');
             mediaRecorder.stop();
             setIsRecording(false);
-            console.log('사용자가 말한 전체 내용:', content);
+            console.log('사용자가 말한 전체 내용:', contentRef.current);
         }
     };
 
-     // 녹음된 오디오 및 텍스트 서버에 전송
-     const saveRecording = async (audioBlob) => {
+    // 녹음된 오디오 및 텍스트 서버에 전송
+    const saveRecording = async (audioBlob) => {
         const formData = new FormData();
-        formData.append('content', JSON.stringify({ content: content }));
+        formData.append('content', contentRef.current);  // useRef로 관리된 content 사용
         formData.append('voice', new File([audioBlob], 'recording.webm', { type: 'audio/webm' }));
-    
+
         // 디버그 로그 추가
         for (let pair of formData.entries()) {
             console.log(`${pair[0]}: ${pair[1]}`);
         }
-    
+
         try {
-            const response = await api.post('/v1/message', formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data'
-                }
-            });
+            const response = await api.post('/v1/message', formData);
             alert('녹음이 저장되었습니다.');
             console.log('Recording saved:', response.data);
-            chatDodam();
+            // chatDodam();
         } catch (error) {
             console.error('Error saving recording:', error);
             alert('녹음 저장을 실패하였습니다.');
         }
     };
-    
-    const chatDodam = async () => {
-        try {
-            const response = await api.post('/v1/chat/dodam', {message: content});
-            alert('gpt에 전달되었습니다.');
-            console.log('Recording delivered:', response.data);
-        }
-        catch (error) {
-            console.error('Error delivering recording:', error);
-            alert('녹음 전달을 실패하였습니다.');
-        }
-    }
+
+    // const chatDodam = async () => {
+    //     try {
+    //         const response = await api.post('/v1/chat/dodam', { message: contentRef.current });
+    //         console.log('Recording delivered:', response.data);
+    //     }
+    //     catch (error) {
+    //         console.error('Error delivering recording:', error);
+    //         alert('녹음 전달을 실패하였습니다.');
+    //     }
+    // }
 
     return (
         <div className='flex justify-center'>
             <textarea readOnly
                 className='w-9/12 resize-none overflow-hidden absolute bottom-8 px-4 pt-3 pb-1 bg-secondary border-2 rounded-[20px] border-black text-middle-size shadow-[3px_4px_1px_#a5996e]'
-                value={content} 
+                value={contentRef.current} 
                 placeholder="'도담아' 라고 말하면 시작합니다." 
             />
-            {audioBlob && (
-    <a 
-        href={URL.createObjectURL(new Blob([audioBlob], { type: 'audio/webm' }))} 
-        download="recording.webm"
-        className="absolute bottom-20 text-white bg-blue-500 hover:bg-blue-700 text-sm px-4 py-2 rounded"
-    >
-        Download Recording
-    </a>
-)}
-
         </div>
     );
 };
