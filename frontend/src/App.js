@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import LoginPage from './pages/Login/LoginPage';
 import SignupPage from './pages/Signup/SignupPage';
+import GaurdianPage from './pages/Gaurdian/GaurdianPage';
 import WardPage from './pages/Ward/WardPage';
 import UserHeaderForm from './components/Header/UserHeaderForm';
 import NonUserHeaderForm from './components/Header/NonUserHeaderForm';
@@ -38,6 +39,7 @@ function App() {
           <Route path="/" element={<MainPage/>}/>
           <Route path="/LoginPage" element={<LoginPage setIsLoggedIn={setIsLoggedIn} setUserEmail={setUserEmail}/>}/>
           <Route path="/SignupPage" element={<SignupPage/>}/>
+          <Route path='/GaurdianPage' element={<GaurdianPage/>}/>
           <Route path="/WardPage" element={<WardPage/>}/>
           <Route path="/ConversationSummaryPage" element={<ConversationSummaryPage/>}/>
           <Route path="/EmotionalAnalysisPage" element={<EmotionalAnalysisPage/>}/>

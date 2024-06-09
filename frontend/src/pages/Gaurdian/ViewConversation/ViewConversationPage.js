@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import AsideForm from '../../../components/Aside/AsideForm';
-import SpeechToText from '../../../components/Conversation/SpeechToText';
 import ConversationSummary from '../../../components/Conversation/ConversationSummary';
 import Calendar from '../../../components/Conversation/Calendar';
 import ConversationContentBoard from '../../../components/Conversation/ConversationContentBoard';
@@ -23,7 +22,6 @@ const ViewConversationPage = () => {
                 </div>
                 <div className='mb-3 text-left text-2xl'>{conversation.time}</div>
                 <ConversationContentBoard conversation={conversation} setConversation={setConversation}/>
-                <SpeechToText conversation={conversation} setConversation={setConversation}/>
             </div>
         </div>
     );
