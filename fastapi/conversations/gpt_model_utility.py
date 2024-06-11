@@ -28,22 +28,28 @@ def chat(message: str, user_id: int, db: Session) -> str:
     )
     return response.choices[0].message["content"]
 
-def summary(message: str) -> str:
-    response = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo",
-        messages=[
-            {"role": "system", "content": "Please provide a summary of the key points discussed, "
-                                           "using a natural and friendly honorific in Korean. "
-                                           "Just convey the content of the summary, without any introductory remarks or greetings. "
-                                           "This conversation is between a protected person and the AI, Dodam. "
-                                           "The summary will be reviewed by a guardian."
-                                           "When referring to the AI model, please use the name 도담이."},
-            {"role": "user", "content": message},
-        ],
-        max_tokens=500,
-        temperature=0.7,
+def summary_prompt(user_id: int, db: Session) -> str:
+    profile: ProfileRead = ProfileService.read_profile(user=user_id, db=db)
+    prompt = (
+        f"Please provide a brief summary."
+        f"The user's name is {profile.name}님. "
+        f"Please provide the summary in Korean using a natural and friendly honorific in the form of '~했습니다'. "
+        f"Ensure the summary is written in the past tense. "
+        f"Exclude any unimportant greetings or remarks and focus on summarizing the events."
     )
-    return response.choices[0].message["content"]
+    return prompt
+
+def summary(message: str, user_id: int, db: Session) -> str:
+    content = summary_prompt(user_id, db)
+    combined_prompt = f"{message}\n{content}"
+
+    response = openai.Completion.create(
+        model="gpt-3.5-turbo-instruct",
+        prompt=combined_prompt,
+        max_tokens=700,
+        temperature=0.5
+    )
+    return response.choices[0].text.strip()
 
 def vectorize_message(message: str) -> list:
     response = openai.Embedding.create(
