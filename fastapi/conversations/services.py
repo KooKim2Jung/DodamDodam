@@ -143,25 +143,23 @@ def create_summary(db: Session, user: int, date: str):
     if not conversation:
         raise HTTPException(status_code=404, detail="Conversation not found")
 
-    # 해당 대화의 모든 메시지 가져오기
-    messages = db.query(Message).filter(Message.conversation_id == conversation.id).all()
+    #user의 content만 summary로 전달
+    messages = db.query(Message).filter(
+        Message.conversation_id == conversation.id,
+        Message.speaker == "user"
+    ).all()
 
     if not messages:
-        raise HTTPException(status_code=404, detail="No messages found for the conversation")
+        raise HTTPException(status_code=404, detail="No messages found for the user's message")
 
     # 메시지 내용을 JSON 배열 형태로 만들기
-    messages_json = [{"speaker": msg.speaker, "content": msg.content} for msg in messages]
+    messages_json = [msg.content for msg in messages]
 
     # JSON 배열을 문자열로 변환
     messages_str = json.dumps(messages_json, ensure_ascii=False)
 
-    # 대화 요약 생성을 위한 프롬프팅
-    prompt = (
-        "Here is a conversation log for a user. "
-        f"{messages_str}"
-    )
     # 대화 요약 생성
-    summary = gpt_summary(message=prompt, user_id=user, db=db)
+    summary = gpt_summary(message=messages_str, user_id=user, db=db)
 
     # 오늘 날짜가 아닌 경우만 저장
     today = datetime.today().strftime('%Y-%m-%d')

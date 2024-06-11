@@ -31,26 +31,22 @@ def chat(message: str, user_id: int, db: Session) -> str:
 def summary_prompt(user_id: int, db: Session) -> str:
     profile: ProfileRead = ProfileService.read_profile(user=user_id, db=db)
     prompt = (
-        f"Please summarize the conversation between {profile.name} and the AI assistant, Dodam. "
-        f"When summarizing, focus more on the content provided by {profile.name}. "
-        f"This conversation is between a protected person and the AI assistant, Dodam. "
-        f"The summary will be reviewed by a guardian. "
-        f"The user's name is {profile.name} and the AI's name is '도담이'. "
+        f"Please provide a brief summary."
+        f"The user's name is {profile.name}님. "
         f"Please provide the summary in Korean using a natural and friendly honorific in the form of '~했습니다'. "
         f"Ensure the summary is written in the past tense. "
-        f"Focus only on the important events and details, excluding any trivial or redundant information. "
-        f"Just return the content of the summary without any additional remarks or greetings."
+        f"Exclude any unimportant greetings or remarks and focus on summarizing the events."
     )
     return prompt
 
 def summary(message: str, user_id: int, db: Session) -> str:
     content = summary_prompt(user_id, db)
-    combined_prompt = f"{content}\n{message}"
+    combined_prompt = f"{message}\n{content}"
 
     response = openai.Completion.create(
         model="gpt-3.5-turbo-instruct",
         prompt=combined_prompt,
-        max_tokens=500,
+        max_tokens=700,
         temperature=0.5
     )
     return response.choices[0].text.strip()
