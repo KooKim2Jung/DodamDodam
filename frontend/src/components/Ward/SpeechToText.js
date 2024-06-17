@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
 import api from '../../services/Api';
+import Spinner from '../Spinner/Spinner';
 
 const SpeechToText = () => {
     const contentRef = useRef(''); // 음성 인식 텍스트 저장
@@ -15,6 +16,7 @@ const SpeechToText = () => {
 
     const [voiceUrl, setVoiceUrl] = useState('')
     const audioRef = useRef(null);
+    const [isLoading, setIsLoading] = useState(false); // 스피너 상태 추가
 
     // 음성 인식 시작 및 중지 & 마이크 접근 권한 요청 및 스트림 설정
     useEffect(() => {
@@ -54,7 +56,7 @@ const SpeechToText = () => {
                 setIsRecording(false);
                 stopRecording();
                 console.log('녹음이 끝났습니다.');
-            }, 5000); // 사용자가 말이 끝난 뒤 5초 후에 녹음 중단
+            }, 3000); // 사용자가 말이 끝난 뒤 3초 후에 녹음 중단
         }
         
         return () => {
@@ -131,12 +133,16 @@ const SpeechToText = () => {
 
     const chatDodam = async () => {
         try {
+            setIsLoading(true); // 스피너 시작
+            setVoiceUrl(''); // 기존 음성 URL 제거
             const response = await api.post('/v1/chat/dodam', { message: contentRef.current });
             const data = response.data;
             setVoiceUrl(data.mp3_url);
-        }catch (error) {
+        } catch (error) {
             console.error('Error delivering recording:', error);
             alert('녹음 전달을 실패하였습니다.');
+        } finally {
+            setIsLoading(false); // 스피너 종료
         }
     }
 
@@ -149,8 +155,10 @@ const SpeechToText = () => {
 
     return (
         <div className='flex justify-center'>
-            {voiceUrl && (
-                <audio autoPlay controls ref={audioRef} src={voiceUrl}/>
+            {isLoading && <Spinner />}
+            {!isLoading && voiceUrl && (<div className='flex-col flex'>
+                <div className='flex justify-center mb-3'><img className='w-64' src='./image/dodam_basic.png'/></div>
+                <audio autoPlay controls ref={audioRef} src={voiceUrl}/></div>
             )}
             <textarea readOnly
                 className='w-9/12 resize-none overflow-hidden absolute bottom-8 px-4 pt-3 pb-1 bg-secondary border-2 rounded-[20px] border-black text-middle-size shadow-[3px_4px_1px_#a5996e]'
