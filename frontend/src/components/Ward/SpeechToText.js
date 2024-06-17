@@ -14,6 +14,7 @@ const SpeechToText = () => {
     const timerRef = useRef(null); 
 
     const [voiceUrl, setVoiceUrl] = useState('')
+    const audioRef = useRef(null);
 
     // 음성 인식 시작 및 중지 & 마이크 접근 권한 요청 및 스트림 설정
     useEffect(() => {
@@ -74,7 +75,6 @@ const SpeechToText = () => {
             };
             recorder.ondataavailable = (event) => {
                 if (event.data.size > 0) {
-                    console.log('데이터 사용 가능:', event.data); // 데이터 사용 가능 로그 추가
                     audioChunks.push(event.data);
                 } else {
                     console.log('빈 데이터 사용 가능 이벤트 발생');
@@ -122,11 +122,10 @@ const SpeechToText = () => {
 
         try {
             const response = await api.post('/v1/message', formData);
-            alert('녹음이 저장되었습니다.');
             console.log('Recording saved:', response.data);
+            contentRef.current = '';
         } catch (error) {
             console.error('Error saving recording:', error);
-            alert('녹음 저장을 실패하였습니다.');
         }
     };
 
@@ -141,8 +140,18 @@ const SpeechToText = () => {
         }
     }
 
+    // voiceUrl이 변경될 때 오디오 자동 재생
+    useEffect(() => {
+        if (voiceUrl && audioRef.current) {
+            audioRef.current.play();
+        }
+    }, [voiceUrl]);
+
     return (
         <div className='flex justify-center'>
+            {voiceUrl && (
+                <audio autoPlay controls ref={audioRef} src={voiceUrl}/>
+            )}
             <textarea readOnly
                 className='w-9/12 resize-none overflow-hidden absolute bottom-8 px-4 pt-3 pb-1 bg-secondary border-2 rounded-[20px] border-black text-middle-size shadow-[3px_4px_1px_#a5996e]'
                 value={contentRef.current} 
