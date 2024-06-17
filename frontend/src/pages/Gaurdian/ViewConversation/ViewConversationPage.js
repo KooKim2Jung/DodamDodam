@@ -24,7 +24,6 @@ const ViewConversationPage = () => {
                 setConversations(conversations); // 배열로 대화 내용 설정
                 setIsSelected(true);
                 setSelectedDates(prevDates => [...prevDates, new Date(date)]);
-                console.log('하이라이트', selectedDates)
                 setError('');
             }
         } catch (error) {
@@ -39,7 +38,9 @@ const ViewConversationPage = () => {
     }, []);
 
     const handleDateChange = (date) => {
-        const formattedDate = date.toISOString().split('T')[0];
+        const formattedDate = new Date(date.getTime() - (date.getTimezoneOffset() * 60000))
+            .toISOString()
+            .split('T')[0];
         fetchConversation(formattedDate); // 선택된 날짜로 대화 내용 가져오기
     };
 

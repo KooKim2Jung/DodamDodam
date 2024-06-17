@@ -45,7 +45,7 @@ const Calendar = ({ onDateChange, selectedDates }) => {
                         onChange={handleDateChange}
                         maxDate={today} // 미래 날짜 비활성화
                         inline
-                        highlightDates={selectedDates} // 선택된 날짜들을 하이라이트
+                        // highlightDates={selectedDates} // 선택된 날짜들을 하이라이트
                     />
                 </div>
             </Modal>
