@@ -1,36 +1,28 @@
-import React, { useEffect } from 'react';
-import api from '../../services/Api';
+import React from 'react';
 
-const ConversationContentBoard = ({ conversation, setConversation }) => {
-    const fetchConversation = async (date) => { // 특정 날짜에 대한 대화 내용 가져오기
-        try {
-            const response = await api.get(`/v1/conversation/${date}`);
-            if (response.data) {
-                const { speaker, content, time, voice } = response.data;
-                if (/^\d{4}-\d{2}-\d{2}$/.test(time)) { // 날짜 형식 확인
-                    setConversation({
-                        speaker: speaker,
-                        content: content,
-                        time: time,
-                        voice: voice,
-                    });
-                } else {
-                    console.error(response.data);
-                }
-            }
-        } catch (error) {
-            console.error('Error fetching view conversation:', error);
-        }
-    }
-
-    useEffect(() => {
-        const today = new Date().toISOString().split('T')[0];
-        fetchConversation(today);
-    }, []);
+const ConversationContentBoard = ({ conversation }) => {
+    const { speaker, content, time } = conversation;
+    const isDodam = speaker === 'dodam'; // 스피커가 도담인지 확인
 
     return (
-        <div className='w-1/2 px-4 pt-3 pb-1 bg-secondary border-2 rounded-[20px] border-black text-middle-size shadow-[3px_4px_1px_#a5996e]'>
-            {conversation.content}
+        <div className={`mb-4 flex ${speaker === 'user' ? 'justify-end' : 'justify-start'}`}>
+            {isDodam && (
+                    <div className="flex items-center mt-2 mr-2">
+                        <img
+                            src="./image/dodam_circle.png"
+                            alt="도담"
+                            className="w-[90px] h-[98px] mr-2"
+                        />
+                    </div>
+                )}
+            <div
+                className={`max-w-xs px-4 py-2 bg-secondary border-2 rounded-[20px] border-black text-middle-size shadow-[3px_4px_1px_#a5996e] ${
+                    speaker === 'user' ? 'ml-auto' : 'mr-auto'
+                }`}
+            >
+                <p>{content}</p>
+                <div className="text-right text-1xl text-gray-400">{time}</div>
+            </div>
         </div>
     );
 };
