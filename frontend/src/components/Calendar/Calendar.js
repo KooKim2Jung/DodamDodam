@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Modal from 'react-modal';
 import DatePicker from 'react-datepicker';
 import { registerLocale, setDefaultLocale } from 'react-datepicker';
@@ -9,14 +9,9 @@ import './DatePicker.css';
 registerLocale('ko', ko); // 한국어 로케일 등록
 setDefaultLocale('ko'); // 기본 로케일을 한국어로 설정
 
-const Calendar = () => {
-    const [data, setData] = useState({
-        date: '', 
-        error: '' 
-     });
-
-    const [selectedDate, setSelectedDate] = useState(null);
+const Calendar = ({onDateChange}) => {
     const [isOpen, setIsOpen] = useState(false);
+    const [selectedDate, setSelectedDate] = useState(null);
 
     const openModal = () => {
         setIsOpen(true)
@@ -28,7 +23,8 @@ const Calendar = () => {
 
     const handleDateChange = (date) => {
         setSelectedDate(date);
-        setData({ ...data, date: date ? date.toISOString().split('T')[0] : '' });
+        onDateChange(date); // 선택된 날짜를 부모 컴포넌트로 전달
+        closeModal();
     }
 
     return (
