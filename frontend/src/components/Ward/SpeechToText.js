@@ -13,6 +13,8 @@ const SpeechToText = () => {
     const [audioBlob, setAudioBlob] = useState(null); // 녹음된 오디오 Blob 저장
     const timerRef = useRef(null); 
 
+    const [voiceUrl, setVoiceUrl] = useState('')
+
     // 음성 인식 시작 및 중지 & 마이크 접근 권한 요청 및 스트림 설정
     useEffect(() => {
         SpeechRecognition.startListening({ language: 'ko-KR', continuous: true });
@@ -39,10 +41,8 @@ const SpeechToText = () => {
         } else if (isDetected && !isRecording) {
             startRecording();
             setIsRecording(true); 
-            console.log('Initial transcript:', transcript);
             contentRef.current = transcript;
         } else if (isDetected && isRecording) {
-            console.log('Updated transcript:', transcript);
             contentRef.current = transcript;
             // 타이머 재설정 로직 추가
             if (timerRef.current) {
@@ -80,15 +80,17 @@ const SpeechToText = () => {
                     console.log('빈 데이터 사용 가능 이벤트 발생');
                 }
             };
-            recorder.onstop = () => {
+            recorder.onstop = async () => {
                 console.log('녹음 중지됨');
                 if (audioChunks.length > 0) {
                     const audioBlob = new Blob(audioChunks, { type: 'audio/webm' }); // WebM 형식으로 저장
                     setAudioBlob(audioBlob); // 상태에 저장
-                    console.log('audioChunks:', audioChunks); // audioChunks 로그 추가
-                    console.log('audioBlob:', audioBlob); // audioBlob 로그 추가
-                    console.log('audioBlob type:', audioBlob.type); // audioBlob 타입 로그 추가
-                    saveRecording(audioBlob); // 서버로 전송
+                    try {
+                        await saveRecording(audioBlob); // 서버로 전송
+                        await chatDodam(); // 녹음 후 메시지 전달
+                    } catch (error) {
+                        console.error('Error processing recording:', error);
+                    }
                 } else {
                     console.log('audioChunks가 비어 있음');
                 }
@@ -118,32 +120,26 @@ const SpeechToText = () => {
         formData.append('content', contentRef.current);  // useRef로 관리된 content 사용
         formData.append('voice', new File([audioBlob], 'recording.webm', { type: 'audio/webm' }));
 
-        // 디버그 로그 추가
-        for (let pair of formData.entries()) {
-            console.log(`${pair[0]}: ${pair[1]}`);
-        }
-
         try {
             const response = await api.post('/v1/message', formData);
             alert('녹음이 저장되었습니다.');
             console.log('Recording saved:', response.data);
-            // chatDodam();
         } catch (error) {
             console.error('Error saving recording:', error);
             alert('녹음 저장을 실패하였습니다.');
         }
     };
 
-    // const chatDodam = async () => {
-    //     try {
-    //         const response = await api.post('/v1/chat/dodam', { message: contentRef.current });
-    //         console.log('Recording delivered:', response.data);
-    //     }
-    //     catch (error) {
-    //         console.error('Error delivering recording:', error);
-    //         alert('녹음 전달을 실패하였습니다.');
-    //     }
-    // }
+    const chatDodam = async () => {
+        try {
+            const response = await api.post('/v1/chat/dodam', { message: contentRef.current });
+            const data = response.data;
+            setVoiceUrl(data.mp3_url);
+        }catch (error) {
+            console.error('Error delivering recording:', error);
+            alert('녹음 전달을 실패하였습니다.');
+        }
+    }
 
     return (
         <div className='flex justify-center'>
