@@ -36,11 +36,12 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList(
-                "http://localhost:8000",
-                "http://localhost:8082",
-                "http://localhost:3000"
-        )); // 특정 오리진(도메인)만 허용
+//        configuration.setAllowedOrigins(Arrays.asList(
+//                "http://localhost:8000",
+//                "http://localhost:8082",
+//                "http://localhost:3000"
+//        )); // 특정 오리진(도메인)만 허용
+        configuration.setAllowedOrigins(List.of("*")); // 모든 오리진 허용
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS")); // 모든 HTTP 메서드 허용
         configuration.setAllowedHeaders(List.of("*")); // 모든 헤더 허용
 
