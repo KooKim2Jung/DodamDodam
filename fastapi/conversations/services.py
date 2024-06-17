@@ -86,7 +86,7 @@ def get_messages(db: Session, user: int, date: str):
             results = [{
                 "speaker": message.speaker,
                 "content": message.content,
-                "time": message.time.strftime('%H:%M'),
+                "time": message.time,
                 "voice": message.voice
             } for message in messages]
             return results  # 메시지 목록을 JSON 배열 형태로 반환
