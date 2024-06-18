@@ -16,8 +16,8 @@ const ViewConversationPage = () => {
     const getConversation = async (date) => { 
         try {
             const response = await api.get(`/v1/conversation/${date}`);
-            if (response.data) {
-                console.log('Fetched data:', response.data); // 데이터 확인을 위한 콘솔 출력
+            if (response.data && response.data.length > 0) {
+                // console.log('Fetched data:', response.data); // 데이터 확인을 위한 콘솔 출력
                 const conversations = response.data.map(conversation => ({
                     ...conversation,
                     date: conversation.time.split('T')[0],
@@ -25,10 +25,14 @@ const ViewConversationPage = () => {
                 }));
                 setConversations(conversations); // 배열로 대화 내용 설정
                 setIsSelected(true);
-                // setSelectedDates(prevDates => [...prevDates, new Date(date)]);
                 setError('');
+            } else {
+                setConversations([]); // 빈 배열 설정
+                setIsSelected(false);
+                setError('해당 날짜에 대한 대화 데이터가 존재하지 않습니다.');
             }
         } catch (error) {
+            setConversations([]);
             setIsSelected(false);
             setError('해당 날짜에 대한 대화 데이터가 존재하지 않습니다.');
         }
@@ -39,7 +43,7 @@ const ViewConversationPage = () => {
         try {
             const response = await api.get(`/v1/conversation/summary/${date}`);
             if (response.data) {
-                console.log('Fetched summary:', response.data); // 데이터 확인을 위한 콘솔 출력
+                // console.log('Fetched summary:', response.data); // 데이터 확인을 위한 콘솔 출력
                 setSummary(response.data.summary); // 요약 내용을 상태에 저장
             }
         } catch (error) {
@@ -47,15 +51,21 @@ const ViewConversationPage = () => {
         }
     }
 
+     // 날짜를 YYYY-MM-DD 형식으로 변환하는 함수
+    const formatDate = (date) => {
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0'); // 월을 두 자리 숫자로
+        const day = String(date.getDate()).padStart(2, '0'); // 일을 두 자리 숫자로
+        return `${year}-${month}-${day}`;
+    }
+
     useEffect(() => {
-        const today = new Date();
+        const today = formatDate(new Date());
         handleDateChange(today); // 초기 로드 시 오늘 날짜로 데이터 가져오기
     }, []);
 
     const handleDateChange = (date) => {
-        const formattedDate = new Date(date.getTime() - (date.getTimezoneOffset() * 60000))
-            .toISOString()
-            .split('T')[0];
+        const formattedDate = formatDate(new Date(date));
         getConversation(formattedDate); // 선택된 날짜로 대화 내용 가져오기
         getConversationSummary(formattedDate); // 선택된 날짜로 대화 요약 가져오기
     };
