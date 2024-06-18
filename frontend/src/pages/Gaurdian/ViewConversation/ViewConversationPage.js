@@ -43,7 +43,6 @@ const ViewConversationPage = () => {
                 setSummary(response.data.summary); // 요약 내용을 상태에 저장
             }
         } catch (error) {
-            console.error('Failed to fetch summary:', error);
             setSummary('해당 날짜에 대한 대화 요약이 존재하지 않습니다.');
         }
     }
