@@ -1,5 +1,5 @@
-# node.js 16버전을 사용하겠다는 의미
-FROM node:16-alpine
+# node.js 20 버전을 사용하겠다는 의미
+FROM node:20-alpine
 
 # 컨테이터 내부 현 디렉토리를 frontend로 설정
 WORKDIR /frontend
