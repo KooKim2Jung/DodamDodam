@@ -5,7 +5,7 @@ FROM node:16-alpine
 WORKDIR /frontend
 
 # package.json을 복사 (dependencies를 설치하기 위함)
-COPY package.json .
+COPY package.json yarn.lock ./
 
 # package.json에 있는 dependencies를 설치
 RUN yarn install
