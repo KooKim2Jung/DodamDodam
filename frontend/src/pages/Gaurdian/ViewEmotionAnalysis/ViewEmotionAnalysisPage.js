@@ -2,7 +2,7 @@ import React from 'react';
 import AsideForm from '../../../components/Aside/AsideForm';
 import EmotionAnalysisGraph from '../../../components/EmotionAnalysis/EmotionAnalysisGraph';
 import EmotionAnalysisBoard from '../../../components/EmotionAnalysis/EmotionAnalysisBoard';
-import Calendar from '../../../components/Calendar/Calendar';
+import CalendarForm from '../../../components/Calendar/CalendarForm';
 
 const ViewEmotionAnalysisPage = () => {
     return (
@@ -10,7 +10,7 @@ const ViewEmotionAnalysisPage = () => {
             <AsideForm/>
             <div className='pt-28 pl-5 relative h-full'>
                 <div className='flex justify-between text-2xl'>
-                    <Calendar/>
+                    <CalendarForm/>
                 </div>
                 <EmotionAnalysisGraph/>
                 <EmotionAnalysisBoard/>

@@ -52,3 +52,11 @@ input::-webkit-inner-spin-button {
   @apply bg-secondary w-[240px] h-[50px] rounded-[10px] py-[6px] mb-[10px] text-2xl
   hover:bg-tertiay transition-all
 }
+
+.calendar-btn {
+  @apply w-8 h-8 bg-primary border-2 text-2xl items-center justify-center flex rounded-[10px] border-primary;
+}
+
+.calendar-btn:hover {
+  @apply border-black;
+}

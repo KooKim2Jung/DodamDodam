@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import AsideForm from '../../../components/Aside/AsideForm';
 import ConversationSummary from '../../../components/Conversation/ConversationSummary';
-import Calendar from '../../../components/Calendar/Calendar';
+import CalendarForm from '../../../components/Calendar/CalendarForm';
 import ConversationContentBoard from '../../../components/Conversation/ConversationContentBoard';
 import api from '../../../services/Api';
 
@@ -68,7 +68,7 @@ const ViewConversationPage = () => {
             <AsideForm />
             <div className="pt-28 pl-5 relative h-full">
                 <div className="flex justify-between text-2xl mb-3">
-                    <Calendar onDateChange={handleDateChange}  />
+                    <CalendarForm onDateChange={handleDateChange}  />
                     <ConversationSummary summary={summary} />
                 </div>
                 {isSelected ? (
