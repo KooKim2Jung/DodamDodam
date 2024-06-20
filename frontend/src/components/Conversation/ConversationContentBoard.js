@@ -16,21 +16,17 @@ const ConversationContentBoard = ({ conversation }) => {
     const kstTime = convertToKST(time); // 시간을 KST로 변환
 
     return (
-        <div className={`mb-4 flex ${speaker === 'user' ? 'justify-end' : 'justify-start'}`}>
+        <div className={`flex text-left ${speaker === 'user' ? 'justify-end' : 'justify-start'}`}>
             {isDodam && (
-                    <div className="flex items-center mt-2 mr-2">
+                    <div className="flex mr-2">
                         <img
                             src="./image/dodam_circle.png"
                             alt="도담"
-                            className="w-[90px] h-[98px] mr-2"
+                            className="w-[90px] h-[98px] -mt-1"
                         />
                     </div>
                 )}
-            <div
-                className={`max-w-xs px-4 py-2 bg-secondary border-2 rounded-[20px] border-black text-middle-size shadow-[3px_4px_1px_#a5996e] ${
-                    speaker === 'user' ? 'ml-auto' : 'mr-auto'
-                }`}
-            >
+            <div className='px-5 py-2 mb-5 bg-secondary border-2 rounded-[20px] border-black text-middle-size shadow-[3px_4px_1px_#a5996e]'>
                 <p>{content}</p>
                 <div className="text-right text-1xl text-gray-400">{kstTime}</div>
             </div>
