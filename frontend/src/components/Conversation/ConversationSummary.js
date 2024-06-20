@@ -23,7 +23,7 @@ const ConversationSummary = ({ summary }) => {
             >
                 <div className='my-2 ml-7 text-left text-2xl'>대화요약</div>
                 <div className='flex justify-center items-center mt-3'>
-                    <div className='flex justify-center items-center rounded-[10px] w-[450px] h-[300px] text-2xl bg-white border-black border-2'>{summary}</div>
+                    <div className='flex justify-center items-center px-4 py-2 rounded-[10px] w-[450px] h-[300px] text-2xl bg-white border-black border-2'>{summary}</div>
                 </div>
                 <div className='justify-center items-end my-5'>
                     <button className='text-3xl border-2 px-7 py-2 rounded-[10px] border-black' onClick={closeModal}>확인</button>

@@ -9,7 +9,7 @@ import './DatePicker.css';
 registerLocale('ko', ko); // 한국어 로케일 등록
 setDefaultLocale('ko'); // 기본 로케일을 한국어로 설정
 
-const Calendar = ({ onDateChange, selectedDates }) => {
+const CalendarForm = ({ onDateChange, selectedDates }) => {
     const [isOpen, setIsOpen] = useState(false);
     const [selectedDate, setSelectedDate] = useState(null);
 
@@ -38,7 +38,10 @@ const Calendar = ({ onDateChange, selectedDates }) => {
                 shouldCloseOnOverlayClick={false}
                 className="w-[500px] bg-primary rounded-[10px] border-2 border-black"
             >
-                <div className="flex justify-center items-center mt-5 mb-5">
+                <div className='flex justify-end mt-2 mr-6'>
+                    <button className='calendar-btn' onClick={closeModal}>X</button>
+                </div>
+                <div className="flex justify-center items-center mt-2 mb-5">
                     <DatePicker
                         locale="ko"
                         selected={selectedDate}
@@ -54,4 +57,4 @@ const Calendar = ({ onDateChange, selectedDates }) => {
     );
 };
 
-export default Calendar;
+export default CalendarForm;
