@@ -11,10 +11,7 @@ import certifi
 
 def text_to_speech(user: int, gpt_message, db: Session, filename='output.mp3'):
     setting = db.query(Setting).filter(Setting.user == user).first()
-    if setting:
-        speaker = setting.clova_voice
-    else:
-        speaker = "nhajun"  # 기본값 설정
+    speaker = setting.clova_voice
 
     client_id = os.getenv("CLOVA_TTS_Client_ID")
     client_secret = os.getenv("CLOVA_TTS_Client_Secret")
