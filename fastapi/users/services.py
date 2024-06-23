@@ -1,67 +1,86 @@
 from sqlalchemy.orm import Session
-from fastapi import HTTPException
+from fastapi import HTTPException, UploadFile
 from . import models
 from .schemas import ProfileRead, Setting
+from s3_connection import upload_file_to_s3
+import tempfile
+import uuid
 
 class ProfileService:
+    async def photo_upload(photo: UploadFile):
+        # UploadFile 객체를 tempfile.SpooledTemporaryFile로 변환
+        with tempfile.SpooledTemporaryFile() as temp_file:
+            content = await photo.read()  # photo의 파일 내용을 읽어와서 content 변수에 저장
+            temp_file.write(content)  # 읽어온 파일 내용을 temp_file 임시 파일에 저장
+            temp_file.seek(0)  # 파일 포인터를 처음으로 이동
+
+            # 이미지 확장자 추출
+            filename_parts = photo.filename.split('.')
+            if len(filename_parts) > 1:
+                extension = filename_parts[-1]
+            else:
+                extension = ''  # 확장자가 없는 경우 빈 문자열 처리
+
+            unique_filename = f"{uuid.uuid4()}.{extension}"
+            upload_result = upload_file_to_s3(temp_file, unique_filename)
+
+            if upload_result.get("message") == "File uploaded successfully":
+                photo_data = upload_result.get('url')
+            else:
+                error_message = upload_result.get("message", "An unexpected error occurred during file upload.")
+                raise HTTPException(status_code=500, detail=error_message)
+
+        return photo_data
 
     def read_profile(user: int, db: Session) -> ProfileRead:
         # 데이터베이스에서 프로필 정보를 가져옵니다.
         profile = db.query(models.Profile).filter(models.Profile.user == user).first()
         if profile is None:
-            # 데이터베이스에 프로필 정보가 없으면 기본 메시지를 반환합니다.
-            return ProfileRead(
-                name="이름을 입력해 주세요",
-                gender="성별을 입력해 주세요",
-                age="나이를 입력해 주세요",
-                #기본 프로필사진 이미지
-                photo="https://dodambuket.s3.ap-northeast-2.amazonaws.com/%ED%94%84%EB%A1%9C%ED%95%84%EA%B8%B0%EB%B3%B8%EC%9D%B4%EB%AF%B8%EC%A7%80.png",
-                remark="추가 정보 및 특이 사항을 입력해 주세요"
-            )
+            return "피보호자 정보를 찾을 수 없습니다."
         return ProfileRead.from_orm(profile)
 
+    def create_profile(user: int, name: str, gender: str, age: str, photo: str, remark: str, db: Session) -> str:
+        new_profile = models.Profile(
+            user=user,
+            name=name,
+            gender=gender,
+            age=age,
+            photo=photo,
+            remark=remark
+        )
+        db.add(new_profile)
+        db.commit()
+
+        return "피보호자 정보가 생성되었습니다."
 
     def update_profile(user: int, name: str, gender: str, age: str, photo: str, remark: str, db: Session) -> str:
-        # 데이터베이스에서 프로필 정보를 가져옵니다.
         profile = db.query(models.Profile).filter(models.Profile.user == user).first()
+        if not profile:
+            return "피보호자 정보를 찾을 수 없습니다."
 
-        # 프로필이 없다면 새로 생성
-        if profile is None:
-            profile = models.Profile(user=user)
-            db.add(profile)
-
-        # 이름, 성별, 나이가 제공되지 않았거나 기본 안내 메시지가 입력된 경우 예외 처리
-        if not name or name == "이름을 입력해 주세요":
-            raise HTTPException(status_code=400, detail="이름을 입력해 주세요")
-        if not gender or gender == "성별을 입력해 주세요":
-            raise HTTPException(status_code=400, detail="성별을 입력해 주세요")
-        if not age or age == "나이를 입력해 주세요":
-            raise HTTPException(status_code=400, detail="나이를 입력해 주세요")
-
-        # 프로필 정보를 업데이트합니다.
-        profile.name = name
-        profile.gender = gender
-        profile.age = age
-        profile.photo = photo
-        profile.remark = remark
+            # 입력 값이 있는 경우에만 업데이트
+        if name is not None:
+            profile.name = name
+        if gender is not None:
+            profile.gender = gender
+        if age is not None:
+            profile.age = age
+        if photo is not None:
+            profile.photo = photo
+        if remark is not None:
+            profile.remark = remark
 
         db.commit()
         db.refresh(profile)
 
-        return "정보 수정을 완료했습니다."
+        return "피보호자 정보가 수정되었습니다."
 
 class SettingService:
 
     def read_setting(user: int, db: Session) -> Setting:
         # 데이터베이스에서 setting 정보를 가져옵니다.
         setting = db.query(models.Setting).filter(models.Setting.user == user).first()
-        if setting is None:
-            # 데이터베이스에 Setting 정보가 없으면 기본값을 반환합니다.
-            return Setting(
-                voice="다정"
-            )
         return Setting.from_orm(setting)
-
 
     def update_setting(user: int, setting: Setting, db: Session) -> str:
         # 데이터베이스에서 setting 정보를 가져옵니다.

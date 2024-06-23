@@ -23,43 +23,42 @@ async def get_profile(current_user_id: int = Depends(get_current_user), db: Sess
         raise HTTPException(status_code=500, detail=str(e))
 
 @router.post("/profile", response_model=str)
-async def update_profile(
+async def create_profile(
         name: str = Form(...),
         gender: str = Form(...),
         age: str = Form(...),
         photo: Optional[UploadFile] = File(None),
-        photo_url: Optional[str] = Form(None),
         remark: str = Form(...),
-    db: Session = Depends(get_db),
-    current_user_id: int = Depends(get_current_user)
+        db: Session = Depends(get_db),
+        current_user_id: int = Depends(get_current_user)
 ):
-    photo_data = None
     if photo:
-        # 파일이 제공된 경우
-        # UploadFile 객체를 tempfile.SpooledTemporaryFile로 변환
-        with tempfile.SpooledTemporaryFile() as temp_file:
-            content = await photo.read()  # photo의 파일 내용을 읽어와서 content 변수에 저장
-            temp_file.write(content)  # 읽어온 파일 내용을 temp_file 임시 파일에 저장
-            temp_file.seek(0)  # 파일 포인터를 처음으로 이동
+        # 사진이 제공된 경우
+        photo_data = await ProfileService.photo_upload(photo)
+    else:
+        # 사진이 제공되지 않은 경우 기본 이미지 사용
+        photo_data = "https://dodambuket.s3.ap-northeast-2.amazonaws.com/%ED%94%84%EB%A1%9C%ED%95%84%EA%B8%B0%EB%B3%B8%EC%9D%B4%EB%AF%B8%EC%A7%80.png"
 
-            #이미지 확장자 추출
-            filename_parts = photo.filename.split('.')
-            if len(filename_parts) > 1:
-                extension = filename_parts[-1]
-            else:
-                extension = ''  # 확장자가 없는 경우 빈 문자열 처리
+    try:
+        return ProfileService.create_profile(user=current_user_id, name=name, gender=gender, age=age, photo=photo_data, remark=remark, db=db)
+    except HTTPException as e:
+        raise HTTPException(status_code=e.status_code, detail=e.detail)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
 
-            unique_filename = f"{uuid.uuid4()}.{extension}"
-            upload_result = upload_file_to_s3(temp_file, unique_filename)
-
-            if upload_result.get("message") == "File uploaded successfully":
-                photo_data = upload_result.get('url')
-            else:
-                error_message = upload_result.get("message", "An unexpected error occurred during file upload.")
-                raise HTTPException(status_code=500, detail=error_message)
-    elif photo_url:
-        # URL이 제공된 경우, 기존 URL을 사용
-        photo_data = photo_url
+@router.patch("/profile", response_model=str)
+async def update_profile(
+        name: Optional[str] = Form(None),
+        gender: Optional[str] = Form(None),
+        age: Optional[str] = Form(None),
+        photo: Optional[UploadFile] = File(None),
+        remark: Optional[str] = Form(None),
+        db: Session = Depends(get_db),
+        current_user_id: int = Depends(get_current_user)
+):
+    if photo:
+        # 사진이 제공된 경우
+        photo_data = await ProfileService.photo_upload(photo)
 
     try:
         return ProfileService.update_profile(user=current_user_id, name=name, gender=gender, age=age, photo=photo_data, remark=remark, db=db)
