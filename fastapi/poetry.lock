@@ -1116,17 +1116,18 @@ wandb = ["numpy", "openpyxl (>=3.0.7)", "pandas (>=1.2.3)", "pandas-stubs (>=1.1
 
 [[package]]
 name = "pinecone-client"
-version = "4.1.0"
+version = "4.1.1"
 description = "Pinecone client and SDK"
 optional = false
 python-versions = "<4.0,>=3.8"
 files = [
-    {file = "pinecone_client-4.1.0-py3-none-any.whl", hash = "sha256:9cb9a66cab86b29d526cc99fe6ab151f577967a447c81448057dcd8682646a55"},
-    {file = "pinecone_client-4.1.0.tar.gz", hash = "sha256:42062a628e7a941d0bc24bb8afb026f3ad4d264cf06d6a627a3de583214ae3de"},
+    {file = "pinecone_client-4.1.1-py3-none-any.whl", hash = "sha256:e74ea91a0129a80f301662e286b1883f2eb896683ff7d2cdb03ea06346844d0d"},
+    {file = "pinecone_client-4.1.1.tar.gz", hash = "sha256:b2e78c29de50c180dbfe75e15f08c87ec1a3a4f1bc6b2be1f0ccaee1ab4434fa"},
 ]
 
 [package.dependencies]
 certifi = ">=2019.11.17"
+pinecone-plugin-interface = ">=0.0.7,<0.0.8"
 tqdm = ">=4.64.1"
 typing-extensions = ">=3.7.4"
 urllib3 = [
@@ -1136,6 +1137,17 @@ urllib3 = [
 
 [package.extras]
 grpc = ["googleapis-common-protos (>=1.53.0)", "grpcio (>=1.44.0)", "grpcio (>=1.59.0)", "lz4 (>=3.1.3)", "protobuf (>=4.25,<5.0)", "protoc-gen-openapiv2 (>=0.0.1,<0.0.2)"]
+
+[[package]]
+name = "pinecone-plugin-interface"
+version = "0.0.7"
+description = "Plugin interface for the Pinecone python client"
+optional = false
+python-versions = "<4.0,>=3.8"
+files = [
+    {file = "pinecone_plugin_interface-0.0.7-py3-none-any.whl", hash = "sha256:875857ad9c9fc8bbc074dbe780d187a2afd21f5bfe0f3b08601924a61ef1bba8"},
+    {file = "pinecone_plugin_interface-0.0.7.tar.gz", hash = "sha256:b8e6675e41847333aa13923cc44daa3f85676d7157324682dc1640588a982846"},
+]
 
 [[package]]
 name = "pyasn1"
@@ -1561,13 +1573,13 @@ use-chardet-on-py3 = ["chardet (>=3.0.2,<6)"]
 
 [[package]]
 name = "responses"
-version = "0.25.0"
+version = "0.25.3"
 description = "A utility library for mocking out the `requests` Python library."
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "responses-0.25.0-py3-none-any.whl", hash = "sha256:2f0b9c2b6437db4b528619a77e5d565e4ec2a9532162ac1a131a83529db7be1a"},
-    {file = "responses-0.25.0.tar.gz", hash = "sha256:01ae6a02b4f34e39bffceb0fc6786b67a25eae919c6368d05eabc8d9576c2a66"},
+    {file = "responses-0.25.3-py3-none-any.whl", hash = "sha256:521efcbc82081ab8daa588e08f7e8a64ce79b91c39f6e62199b19159bea7dbcb"},
+    {file = "responses-0.25.3.tar.gz", hash = "sha256:617b9247abd9ae28313d57a75880422d55ec63c29d33d629697590a034358dba"},
 ]
 
 [package.dependencies]

@@ -62,12 +62,12 @@ urllib3 = "1.26.18"
 uvicorn = "0.29.0"
 yarl = "1.9.4"
 numpy = "^1.26.4"
-python-magic = "^0.4.27"
 #python-magic-bin = "^0.4.14"
 responses = "^0.25.0"
 pinecone-client = "^4.1.0"
 pydantic = "2.7.0"
 s3transfer = "^0.10.1"
+python-magic = "^0.4.27"
 
 [build-system]
 requires = ["poetry-core"]
