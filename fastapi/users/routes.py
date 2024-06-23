@@ -78,6 +78,13 @@ def read_dodam_setting(current_user_id: int = Depends(get_current_user), db: Ses
         raise HTTPException(status_code=500, detail=str(e))
 
 @router.post("/setting", response_model=str)
+async def create_dodam_setting(current_user_id: int = Depends(get_current_user), db: Session = Depends(get_db)):
+    try:
+        return SettingService.create_setting(current_user_id, db)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@router.put("/setting", response_model=str)
 async def update_dodam_setting(setting: Setting, current_user_id: int = Depends(get_current_user), db: Session = Depends(get_db)):
     try:
         return SettingService.update_setting(current_user_id, setting, db)

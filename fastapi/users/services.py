@@ -62,15 +62,19 @@ class SettingService:
             )
         return Setting.from_orm(setting)
 
+    def create_setting(user: int, db: Session) -> str:
+        # 기본 값 설정
+        default_voice = "다정"
+        default_clova_voice = "nhajun"
+
+        new_setting = models.Setting(user=user, voice=default_voice, clova_voice=default_clova_voice)
+        db.add(new_setting)
+        db.commit()
+
+        return "도담이 정보가 생성되었습니다."
 
     def update_setting(user: int, setting: Setting, db: Session) -> str:
-        # 데이터베이스에서 setting 정보를 가져옵니다.
         db_setting = db.query(models.Setting).filter(models.Setting.user == user).first()
-
-        # setting이 없다면 새로 생성
-        if db_setting is None:
-            db_setting = models.Setting(user=user)
-            db.add(db_setting)
 
         # 입력된 voice 값에 따라 clova_voice 설정
         voice_to_clova_voice = {
@@ -84,11 +88,10 @@ class SettingService:
         if not clova_voice:
             raise HTTPException(status_code=400, detail="Unsupported voice type")
 
-        # setting 정보를 업데이트합니다.
         db_setting.voice = setting.voice
         db_setting.clova_voice = clova_voice
 
         db.commit()
         db.refresh(db_setting)
 
-        return "도담이 정보 수정을 완료했습니다."
+        return "도담이 정보가 수정되었습니다."
