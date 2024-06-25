@@ -2,10 +2,11 @@ package org.dodam.user.models;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @AllArgsConstructor
+@NoArgsConstructor
 @Data
-public class UserJoinRequest {
-    private String email;
+public class UserPasswordCheckRequest {
     private String password;
 }
