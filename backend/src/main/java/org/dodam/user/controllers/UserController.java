@@ -6,12 +6,18 @@ import org.dodam.user.models.UserJoinRequest;
 import org.dodam.user.models.UserJoinService;
 import org.dodam.user.models.UserLoginRequest;
 import org.dodam.user.models.UserLoginService;
+import org.dodam.user.models.UserPasswordCheckService;
+import org.dodam.user.models.UserPasswordCheckRequest;
+import org.dodam.user.utils.JwtTokenUtil;
 import org.springframework.http.ResponseEntity;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -22,6 +28,10 @@ public class UserController {
 
     private final UserJoinService userJoinService;
     private final UserLoginService userLoginService;
+    private final UserPasswordCheckService userPasswordCheckService;
+
+    @Value("${jwt.token.secret}")
+    private String key;
 
     @Operation(summary = "회원가입")
     @PostMapping("/join")
@@ -40,4 +50,19 @@ public class UserController {
         return ResponseEntity.ok(response);
     }
 
+    @Operation(summary = "보호자 모드 전환")
+    @PostMapping("/switch")
+    public ResponseEntity<Map<String, Boolean>> checkPassword(@RequestBody UserPasswordCheckRequest userPasswordCheckRequest, @RequestHeader("Authorization") String token){
+        String jwtToken = token.replace("Bearer ", "");
+
+        String encodedKey = Base64.getEncoder().encodeToString(key.getBytes());
+        Long userId = Long.parseLong(JwtTokenUtil.getId(jwtToken, encodedKey));
+
+        boolean isValid = userPasswordCheckService.checkPassword(userId, userPasswordCheckRequest.getPassword());
+
+        Map<String, Boolean> response = new HashMap<>();
+        response.put("check", isValid);
+
+        return ResponseEntity.ok(response);
+    }
 }
