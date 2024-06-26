@@ -75,6 +75,13 @@ class ProfileService:
 
         return "피보호자 정보가 수정되었습니다."
 
+    def check_profile(user: int, db: Session) -> bool:
+        # 데이터베이스에서 프로필 정보를 가져옵니다.
+        profile = db.query(models.Profile).filter(models.Profile.user == user).first()
+        if profile is None:
+            return False
+        return True
+
 class SettingService:
 
     def read_setting(user: int, db: Session) -> Setting:
