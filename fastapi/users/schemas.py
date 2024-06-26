@@ -18,3 +18,9 @@ class Setting(BaseModel):
 
     class Config:
         from_attributes = True
+
+class ProfileCheckResponse(BaseModel):
+    check: bool
+
+    class Config:
+        from_attributes = True

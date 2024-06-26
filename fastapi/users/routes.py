@@ -4,7 +4,7 @@ from fastapi import APIRouter, Depends, HTTPException, Form, File, UploadFile
 from sqlalchemy.orm import Session
 from typing import Optional
 from .services import ProfileService, SettingService
-from .schemas import ProfileRead, Setting
+from .schemas import ProfileRead, Setting, ProfileCheckResponse
 from mysql_connection import get_db
 from jwt_utils import get_current_user
 from s3_connection import upload_file_to_s3
@@ -62,6 +62,16 @@ async def update_profile(
 
     try:
         return ProfileService.update_profile(user=current_user_id, name=name, gender=gender, age=age, photo=photo_data, remark=remark, db=db)
+    except HTTPException as e:
+        raise HTTPException(status_code=e.status_code, detail=e.detail)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@router.get("/profile/check", response_model=ProfileCheckResponse)
+async def check_profile(current_user_id: int = Depends(get_current_user), db: Session = Depends(get_db)):
+    try:
+        result = ProfileService.check_profile(user=current_user_id, db=db)
+        return {"check": result}
     except HTTPException as e:
         raise HTTPException(status_code=e.status_code, detail=e.detail)
     except Exception as e:
