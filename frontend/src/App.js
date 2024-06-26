@@ -21,7 +21,6 @@ import Toggle from './components/Toggle/Toggle';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [userEmail, setUserEmail] = useState('');
 
   useEffect(() => {
     const storedLoggedInState = localStorage.getItem('isLoggedIn');
@@ -33,11 +32,11 @@ function App() {
   return (
     <div>
       <BrowserRouter>
-      {isLoggedIn ? <UserHeaderForm setIsLoggedIn={setIsLoggedIn} userEmail={userEmail}/> : <NonUserHeaderForm/>}
+      {isLoggedIn ? <UserHeaderForm setIsLoggedIn={setIsLoggedIn} /> : <NonUserHeaderForm/>}
         <Routes>
           <Route path="/AboutPage" element={<AboutPage/>}/>
           <Route path="/" element={<MainPage/>}/>
-          <Route path="/LoginPage" element={<LoginPage setIsLoggedIn={setIsLoggedIn} setUserEmail={setUserEmail}/>}/>
+          <Route path="/LoginPage" element={<LoginPage setIsLoggedIn={setIsLoggedIn} />}/>
           <Route path="/SignupPage" element={<SignupPage/>}/>
           <Route path='/GaurdianPage' element={<GaurdianPage/>}/>
           <Route path="/WardPage" element={<WardPage/>}/>
