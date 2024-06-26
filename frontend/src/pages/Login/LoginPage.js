@@ -4,7 +4,7 @@ import api from '../../services/Api';
 import LoginForm from '../../components/Login/LoginForm';
 import LoginCheck from '../../components/Login/LoginCheck';
 
-const LoginPage = ({ setIsLoggedIn, setUserEmail }) => {
+const LoginPage = ({ setIsLoggedIn }) => {
     const [user, setUser] = useState({
         email: '',
         password: '',
@@ -17,7 +17,6 @@ const LoginPage = ({ setIsLoggedIn, setUserEmail }) => {
     const handleLogin = () => {
         setIsLoggedIn(true);
         localStorage.setItem('isLoggedIn', 'true');
-        setUserEmail(user.email)
         navigate('/WardPage')
     }
 

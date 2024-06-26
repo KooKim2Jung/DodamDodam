@@ -4,14 +4,14 @@ import Modal from 'react-modal';
 import api from '../../services/Api';
 import './Toggle.css';
 
-const Toggle = ({ userEmail }) => {
+const Toggle = () => {
     const [isToggled, setIsToggled] = useState('피보호자')
     const [isOpen, setIsOpen] = useState(false)
 
     const navigate = useNavigate();
     const location = useLocation();
 
-    const [gaurdianMessage, setGaurdianMessage] = useState('')
+    const [guardianPassword, setGuardianPassword] = useState('')
     const [errorMessage, setErrorMessage] = useState('');
 
     useEffect (() => {
@@ -34,24 +34,30 @@ const Toggle = ({ userEmail }) => {
     // 서버에 보호자 로그인 요청
     const goGaurdian = async () => {
         try {
-            const response = await api.post('/v1/auth/login', {
-                email: userEmail, 
-                password: gaurdianMessage,
+            const response = await api.post('/v1/auth/switch', {
+                password: guardianPassword,
             });
-            setIsOpen(false)
-            navigate('/ViewConversationPage')
+            console.log(response)
+            const check = response.data.check;
+            if (check) {
+                setIsOpen(false)
+                navigate('/ViewConversationPage')
+            }
+            else {
+                setErrorMessage('비밀번호가 일치하지 않습니다.');
+            }
         } catch (error) {
-        setErrorMessage('다시 입력해 주세요.');
-    }
+            setErrorMessage('보호자 로그인 처리 중 오류가 발생했습니다. 다시 시도해주세요.');
+        }
     }
 
     const resetForm = () => {
         setErrorMessage('');
-        setGaurdianMessage('');
+        setGuardianPassword('');
     }
 
     const inputGaurdian = (e) => {
-            setGaurdianMessage(e.target.value)
+            setGuardianPassword(e.target.value)
         }
 
     return (
@@ -86,7 +92,7 @@ const Toggle = ({ userEmail }) => {
                 className='w-[400px] h-[280px] bg-primary rounded-[15px]' >
             <div className='flex-col flex mt-8 text-3xl'>
                 <h2>비밀번호</h2>
-                <input className='input-box mt-5 mx-20' type='password' value={gaurdianMessage} placeholder='비밀번호' onChange={inputGaurdian}/>
+                <input className='input-box mt-5 mx-20' type='password' value={guardianPassword} placeholder='비밀번호' onChange={inputGaurdian}/>
                 <div className='flex justify-center'>
                     <div>
                         <div className='text-small-size text-red-500 mb-6'>{errorMessage}</div>
