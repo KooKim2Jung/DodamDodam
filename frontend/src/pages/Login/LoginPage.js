@@ -4,7 +4,7 @@ import api from '../../services/Api';
 import LoginForm from '../../components/Login/LoginForm';
 import LoginCheck from '../../components/Login/LoginCheck';
 
-const LoginPage = ({ setIsLoggedIn }) => {
+const LoginPage = ({ setIsLoggedIn, setIsEdit, setIsWardSetting }) => {
     const [user, setUser] = useState({
         email: '',
         password: '',
@@ -17,7 +17,6 @@ const LoginPage = ({ setIsLoggedIn }) => {
     const handleLogin = () => {
         setIsLoggedIn(true);
         localStorage.setItem('isLoggedIn', 'true');
-        navigate('/WardPage')
     }
 
     const handleSignup = () => {
@@ -33,15 +32,31 @@ const LoginPage = ({ setIsLoggedIn }) => {
                     password: user.password,
                 });
                 console.log(response);
-                const token = response.data.token; // 응답에서 토큰을 추출
-                localStorage.setItem('jwtToken', token); // localStorage에 토큰 저장
-                // 성공적인 응답 처리
+                const token = response.data.token; 
+                localStorage.setItem('jwtToken', token);
                 handleLogin();
-
-            } catch (error) {
-                console.error("로그인 요청 오류", error);
+                try {
+                    // 로그인 성공 후 피보호자 설정 확인
+                    const wardResponse = await api.get('/v1/profile/check');
+                    const check = wardResponse.data.check;
+                    if (check) {
+                        navigate('/WardPage');
+                        setIsWardSetting(true);
+                    }
+                    else {
+                        setIsEdit(true);
+                        setIsWardSetting(false);
+                        alert('피보호자 설정이 필요합니다.');
+                        navigate('/WardSettingsPage');
+                    }
+                } catch (wardCheckError) {
+                    console.error("피보호자 정보 요청 오류", wardCheckError);
+                    setErrorMessage('피보호자 정보 요청 중 오류가 발생했습니다. 다시 시도해주세요.');
+                }
+            } catch (loginError) {
+                console.error("로그인 요청 오류", loginError);
                 // 오류 메시지에서 에러 코드를 제외하고 사용자에게 보여줄 메시지만 설정
-                const errorMsg = error.response.data;
+                const errorMsg = loginError.response?.data;
                 if (errorMsg.includes('USEREMAIL_NOT_FOUND')) {
                     setErrorMessage(errorMsg.replace('USEREMAIL_NOT_FOUND', ''));
                 } 
@@ -54,6 +69,7 @@ const LoginPage = ({ setIsLoggedIn }) => {
             }
         }
     };
+    
 
     const validateForm = () => {
         resetForm();
