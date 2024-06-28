@@ -4,17 +4,16 @@ import './ToggleForm.css';
 
 const ToggleForm = () => {
     const [isToggled, setIsToggled] = useState('피보호자')
-    
+
     const navigate = useNavigate();
     const location = useLocation();
 
     useEffect (() => {
-        if (isToggled === '보호자' && location.pathname !== '/ViewConversationPage') {
-            navigate('/GaurdianPage')
-        } else {
-            if (isToggled === '피보호자') {
-                navigate('/WardPage')
-            }
+        if (isToggled === '보호자') {
+            navigate('/ViewConversationPage')
+        } 
+        else if (isToggled === '피보호자') {
+            navigate('/WardPage')
         }
     }, [isToggled])
 

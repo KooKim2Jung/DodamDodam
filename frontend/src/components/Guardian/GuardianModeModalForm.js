@@ -3,12 +3,16 @@ import { useNavigate } from 'react-router-dom';
 import Modal from 'react-modal';
 import api from '../../services/Api';
 
-const GaurdianPage = () => {
+const GuardianModeModalForm = () => {
     const [isOpen, setIsOpen] = useState(false)
     const [guardianPassword, setGuardianPassword] = useState('')
     const [errorMessage, setErrorMessage] = useState('');
 
     const navigate = useNavigate();
+
+    const closeModal = () => {
+        setIsOpen(false);
+    }
 
     const inputGaurdian = (e) => {
         setGuardianPassword(e.target.value)
@@ -23,7 +27,6 @@ const GaurdianPage = () => {
             const check = response.data.check;
             if (check) {
                 setIsOpen(false);
-                navigate('/ViewConversationPage');
             }
             else if (guardianPassword === '') {
                 setErrorMessage('비밀번호를 입력해 주세요.');
@@ -37,6 +40,7 @@ const GaurdianPage = () => {
     }
 
     useEffect(() => {
+        setIsOpen(true)
         resetForm();
     }, [])
 
@@ -46,12 +50,13 @@ const GaurdianPage = () => {
     }
 
     return (
-        <div>
+        <div className='flex justify-center items-center'>
         <Modal 
-            overlayClassName='w-[400px] h-[280px] z-20 mt-20 inset-0 flex justify-center items-center rounded-[15px] shadow-[6px_4px_10px_#a5996e]' 
-            isOpen={true} 
-            onRequestClose={() => setIsOpen(false)}
-            className='w-[400px] h-[280px] bg-primary rounded-[15px]' >
+            overlayClassName='fixed flex justify-center bg-opacity-80 items-center inset-0 bg-primary' 
+            isOpen={isOpen} 
+            onRequestClose={closeModal}
+            shouldCloseOnOverlayClick={false}
+            className='w-[400px] h-[280px] pb-6 flex shadow-[6px_5px_10px_#a5996e] justify-center items-center bg-primary rounded-[15px]'>
         <div className='flex-col flex mt-8 text-3xl'>
             <h2>비밀번호</h2>
             <input className='input-box mt-5 mx-20' type='password' value={guardianPassword} placeholder='비밀번호' onChange={inputGaurdian}/>
@@ -67,4 +72,4 @@ const GaurdianPage = () => {
     )
 };
 
-export default GaurdianPage;
+export default GuardianModeModalForm;

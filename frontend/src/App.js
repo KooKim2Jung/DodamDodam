@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import LoginPage from './pages/Login/LoginPage';
 import SignupPage from './pages/Signup/SignupPage';
-import GaurdianPage from './pages/Gaurdian/GaurdianPage';
 import WardPage from './pages/Ward/WardPage';
 import UserHeaderForm from './components/Header/UserHeaderForm';
 import NonUserHeaderForm from './components/Header/NonUserHeaderForm';
@@ -12,11 +11,11 @@ import EmotionalAnalysisPage from './pages/Main/Detail/EmotionalAnalysisPage';
 import ConversationSummaryPage from './pages/Main/Detail/ConversationSummaryPage';
 import SchedulingPage from './pages/Main/Detail/SchedulingPage';
 import SettingsPage from './pages/Main/Detail/SettingsPage';
-import ViewConversationPage from './pages/Gaurdian/ViewConversation/ViewConversationPage';
-import ViewEmotionAnalysisPage from './pages/Gaurdian/ViewEmotionAnalysis/ViewEmotionAnalysisPage';
-import SchedulePage from './pages/Gaurdian/Schedule/SchedulePage';
-import DodamSettingsPage from './pages/Gaurdian/DodamSettings/DodamSettingsPage';
-import WardSettingsPage from './pages/Gaurdian/WardSettings/WardSettingsPage';
+import ViewConversationPage from './pages/Guardian/ViewConversation/ViewConversationPage';
+import ViewEmotionAnalysisPage from './pages/Guardian/ViewEmotionAnalysis/ViewEmotionAnalysisPage';
+import SchedulePage from './pages/Guardian/Schedule/SchedulePage';
+import DodamSettingsPage from './pages/Guardian/DodamSettings/DodamSettingsPage';
+import WardSettingsPage from './pages/Guardian/WardSettings/WardSettingsPage';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -39,7 +38,6 @@ function App() {
           <Route path="/" element={<MainPage/>}/>
           <Route path="/LoginPage" element={<LoginPage setIsLoggedIn={setIsLoggedIn} setIsEdit={setIsEdit} setIsWardSetting={setIsWardSetting}/>}/>
           <Route path="/SignupPage" element={<SignupPage/>}/>
-          <Route path='/GaurdianPage' element={<GaurdianPage/>}/>
           <Route path="/WardPage" element={<WardPage/>}/>
           <Route path="/ConversationSummaryPage" element={<ConversationSummaryPage/>}/>
           <Route path="/EmotionalAnalysisPage" element={<EmotionalAnalysisPage/>}/>
