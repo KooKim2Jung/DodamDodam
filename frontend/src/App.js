@@ -17,7 +17,6 @@ import ViewEmotionAnalysisPage from './pages/Gaurdian/ViewEmotionAnalysis/ViewEm
 import SchedulePage from './pages/Gaurdian/Schedule/SchedulePage';
 import DodamSettingsPage from './pages/Gaurdian/DodamSettings/DodamSettingsPage';
 import WardSettingsPage from './pages/Gaurdian/WardSettings/WardSettingsPage';
-import Toggle from './components/Toggle/Toggle';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -51,7 +50,6 @@ function App() {
           <Route path='/SchedulePage' element={<SchedulePage/>}/>
           <Route path='/DodamSettingsPage' element={<DodamSettingsPage/>}/>
           <Route path='/WardSettingsPage' element={<WardSettingsPage isEdit={isEdit} setIsEdit={setIsEdit} isWardSetting={isWardSetting}/>}/>
-          <Route path='/Toggle' element={<Toggle />}/>
         </Routes>
       </BrowserRouter>
     </div>
