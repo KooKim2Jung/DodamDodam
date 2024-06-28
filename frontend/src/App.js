@@ -17,9 +17,12 @@ import ViewEmotionAnalysisPage from './pages/Gaurdian/ViewEmotionAnalysis/ViewEm
 import SchedulePage from './pages/Gaurdian/Schedule/SchedulePage';
 import DodamSettingsPage from './pages/Gaurdian/DodamSettings/DodamSettingsPage';
 import WardSettingsPage from './pages/Gaurdian/WardSettings/WardSettingsPage';
+import Toggle from './components/Toggle/Toggle';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isEdit, setIsEdit] = useState(false);
+  const [isWardSetting, setIsWardSetting] = useState(false);
 
   useEffect(() => {
     const storedLoggedInState = localStorage.getItem('isLoggedIn');
@@ -35,7 +38,7 @@ function App() {
         <Routes>
           <Route path="/AboutPage" element={<AboutPage/>}/>
           <Route path="/" element={<MainPage/>}/>
-          <Route path="/LoginPage" element={<LoginPage setIsLoggedIn={setIsLoggedIn} />}/>
+          <Route path="/LoginPage" element={<LoginPage setIsLoggedIn={setIsLoggedIn} setIsEdit={setIsEdit} setIsWardSetting={setIsWardSetting}/>}/>
           <Route path="/SignupPage" element={<SignupPage/>}/>
           <Route path='/GaurdianPage' element={<GaurdianPage/>}/>
           <Route path="/WardPage" element={<WardPage/>}/>
@@ -47,7 +50,8 @@ function App() {
           <Route path="/ViewEmotionAnalysisPage" element={<ViewEmotionAnalysisPage/>}/>
           <Route path='/SchedulePage' element={<SchedulePage/>}/>
           <Route path='/DodamSettingsPage' element={<DodamSettingsPage/>}/>
-          <Route path='/WardSettingsPage' element={<WardSettingsPage/>}/>
+          <Route path='/WardSettingsPage' element={<WardSettingsPage isEdit={isEdit} setIsEdit={setIsEdit} isWardSetting={isWardSetting}/>}/>
+          <Route path='/Toggle' element={<Toggle />}/>
         </Routes>
       </BrowserRouter>
     </div>

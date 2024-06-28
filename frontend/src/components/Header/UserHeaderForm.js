@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../Wave.css';
-import ToggleForm from '../Toggle/ToggleForm';
+import Toggle from '../Toggle/Toggle';
 
 const UserHeaderForm = ({ setIsLoggedIn }) => {
 
@@ -21,7 +21,7 @@ const UserHeaderForm = ({ setIsLoggedIn }) => {
                 <a href="/">도담도담</a>
                 <img className='h-10 w-10' src='./image/flower.png'/>
             </h1>
-            <ToggleForm/>
+            <Toggle/>
             <nav className='wave'>
                 <button className='relative text-middle-size pb-[5px] ml-[40px]' onClick={handleLogout}>로그아웃</button>
                 <button className='relative text-middle-size pb-[5px] ml-[40px]' href="#">내 정보</button>
