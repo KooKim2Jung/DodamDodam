@@ -4,6 +4,8 @@ FROM node:20-alpine
 # 컨테이터 내부 현 디렉토리를 frontend로 설정
 WORKDIR /frontend
 
+ENV PATH /frontend/node_modules/.bin:$PATH
+
 # package.json을 복사 (dependencies를 설치하기 위함)
 COPY package.json yarn.lock ./
 
@@ -13,6 +15,7 @@ RUN yarn install
 # /frontend에 있는 모든 파일들을 복사 (소스 코드)
 COPY . ./
 
+CMD ["yarn", "start"]
 # 디버그 개발용 실행
 # RUN yarm dev
 

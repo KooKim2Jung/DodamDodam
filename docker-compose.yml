@@ -25,13 +25,12 @@ services:
   react:
    build:
      context: ./frontend
-   container_name: react
-   stdin_open: true
-   command: sh -c "yarn start --host"
+     dockerfile: Dockerfile
    ports:
      - 3000:3000
    volumes:
      - ./frontend:/frontend
+     - /frontend/node_modules
 
   mysqldb:
     image: mysql:latest
