@@ -12,30 +12,30 @@ const DodamSettingsPage = () => {
         { name: "명랑", mp3: '/mp3/Myeonglang.mp3'}, // 가람
     ];
 
-    // 서버에서 현재 목소리 설정을 가져오는 함수
-    const fetchVoiceSetting = async () => {
+    // 서버에 저장된 도담이 목소리 가져오기
+    const getDodamVoice = async () => {
         try {
             const response = await api.get('/v1/setting');
             return response.data;  // { voice: '...' } 형태로 반환
         } catch (error) {
-            console.error('Error fetching voice setting:', error);
+            console.error('도담이 정보 보기 요청 오류', error);
         }
     };
 
-    // 목소리 설정을 서버에 저장하는 함수
-    const saveVoiceSetting = async (voice) => {
+    // 도담이 목소리 수정하기
+    const saveDodamVoice = async (voice) => {
         try {
-            const response = await api.post('/v1/setting', { voice });
-            alert(response.data);  // 서버로부터의 응답 메시지를 alert로 표시
+            const response = await api.put('/v1/setting', { voice });
+            alert(response.data);  
         } catch (error) {
-            console.error('Error saving voice setting:', error);
-            alert('설정 저장 실패');
+            console.error('도담이 정보 수정 요청 오류', error);
+            alert('도담이 정보 수정에 실패하였습니다.');
         }
     };
 
     useEffect(() => {
         const loadSettings = async () => {
-            const settings = await fetchVoiceSetting();
+            const settings = await getDodamVoice();
             if (settings) {
                 setVoice(settings.voice);
             }
@@ -44,7 +44,7 @@ const DodamSettingsPage = () => {
     }, []);
 
     const voiceSetting = () => {
-        saveVoiceSetting(voice);
+        saveDodamVoice(voice);
     };
 
     return (
