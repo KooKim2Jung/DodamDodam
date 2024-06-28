@@ -11,7 +11,6 @@ const LoginPage = ({ setIsLoggedIn, setIsEdit, setIsWardSetting }) => {
     });
 
     const [errorMessage, setErrorMessage] = useState('');
-
     const navigate = useNavigate();
 
     const handleLogin = () => {
@@ -31,28 +30,10 @@ const LoginPage = ({ setIsLoggedIn, setIsEdit, setIsWardSetting }) => {
                     email: user.email,
                     password: user.password,
                 });
-                console.log(response);
                 const token = response.data.token; 
                 localStorage.setItem('jwtToken', token);
                 handleLogin();
-                try {
-                    // 로그인 성공 후 피보호자 설정 확인
-                    const wardResponse = await api.get('/v1/profile/check');
-                    const check = wardResponse.data.check;
-                    if (check) {
-                        navigate('/WardPage');
-                        setIsWardSetting(true);
-                    }
-                    else {
-                        setIsEdit(true);
-                        setIsWardSetting(false);
-                        alert('피보호자 설정이 필요합니다.');
-                        navigate('/WardSettingsPage');
-                    }
-                } catch (wardCheckError) {
-                    console.error("피보호자 정보 요청 오류", wardCheckError);
-                    setErrorMessage('피보호자 정보 요청 중 오류가 발생했습니다. 다시 시도해주세요.');
-                }
+                checkWard();
             } catch (loginError) {
                 console.error("로그인 요청 오류", loginError);
                 // 오류 메시지에서 에러 코드를 제외하고 사용자에게 보여줄 메시지만 설정
@@ -69,7 +50,26 @@ const LoginPage = ({ setIsLoggedIn, setIsEdit, setIsWardSetting }) => {
             }
         }
     };
-    
+
+    const checkWard = async () => {
+        try {
+            const wardResponse = await api.get('/v1/profile/check');
+            const check = wardResponse.data.check;
+            if (check) {
+                navigate('/WardPage');
+                setIsWardSetting(true);
+            }
+            else {
+                setIsEdit(true);
+                setIsWardSetting(false);
+                alert('피보호자 설정이 필요합니다.');
+                navigate('/WardSettingsPage');
+            }
+        } catch (wardCheckError) {
+            console.error("피보호자 정보 요청 오류", wardCheckError);
+            setErrorMessage('피보호자 정보 요청 중 오류가 발생했습니다. 다시 시도해주세요.');
+        }
+    }
 
     const validateForm = () => {
         resetForm();
