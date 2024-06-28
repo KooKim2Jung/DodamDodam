@@ -52,7 +52,7 @@ const GuardianModeModalForm = () => {
     return (
         <div className='flex justify-center items-center'>
         <Modal 
-            overlayClassName='fixed flex justify-center bg-opacity-80 items-center inset-0 bg-primary' 
+            overlayClassName='fixed flex justify-center items-center inset-0 bg-primary' 
             isOpen={isOpen} 
             onRequestClose={closeModal}
             shouldCloseOnOverlayClick={false}
