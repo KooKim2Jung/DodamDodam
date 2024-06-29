@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import AsideForm from '../../../components/Aside/AsideForm';
 import WardSettingsForm from '../../../components/WardSettings/WardSettingsForm';
+import GuardianModeModalForm from '../../../components/Guardian/GuardianModeModalForm';
 import api from '../../../services/Api';
 
-const WardSettingsPage = ({ isEdit, setIsEdit, isWardSetting, setIsWardSetting }) => {
+const WardSettingsPage = ({ isEdit, setIsEdit, isWardSetting, setIsWardSetting, isGuardian, setIsGuardian }) => {
     const [wardInfo, setWardInfo] = useState({
         photo: 'https://dodambuket.s3.ap-northeast-2.amazonaws.com/%ED%94%84%EB%A1%9C%ED%95%84%EA%B8%B0%EB%B3%B8%EC%9D%B4%EB%AF%B8%EC%A7%80.png',
         name: '',
@@ -114,6 +115,7 @@ const WardSettingsPage = ({ isEdit, setIsEdit, isWardSetting, setIsWardSetting }
             editWardSetting={editWardSetting} setPhotoUpdated={setPhotoUpdated} previewUrl={previewUrl} setPreviewUrl={setPreviewUrl} 
             isWardSetting={isWardSetting} generateWardSetting={generateWardSetting}
             />
+             <GuardianModeModalForm isGuardian={isGuardian} setIsGuardian={setIsGuardian} isWardSetting={isWardSetting}/>
         </div>
     )
 };

@@ -47,11 +47,11 @@ function App() {
           <Route path="/EmotionalAnalysisPage" element={<EmotionalAnalysisPage/>}/>
           <Route path="/SchedulingPage" element={<SchedulingPage/>}/>
           <Route path="/SettingsPage" element={<SettingsPage/>}/>
-          <Route path="/ViewConversationPage" element={<ViewConversationPage isGuardian={isGuardian} setIsGuardian={setIsGuardian}/>}/>
-          <Route path="/ViewEmotionAnalysisPage" element={<ViewEmotionAnalysisPage/>}/>
-          <Route path='/SchedulePage' element={<SchedulePage/>}/>
-          <Route path='/DodamSettingsPage' element={<DodamSettingsPage/>}/>
-          <Route path='/WardSettingsPage' element={<WardSettingsPage isEdit={isEdit} setIsEdit={setIsEdit} isWardSetting={isWardSetting} setIsWardSetting={setIsWardSetting}/>}/>
+          <Route path="/ViewConversationPage" element={<ViewConversationPage isGuardian={isGuardian} setIsGuardian={setIsGuardian} isWardSetting={isWardSetting}/>}/>
+          <Route path="/ViewEmotionAnalysisPage" element={<ViewEmotionAnalysisPage isGuardian={isGuardian} setIsGuardian={setIsGuardian} isWardSetting={isWardSetting}/>}/>
+          <Route path='/SchedulePage' element={<SchedulePage isGuardian={isGuardian} setIsGuardian={setIsGuardian} isWardSetting={isWardSetting}/>}/>
+          <Route path='/DodamSettingsPage' element={<DodamSettingsPage isGuardian={isGuardian} setIsGuardian={setIsGuardian} isWardSetting={isWardSetting}/>}/>
+          <Route path='/WardSettingsPage' element={<WardSettingsPage isEdit={isEdit} setIsEdit={setIsEdit} isGuardian={isGuardian} setIsGuardian={setIsGuardian} isWardSetting={isWardSetting} setIsWardSetting={setIsWardSetting}/>}/>
         </Routes>
       </BrowserRouter>
     </div>

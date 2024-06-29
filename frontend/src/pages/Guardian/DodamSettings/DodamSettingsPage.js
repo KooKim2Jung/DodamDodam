@@ -2,8 +2,9 @@ import React, { useState, useEffect }  from 'react';
 import AsideForm from '../../../components/Aside/AsideForm';
 import api from '../../../services/Api';
 import DodamVoiceForm from '../../../components/DodamSettings/DodamVoiceForm';
+import GuardianModeModalForm from '../../../components/Guardian/GuardianModeModalForm';
 
-const DodamSettingsPage = () => {
+const DodamSettingsPage = ({ isGuardian, setIsGuardian, isWardSetting }) => {
     const [voice, setVoice] = useState('다정');
     const voices = [
         { name: "다정", mp3: '/mp3/Dajeong.mp3'}, // 하준
@@ -60,6 +61,7 @@ const DodamSettingsPage = () => {
                     <button className='input-box2 relative p-2 w-40 top-14' onClick={voiceSetting}>확인</button>
                 </div>
             </div>
+            <GuardianModeModalForm isGuardian={isGuardian} setIsGuardian={setIsGuardian} isWardSetting={isWardSetting}/>
         </div>
     );
 };

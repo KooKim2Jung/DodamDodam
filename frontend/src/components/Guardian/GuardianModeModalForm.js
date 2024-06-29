@@ -1,17 +1,26 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Modal from 'react-modal';
 import api from '../../services/Api';
 
-const GuardianModeModalForm = ({ isGuardian, setIsGuardian }) => {
+const GuardianModeModalForm = ({ isGuardian, setIsGuardian, isWardSetting }) => {
     const [isOpen, setIsOpen] = useState(false);
     const [guardianPassword, setGuardianPassword] = useState('')
     const [errorMessage, setErrorMessage] = useState('');
+
+    const navigate = useNavigate();
 
     const openModal = () => {
         setIsOpen(true);
     }
 
     const closeModal = () => {
+        if (isWardSetting === false) {
+            navigate('/WardSettingsPage');
+        }
+        else {
+            navigate('/ViewConversationPage');
+        }
         setIsOpen(false);
     }
 
@@ -22,6 +31,10 @@ const GuardianModeModalForm = ({ isGuardian, setIsGuardian }) => {
     // 서버에 보호자 모드 로그인 요청
     const goGuardian = async (event) => {
         event.preventDefault();
+        if (!guardianPassword) {
+            setErrorMessage('비밀번호를 입력해 주세요.');
+            return;
+        }
         try {
             const response = await api.post('/v1/auth/switch', {
                 password: guardianPassword,
@@ -30,9 +43,6 @@ const GuardianModeModalForm = ({ isGuardian, setIsGuardian }) => {
             if (check) {
                 setIsGuardian(true);
                 closeModal();
-            }
-            else if (guardianPassword === '') {
-                setErrorMessage('비밀번호를 입력해 주세요.');
             }
             else {
                 setErrorMessage('비밀번호가 일치하지 않습니다.');
@@ -56,11 +66,11 @@ const GuardianModeModalForm = ({ isGuardian, setIsGuardian }) => {
 
     return (
         <Modal 
-            overlayClassName='fixed flex justify-center items-center inset-0 bg-primary' 
+            overlayClassName='fixed flex z-30 justify-center items-center inset-0 bg-primary outline-none' 
             isOpen={isOpen} 
             onRequestClose={closeModal}
             shouldCloseOnOverlayClick={false}
-            className='w-[400px] h-[280px] pb-6 flex shadow-[6px_5px_10px_#a5996e] justify-center items-center bg-primary rounded-[15px]'>
+            className='outline-none w-[400px] h-[280px] z-50 pb-6 flex shadow-[6px_5px_10px_#a5996e] justify-center items-center bg-primary rounded-[15px]'>
             <form onSubmit={goGuardian}>
                 <div className='flex-col flex mt-8 text-3xl'>
                     <h2>비밀번호</h2>
