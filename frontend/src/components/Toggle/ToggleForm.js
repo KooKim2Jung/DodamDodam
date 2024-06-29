@@ -1,16 +1,15 @@
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
 import './ToggleForm.css';
 
-const ToggleForm = () => {
+const ToggleForm = ({}) => {
     const [isToggled, setIsToggled] = useState('피보호자')
 
     const navigate = useNavigate();
-    const location = useLocation();
 
     useEffect (() => {
         if (isToggled === '보호자') {
-            navigate('/ViewConversationPage')
+            navigate('/ViewConversationPage');
         } 
         else if (isToggled === '피보호자') {
             navigate('/WardPage')

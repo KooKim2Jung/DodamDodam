@@ -4,9 +4,9 @@ import ConversationSummary from '../../../components/Conversation/ConversationSu
 import CalendarForm from '../../../components/Calendar/CalendarForm';
 import ConversationContentBoard from '../../../components/Conversation/ConversationContentBoard';
 import api from '../../../services/Api';
-import GaurdianModeModalForm from '../../../components/Guardian/GuardianModeModalForm';
+import GuardianModeModalForm from '../../../components/Guardian/GuardianModeModalForm';
 
-const ViewConversationPage = () => {
+const ViewConversationPage = ({ isGuardian, setIsGuardian }) => {
     const [conversations, setConversations] = useState([]);
     const [summary, setSummary] = useState('');
     const [isSelected, setIsSelected] = useState(true);
@@ -82,7 +82,7 @@ const ViewConversationPage = () => {
                     <div className="text-center text-2xl text-gray-400">{error}</div>
                 )}
             </div>
-            <GaurdianModeModalForm />
+            <GuardianModeModalForm isGuardian={isGuardian} setIsGuardian={setIsGuardian}/>
         </div>
     );
 };

@@ -1,7 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import SpeechToText from '../../components/Ward/SpeechToText';
 
-const WardPage = () => {
+const WardPage = ({ setIsGuardian }) => {
+    useEffect(() => {
+        setIsGuardian(false);
+    }, [setIsGuardian])
+
     return (
         <div>
             <SpeechToText/>
