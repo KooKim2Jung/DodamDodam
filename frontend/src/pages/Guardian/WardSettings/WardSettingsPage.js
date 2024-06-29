@@ -1,16 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import AsideForm from '../../../components/Aside/AsideForm';
 import WardSettingsForm from '../../../components/WardSettings/WardSettingsForm';
+import GuardianModeModalForm from '../../../components/Guardian/GuardianModeModalForm';
 import api from '../../../services/Api';
 
-const WardSettingsPage = ({ isEdit, setIsEdit, isWardSetting }) => {
+const WardSettingsPage = ({ isEdit, setIsEdit, isWardSetting, setIsWardSetting, isGuardian, setIsGuardian }) => {
     const [wardInfo, setWardInfo] = useState({
-        photo: './image/dodam_circle.png',
+        photo: 'https://dodambuket.s3.ap-northeast-2.amazonaws.com/%ED%94%84%EB%A1%9C%ED%95%84%EA%B8%B0%EB%B3%B8%EC%9D%B4%EB%AF%B8%EC%A7%80.png',
         name: '',
         gender: '',
         age: '',
         remark: '',
     });
+    const [initialWardInfo, setInitialWardInfo] = useState({});
     const [photoUpdated, setPhotoUpdated] = useState(false); // 사용자의 사진 업데이트 여부
     const [previewUrl, setPreviewUrl] = useState(''); // 미리보기 URL 상태
 
@@ -24,7 +26,7 @@ const WardSettingsPage = ({ isEdit, setIsEdit, isWardSetting }) => {
         formData.append('gender', wardInfo.gender);
         formData.append('age', wardInfo.age);
         formData.append('remark', wardInfo.remark);
-
+        setIsWardSetting(true)
         try {
             const response = await api.post('/v1/profile', formData);
             alert(response.data);
@@ -38,7 +40,7 @@ const WardSettingsPage = ({ isEdit, setIsEdit, isWardSetting }) => {
         } catch (error) {
             console.error('피보호자 정보 생성 요청 오류', error);
             alert('피보호자 정보 생성을 실패하였습니다.');
-            setIsEdit(true)
+            setIsEdit(true);
         }
     };
 
@@ -52,6 +54,7 @@ const WardSettingsPage = ({ isEdit, setIsEdit, isWardSetting }) => {
                 });
                 setPhotoUpdated(false); 
                 setPreviewUrl(response.data.photo); // 서버에서 받은 URL을 미리보기로 설정
+                setInitialWardInfo(response.data);
             }
         } catch (error) {
             console.error('피보호자 정보 보기 요청 오류', error);
@@ -61,27 +64,38 @@ const WardSettingsPage = ({ isEdit, setIsEdit, isWardSetting }) => {
     // 피보호자 정보 수정
     const editWardSetting = async () => {
         const formData = new FormData();
-        if (photoUpdated) {
-            formData.append('photo', wardInfo.photo); // 파일 객체 추가
-        } 
-        formData.append('name', wardInfo.name);
-        formData.append('gender', wardInfo.gender);
-        formData.append('age', wardInfo.age);
-        formData.append('remark', wardInfo.remark);
-
+        
+        if (photoUpdated && wardInfo.photo !== initialWardInfo.photo) {
+            formData.append('photo', wardInfo.photo);
+        }
+        else if (wardInfo.name !== initialWardInfo.name) {
+            formData.append('name', wardInfo.name);
+        }
+        else if (wardInfo.gender !== initialWardInfo.gender) {
+            formData.append('gender', wardInfo.gender);
+        }
+        else if (wardInfo.age !== initialWardInfo.age) {
+            formData.append('age', wardInfo.age);
+        }
+        else if (wardInfo.remark !== initialWardInfo.remark) {
+            formData.append('remark', wardInfo.remark);
+        }
+        else {
+            alert('수정된 부분이 없습니다.');
+            return;
+        }
         try {
             const response = await api.patch('/v1/profile', formData);
-            alert(response.data); 
+            alert(response.data);
         } catch (error) {
             console.error('피보호자 정보 수정 요청 오류', error);
             alert('피보호자 정보 수정을 실패하였습니다.');
-            setIsEdit(true)
+            setIsEdit(true);
         }
     };
 
     useEffect(() => {
-        console.log(isEdit)
-        if (isEdit===false) {
+        if (isWardSetting === true) {
             getWardSetting();
         }
     }, [isEdit]);
@@ -101,6 +115,7 @@ const WardSettingsPage = ({ isEdit, setIsEdit, isWardSetting }) => {
             editWardSetting={editWardSetting} setPhotoUpdated={setPhotoUpdated} previewUrl={previewUrl} setPreviewUrl={setPreviewUrl} 
             isWardSetting={isWardSetting} generateWardSetting={generateWardSetting}
             />
+             <GuardianModeModalForm isGuardian={isGuardian} setIsGuardian={setIsGuardian} isWardSetting={isWardSetting}/>
         </div>
     )
 };

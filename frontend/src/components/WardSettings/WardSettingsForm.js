@@ -20,20 +20,19 @@ const WardSettingsForm = ({ isEdit, setIsEdit, wardInfo, setWardInfo, editWardSe
     const photoUpdate = (e) => {
         if (e.target.files[0]) {
             const file = e.target.files[0];
+            
+            // 미리보기 URL 설정
+            const previewURL = URL.createObjectURL(file);
+            setPreviewUrl(previewURL);
+
             setWardInfo((prevState) => ({
                 ...prevState,
                 photo: file,
             }));
             setPhotoUpdated(true);
 
-            // 미리보기 URL 생성
-            const reader = new FileReader();
-            reader.onloadend = () => {
-                // 파일 읽기가 완료되면 미리보기 URL을 상태로 설정
-                setPreviewUrl(reader.result);
-            };
-            reader.readAsDataURL(file);
-            // 파일을 데이터 URL 형식으로 읽음
+            // 기존 URL 객체 해제
+            return () => URL.revokeObjectURL(previewURL);
         }
     };
 

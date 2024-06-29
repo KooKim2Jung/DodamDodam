@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import AsideForm from '../../../components/Aside/AsideForm';
 import ScheduleForm from '../../../components/Schedule/ScheduleForm';
+import GuardianModeModalForm from '../../../components/Guardian/GuardianModeModalForm';
 
-const SchedulePage = () => {
+const SchedulePage = ({ isGuardian, setIsGuardian, isWardSetting }) => {
     const [items, setItems] = useState([]);
     const [isEditing, setIsEditing] = useState(false);
     const [currentItem, setCurrentItem] = useState(null);
@@ -62,6 +63,7 @@ const SchedulePage = () => {
                     }
                 </div>
             ))}
+             <GuardianModeModalForm isGuardian={isGuardian} setIsGuardian={setIsGuardian} isWardSetting={isWardSetting}/>
         </div>
     );
 };
