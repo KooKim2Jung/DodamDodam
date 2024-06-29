@@ -58,10 +58,10 @@ async def update_profile(
 ):
     if photo:
         # 사진이 제공된 경우
-        photo_data = await ProfileService.photo_upload(photo)
+        photo = await ProfileService.photo_upload(photo)
 
     try:
-        return ProfileService.update_profile(user=current_user_id, name=name, gender=gender, age=age, photo=photo_data, remark=remark, db=db)
+        return ProfileService.update_profile(user=current_user_id, name=name, gender=gender, age=age, photo=photo, remark=remark, db=db)
     except HTTPException as e:
         raise HTTPException(status_code=e.status_code, detail=e.detail)
     except Exception as e:
