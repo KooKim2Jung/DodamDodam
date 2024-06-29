@@ -3,14 +3,15 @@ import AsideForm from '../../../components/Aside/AsideForm';
 import WardSettingsForm from '../../../components/WardSettings/WardSettingsForm';
 import api from '../../../services/Api';
 
-const WardSettingsPage = ({ isEdit, setIsEdit, isWardSetting }) => {
+const WardSettingsPage = ({ isEdit, setIsEdit, isWardSetting, setIsWardSetting }) => {
     const [wardInfo, setWardInfo] = useState({
-        photo: './image/dodam_circle.png',
+        photo: '',
         name: '',
         gender: '',
         age: '',
         remark: '',
     });
+    const [initialWardInfo, setInitialWardInfo] = useState({});
     const [photoUpdated, setPhotoUpdated] = useState(false); // 사용자의 사진 업데이트 여부
     const [previewUrl, setPreviewUrl] = useState(''); // 미리보기 URL 상태
 
@@ -24,7 +25,7 @@ const WardSettingsPage = ({ isEdit, setIsEdit, isWardSetting }) => {
         formData.append('gender', wardInfo.gender);
         formData.append('age', wardInfo.age);
         formData.append('remark', wardInfo.remark);
-
+        setIsWardSetting(true)
         try {
             const response = await api.post('/v1/profile', formData);
             alert(response.data);
@@ -52,6 +53,7 @@ const WardSettingsPage = ({ isEdit, setIsEdit, isWardSetting }) => {
                 });
                 setPhotoUpdated(false); 
                 setPreviewUrl(response.data.photo); // 서버에서 받은 URL을 미리보기로 설정
+                setInitialWardInfo(response.data);
             }
         } catch (error) {
             console.error('피보호자 정보 보기 요청 오류', error);
@@ -61,14 +63,22 @@ const WardSettingsPage = ({ isEdit, setIsEdit, isWardSetting }) => {
     // 피보호자 정보 수정
     const editWardSetting = async () => {
         const formData = new FormData();
-        if (photoUpdated) {
-            formData.append('photo', wardInfo.photo); // 파일 객체 추가
-        } 
-        formData.append('name', wardInfo.name);
-        formData.append('gender', wardInfo.gender);
-        formData.append('age', wardInfo.age);
-        formData.append('remark', wardInfo.remark);
-
+        
+        if (photoUpdated && wardInfo.photo !== initialWardInfo.photo) {
+            formData.append('photo', wardInfo.photo);
+        }
+        if (wardInfo.name !== initialWardInfo.name) {
+            formData.append('name', wardInfo.name);
+        }
+        if (wardInfo.gender !== initialWardInfo.gender) {
+            formData.append('gender', wardInfo.gender);
+        }
+        if (wardInfo.age !== initialWardInfo.age) {
+            formData.append('age', wardInfo.age);
+        }
+        if (wardInfo.remark !== initialWardInfo.remark) {
+            formData.append('remark', wardInfo.remark);
+        }
         try {
             const response = await api.patch('/v1/profile', formData);
             alert(response.data); 
@@ -80,8 +90,11 @@ const WardSettingsPage = ({ isEdit, setIsEdit, isWardSetting }) => {
     };
 
     useEffect(() => {
-        console.log(isEdit)
-        if (isEdit===false) {
+        console.log('isEdit ',isEdit)
+        console.log('isWardSetting ',isWardSetting)
+        console.log('initialWardInfo ',initialWardInfo)
+        console.log('wardInfo', wardInfo)
+        if (isWardSetting === true) {
             getWardSetting();
         }
     }, [isEdit]);

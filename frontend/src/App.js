@@ -47,7 +47,7 @@ function App() {
           <Route path="/ViewEmotionAnalysisPage" element={<ViewEmotionAnalysisPage/>}/>
           <Route path='/SchedulePage' element={<SchedulePage/>}/>
           <Route path='/DodamSettingsPage' element={<DodamSettingsPage/>}/>
-          <Route path='/WardSettingsPage' element={<WardSettingsPage isEdit={isEdit} setIsEdit={setIsEdit} isWardSetting={isWardSetting}/>}/>
+          <Route path='/WardSettingsPage' element={<WardSettingsPage isEdit={isEdit} setIsEdit={setIsEdit} isWardSetting={isWardSetting} setIsWardSetting={setIsWardSetting}/>}/>
         </Routes>
       </BrowserRouter>
     </div>
