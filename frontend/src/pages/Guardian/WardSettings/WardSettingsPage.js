@@ -39,7 +39,7 @@ const WardSettingsPage = ({ isEdit, setIsEdit, isWardSetting, setIsWardSetting }
         } catch (error) {
             console.error('피보호자 정보 생성 요청 오류', error);
             alert('피보호자 정보 생성을 실패하였습니다.');
-            setIsEdit(true)
+            setIsEdit(true);
         }
     };
 
@@ -67,25 +67,29 @@ const WardSettingsPage = ({ isEdit, setIsEdit, isWardSetting, setIsWardSetting }
         if (photoUpdated && wardInfo.photo !== initialWardInfo.photo) {
             formData.append('photo', wardInfo.photo);
         }
-        if (wardInfo.name !== initialWardInfo.name) {
+        else if (wardInfo.name !== initialWardInfo.name) {
             formData.append('name', wardInfo.name);
         }
-        if (wardInfo.gender !== initialWardInfo.gender) {
+        else if (wardInfo.gender !== initialWardInfo.gender) {
             formData.append('gender', wardInfo.gender);
         }
-        if (wardInfo.age !== initialWardInfo.age) {
+        else if (wardInfo.age !== initialWardInfo.age) {
             formData.append('age', wardInfo.age);
         }
-        if (wardInfo.remark !== initialWardInfo.remark) {
+        else if (wardInfo.remark !== initialWardInfo.remark) {
             formData.append('remark', wardInfo.remark);
+        }
+        else {
+            alert('수정된 부분이 없습니다.');
+            return;
         }
         try {
             const response = await api.patch('/v1/profile', formData);
-            alert(response.data); 
+            alert(response.data);
         } catch (error) {
             console.error('피보호자 정보 수정 요청 오류', error);
             alert('피보호자 정보 수정을 실패하였습니다.');
-            setIsEdit(true)
+            setIsEdit(true);
         }
     };
 
