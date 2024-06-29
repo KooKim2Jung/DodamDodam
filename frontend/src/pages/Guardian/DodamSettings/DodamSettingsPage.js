@@ -1,8 +1,8 @@
 import React, { useState, useEffect }  from 'react';
-import AsideForm from '../../../components/Aside/AsideForm';
+import AsideForm from '../../../components/section/aside/AsideForm';
 import api from '../../../services/Api';
-import DodamVoiceForm from '../../../components/DodamSettings/DodamVoiceForm';
-import GuardianModeModalForm from '../../../components/Guardian/GuardianModeModalForm';
+import DodamVoiceForm from '../../../components/guardian/dodamSettings/DodamVoiceForm';
+import GuardianModeModalForm from '../../../components/guardian/GuardianModeModalForm';
 
 const DodamSettingsPage = ({ isGuardian, setIsGuardian, isWardSetting }) => {
     const [voice, setVoice] = useState('다정');

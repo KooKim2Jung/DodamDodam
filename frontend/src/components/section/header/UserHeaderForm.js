@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import '../Wave.css';
-import ToggleForm from '../Toggle/ToggleForm';
+import '../../Wave.css';
+import ToggleForm from '../../Toggle/ToggleForm';
 
 const UserHeaderForm = ({ setIsLoggedIn }) => {
 

@@ -1,8 +1,8 @@
 import { useNavigate } from 'react-router-dom';
 import React, { useState } from 'react';
-import api from '../../services/Api';
-import LoginForm from '../../components/Login/LoginForm';
-import LoginCheck from '../../components/Login/LoginCheck';
+import api from '../../../services/Api';
+import LoginForm from '../../../components/user/login/LoginForm';
+import LoginCheck from '../../../components/user/login/LoginCheck';
 
 const LoginPage = ({ setIsLoggedIn, setIsEdit, setIsWardSetting }) => {
     const [user, setUser] = useState({

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
 import api from '../../services/Api';
-import Spinner from '../Spinner/Spinner';
+import Spinner from '../spinner/Spinner';
 
 const SpeechToText = () => {
     const contentRef = useRef(''); // 음성 인식 텍스트 저장

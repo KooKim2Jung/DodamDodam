@@ -1,5 +1,5 @@
 import React from 'react';
-import DetailForm from '../../../components/Detail/DetailForm';
+import DetailForm from '../../../components/detail/DetailForm';
 
 const ConversationSummaryPage = () => {
     return (

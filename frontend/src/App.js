@@ -1,22 +1,22 @@
 import { useState, useEffect } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Modal from 'react-modal';
-import LoginPage from './pages/Login/LoginPage';
-import SignupPage from './pages/Signup/SignupPage';
-import WardPage from './pages/Ward/WardPage';
-import UserHeaderForm from './components/Header/UserHeaderForm';
-import NonUserHeaderForm from './components/Header/NonUserHeaderForm';
-import MainPage from './pages/Main/MainPage';
-import AboutPage from './pages/Main/About/AboutPage';
-import EmotionalAnalysisPage from './pages/Main/Detail/EmotionalAnalysisPage';
-import ConversationSummaryPage from './pages/Main/Detail/ConversationSummaryPage';
-import SchedulingPage from './pages/Main/Detail/SchedulingPage';
-import SettingsPage from './pages/Main/Detail/SettingsPage';
-import ViewConversationPage from './pages/Guardian/ViewConversation/ViewConversationPage';
-import ViewEmotionAnalysisPage from './pages/Guardian/ViewEmotionAnalysis/ViewEmotionAnalysisPage';
-import SchedulePage from './pages/Guardian/Schedule/SchedulePage';
-import DodamSettingsPage from './pages/Guardian/DodamSettings/DodamSettingsPage';
-import WardSettingsPage from './pages/Guardian/WardSettings/WardSettingsPage';
+import LoginPage from './pages/user/login/LoginPage';
+import SignupPage from './pages/user/signup/SignupPage';
+import WardPage from './pages/ward/WardPage';
+import UserHeaderForm from './components/section/header/UserHeaderForm';
+import NonUserHeaderForm from './components/section/header/NonUserHeaderForm';
+import MainPage from './pages/main/MainPage';
+import AboutPage from './pages/main/about/AboutPage';
+import EmotionalAnalysisPage from './pages/main/detail/EmotionalAnalysisPage';
+import ConversationSummaryPage from './pages/main/detail/ConversationSummaryPage';
+import SchedulingPage from './pages/main/detail/SchedulingPage';
+import SettingsPage from './pages/main/detail/SettingsPage';
+import ViewConversationPage from './pages/guardian/viewConversation/ViewConversationPage';
+import ViewEmotionAnalysisPage from './pages/guardian/viewEmotionAnalysis/ViewEmotionAnalysisPage';
+import SchedulePage from './pages/guardian/schedule/SchedulePage';
+import DodamSettingsPage from './pages/guardian/dodamSettings/DodamSettingsPage';
+import WardSettingsPage from './pages/guardian/wardSettings/WardSettingsPage';
 
 Modal.setAppElement('#root');
 

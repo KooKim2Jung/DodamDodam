@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import AsideForm from '../../../components/Aside/AsideForm';
-import WardSettingsForm from '../../../components/WardSettings/WardSettingsForm';
-import GuardianModeModalForm from '../../../components/Guardian/GuardianModeModalForm';
+import AsideForm from '../../../components/section/aside/AsideForm';
+import WardSettingsForm from '../../../components/guardian/wardSettings/WardSettingsForm';
+import GuardianModeModalForm from '../../../components/guardian/GuardianModeModalForm';
 import api from '../../../services/Api';
 
 const WardSettingsPage = ({ isEdit, setIsEdit, isWardSetting, setIsWardSetting, isGuardian, setIsGuardian }) => {

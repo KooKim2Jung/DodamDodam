@@ -1,9 +1,9 @@
 import React from 'react';
-import AsideForm from '../../../components/Aside/AsideForm';
-import EmotionAnalysisGraph from '../../../components/EmotionAnalysis/EmotionAnalysisGraph';
-import EmotionAnalysisBoard from '../../../components/EmotionAnalysis/EmotionAnalysisBoard';
-import CalendarForm from '../../../components/Calendar/CalendarForm';
-import GuardianModeModalForm from '../../../components/Guardian/GuardianModeModalForm';
+import AsideForm from '../../../components/section/aside/AsideForm';
+import EmotionAnalysisGraph from '../../../components/guardian/emotionAnalysis/EmotionAnalysisGraph';
+import EmotionAnalysisBoard from '../../../components/guardian/emotionAnalysis/EmotionAnalysisBoard';
+import CalendarForm from '../../../components/calendar/CalendarForm';
+import GuardianModeModalForm from '../../../components/guardian/GuardianModeModalForm';
 
 const ViewEmotionAnalysisPage = ({ isGuardian, setIsGuardian, isWardSetting }) => {
     return (

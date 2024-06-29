@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import '../Wave.css';
+import '../../Wave.css';
 
 const AsideForm = () => {
     const features = [
