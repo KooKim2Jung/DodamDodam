@@ -8,14 +8,20 @@ const ToggleForm = () => {
     const navigate = useNavigate();
     const location = useLocation();
 
-    useEffect (() => {
-        if (isToggled === '보호자') {
-            navigate('/ViewConversationPage')
-        } 
-        else if (isToggled === '피보호자') {
-            navigate('/WardPage')
+    useEffect(() => {
+        if (isToggled === '피보호자') {
+            navigate('/WardPage');
+        }
+        else {
+            navigate('/WardSettingsPage');
         }
     }, [isToggled])
+
+    useEffect(() => {
+        if (location.pathname === '/WardSettingsPage') {
+            setIsToggled('보호자');
+        } 
+    }, [location.pathname]);  
 
     const modeChange = (e) => {
         setIsToggled(e.target.value);

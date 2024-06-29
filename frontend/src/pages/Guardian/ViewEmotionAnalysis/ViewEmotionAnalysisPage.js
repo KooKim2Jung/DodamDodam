@@ -3,8 +3,9 @@ import AsideForm from '../../../components/Aside/AsideForm';
 import EmotionAnalysisGraph from '../../../components/EmotionAnalysis/EmotionAnalysisGraph';
 import EmotionAnalysisBoard from '../../../components/EmotionAnalysis/EmotionAnalysisBoard';
 import CalendarForm from '../../../components/Calendar/CalendarForm';
+import GuardianModeModalForm from '../../../components/Guardian/GuardianModeModalForm';
 
-const ViewEmotionAnalysisPage = () => {
+const ViewEmotionAnalysisPage = ({ isGuardian, setIsGuardian, isWardSetting }) => {
     return (
         <div className='flex flex-col h-screen w-screen pl-[240px] pr-10'>
             <AsideForm/>
@@ -15,6 +16,7 @@ const ViewEmotionAnalysisPage = () => {
                 <EmotionAnalysisGraph/>
                 <EmotionAnalysisBoard/>
             </div>
+            <GuardianModeModalForm isGuardian={isGuardian} setIsGuardian={setIsGuardian} isWardSetting={isWardSetting}/>
         </div>
     );
 };

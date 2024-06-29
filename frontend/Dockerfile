@@ -4,6 +4,7 @@ FROM node:20-alpine
 # 컨테이터 내부 현 디렉토리를 frontend로 설정
 WORKDIR /frontend
 
+# /frontend/node_modules/.bin 디렉토리를 PATH 환경 변수에 추가
 ENV PATH /frontend/node_modules/.bin:$PATH
 
 # package.json을 복사 (dependencies를 설치하기 위함)
