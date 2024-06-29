@@ -16,16 +16,23 @@ public class UserJoinService {
 
     public void join(UserJoinRequest userJoinRequest){
 
-        //userEmail 중복 체크
+        //email 중복 체크
         userRepository.findByEmail(userJoinRequest.getEmail())
                 .ifPresent(user -> {
                     throw new AppException(ErrorCode.USEREMAIL_DUPLICATED, userJoinRequest.getEmail() + "는 이미 있습니다.");
+                });
+
+        //phoneNumber 중복 체크
+        userRepository.findByPhoneNumber(userJoinRequest.getPhoneNumber())
+                .ifPresent(user -> {
+                    throw new AppException(ErrorCode.PHONENUMBER_DUPLICATED, userJoinRequest.getPhoneNumber() + "는 이미 있습니다.");
                 });
 
         //DB에 저장
         userRepository.save(User.builder()
                 .email(userJoinRequest.getEmail())
                 .password(encoder.encode(userJoinRequest.getPassword())) //비밀번호 암호화
+                .phoneNumber(userJoinRequest.getPhoneNumber())
                 .build());
     }
 }

@@ -13,6 +13,8 @@ import org.springframework.http.HttpStatus;
 public enum ErrorCode {
     //회원가입-이메일(아이디) 중복
     USEREMAIL_DUPLICATED(HttpStatus.CONFLICT, ""), //HttpStatus.CONFLICT: HTTP 409 상태 코드. 리소스 충돌
+    //회원가입-전화번호 중복
+    PHONENUMBER_DUPLICATED(HttpStatus.CONFLICT, ""), //HttpStatus.CONFLICT: HTTP 409 상태 코드. 리소스 충돌
     //로그인-이메일(아이디) 없음
     USEREMAIL_NOT_FOUND(HttpStatus.NOT_FOUND, ""), //HttpStatus.NOT_FOUND: HTTP 404 상태 코드. 찾을 수 없음
     //로그인-비밀번호 틀림
