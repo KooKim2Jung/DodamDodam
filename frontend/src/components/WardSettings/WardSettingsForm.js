@@ -20,20 +20,19 @@ const WardSettingsForm = ({ isEdit, setIsEdit, wardInfo, setWardInfo, editWardSe
     const photoUpdate = (e) => {
         if (e.target.files[0]) {
             const file = e.target.files[0];
+            
+            // 미리보기 URL 설정
+            const previewURL = URL.createObjectURL(file);
+            setPreviewUrl(previewURL);
+
             setWardInfo((prevState) => ({
                 ...prevState,
                 photo: file,
             }));
             setPhotoUpdated(true);
 
-            // 미리보기 URL 생성
-            const reader = new FileReader();
-            reader.onloadend = () => {
-                // 파일 읽기가 완료되면 미리보기 URL을 상태로 설정
-                setPreviewUrl(reader.result);
-            };
-            reader.readAsDataURL(file);
-            // 파일을 데이터 URL 형식으로 읽음
+            // 기존 URL 객체 해제
+            return () => URL.revokeObjectURL(previewURL);
         }
     };
 
@@ -42,7 +41,7 @@ const WardSettingsForm = ({ isEdit, setIsEdit, wardInfo, setWardInfo, editWardSe
             <><div className='flex-col justify-start absolute top-[140px] left-[460px] text-3xl'>
                 <div className='flex mb-5'>
                     <label htmlFor='file'>
-                        <img className='w-[140px] h-[150px] drop-shadow-[2px_3px_1px_#c0c0c0]' src={previewUrl || 'https://dodambuket.s3.ap-northeast-2.amazonaws.com/%ED%94%84%EB%A1%9C%ED%95%84%EA%B8%B0%EB%B3%B8%EC%9D%B4%EB%AF%B8%EC%A7%80.png'}/>
+                        <img className='w-[140px] h-[150px] drop-shadow-[2px_3px_1px_#c0c0c0]' src={previewUrl || wardInfo.photo}/>
                         <img className='w-10 h-8 z-30 absolute top-[65px] left-[50px]' src='./image/camera.png'/>
                     </label>
                     <input className='hidden' id='file' type='file' name='image' onChange={photoUpdate} />
