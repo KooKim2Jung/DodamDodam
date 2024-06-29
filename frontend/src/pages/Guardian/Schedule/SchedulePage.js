@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import AsideForm from '../../../components/Aside/AsideForm';
-import ScheduleForm from '../../../components/Schedule/ScheduleForm';
-import GuardianModeModalForm from '../../../components/Guardian/GuardianModeModalForm';
+import AsideForm from '../../../components/section/aside/AsideForm';
+import ScheduleForm from '../../../components/guardian/schedule/ScheduleForm';
+import GuardianModeModalForm from '../../../components/guardian/GuardianModeModalForm';
 
 const SchedulePage = ({ isGuardian, setIsGuardian, isWardSetting }) => {
     const [items, setItems] = useState([]);

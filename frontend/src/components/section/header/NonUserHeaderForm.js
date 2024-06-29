@@ -1,5 +1,5 @@
 import React from 'react';
-import '../Wave.css';
+import '../../Wave.css';
 
 const NonUserHeaderForm = () => {
     return (

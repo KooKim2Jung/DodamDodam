@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import FooterForm from '../Footer/FooterForm';
+import FooterForm from '../section/footer/FooterForm';
 
 const DetailForm = ({ title, description, icon, left_link, right_link, hideLeftTriangle, hideRightTriangle }) => {
 

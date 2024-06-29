@@ -1,5 +1,5 @@
 import React from 'react';
-import FooterForm from '../../../components/Footer/FooterForm';
+import FooterForm from '../../../components/section/footer/FooterForm';
 
 const features = [
     {

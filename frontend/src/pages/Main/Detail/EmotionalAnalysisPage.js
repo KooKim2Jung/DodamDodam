@@ -1,6 +1,6 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
-import DetailForm from '../../../components/Detail/DetailForm';
+import DetailForm from '../../../components/detail/DetailForm';
 
 const EmotionalAnalysisPage = () => {
     const location = useLocation();

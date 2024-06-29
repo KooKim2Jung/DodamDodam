@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import api from '../../services/Api';
-import SignupForm from '../../components/Signup/SignupForm';
-import SignupCheck from '../../components/Signup/SignupCheck';
+import api from '../../../services/Api';
+import SignupForm from '../../../components/user/signup/SignupForm';
+import SignupCheck from '../../../components/user/signup/SignupCheck';
 
 const SignupPage = () => {
     const [welcomeUser, setWelcomeUser] = useState({

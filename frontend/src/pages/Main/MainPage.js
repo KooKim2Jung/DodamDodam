@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import FooterForm from '../../components/Footer/FooterForm';
+import FooterForm from '../../components/section/footer/FooterForm';
 
 const MainPage = () => {
     const navigate = useNavigate();

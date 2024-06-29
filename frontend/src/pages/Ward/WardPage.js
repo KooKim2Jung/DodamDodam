@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import SpeechToText from '../../components/Ward/SpeechToText';
+import SpeechToText from '../../components/ward/SpeechToText';
 
 const WardPage = ({ setIsGuardian }) => {
     useEffect(() => {
