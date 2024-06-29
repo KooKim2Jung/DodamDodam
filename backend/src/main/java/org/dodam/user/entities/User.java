@@ -20,4 +20,6 @@ public class User {
     private String email; //아이디(이메일)
     @Column(nullable = false)
     private String password; //비밀번호
+    @Column(nullable = false, unique = true)
+    private String phoneNumber; // 전화번호
 }

@@ -1,6 +1,7 @@
 package org.dodam.user.controllers;
 
 import io.swagger.v3.oas.annotations.Operation;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.dodam.user.models.UserJoinRequest;
 import org.dodam.user.models.UserJoinService;
@@ -11,6 +12,7 @@ import org.dodam.user.models.UserPasswordCheckRequest;
 import org.dodam.user.utils.JwtTokenUtil;
 import org.springframework.http.ResponseEntity;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -35,7 +37,14 @@ public class UserController {
 
     @Operation(summary = "회원가입")
     @PostMapping("/join")
-    public ResponseEntity<String> join(@RequestBody UserJoinRequest userJoinRequest){
+    public ResponseEntity<String> join(@Valid @RequestBody UserJoinRequest userJoinRequest, BindingResult bindingResult){ //BindingResult:컨트롤러 메서드의 파라미터로 선언하면 자동으로 이를 주입하고 유효성 검사 결과를 처리
+        if (bindingResult.hasErrors()) {
+            // 유효성 검사 오류 메시지를 반환
+            StringBuilder sb = new StringBuilder();
+            bindingResult.getAllErrors().forEach(error -> sb.append(error.getDefaultMessage()).append("\n"));
+            return ResponseEntity.badRequest().body(sb.toString().trim());
+        }
+
         userJoinService.join(userJoinRequest);
         return ResponseEntity.ok().body("회원가입이 성공했습니다.");
     }
