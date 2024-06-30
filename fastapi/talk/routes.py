@@ -11,19 +11,15 @@ access_token = os.getenv("ACCESS_TOKEN")
 refresh_token = os.getenv("REFRESH_TOKEN")
 kakao_api_key = os.getenv("KAKAO_API_KEY")
 redirect_uri = os.getenv("REDIRECT_URI")
-authorize_code = "k6Tx3g_wTHPTYIU9U0XF2vSnU3iCKcc9DrWZCjbSpuf7aM4rvw-eLwAAAAQKKwzUAAABkGgw2YjmTYKY7N6ACw"
+authorize_code = "RRHTWsqA81wkfe-GvYErL3q7Z1GNA3txZkt4gp9E4Fm8AYZkJuJ39wAAAAQKPXWaAAABkGm1FXhDz1szkZmFRA"
 
 
-# @router.get("/authorize")
-# async def authorize():
-#     url = (
-#         f"https://kauth.kakao.com/oauth/authorize"
-#         f"?response_type=code"
-#         f"&client_id={kakao_api_key}"
-#         f"&redirect_uri={redirect_uri}"
-#         f"&scope=talk_message,friends"
-#     )
-#     return RedirectResponse(url)
+@router.get("/authorize")
+async def authorize():
+    url = (
+        f"https://kauth.kakao.com/oauth/authorize?response_type=code&client_id={kakao_api_key}&redirect_uri={redirect_uri}&scope=talk_message,friends"
+    )
+    return RedirectResponse(url)
 
 @router.get("/token")
 async def get_token():
@@ -47,7 +43,7 @@ async def get_token():
         return response.json()
 
 @router.get("/friend")
-async def get_profile():
+async def get_friend():
     url = "https://kapi.kakao.com/v1/api/talk/friends"
     headers = {
         "Authorization": f"Bearer {access_token}"
@@ -69,10 +65,10 @@ async def send_message():
         "Authorization": f"Bearer {access_token}"
     }
     data = {
-        "receiver_uuids": json.dumps(["uom-iriLvYq5laSTo5elkKKWuou7grqCtYTj"]),
+        "receiver_uuids": json.dumps(["uom-iriLvYq5laSTo5elkKKWuou7grqCtYTj", "uo6_irqDu4y_k6GVppKll6GRqYW0hL2FvYq7yg"]),#순서: 진우, 대윤
         "template_object": json.dumps({
             "object_type": "text",
-            "text": "테스트중",
+            "text": "테스트중입니다",
             "link": {
                 "web_url": "https://developers.kakao.com",
                 "mobile_web_url": "https://developers.kakao.com"
