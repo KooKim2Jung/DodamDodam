@@ -9,6 +9,7 @@ const SignupPage = () => {
         email: '',
         password: '',
         passwordCheck: '',
+        phoneNumber: '',
     })
     const navigate = useNavigate();
 
@@ -19,15 +20,19 @@ const SignupPage = () => {
 
         let isValid = true;
         if (!welcomeUser.email) {
-            setErrorMessage('이메일을 입력해주세요.')
+            setErrorMessage('이메일을 입력해 주세요.')
             isValid = false;
         }
         if (welcomeUser.email && !welcomeUser.password) {
-            setErrorMessage('비밀번호를 입력해주세요.')
+            setErrorMessage('비밀번호를 입력해 주세요.')
             isValid = false;
         }
         if (welcomeUser.password !== welcomeUser.passwordCheck) {
-            setErrorMessage('비밀번호를 확인해주세요.')
+            setErrorMessage('비밀번호를 확인해 주세요.')
+            isValid = false;
+        } 
+        if (welcomeUser.email && welcomeUser.password === welcomeUser.passwordCheck && !welcomeUser.phoneNumber) {
+            setErrorMessage('전화번호를 입력해 주세요.')
             isValid = false;
         } 
         return isValid;

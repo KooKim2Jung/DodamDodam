@@ -11,7 +11,7 @@ const SignupForm = ({welcomeUser, setWelcomeUser}) => {
     return (
         <div>
             <input className='input-box'
-                type="email"
+                type="text"
                 name='email'
                 value={welcomeUser.email}
                 placeholder='이메일'
@@ -29,6 +29,13 @@ const SignupForm = ({welcomeUser, setWelcomeUser}) => {
                 name='passwordCheck'
                 value={welcomeUser.passwordCheck}
                 placeholder='비밀번호 확인'
+                onChange={submitWelcomeUser}
+            />
+            <input className='input-box'
+                type="number"
+                name='phoneNumber'
+                value={welcomeUser.phoneNumber}
+                placeholder='전화번호 (-제외)'
                 onChange={submitWelcomeUser}
             />
         </div>
