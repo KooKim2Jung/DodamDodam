@@ -50,7 +50,7 @@ out/
 
 .env
 
-resources/
+/backend/src/main/resources/application.properties
 
 
 ### PyCharm ###
