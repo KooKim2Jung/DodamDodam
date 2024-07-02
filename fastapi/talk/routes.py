@@ -11,8 +11,12 @@ access_token = os.getenv("ACCESS_TOKEN")
 refresh_token = os.getenv("REFRESH_TOKEN")
 kakao_api_key = os.getenv("KAKAO_API_KEY")
 redirect_uri = os.getenv("REDIRECT_URI")
-authorize_code = "RRHTWsqA81wkfe-GvYErL3q7Z1GNA3txZkt4gp9E4Fm8AYZkJuJ39wAAAAQKPXWaAAABkGm1FXhDz1szkZmFRA"
+authorize_code = "8I33IevZnOerhGajXJWOKULXySKuT_qfnRiHNt9P-nhBvLUX1Ir_9QAAAAQKPXPsAAABkHRSufb-oZq-Jypvmw"
 
+#uuid 안바뀜 but 팀원이 토큰을 발급받아야 보낼 수 있음
+#카톡 보내기 전에 준비 과정
+#1. 리프레시 토큰으로 엑세스 토큰 새로 발급받기
+#2. 팀원들이 각자 디벨로퍼스 사이트에서 토큰 발급받기 -> https://developers.kakao.com/tool/rest-api/open/get/v1-api-talk-friends
 
 @router.get("/authorize")
 async def authorize():
@@ -66,6 +70,8 @@ async def send_message():
     }
     data = {
         "receiver_uuids": json.dumps(["uom-iriLvYq5laSTo5elkKKWuou7grqCtYTj", "uo6_irqDu4y_k6GVppKll6GRqYW0hL2FvYq7yg"]),#순서: 진우, 대윤
+        #"receiver_uuids": json.dumps(["uom-iriLvYq5laSTo5elkKKWuou7grqCtYTj"]),  # 진우
+        #"receiver_uuids": json.dumps(["uo6_irqDu4y_k6GVppKll6GRqYW0hL2FvYq7yg"]),  # 대윤
         "template_object": json.dumps({
             "object_type": "text",
             "text": "테스트중입니다",
@@ -86,3 +92,26 @@ async def send_message():
             raise HTTPException(status_code=response.status_code, detail=f"Failed to send message: {response.text}")
 
         return response.json()
+
+@router.get("/refresh")
+async def refresh_access_token():
+    url = "https://kauth.kakao.com/oauth/token"
+    headers = {
+        "Content-Type": "application/x-www-form-urlencoded"
+    }
+    data = {
+        "grant_type": "refresh_token",
+        "client_id": kakao_api_key,
+        "refresh_token": refresh_token
+    }
+
+    async with httpx.AsyncClient() as client:
+        response = await client.post(url, headers=headers, data=data)
+
+        if response.status_code != 200:
+            raise HTTPException(status_code=response.status_code, detail="Failed to refresh token")
+
+        new_tokens = response.json()
+
+        return new_tokens
+
