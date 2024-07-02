@@ -18,7 +18,7 @@ const FooterForm = () => {
                 <img className='relative size-8' style={imageLocation()} src="./image/flower.png"/>
                 <a href="/"><div className='bg-secondary border-black border-[1.5px] h-4 w-4 mr-4 rounded-full'></div></a>
                 <a href="/AboutPage"><div className='bg-secondary border-black border-[1.5px] h-4 w-4 mr-4 rounded-full'></div></a>
-                <a href="/EmotionalAnalysisPage"><div className='bg-secondary border-black border-[1.5px] h-4 w-4 mr-4 rounded-full'></div></a>
+                <a href="/DetailPage"><div className='bg-secondary border-black border-[1.5px] h-4 w-4 mr-4 rounded-full'></div></a>
             </div>
         </footer>
     );
