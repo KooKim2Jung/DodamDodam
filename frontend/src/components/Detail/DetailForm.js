@@ -1,5 +1,4 @@
 import { Link } from 'react-router-dom';
-import FooterForm from '../section/footer/FooterForm';
 
 const DetailForm = ({ title, description, icon, left_link, right_link, hideLeftTriangle, hideRightTriangle }) => {
 
@@ -24,7 +23,6 @@ const DetailForm = ({ title, description, icon, left_link, right_link, hideLeftT
                     border-b-[30px] border-b-transparent border-l-[40px] border-l-[#FEEBA4] 
                     -top-[240px] left-[690px] ${hideRightTriangle ? 'visibility-hidden' : 'visibility-visible'}`}></div>
             </Link>
-            <FooterForm/> 
         </div>
     );
 };
