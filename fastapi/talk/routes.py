@@ -1,9 +1,15 @@
-from fastapi import FastAPI, HTTPException, APIRouter
+from fastapi import FastAPI, HTTPException, APIRouter, Depends
 from fastapi.responses import RedirectResponse
+from urllib.parse import urlencode
+from mysql_connection import get_db
+from sqlalchemy.orm import Session
+from datetime import datetime, timedelta
+from .models import Token
 import httpx
 import os
 import json
-from urllib.parse import urlencode
+import pytz
+
 
 router = APIRouter(prefix="/api/v1/talk")
 
@@ -12,22 +18,18 @@ refresh_token = os.getenv("REFRESH_TOKEN")
 kakao_api_key = os.getenv("KAKAO_API_KEY")
 redirect_uri = os.getenv("REDIRECT_URI")
 admin_key = os.getenv("ADMIN_KEY")
-authorize_code = "8I33IevZnOerhGajXJWOKULXySKuT_qfnRiHNt9P-nhBvLUX1Ir_9QAAAAQKPXPsAAABkHRSufb-oZq-Jypvmw"
+
+# 한국 시간대 설정
+korea_timezone = pytz.timezone('Asia/Seoul')
+now_korea = datetime.utcnow().replace(tzinfo=pytz.utc).astimezone(korea_timezone)
 
 #uuid 안바뀜 but 팀원이 토큰을 발급받아야 보낼 수 있음
 #카톡 보내기 전에 준비 과정
 #1. 리프레시 토큰으로 엑세스 토큰 새로 발급받기
 #2. 팀원들이 각자 디벨로퍼스 사이트에서 토큰 발급받기 -> https://developers.kakao.com/tool/rest-api/open/get/v1-api-talk-friends
 
-@router.get("/authorize")
-async def authorize():
-    url = (
-        f"https://kauth.kakao.com/oauth/authorize?response_type=code&client_id={kakao_api_key}&redirect_uri={redirect_uri}&scope=talk_message,friends"
-    )
-    return RedirectResponse(url)
-
 @router.get("/token")
-async def get_token():
+async def get_token(authorize_code: str, db: Session = Depends(get_db)):
     url = "https://kauth.kakao.com/oauth/token"
     headers = {
         "Content-Type": "application/x-www-form-urlencoded"
@@ -45,7 +47,37 @@ async def get_token():
         if response.status_code != 200:
             raise HTTPException(status_code=response.status_code, detail="Failed to fetch token")
 
-        return response.json()
+        #응답으로 받은 토큰을 데이터베이스에 저장
+        token_data = response.json()
+        access_token = token_data.get("access_token")
+        refresh_token = token_data.get("refresh_token")
+
+        if not access_token or not refresh_token:
+            raise HTTPException(status_code=400, detail="Invalid token response")
+
+        access_token_expires_at = now_korea + timedelta(seconds=21599)
+        refresh_token_expires_at = now_korea + timedelta(seconds=5183999)
+
+        token = db.query(Token).filter(Token.id == 1).first()
+
+        if token:
+            token.access_token = access_token
+            token.refresh_token = refresh_token
+            token.access_token_expires_at = access_token_expires_at
+            token.refresh_token_expires_at = refresh_token_expires_at
+        else:
+            token = Token(
+                access_token=access_token,
+                refresh_token=refresh_token,
+                access_token_expires_at=access_token_expires_at,
+                refresh_token_expires_at=refresh_token_expires_at
+            )
+            db.add(token)
+
+        db.commit()
+        db.refresh(token)
+
+        return token_data
 
 #사용자 정보 가져오기
 @router.get("/profile")
