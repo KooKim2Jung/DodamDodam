@@ -8,10 +8,7 @@ import UserHeaderForm from './components/section/header/UserHeaderForm';
 import NonUserHeaderForm from './components/section/header/NonUserHeaderForm';
 import MainPage from './pages/main/MainPage';
 import AboutPage from './pages/main/about/AboutPage';
-import EmotionalAnalysisPage from './pages/main/detail/EmotionalAnalysisPage';
-import ConversationSummaryPage from './pages/main/detail/ConversationSummaryPage';
-import SchedulingPage from './pages/main/detail/SchedulingPage';
-import SettingsPage from './pages/main/detail/SettingsPage';
+import DetailPage from './pages/main/detail/DetailPage';
 import ViewConversationPage from './pages/guardian/viewConversation/ViewConversationPage';
 import ViewEmotionAnalysisPage from './pages/guardian/viewEmotionAnalysis/ViewEmotionAnalysisPage';
 import SchedulePage from './pages/guardian/schedule/SchedulePage';
@@ -40,13 +37,10 @@ function App() {
         <Routes>
           <Route path="/AboutPage" element={<AboutPage/>}/>
           <Route path="/" element={<MainPage/>}/>
+          <Route path='/DetailPage' element={<DetailPage/>}/>
           <Route path="/LoginPage" element={<LoginPage setIsLoggedIn={setIsLoggedIn} setIsEdit={setIsEdit} setIsWardSetting={setIsWardSetting}/>}/>
           <Route path="/SignupPage" element={<SignupPage/>}/>
           <Route path="/WardPage" element={<WardPage setIsGuardian={setIsGuardian}/>}/>
-          <Route path="/ConversationSummaryPage" element={<ConversationSummaryPage/>}/>
-          <Route path="/EmotionalAnalysisPage" element={<EmotionalAnalysisPage/>}/>
-          <Route path="/SchedulingPage" element={<SchedulingPage/>}/>
-          <Route path="/SettingsPage" element={<SettingsPage/>}/>
           <Route path="/ViewConversationPage" element={<ViewConversationPage isGuardian={isGuardian} setIsGuardian={setIsGuardian} isWardSetting={isWardSetting}/>}/>
           <Route path="/ViewEmotionAnalysisPage" element={<ViewEmotionAnalysisPage isGuardian={isGuardian} setIsGuardian={setIsGuardian} isWardSetting={isWardSetting}/>}/>
           <Route path='/SchedulePage' element={<SchedulePage isGuardian={isGuardian} setIsGuardian={setIsGuardian} isWardSetting={isWardSetting}/>}/>
