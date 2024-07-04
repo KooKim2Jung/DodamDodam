@@ -5,6 +5,7 @@ from mysql_connection import get_db
 from sqlalchemy.orm import Session
 from datetime import datetime, timedelta
 from .models import Token
+from .services import  get_access_token, get_refresh_token
 import httpx
 import os
 import json
@@ -13,8 +14,6 @@ import pytz
 
 router = APIRouter(prefix="/api/v1/talk")
 
-access_token = os.getenv("ACCESS_TOKEN")
-refresh_token = os.getenv("REFRESH_TOKEN")
 kakao_api_key = os.getenv("KAKAO_API_KEY")
 redirect_uri = os.getenv("REDIRECT_URI")
 admin_key = os.getenv("ADMIN_KEY")
@@ -22,11 +21,6 @@ admin_key = os.getenv("ADMIN_KEY")
 # 한국 시간대 설정
 korea_timezone = pytz.timezone('Asia/Seoul')
 now_korea = datetime.utcnow().replace(tzinfo=pytz.utc).astimezone(korea_timezone)
-
-#uuid 안바뀜 but 팀원이 토큰을 발급받아야 보낼 수 있음
-#카톡 보내기 전에 준비 과정
-#1. 리프레시 토큰으로 엑세스 토큰 새로 발급받기
-#2. 팀원들이 각자 디벨로퍼스 사이트에서 토큰 발급받기 -> https://developers.kakao.com/tool/rest-api/open/get/v1-api-talk-friends
 
 @router.get("/token")
 async def get_token(authorize_code: str, db: Session = Depends(get_db)):
@@ -79,45 +73,47 @@ async def get_token(authorize_code: str, db: Session = Depends(get_db)):
 
         return token_data
 
-#사용자 정보 가져오기
-@router.get("/profile")
-async def get_user_profile():
-    url = "https://kapi.kakao.com/v2/user/me"
-    headers = {
-        "Authorization": f"Bearer {access_token}"
-    }
-
-    async with httpx.AsyncClient() as client:
-        response = await client.get(url, headers=headers)
-
-        if response.status_code != 200:
-            raise HTTPException(status_code=response.status_code, detail=f"Failed to fetch profile: {response.text}")
-
-        return response.json()
-
-#여러 사용자 정보 가져오기
-@router.get("/users")
-async def get_app_users():
-    url = "https://kapi.kakao.com/v2/app/users"
-    headers = {
-        "Authorization": f"KakaoAK {admin_key}"
-    }
-    params = {
-        "target_id_type": "user_id",
-        "target_ids": json.dumps([3601528360, 3602805925, 3606070861, 3602260771])  # JSON 문자열로 변환
-    }
-
-    async with httpx.AsyncClient() as client:
-        response = await client.get(url, headers=headers, params=params)
-
-        if response.status_code != 200:
-            raise HTTPException(status_code=response.status_code, detail=f"Failed to fetch app users: {response.text}")
-
-        return response.json()
+# #사용자 정보 가져오기
+# @router.get("/profile")
+# async def get_user_profile(db: Session = Depends(get_db)):
+#     access_token = get_access_token(db)
+#     url = "https://kapi.kakao.com/v2/user/me"
+#     headers = {
+#         "Authorization": f"Bearer {access_token}"
+#     }
+#
+#     async with httpx.AsyncClient() as client:
+#         response = await client.get(url, headers=headers)
+#
+#         if response.status_code != 200:
+#             raise HTTPException(status_code=response.status_code, detail=f"Failed to fetch profile: {response.text}")
+#
+#         return response.json()
+#
+# #여러 사용자 정보 가져오기
+# @router.get("/users")
+# async def get_app_users():
+#     url = "https://kapi.kakao.com/v2/app/users"
+#     headers = {
+#         "Authorization": f"KakaoAK {admin_key}"
+#     }
+#     params = {
+#         "target_id_type": "user_id",
+#         "target_ids": json.dumps([3601528360, 3602805925, 3606070861, 3602260771])  # JSON 문자열로 변환
+#     }
+#
+#     async with httpx.AsyncClient() as client:
+#         response = await client.get(url, headers=headers, params=params)
+#
+#         if response.status_code != 200:
+#             raise HTTPException(status_code=response.status_code, detail=f"Failed to fetch app users: {response.text}")
+#
+#         return response.json()
 
 #친구 목록
 @router.get("/friend")
-async def get_friend():
+async def get_friend(db: Session = Depends(get_db)):
+    access_token = get_access_token(db)
     url = "https://kapi.kakao.com/v1/api/talk/friends"
     headers = {
         "Authorization": f"Bearer {access_token}"
@@ -132,7 +128,8 @@ async def get_friend():
         return response.json()
 
 @router.post("/send")
-async def send_message():
+async def send_message(db: Session = Depends(get_db)):
+    access_token = get_access_token(db)
     url = "https://kapi.kakao.com/v1/api/talk/friends/message/default/send"
     headers = {
         "Content-Type": "application/x-www-form-urlencoded",
@@ -145,7 +142,7 @@ async def send_message():
         # "receiver_uuids": json.dumps(["uo62j72Iu46ikaOSqp2tm6OXu4q6g7uDtIXq"]),  # 가은
         "template_object": json.dumps({
             "object_type": "text",
-            "text": "테스트중입니다",
+            "text": "테스트입니다",
             "link": {
                 "web_url": "https://developers.kakao.com",
                 "mobile_web_url": "https://developers.kakao.com"
@@ -165,7 +162,8 @@ async def send_message():
         return response.json()
 
 @router.get("/refresh")
-async def refresh_access_token():
+async def refresh_access_token(db: Session = Depends(get_db)):
+    refresh_token = get_refresh_token(db)
     url = "https://kauth.kakao.com/oauth/token"
     headers = {
         "Content-Type": "application/x-www-form-urlencoded"
@@ -183,6 +181,14 @@ async def refresh_access_token():
             raise HTTPException(status_code=response.status_code, detail="Failed to refresh token")
 
         new_tokens = response.json()
+
+        # 데이터베이스 access_token 업데이트
+        if new_tokens.get("access_token"):
+            new_access_token = new_tokens.get("access_token")
+            token = db.query(Token).filter(Token.id == 1).first()
+            token.access_token = new_access_token
+            token.access_token_expires_at = now_korea + timedelta(seconds=21599)
+            db.commit()
 
         return new_tokens
 
