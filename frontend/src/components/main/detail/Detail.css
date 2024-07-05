@@ -1,8 +1,8 @@
-.swiper {
-    margin-top: 30px;
+.detailSwiper {
+    margin-top: 60px;
 }
 
-.swiper-slide {
+.detailSwiper .swiper-slide {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -18,7 +18,7 @@
     background-image: none;
 }
 
-.swiper-button-prev {
+.detailSwiper .swiper-button-prev {
     position: absolute;
     left: 265px;
     width: 0;
@@ -29,7 +29,7 @@
     cursor: pointer;
 }
 
-.swiper-button-next {
+.detailSwiper .swiper-button-next {
     position: absolute;
     right: 260px;
     width: 0;
@@ -40,12 +40,13 @@
     cursor: pointer;
 }
 
-.swiper-button-next:hover, .swiper-button-prev:hover {
+.detailSwiper .swiper-button-next:hover, 
+.detailSwiper .swiper-button-prev:hover {
     transform: scale(1.2);
     transition: 0.3s;
 }
 
-.swiper-button-next::after,
-.swiper-button-prev::after {
+.detailSwiper .swiper-button-next::after,
+.detailSwiper .swiper-button-prev::after {
   display: none;
 }

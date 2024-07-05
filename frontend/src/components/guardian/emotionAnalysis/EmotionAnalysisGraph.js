@@ -5,17 +5,17 @@ const EmotionAnalysisGraph = () => {
         <div className='flex justify-center items-end mt-3 mb-9'>
         {/*happy*/}
         <div className='mx-2'>
-            <img className='w-[100px]' src='./image/dodam_happy.png'/>
+            <img className='w-[100px]' src='./images/dodam_happy.png'/>
             <div className='bg-secondary w-13 h-[220px] mx-5'></div>
         </div>
         {/*hurt*/}
         <div className='mx-2'>
-            <img className='w-[100px]' src='./image/dodam_hurt.png'/>
+            <img className='w-[100px]' src='./images/dodam_hurt.png'/>
             <div className='bg-secondary w-13 h-[80px] mx-5'></div>
         </div>
         {/*sad*/}
         <div className='mx-2'>
-            <img className='w-[100px]' src='./image/dodam_sad.png'/>
+            <img className='w-[100px]' src='./images/dodam_sad.png'/>
             <div className='bg-secondary w-13 h-[80px] mx-5'></div>
         </div>
        
