@@ -5,7 +5,7 @@ const Settings = () => {
     return (
         <div className='Settings'> 
             <DetailForm 
-                icon='./image/setting.png'
+                icon='./images/setting.png'
                 title='맞춤 설정'
                 description='피보호자의 정보를 입력해서 맞춤 서비스를 제공받을 수 있어요.'
             />

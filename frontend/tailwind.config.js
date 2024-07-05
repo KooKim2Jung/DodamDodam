@@ -24,8 +24,8 @@ module.exports = {
         'small-size': '1.2rem',
       },
       backgroundImage: {
-        'signup-image': "url(/public/image/dodam_signup.png)",
-        'basic-image': "url(/public/image/dodam_basic.png)"
+        'signup-image': "url(/public/images/dodam_signup.png)",
+        'basic-image': "url(/public/images/dodam_basic.png)",
       },
       backgroundSize: {
         'signup-image': '58%',

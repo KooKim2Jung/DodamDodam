@@ -7,27 +7,27 @@ const AsideForm = () => {
         { 
             title: "대화내용 보기", 
             url: "/ViewConversationPage",
-            image: "./image/speechbubble.png"
+            image: "./images/speechbubble.png"
         },
         { 
             title: "감정 분석 보기", 
             url: "/ViewEmotionAnalysisPage",
-            image: "./image/love.png"
+            image: "./images/love.png"
         },
         { 
             title: "스케줄 지정", 
             url: "/SchedulePage",
-            image: "./image/clock.png" 
+            image: "./images/clock.png" 
         },
         { 
             title: "도담이 설정", 
             url: "/DodamSettingsPage",
-            image: "./image/dodam_basic.png"
+            image: "./images/dodam_basic.png"
         },
         { 
             title: "피보호자 설정", 
             url: "/WardSettingsPage",
-            image: "./image/setting.png" 
+            image: "./images/setting.png" 
         }
     ];
 
@@ -35,9 +35,9 @@ const AsideForm = () => {
 
     const imageLocation = (features) => {
         if (location.pathname === features.url) {
-            return "./image/orange_star.png";
+            return "./images/orange_star.png";
         } else {
-            return "./image/star.png";
+            return "./images/star.png";
         }
     };
 

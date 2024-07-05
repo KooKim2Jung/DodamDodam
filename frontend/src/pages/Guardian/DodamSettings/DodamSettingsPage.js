@@ -54,7 +54,7 @@ const DodamSettingsPage = ({ isGuardian, setIsGuardian, isWardSetting }) => {
             <div className='pt-28 pl-5'>
                 <h2 className='text-3xl text-left'>도담이 목소리</h2>
                 <div className='flex justify-center relative -top-6'>
-                    <img className='relative h-64 w-60 m-10' src='./image/dodam_circle.png'/>
+                    <img className='relative h-64 w-60 m-10' src='./images/dodam_circle.png'/>
                 </div>
                 <div className="text-3xl relative -top-8">
                     <DodamVoiceForm voice={voice} setVoice={setVoice} voices={voices} />
