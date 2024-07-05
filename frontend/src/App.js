@@ -7,8 +7,6 @@ import WardPage from './pages/ward/WardPage';
 import UserHeaderForm from './components/section/header/UserHeaderForm';
 import NonUserHeaderForm from './components/section/header/NonUserHeaderForm';
 import MainPage from './pages/main/MainPage';
-import AboutPage from './pages/main/about/AboutPage';
-import DetailPage from './pages/main/detail/DetailPage';
 import ViewConversationPage from './pages/guardian/viewConversation/ViewConversationPage';
 import ViewEmotionAnalysisPage from './pages/guardian/viewEmotionAnalysis/ViewEmotionAnalysisPage';
 import SchedulePage from './pages/guardian/schedule/SchedulePage';
@@ -35,9 +33,7 @@ function App() {
       <BrowserRouter>
       {isLoggedIn ? <UserHeaderForm setIsLoggedIn={setIsLoggedIn} /> : <NonUserHeaderForm/>}
         <Routes>
-          <Route path="/AboutPage" element={<AboutPage/>}/>
           <Route path="/" element={<MainPage/>}/>
-          <Route path='/DetailPage' element={<DetailPage/>}/>
           <Route path="/LoginPage" element={<LoginPage setIsLoggedIn={setIsLoggedIn} setIsEdit={setIsEdit} setIsWardSetting={setIsWardSetting}/>}/>
           <Route path="/SignupPage" element={<SignupPage/>}/>
           <Route path="/WardPage" element={<WardPage setIsGuardian={setIsGuardian}/>}/>

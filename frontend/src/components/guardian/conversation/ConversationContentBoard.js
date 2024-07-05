@@ -20,7 +20,7 @@ const ConversationContentBoard = ({ conversation }) => {
             {isDodam && (
                     <div className="flex mr-2">
                         <img
-                            src="./image/dodam_circle.png"
+                            src="./images/dodam_circle.png"
                             alt="도담"
                             className="w-[90px] h-[98px] -mt-1"
                         />

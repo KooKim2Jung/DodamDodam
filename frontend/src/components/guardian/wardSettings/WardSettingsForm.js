@@ -42,7 +42,7 @@ const WardSettingsForm = ({ isEdit, setIsEdit, wardInfo, setWardInfo, editWardSe
                 <div className='flex mb-5'>
                     <label htmlFor='file'>
                         <img className='w-[140px] h-[150px] drop-shadow-[2px_3px_1px_#c0c0c0]' src={previewUrl || wardInfo.photo}/>
-                        <img className='w-10 h-8 z-30 absolute top-[65px] left-[50px]' src='./image/camera.png'/>
+                        <img className='w-10 h-8 z-30 absolute top-[65px] left-[50px]' src='./images/camera.png'/>
                     </label>
                     <input className='hidden' id='file' type='file' name='image' onChange={photoUpdate} />
                 </div>

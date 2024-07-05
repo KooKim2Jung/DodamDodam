@@ -157,7 +157,7 @@ const SpeechToText = () => {
         <div className='flex justify-center'>
             {isLoading && <Spinner />}
             {!isLoading && voiceUrl && (<div className='flex-col flex'>
-                <div className='flex justify-center mb-3'><img className='w-64' src='./image/dodam_basic.png'/></div>
+                <div className='flex justify-center mb-3'><img className='w-64' src='./images/dodam_basic.png'/></div>
                 <audio autoPlay controls ref={audioRef} src={voiceUrl}/></div>
             )}
             <textarea readOnly
