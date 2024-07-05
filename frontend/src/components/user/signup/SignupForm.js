@@ -25,13 +25,6 @@ const SignupForm = ({welcomeUser, setWelcomeUser}) => {
                 onChange={submitWelcomeUser}
             />
             <input className='input-box'
-                type="password"
-                name='passwordCheck'
-                value={welcomeUser.passwordCheck}
-                placeholder='비밀번호 확인'
-                onChange={submitWelcomeUser}
-            />
-            <input className='input-box'
                 type="number"
                 name='phoneNumber'
                 value={welcomeUser.phoneNumber}

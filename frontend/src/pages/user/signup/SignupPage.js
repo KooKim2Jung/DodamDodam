@@ -8,35 +8,11 @@ const SignupPage = () => {
     const [welcomeUser, setWelcomeUser] = useState({
         email: '',
         password: '',
-        passwordCheck: '',
         phoneNumber: '',
     })
     const navigate = useNavigate();
 
     const [errorMessage, setErrorMessage] = useState('')    
-
-    const validateForm = () => {
-        resetForm();
-
-        let isValid = true;
-        if (!welcomeUser.email) {
-            setErrorMessage('이메일을 입력해 주세요.')
-            isValid = false;
-        }
-        if (welcomeUser.email && !welcomeUser.password) {
-            setErrorMessage('비밀번호를 입력해 주세요.')
-            isValid = false;
-        }
-        if (welcomeUser.password !== welcomeUser.passwordCheck) {
-            setErrorMessage('비밀번호를 확인해 주세요.')
-            isValid = false;
-        } 
-        if (welcomeUser.email && welcomeUser.password === welcomeUser.passwordCheck && !welcomeUser.phoneNumber) {
-            setErrorMessage('전화번호를 입력해 주세요.')
-            isValid = false;
-        } 
-        return isValid;
-    }
 
     const resetForm = () => {
         setErrorMessage('');
@@ -53,30 +29,42 @@ const SignupPage = () => {
                 const response = await api.post('/v1/auth/join', {
                     email: welcomeUser.email,
                     password: welcomeUser.password,
+                    phoneNumber: welcomeUser.phoneNumber
                 });
-                console.log(response);
-                // 성공적인 응답 처리
+                alert(response.data.message);
                 handleLogin();
-
-            } catch (error) {
-                console.error("회원가입 요청 오류", error);
-                // 오류 메시지에서 에러 코드를 제외하고 사용자에게 보여줄 메시지만 설정
-                const errorMsg = error.response.data;
-                if (errorMsg.includes('USEREMAIL_DUPLICATED')) {
-                    setErrorMessage(errorMsg.replace('USEREMAIL_DUPLICATED', ''));
-                } 
-                else {
-                    setErrorMessage('회원가입 처리 중 오류가 발생했습니다. 다시 시도해주세요.');
-                }
+            } catch (signupError) {
+                console.log("회원가입 요청 오류", signupError);
+                const { message } = signupError.response.data;
+                setErrorMessage(message);
             }
         }
     };
 
+    const validateForm = () => {
+        resetForm();
+
+        let isValid = true;
+        if (!welcomeUser.email) {
+            setErrorMessage('이메일은 필수 입력 항목입니다.')
+            isValid = false;
+        } 
+        if (welcomeUser.email && !welcomeUser.password) {
+            setErrorMessage('비밀번호는 필수 입력 항목입니다.')
+            isValid = false;
+        }
+        if (welcomeUser.email && welcomeUser.password && !welcomeUser.phoneNumber) {
+            setErrorMessage('전화번호는 필수 입력 항목입니다.')
+            isValid = false;
+        }
+        return isValid;
+    }
+
     return (
         <form onSubmit={submitSignup}>
-            <div className='flex justify-center items-center bg-signup-image bg-contain bg-center bg-no-repeat mt-[120px] mb-[25px] 
+            <div className='flex justify-center items-center mt-[120px] mb-[25px] 
             w-[700px] h-[550px] rounded-[10px] shadow-[6px_4px_10px_#a5996e]'>
-                <div className='mt-[150px] w-[300px]'>
+                <div className=' w-[300px]'>
                     <h1 className='text-basic-size mt-2'>회원가입</h1>
                     <SignupForm welcomeUser={welcomeUser} setWelcomeUser={setWelcomeUser}/>
                     <SignupCheck errorMessage={errorMessage}/>
