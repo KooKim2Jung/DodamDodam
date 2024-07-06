@@ -95,11 +95,11 @@ const WardSettingsPage = ({ isEdit, setIsEdit, isWardSetting, setIsWardSetting, 
     };
 
     useEffect(() => {
-        console.log(isWardSetting);
-        if (isWardSetting === true) {
-            getWardSetting();
+        if (isWardSetting === false) {
+            setIsEdit(true);
         }
-    }, [isEdit]);
+        getWardSetting();
+    }, []);
 
     return (
         <div className='text-3xl'>
