@@ -74,10 +74,10 @@ const GuardianModeModalForm = ({ isGuardian, setIsGuardian, isWardSetting }) => 
             <form onSubmit={goGuardian}>
                 <div className='flex-col flex mt-8 text-3xl'>
                     <h2>비밀번호</h2>
-                    <input className='input-box mt-5 mx-20' type='password' value={guardianPassword} placeholder='비밀번호' onChange={inputGuardian}/>
+                    <input className='input-box mt-5 mx-20' type='password' value={guardianPassword} placeholder='비밀번호 (로그인 비밀번호)' onChange={inputGuardian}/>
                     <div className='flex justify-center'>
                         <div>
-                            <div className='text-small-size text-red-500 mb-6 w-80'>{errorMessage}</div>
+                            <div className='text-small-size mb-6 w-80'>{errorMessage}</div>
                             <div className='-mt-4'><button className='btn w-24' type='submit'>보호자 로그인</button></div>
                         </div>
                     </div>

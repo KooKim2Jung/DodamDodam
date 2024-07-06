@@ -24,11 +24,26 @@ module.exports = {
         'small-size': '1.2rem',
       },
       backgroundImage: {
-        'signup-image': "url(/public/images/dodam_signup.png)",
         'basic-image': "url(/public/images/dodam_basic.png)",
       },
-      backgroundSize: {
-        'signup-image': '58%',
+      animation: {
+        'translate-right-dodam': 'translateRightDodam 1s ease-in-out forwards',
+        'translate-left-dodam': 'translateLeftDodam 1s ease-in-out forwards',
+        'translate-dodam': 'translateDodam 1s ease-in-out forwards',
+      },
+      keyframes: {
+        translateRightDodam: {
+          '0%': { transform: 'translateX(0)' }, 
+          '100%': { transform: 'translateX(6rem)' }, 
+        },
+        translateLeftDodam: {
+          '0%': { transform: 'translateX(0)' }, 
+          '100%': { transform: 'translateX(-6rem)' }, 
+        },
+        translateDodam: {
+          '0%': { transform: 'translateY(0)' }, 
+          '100%': { transform: 'translateY(6rem)' }, 
+        },
       },
     },
   },

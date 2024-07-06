@@ -83,15 +83,18 @@ const LoginPage = ({ setIsLoggedIn, setIsEdit, setIsWardSetting }) => {
 
     return (
         <form onSubmit={submitLogin}>
-            <div className='flex items-center justify-center bg-primary mt-[120px] mb-[25px] w-[700px] h-[550px] rounded-[10px] shadow-[6px_4px_10px_#a5996e]'>
-                <div className='w-[205px] h-[235px] mr-8 bg-basic-image bg-center bg-no-repeat bg-[length:98%_97%]'></div>
-                <div className='w-[250px]'>
-                    <h1 className='text-basic-size mb-5'>로그인</h1>
-                    <LoginForm user={user} setUser={setUser}/>
-                    <div className='text-small-size mb-4 mt-2 text-gray-500'><a href="#">비밀번호를 잊으셨나요?</a></div>
-                    <LoginCheck errorMessage={errorMessage}/>
-                    <button className='btn' type='submit' >로그인하기</button>
-                    <button className='btn' type='button' onClick={handleSignup}>회원 가입하기</button>
+            <div className='flex items-center justify-center bg-primary mt-[120px] mb-[25px] 
+            w-[700px] h-[450px] rounded-[10px] shadow-[6px_4px_10px_#a5996e]'>
+                <div className='flex mx-10 pl-4'>
+                    <img src='/images/dodam_basic.png' className='w-[205px] h-[235px] relative top-[70px]'/>
+                    <div>
+                        <h1 className='text-basic-size'>로그인</h1>
+                        <LoginForm user={user} setUser={setUser}/>
+                        <div className='text-small-size mb-4 mt-2 text-gray-400'><a href="#">비밀번호를 잊으셨나요?</a></div>
+                        <LoginCheck errorMessage={errorMessage}/>
+                        <button className='btn' type='submit' >로그인하기</button>
+                        <button className='btn' type='button' onClick={handleSignup}>회원 가입하기</button>
+                    </div>
                 </div>
             </div>
         </form>

@@ -36,7 +36,8 @@ const SignupPage = () => {
             } catch (signupError) {
                 console.log("회원가입 요청 오류", signupError);
                 const { message } = signupError.response.data;
-                setErrorMessage(message);
+                const firstMessage = message.split('\n')[0]; 
+                setErrorMessage(firstMessage);
             }
         }
     };
@@ -62,10 +63,11 @@ const SignupPage = () => {
 
     return (
         <form onSubmit={submitSignup}>
-            <div className='flex justify-center items-center mt-[120px] mb-[25px] 
-            w-[700px] h-[550px] rounded-[10px] shadow-[6px_4px_10px_#a5996e]'>
-                <div className=' w-[300px]'>
-                    <h1 className='text-basic-size mt-2'>회원가입</h1>
+            <div className='relative flex justify-center items-center mt-[120px] mb-[25px] 
+            w-[560px] h-[680px] rounded-[10px] shadow-[6px_4px_10px_#a5996e]'>
+                <img src='/images/dodam_signup.png' className='w-[440px] h-[600px]'/>
+                <div className='absolute mt-40 w-[360px] z-10'>
+                    <h1 className='text-basic-size'>회원가입</h1>
                     <SignupForm welcomeUser={welcomeUser} setWelcomeUser={setWelcomeUser}/>
                     <SignupCheck errorMessage={errorMessage}/>
                     <button className='btn -mt-4' type='submit'>가입하기</button>
