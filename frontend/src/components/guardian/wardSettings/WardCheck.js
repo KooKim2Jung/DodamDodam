@@ -52,7 +52,7 @@ const WardCheck = ({isEdit, setIsEdit, wardInfo, errorMessage, setErrorMessage, 
 
     return (
         <div>
-            <button className='input-box2 absolute left-[650px] top-[635px] p-2 w-40 text-3xl' onClick={wardSetting}>{btn}</button>
+            <button className='input-box2 absolute left-44 p-2 w-40 text-3xl' onClick={wardSetting}>{btn}</button>
         </div>
     );
 };
