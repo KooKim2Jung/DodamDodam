@@ -12,7 +12,7 @@ const LoginForm = ({ user, setUser }) => {
     return (
         <div>
             <input className='input-box'
-                type="email"
+                type="text"
                 name='email'
                 value={user.email}
                 placeholder='이메일'

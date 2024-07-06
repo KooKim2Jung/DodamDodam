@@ -48,20 +48,20 @@ const WardSettingsForm = ({ isEdit, setIsEdit, wardInfo, setWardInfo, editWardSe
                 </div>
                 <div className='flex mb-5'>
                     <input className='p-2 border-2 input-box2' type='text' name='name' value={wardInfo.name} placeholder='이름을 입력해 주세요.' onChange={infoUpdate} />
-                    <h2 className='text-small-size w-72 flex items-center ml-3 text-red-500'>{errorMessage.name}</h2>
+                    <h2 className='text-small-size w-72 flex items-center ml-3'>{errorMessage.name}</h2>
                 </div>
                 <div className='flex mb-5'>
                     <label><input className='radio-box mr-2' type='radio' name='gender' value='여자' checked={wardInfo.gender === "여자"} onChange={infoUpdate} />여자</label>
                     <label><input className='radio-box mr-2 ml-5' type='radio' name='gender' value='남자' checked={wardInfo.gender === "남자"} onChange={infoUpdate} />남자</label>
-                    <h2 className='text-small-size w-72 flex items-center ml-3 text-red-500'>{errorMessage.gender}</h2>
+                    <h2 className='text-small-size w-72 flex items-center ml-3'>{errorMessage.gender}</h2>
                 </div>
                 <div className='flex mb-5'>
                     <input className='p-2 border-2 input-box2 w-20' type='number' name='age' value={wardInfo.age} placeholder='나이를 입력해 주세요.' onChange={infoUpdate} />
-                    <h2 className='text-small-size w-72 flex items-center ml-3 text-red-500'>{errorMessage.age}</h2>
+                    <h2 className='text-small-size w-72 flex items-center ml-3'>{errorMessage.age}</h2>
                 </div>
                 <div className='flex mb-5'>
                     <textarea className='p-2 border-2 mt-1 input-box2 w-[600px] h-[80px] resize-none' type='text' name='remark' value={wardInfo.remark} placeholder='특이사항을 입력해 주세요.' onChange={infoUpdate} />  
-                    <h2 className='text-small-size w-72 flex items-center ml-3 text-red-500'>{errorMessage.remark}</h2>
+                    <h2 className='text-small-size w-72 flex items-center ml-3'>{errorMessage.remark}</h2>
                 </div>
             </div>
             </> ) : 

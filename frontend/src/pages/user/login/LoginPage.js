@@ -36,17 +36,8 @@ const LoginPage = ({ setIsLoggedIn, setIsEdit, setIsWardSetting }) => {
                 checkWard();
             } catch (loginError) {
                 console.error("로그인 요청 오류", loginError);
-                // 오류 메시지에서 에러 코드를 제외하고 사용자에게 보여줄 메시지만 설정
-                const errorMsg = loginError.response?.data;
-                if (errorMsg.includes('USEREMAIL_NOT_FOUND')) {
-                    setErrorMessage(errorMsg.replace('USEREMAIL_NOT_FOUND', ''));
-                } 
-                else if (errorMsg.includes('INVALID_PASSWORD')) {
-                    setErrorMessage(errorMsg.replace('INVALID_PASSWORD', ''));
-                }
-                else {
-                    setErrorMessage('로그인 처리 중 오류가 발생했습니다. 다시 시도해주세요.');
-                }
+                const { message } = loginError.response.data;
+                setErrorMessage(message);
             }
         }
     };
@@ -92,15 +83,18 @@ const LoginPage = ({ setIsLoggedIn, setIsEdit, setIsWardSetting }) => {
 
     return (
         <form onSubmit={submitLogin}>
-            <div className='flex items-center justify-center bg-primary mt-[120px] mb-[25px] w-[700px] h-[550px] rounded-[10px] shadow-[6px_4px_10px_#a5996e]'>
-                <div className='w-[205px] h-[235px] mr-8 bg-basic-image bg-center bg-no-repeat bg-[length:98%_97%]'></div>
-                <div className='w-[300px]'>
-                    <h1 className='text-basic-size mb-5'>로그인</h1>
-                    <LoginForm user={user} setUser={setUser}/>
-                    <div className='text-small-size mb-4 mt-2 text-gray-500'><a href="#">비밀번호를 잊으셨나요?</a></div>
-                    <LoginCheck errorMessage={errorMessage}/>
-                    <button className='btn' type='submit' >로그인하기</button>
-                    <button className='btn' type='button' onClick={handleSignup}>회원 가입하기</button>
+            <div className='flex items-center justify-center bg-primary mt-[120px] mb-[25px] 
+            w-[700px] h-[450px] rounded-[10px] shadow-[6px_4px_10px_#a5996e]'>
+                <div className='flex mx-10 pl-4'>
+                    <img src='/images/dodam_basic.png' className='w-[205px] h-[235px] relative top-[70px]'/>
+                    <div>
+                        <h1 className='text-basic-size'>로그인</h1>
+                        <LoginForm user={user} setUser={setUser}/>
+                        <div className='text-small-size mb-4 mt-2 text-gray-400'><a href="#">비밀번호를 잊으셨나요?</a></div>
+                        <LoginCheck errorMessage={errorMessage}/>
+                        <button className='btn' type='submit' >로그인하기</button>
+                        <button className='btn' type='button' onClick={handleSignup}>회원 가입하기</button>
+                    </div>
                 </div>
             </div>
         </form>

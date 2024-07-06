@@ -11,7 +11,7 @@ const SignupForm = ({welcomeUser, setWelcomeUser}) => {
     return (
         <div>
             <input className='input-box'
-                type="email"
+                type="text"
                 name='email'
                 value={welcomeUser.email}
                 placeholder='이메일'
@@ -21,14 +21,14 @@ const SignupForm = ({welcomeUser, setWelcomeUser}) => {
                 type="password"
                 name='password'
                 value={welcomeUser.password}
-                placeholder='비밀번호'
+                placeholder='비밀번호 (8~16자 영문, 숫자, 특수문자)'
                 onChange={submitWelcomeUser}
             />
             <input className='input-box'
-                type="password"
-                name='passwordCheck'
-                value={welcomeUser.passwordCheck}
-                placeholder='비밀번호 확인'
+                type="number"
+                name='phoneNumber'
+                value={welcomeUser.phoneNumber}
+                placeholder='전화번호 (11자리, -제외)'
                 onChange={submitWelcomeUser}
             />
         </div>
