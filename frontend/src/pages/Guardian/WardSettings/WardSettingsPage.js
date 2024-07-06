@@ -95,6 +95,7 @@ const WardSettingsPage = ({ isEdit, setIsEdit, isWardSetting, setIsWardSetting, 
     };
 
     useEffect(() => {
+        console.log(isWardSetting);
         if (isWardSetting === true) {
             getWardSetting();
         }
