@@ -24,7 +24,7 @@ const UserHeaderForm = ({ setIsLoggedIn }) => {
             <ToggleForm/>
             <nav className='wave'>
                 <button className='relative text-middle-size pb-[5px] ml-[40px]' onClick={handleLogout}>로그아웃</button>
-                <button className='relative text-middle-size pb-[5px] ml-[40px]' href="#">내 정보</button>
+                {/* <button className='relative text-middle-size pb-[5px] ml-[40px]' href="#">내 정보</button> */}
             </nav>
         </header>
     );

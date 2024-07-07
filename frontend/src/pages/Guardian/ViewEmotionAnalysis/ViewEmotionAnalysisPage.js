@@ -2,7 +2,7 @@ import React from 'react';
 import AsideForm from '../../../components/section/aside/AsideForm';
 import EmotionAnalysisGraph from '../../../components/guardian/emotionAnalysis/EmotionAnalysisGraph';
 import EmotionAnalysisBoard from '../../../components/guardian/emotionAnalysis/EmotionAnalysisBoard';
-import CalendarForm from '../../../components/calendar/CalendarForm';
+import CalendarModalForm from '../../../components/calendar/CalendarModalForm';
 import GuardianModeModalForm from '../../../components/guardian/GuardianModeModalForm';
 
 const ViewEmotionAnalysisPage = ({ isGuardian, setIsGuardian, isWardSetting }) => {
@@ -11,7 +11,7 @@ const ViewEmotionAnalysisPage = ({ isGuardian, setIsGuardian, isWardSetting }) =
             <AsideForm/>
             <div className='pt-28 pl-5 relative h-full'>
                 <div className='flex justify-between text-2xl'>
-                    <CalendarForm/>
+                    <CalendarModalForm/>
                 </div>
                 <EmotionAnalysisGraph/>
                 <EmotionAnalysisBoard/>
