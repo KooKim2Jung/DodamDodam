@@ -21,7 +21,7 @@ const Start = () => {
     };
 
     return (
-        <div className='absolute flex items-center justify-center h-screen w-screen'>
+        <div className='flex items-center justify-center h-screen w-screen'>
             <div className='flex justify-center items-center'>
                 <img className='absolute top-[160px] md:top-[160px] left-20 md:left-44 w-[200px] md:w-[390px] h-[230px] md:h-[440px] hover:scale-105' src="./images/dodam_basic.png" />
                 <div className='flex flex-col items-center'>

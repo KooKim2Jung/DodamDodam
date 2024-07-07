@@ -25,38 +25,38 @@ const features = [
 
 const About = () => {
     return (
-        <div className='mt-16'>
-            <div className='inline-flex relative top-[50px] -left-[320px]'>
-                <h2 className='text-basic-size'>도담도담</h2>
-                <h3 className='items-baseline relative top-4 left-1 text-2xl'>: 어린아이가 탈 없이 잘 자라는 모양</h3>
+        <div className='h-screen w-screen pt-20 bg-primary justify-center flex'>
+            <div className='flex absolute top-[130px] left-[200px]'>
+                <h2 className='md:text-basic-size text-2xl md:block hidden'>도담도담</h2>
+                <h3 className='md:text-2xl mt-1 ml-1 text-xl md:block hidden'>: 어린아이가 탈 없이 잘 자라는 모양</h3>
             </div>
-            <div className='relative flex flex-wrap mt-[70px] px-40'>
+            <div className='absolute top-[200px] bg-transparent w-full md:w-[900px] flex flex-row flex-wrap items-center md:items-start justify-center'>
                 {features.map((features, index) => (
                     <div key={index}>
                         {index === 2 || index === 3 ? (
-                            <div className='flex flex-row relative left-28'>
+                            <div className='flex flex-row relative md:left-28'>
                                 <div className="w-[200px] pt-[30px]">
                                     <h2 className='mb-[5px] text-3xl'>{features.title}</h2>
-                                    <div className='text-2xl'>{features.description.split('\n').map((box, idx) => (
-                                        <React.Fragment key={idx}>
+                                    <div className='text-2xl md:block hidden'>{features.description.split('\n').map((box, index) => (
+                                        <div key={index}>
                                             {box}<br/>
-                                        </React.Fragment>
+                                        </div>
                                     ))}
                                     </div>
                                 </div>
-                                <img className="w-[190px] h-[190px] mb-8 mr-6 ml-3" src="./images/star.png"/>
-                                <img className="absolute top-16 left-[267px] w-[80px] h-[80px] z-1" src={features.image} />
+                                <img className="w-[110px] h-[110px] md:w-[190px] md:h-[190px] mb-8 md:mr-6 md:ml-3" src="./images/star.png"/>
+                                <img className="absolute md:top-16 top-[36px] md:left-[267px] left-[230px] h-[50px] w-[50px] md:w-[80px] md:h-[80px] z-1" src={features.image} />
                             </div>
                         ) : (
                             <div className='flex flex-row relative'>
-                                <img className="w-[190px] h-[190px] mb-8 mr-6 ml-3" src="./images/star.png"/>
-                                <img className="absolute top-16 left-[68px] w-[80px] h-[80px] z-1" src={features.image} />
+                                <img className="w-[110px] h-[110px] md:w-[190px] md:h-[190px] mb-8 md:mr-6 md:ml-3" src="./images/star.png"/>
+                                <img className="absolute md:top-16 top-[36px] md:left-[68px] left-[30px] h-[50px] w-[50px] md:w-[80px] md:h-[80px] z-1" src={features.image} />
                                 <div className="w-[200px] pt-[30px]">
                                     <h2 className='mb-[5px] text-3xl'>{features.title}</h2>
-                                    <div className='text-2xl'>{features.description.split('\n').map((box, idx) => (
-                                        <React.Fragment key={idx}>
+                                    <div className='text-2xl md:block hidden'>{features.description.split('\n').map((box, index) => (
+                                        <div key={index}>
                                             {box}<br/>
-                                        </React.Fragment>
+                                        </div>
                                     ))}
                                     </div>
                                 </div>
