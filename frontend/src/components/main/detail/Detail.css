@@ -1,11 +1,8 @@
 .detailSwiper {
-    margin-top: 60px;
+    padding-top: 120px;
 }
 
 .detailSwiper .swiper-slide {
-    display: flex;
-    justify-content: center;
-    align-items: center;
     background: none;
     width: 700px;
     height: 500px;
@@ -20,23 +17,25 @@
 
 .detailSwiper .swiper-button-prev {
     position: absolute;
-    left: 265px;
+    top: 150px;
+    left: 290px;
     width: 0;
     height: 0;
     border-style: solid;
-    border-width: 29px 39px 29px 0;
-    border-color: transparent #FEEBA4 transparent transparent;
+    border-width: 19px 29px 19px 0;
+    border-color: transparent #FEEBA4;
     cursor: pointer;
 }
 
 .detailSwiper .swiper-button-next {
     position: absolute;
-    right: 260px;
+    top: 150px;
+    left: 360px;
     width: 0;
     height: 0;
     border-style: solid;
-    border-width: 29px 0 29px 39px;
-    border-color: transparent transparent transparent #FEEBA4;
+    border-width: 19px 0 19px 29px;
+    border-color: transparent #FEEBA4;
     cursor: pointer;
 }
 
@@ -49,4 +48,20 @@
 .detailSwiper .swiper-button-next::after,
 .detailSwiper .swiper-button-prev::after {
   display: none;
+}
+
+@media (min-width: 1000px) {
+    .detailSwiper .swiper-button-prev {
+        position: absolute;
+        top: 370px;
+        left: 265px;
+        border-width: 29px 39px 29px 0;
+    }
+
+    .detailSwiper .swiper-button-next {
+        position: absolute;
+        top: 370px;
+        left: 980px;
+        border-width: 29px 0 29px 39px;
+    }
 }
