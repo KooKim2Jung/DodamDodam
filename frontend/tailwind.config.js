@@ -40,10 +40,6 @@ module.exports = {
           '0%': { transform: 'translateX(0)' }, 
           '100%': { transform: 'translateX(-6rem)' }, 
         },
-        translateDodam: {
-          '0%': { transform: 'translateY(0)' }, 
-          '100%': { transform: 'translateY(6rem)' }, 
-        },
       },
     },
   },

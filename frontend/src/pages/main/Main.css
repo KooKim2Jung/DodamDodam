@@ -10,12 +10,12 @@
     opacity: 1;
     width: 20px;
     height: 20px;
-    border: black solid 2px;
+    border: rgb(127, 91, 61) solid 2.5px;
     margin-bottom: 15px !important;
 }
 
 .mainSwiper .swiper-pagination-bullet-active {
-    background-image: url('flower.png');
+    background-image: url('small_flower.png');
     background-repeat: no-repeat;
     background-color: transparent !important;
     border-radius: 0px;
@@ -24,5 +24,5 @@
     height: 35px;
     background-size: cover; 
     position: relative;
-    right: 7.5px;
+    right: 9px;
 }

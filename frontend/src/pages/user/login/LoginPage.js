@@ -84,7 +84,7 @@ const LoginPage = ({ setIsLoggedIn, setIsEdit, setIsWardSetting }) => {
     return (
         <form onSubmit={submitLogin}>
             <div className='flex items-center justify-center bg-primary mt-[120px] mb-[25px] 
-            w-[700px] h-[450px] rounded-[10px] shadow-[6px_4px_10px_#a5996e]'>
+            w-[700px] h-[450px] rounded-[50px] shadow-[6px_4px_10px_#a5996e]'>
                 <div className='flex mx-10 pl-4'>
                     <img src='/images/dodam_basic.png' className='w-[205px] h-[235px] relative top-[70px]'/>
                     <div>
