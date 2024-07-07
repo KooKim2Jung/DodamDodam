@@ -46,7 +46,7 @@ const AsideForm = () => {
     }, [location.pathname])
 
     return (
-        <aside className='fixed left-0 top-4 h-full border-r-2 border-black z-0 bg-primary overflow-y-auto'>
+        <aside className='fixed left-0 top-4 h-full shadow-[1px_0px_6px_#a5996e] z-0 bg-primary overflow-y-auto'>
             <nav className='flex flex-col items-start mt-[97px]'>
                 {features.map((features, index) => (
                     <Link key={index} to={features.url}> 
