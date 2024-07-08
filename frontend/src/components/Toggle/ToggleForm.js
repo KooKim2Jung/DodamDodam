@@ -3,29 +3,28 @@ import React, { useEffect, useState } from 'react';
 import './ToggleForm.css';
 
 const ToggleForm = () => {
-    const [isToggled, setIsToggled] = useState('피보호자')
+    const [isToggled, setIsToggled] = useState('피보호자');
 
     const navigate = useNavigate();
     const location = useLocation();
 
     useEffect(() => {
-        if (isToggled === '피보호자') {
-            navigate('/WardPage');
-        }
-        else {
-            navigate('/WardSettingsPage');
-        }
-    }, [isToggled])
-
-    useEffect(() => {
         if (location.pathname === '/WardSettingsPage') {
             setIsToggled('보호자');
-        } 
-    }, [location.pathname]);  
+        } else if (location.pathname === '/WardPage') {
+            setIsToggled('피보호자');
+        }
+    }, [location.pathname]);
 
     const modeChange = (e) => {
-        setIsToggled(e.target.value);
-    }
+        const mode = e.target.value;
+        setIsToggled(mode);
+        if (mode === '피보호자') {
+            navigate('/WardPage');
+        } else {
+            navigate('/WardSettingsPage');
+        }
+    };
 
     return (
         <div className='text-middle-size'>

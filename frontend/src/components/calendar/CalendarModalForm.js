@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { FiX } from "react-icons/fi";
 import Modal from 'react-modal';
 import DatePicker from 'react-datepicker';
 import { registerLocale, setDefaultLocale } from 'react-datepicker';
@@ -9,7 +10,7 @@ import './DatePicker.css';
 registerLocale('ko', ko); // 한국어 로케일 등록
 setDefaultLocale('ko'); // 기본 로케일을 한국어로 설정
 
-const CalendarForm = ({ onDateChange, selectedDates }) => {
+const CalendarModalForm = ({ onDateChange, selectedDates }) => {
     const [isOpen, setIsOpen] = useState(false);
     const [selectedDate, setSelectedDate] = useState(null);
 
@@ -32,16 +33,17 @@ const CalendarForm = ({ onDateChange, selectedDates }) => {
     return (
         <div>
             <Modal
-                overlayClassName="fixed mt-20 z-20 inset-0 bg-black bg-opacity-50 flex justify-center items-center"
+                overlayClassName="fixed mt-20 z-20 inset-0 flex justify-center items-center"
                 isOpen={isOpen}
                 onRequestClose={closeModal}
                 shouldCloseOnOverlayClick={false}
-                className="w-[500px] bg-primary rounded-[10px] border-2 border-black"
+                className="w-[500px] bg-primary rounded-[10px] shadow-[2px_4px_10px_#a5996e]"
             >
                 <div className='flex justify-end mt-2 mr-6'>
-                    <button className='calendar-btn' onClick={closeModal}>X</button>
+                    <button className='w-8 h-8 bg-primary border-2 text-2xl items-center 
+                    justify-center flex rounded-[50px] border-white hover:scale-110' onClick={closeModal}><FiX /></button>
                 </div>
-                <div className="flex justify-center items-center mt-2 mb-5">
+                <div className="flex justify-center items-center mt-2 mb-9">
                     <DatePicker
                         locale="ko"
                         selected={selectedDate}
@@ -57,4 +59,4 @@ const CalendarForm = ({ onDateChange, selectedDates }) => {
     );
 };
 
-export default CalendarForm;
+export default CalendarModalForm;

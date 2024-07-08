@@ -3,7 +3,7 @@
     display: inline-flex;
 }
 
-.wave button::after, .wave a::after {
+.wave button::after, .wave a::after, .wave h2::after {
     content: '';
     position: absolute;
     left: 0;
@@ -17,7 +17,7 @@
     transition: transform .5s;
 }
 
-.wave button:hover::after, .wave a:hover::after {
+.wave button:hover::after, .wave a:hover::after, .wave h2:hover::after {
     transform-origin: left;
     transform: scaleX(1);
 }

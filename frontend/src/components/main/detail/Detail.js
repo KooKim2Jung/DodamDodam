@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
-import EmotionalAnalysis from './emotionalanalysis/EmotionalAnalysis';
-import ConversationSummary from './conversationsummary/ConversationSummary';
-import Scheduling from './scheduling/Scheduling';
-import Settings from './settings/Settings';
+import EmotionalAnalysis from './detailForm/emotionalanalysis/EmotionalAnalysis';
+import ConversationSummary from './detailForm/conversationsummary/ConversationSummary';
+import Scheduling from './detailForm/scheduling/Scheduling';
+import Settings from './detailForm/settings/Settings';
 import './Detail.css';
 
 const Detail = () => {
@@ -31,16 +31,16 @@ const Detail = () => {
     }, []);
 
     return (
-        <div className="swiper detailSwiper w-screen">
-            <div className="swiper-wrapper">
-                <div className="swiper-slide"><EmotionalAnalysis /></div>
-                <div className="swiper-slide"><ConversationSummary /></div>
-                <div className="swiper-slide"><Scheduling /></div>
-                <div className="swiper-slide"><Settings /></div>
-            </div>
-            <div className="swiper-button-next"></div>
-            <div className="swiper-button-prev"></div>
+    <div className="swiper detailSwiper w-screen h-screen bg-primary">
+        <div className="swiper-wrapper">
+            <div className="swiper-slide"><EmotionalAnalysis /></div>
+            <div className="swiper-slide"><ConversationSummary /></div>
+            <div className="swiper-slide"><Scheduling /></div>
+            <div className="swiper-slide"><Settings /></div>
         </div>
+        <div className="swiper-button-next"></div>
+        <div className="swiper-button-prev"></div>
+    </div>
     );
 };
 

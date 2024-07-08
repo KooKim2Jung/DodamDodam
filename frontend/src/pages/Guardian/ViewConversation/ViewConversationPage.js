@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import AsideForm from '../../../components/section/aside/AsideForm';
-import ConversationSummary from '../../../components/guardian/conversation/ConversationSummary';
-import CalendarForm from '../../../components/calendar/CalendarForm';
+import ConversationSummaryModalForm from '../../../components/guardian/conversation/ConversationSummaryModalForm';
+import CalendarModalForm from '../../../components/calendar/CalendarModalForm';
 import ConversationContentBoard from '../../../components/guardian/conversation/ConversationContentBoard';
 import api from '../../../services/Api';
 import GuardianModeModalForm from '../../../components/guardian/GuardianModeModalForm';
@@ -69,8 +69,8 @@ const ViewConversationPage = ({ isGuardian, setIsGuardian, isWardSetting }) => {
             <AsideForm />
             <div className="pt-28 pl-5 relative h-full">
                 <div className="flex justify-between text-2xl mb-3">
-                    <CalendarForm onDateChange={handleDateChange}  />
-                    <ConversationSummary summary={summary} />
+                    <CalendarModalForm onDateChange={handleDateChange}  />
+                    <ConversationSummaryModalForm summary={summary} />
                 </div>
                 {isSelected ? (
                     <div>

@@ -53,12 +53,12 @@ const DodamSettingsPage = ({ isGuardian, setIsGuardian, isWardSetting }) => {
             <AsideForm/>
             <div className='pt-28 pl-5'>
                 <h2 className='text-3xl text-left'>도담이 목소리</h2>
-                <div className='flex justify-center relative -top-6'>
-                    <img className='relative h-64 w-60 m-10' src='./images/dodam_circle.png'/>
+                <div className='flex justify-center relative -top-8'>
+                    <img className='relative h-60 w-56 m-10' src='./images/dodam_circle.png'/>
                 </div>
-                <div className="text-3xl relative -top-8">
+                <div className="text-3xl relative -top-11">
                     <DodamVoiceForm voice={voice} setVoice={setVoice} voices={voices} />
-                    <button className='input-box2 relative p-2 w-40 top-14' onClick={voiceSetting}>확인</button>
+                    <button className='input-box2 relative p-2 w-40 top-14 hover:scale-110 bg-secondary border-transparent' onClick={voiceSetting}>확인</button>
                 </div>
             </div>
             <GuardianModeModalForm isGuardian={isGuardian} setIsGuardian={setIsGuardian} isWardSetting={isWardSetting}/>

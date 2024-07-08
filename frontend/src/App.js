@@ -4,8 +4,7 @@ import Modal from 'react-modal';
 import LoginPage from './pages/user/login/LoginPage';
 import SignupPage from './pages/user/signup/SignupPage';
 import WardPage from './pages/ward/WardPage';
-import UserHeaderForm from './components/section/header/UserHeaderForm';
-import NonUserHeaderForm from './components/section/header/NonUserHeaderForm';
+import HeaderForm from './components/section/header/HeaderForm';
 import MainPage from './pages/main/MainPage';
 import ViewConversationPage from './pages/guardian/viewConversation/ViewConversationPage';
 import ViewEmotionAnalysisPage from './pages/guardian/viewEmotionAnalysis/ViewEmotionAnalysisPage';
@@ -31,7 +30,7 @@ function App() {
   return (
     <div>
       <BrowserRouter>
-      {isLoggedIn ? <UserHeaderForm setIsLoggedIn={setIsLoggedIn} /> : <NonUserHeaderForm/>}
+        <HeaderForm isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
         <Routes>
           <Route path="/" element={<MainPage/>}/>
           <Route path="/LoginPage" element={<LoginPage setIsLoggedIn={setIsLoggedIn} setIsEdit={setIsEdit} setIsWardSetting={setIsWardSetting}/>}/>

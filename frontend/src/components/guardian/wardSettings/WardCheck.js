@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 const WardCheck = ({isEdit, setIsEdit, wardInfo, errorMessage, setErrorMessage, editWardSetting, isWardSetting, generateWardSetting}) => {
-    const [btn, setBtn] = useState('확인')
+    const [btn, setBtn] = useState('완료')
 
     const newAge = parseInt(wardInfo.age);
     const validAge = newAge >= 1 && newAge <= 100;
@@ -34,25 +34,27 @@ const WardCheck = ({isEdit, setIsEdit, wardInfo, errorMessage, setErrorMessage, 
         else {
             alert("입력되지 않은 값이 있습니다.")
             setIsEdit(true)
-            setBtn('확인')
+            setBtn('완료')
         }
     };
 
     const wardSetting = () => {
         setIsEdit(!isEdit)
-        setBtn(isEdit ? '확인' : '수정')
+        setBtn(isEdit ? '완료' : '수정')
         if (isEdit) {
             infoCheck()
         }
     };
 
     useEffect(() => {
-        setBtn(isEdit ? '확인' : '수정')
+        setBtn(isEdit ? '완료' : '수정')
     }, [isEdit])
 
     return (
         <div>
-            <button className='input-box2 absolute left-[650px] top-[635px] p-2 w-40 text-3xl' onClick={wardSetting}>{btn}</button>
+            <button className={`input-box2 border-borderColor absolute left-[300px] p-2 w-40 text-3xl hover:scale-110
+            ${isEdit ? 'border-transparent bg-secondary' : 'border-transparent bg-white shadow-[2px_4px_1px_#a5996e]'}
+            `} onClick={wardSetting}>{btn}</button>
         </div>
     );
 };

@@ -1,3 +1,5 @@
+import React from "react";
+
 const DetailForm = ({ title, description, icon }) => {
     return (
         <div className="relative flex flex-col items-center justify-center">

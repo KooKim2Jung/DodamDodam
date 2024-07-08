@@ -95,21 +95,24 @@ const WardSettingsPage = ({ isEdit, setIsEdit, isWardSetting, setIsWardSetting, 
     };
 
     useEffect(() => {
-        if (isWardSetting === true) {
-            getWardSetting();
+        if (isWardSetting === false) {
+            setIsEdit(true);
         }
-    }, [isEdit]);
+        getWardSetting();
+    }, []);
 
     return (
-        <div>
-            <h2 className='absolute top-28 left-[265px] text-3xl'>피보호자 설정</h2>
+        <div className='text-3xl w-screen'>
+            <h2 className='absolute top-28 left-[265px]'>피보호자 설정</h2>
             <AsideForm/>
-            <div className='absolute left-72 top-[160px] flex-col text-3xl'>
-                <div className='m-10 mb-20'>사진</div>
-                <div className='mx-9'>이름</div>
-                <div className='m-9'>성별</div>
-                <div className='m-9'>나이</div>
-                <div className='mt-12 mx-9 '>특이사항</div>
+            <div className='absolute grid grid-cols-3 left-[300px] top-[170px] w-[850px] text-left'>
+                <div className='col-span-1'></div>
+                <div className='col-span-2'>
+                    <div className='mt-8 -mb-1'>이름</div>
+                    <div className='mt-11 mb-1'>성별</div>
+                    <div className='mt-8 mb-16'>나이</div>
+                    <div className='mt-16 -ml-6'>특이사항</div>
+                </div>
             </div>
             <WardSettingsForm wardInfo={wardInfo} setWardInfo={setWardInfo} isEdit={isEdit} setIsEdit={setIsEdit} 
             editWardSetting={editWardSetting} setPhotoUpdated={setPhotoUpdated} previewUrl={previewUrl} setPreviewUrl={setPreviewUrl} 

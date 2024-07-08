@@ -1,7 +1,9 @@
 import React, { useRef } from 'react';
+import { FiVolume2 } from "react-icons/fi";
 
 const DodamVoiceForm = ({ voice, setVoice, voices }) => {
     const audioRef = useRef(null);
+
     const voiceChange = (e) => {
         setVoice(e.target.value)
     }
@@ -19,28 +21,32 @@ const DodamVoiceForm = ({ voice, setVoice, voices }) => {
     const selectedVoice = voices.find(v => v.name === voice) // voices의 이름과 voice의 이름이 같은지 찾기
 
     return (
-        <div>{voices.map((voices) => (
+        <div>
+            {voices.map((voices) => (
             <label key={voices.name}>
-                <input className='ml-8 mr-3 radio-box'
+                <input 
+                    className='ml-8 mr-3 radio-box checked:bg-secondary border-white shadow-custom1'
                     type='radio' 
                     value={voices.name} 
                     checked={voice===voices.name}
-                    onChange={voiceChange}/>{voices.name}
+                    onChange={voiceChange}
+                />{voices.name}
             </label>
             ))}
-            <p className='relative top-6 bg-red-30'>
+            <p className='relative top-6'>
                 <div className='inline-flex items-center'>
-                    {selectedVoice &&(<><audio controls 
-                    className='relative -left-3 w-0 h-0 border-t-[20px] border-t-transparent 
-                    border-b-[20px] border-b-transparent border-l-[30px] border-l-borderColor drop-shadow-[1px_4px_1px_#c0c0c0]'
-                    type='audio/mp3'
-                    ref={audioRef}
-                    src={`${process.env.PUBLIC_URL}${selectedVoice.mp3}`}
-                    onClick={voiceListening}
+                    {selectedVoice &&(<>
+                    <audio
+                        className='hidden'
+                        ref={audioRef}
+                        src={`${process.env.PUBLIC_URL}${selectedVoice.mp3}`}
                     />
-                    <input className='input-box2 w-[600px] p-3 mr-2'
+                    <FiVolume2 className='hover:scale-110 hover:cursor-pointer' color='rgb(113, 70, 41)' size='52' onClick={voiceListening}/>
+                    <input 
+                        className='input-box2 w-[600px] p-3 ml-3 bg-secondary border-transparent'
                         type='text' 
                         value='안녕 나는 도담이야. 앞으로 잘 부탁해.' 
+                        readOnly
                     /></>)}
                 </div>
             </p>
