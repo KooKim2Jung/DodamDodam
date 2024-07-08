@@ -50,14 +50,14 @@ const SchedulePage = ({ isGuardian, setIsGuardian, isWardSetting }) => {
                             saveItem={(newItem) => editItem(index, newItem)}
                             editMode={true}
                         />:
-                        <div className='grid grid-cols-5 items-center'>
+                        <div className='grid grid-cols-5 items-center border-transparent bg-white shadow-[2px_4px_1px_#a5996e] rounded-[50px] mx-2'>
                             <div>{item.date}</div>
                             <div>{item.time}</div>
                             <div>{item.repeat}</div>
                             <div className='flex col-span-2 items-center justify-center'>
                                 <div>{item.note}</div>
-                                <button onClick={() => handleEdit(index)} className='p-2 text-2xl rounded-[10px] border-2 mx-2 my-3 border-black'>수정</button>
-                                <button onClick={() => deleteItem(index)} className='p-2 text-2xl rounded-[10px] border-2 border-black'>삭제</button>
+                                <button onClick={() => handleEdit(index)} className='p-2 text-2xl rounded-[50px] border-2 mx-2 my-3 border-black hover:scale-110'>✍️</button>
+                                <button onClick={() => deleteItem(index)} className='p-2 text-2xl rounded-[50px] border-2 border-black hover:scale-110'>X</button>
                             </div>
                         </div>
                     }

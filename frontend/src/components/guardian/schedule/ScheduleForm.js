@@ -48,19 +48,19 @@ const ScheduleForm = ({ addItem, item, saveItem, editMode = false }) => {
     return (
         <div>
             <div className='grid grid-cols-5 w-full gap-3 px-4 mt-[10px] text-2xl'>
-                <input className='p-2 rounded-[10px] border-2 border-black outline-none'
+                <input className='p-2 rounded-[50px] bg-secondary border-2 border-transparent focus:border-white outline-none'
                     type="date"
                     name="date"
                     value={schedule.date}
                     onChange={inputSchedule}
                 />
-                <input className='py-2 px-3 rounded-[10px] border-2 border-black outline-none z-10'
+                <input className='py-2 px-3 rounded-[50px] bg-secondary border-2 border-transparent focus:border-white outline-none z-10'
                     type="time"
                     name="time"
                     value={schedule.time}
                     onChange={inputSchedule}
                 />
-                <input className='py-2 px-3 rounded-[10px] border-2 border-black outline-none'
+                <input className='py-2 px-3 rounded-[50px] bg-secondary border-2 border-transparent focus:border-white outline-none'
                     type="text"
                     name="repeat"
                     value={schedule.repeat}
@@ -68,13 +68,13 @@ const ScheduleForm = ({ addItem, item, saveItem, editMode = false }) => {
                     onChange={inputSchedule}
                 />
                 <div className='col-span-2 flex items-center'>
-                    <input className='flex-1 py-2 px-3 mr-3 rounded-[10px] border-2 border-black outline-none'
+                    <input className='flex-1 py-2 px-3 mr-3 rounded-[50px] bg-secondary border-2 border-transparent focus:border-white outline-none'
                         type="text"
                         name="note"
                         value={schedule.note}
                         onChange={inputSchedule}
                     />
-                    <button onClick={submitSchedule} className='p-2 rounded-[10px] border-2 border-black'>
+                    <button onClick={submitSchedule} className='p-2 rounded-[50px] bg-secondary border-2 border-transparent focus:border-white hover:scale-110'>
                         {editMode ? '저장' : '추가'}
                     </button>
                 </div>
