@@ -15,7 +15,8 @@ module.exports = {
         borderColor: 'rgb(127, 91, 61)',
       },
       boxShadow: {
-        custom1: '0 0 0 3px rgb(127, 91, 61)',
+        custom1: '0 0 0 3px rgb(254, 232, 147)',
+        custom2: '0 0 0 3px rgb(127, 91, 61)',
       },
       fontSize: {
         'basic-size': '2.5rem',

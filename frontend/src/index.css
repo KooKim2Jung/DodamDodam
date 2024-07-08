@@ -31,13 +31,12 @@ input::-webkit-inner-spin-button {
 }
 
 .input-box2 {
-  @apply bg-transparent border-borderColor border-[3px] rounded-[50px] checked:border-borderColor
-  focus:outline-none focus:border-[3px] focus:border-borderColor
+  @apply border-[3px] rounded-[50px] checked:border-borderColor
+  focus:outline-none focus:border-[3px] focus:border-white
 }
 
 .radio-box {
   @apply appearance-none w-5 h-5 rounded-full border-[3px]
-  checked:bg-borderColor border-white shadow-custom1
 }
 
 .btn {

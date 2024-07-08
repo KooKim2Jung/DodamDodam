@@ -102,15 +102,17 @@ const WardSettingsPage = ({ isEdit, setIsEdit, isWardSetting, setIsWardSetting, 
     }, []);
 
     return (
-        <div className='text-3xl'>
+        <div className='text-3xl w-screen'>
             <h2 className='absolute top-28 left-[265px]'>피보호자 설정</h2>
             <AsideForm/>
-            <div className='flex flex-col justify-center items-center absolute left-[295px] top-40'>
-                <div className='mt-16 mb-10'>사진</div>
-                <div className='mt-16 -mb-1'>이름</div>
-                <div className='mt-14 mb-1'>성별</div>
-                <div className='mt-11 mb-1'>나이</div>
-                <div className='mt-12'>특이사항</div>
+            <div className='absolute grid grid-cols-3 left-[300px] top-[170px] w-[850px] text-left'>
+                <div className='col-span-1'></div>
+                <div className='col-span-2'>
+                    <div className='mt-8 -mb-1'>이름</div>
+                    <div className='mt-11 mb-1'>성별</div>
+                    <div className='mt-8 mb-16'>나이</div>
+                    <div className='mt-16 -ml-6'>특이사항</div>
+                </div>
             </div>
             <WardSettingsForm wardInfo={wardInfo} setWardInfo={setWardInfo} isEdit={isEdit} setIsEdit={setIsEdit} 
             editWardSetting={editWardSetting} setPhotoUpdated={setPhotoUpdated} previewUrl={previewUrl} setPreviewUrl={setPreviewUrl} 
