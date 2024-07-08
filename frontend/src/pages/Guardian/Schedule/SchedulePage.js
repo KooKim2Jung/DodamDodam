@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { FiEdit2, FiTrash2 } from "react-icons/fi";
 import AsideForm from '../../../components/section/aside/AsideForm';
 import ScheduleForm from '../../../components/guardian/schedule/ScheduleForm';
 import GuardianModeModalForm from '../../../components/guardian/GuardianModeModalForm';
@@ -56,8 +57,8 @@ const SchedulePage = ({ isGuardian, setIsGuardian, isWardSetting }) => {
                             <div>{item.repeat}</div>
                             <div className='flex col-span-2 items-center justify-center'>
                                 <div>{item.note}</div>
-                                <button onClick={() => handleEdit(index)} className='p-2 text-2xl rounded-[50px] border-2 mx-2 my-3 border-black hover:scale-110'>✍️</button>
-                                <button onClick={() => deleteItem(index)} className='p-2 text-2xl rounded-[50px] border-2 border-black hover:scale-110'>X</button>
+                                <button onClick={() => handleEdit(index)} className='p-2 text-2xl rounded-[50px] border-2 mx-2 my-3 border-black hover:scale-110'><FiEdit2 /></button>
+                                <button onClick={() => deleteItem(index)} className='p-2 text-2xl rounded-[50px] border-2 border-black hover:scale-110'><FiTrash2 /></button>
                             </div>
                         </div>
                     }

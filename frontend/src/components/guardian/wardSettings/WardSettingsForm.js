@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+
 import WardCheck from './WardCheck';
 
 const WardSettingsForm = ({ isEdit, setIsEdit, wardInfo, setWardInfo, editWardSetting, setPhotoUpdated, previewUrl, setPreviewUrl, isWardSetting, generateWardSetting }) => {

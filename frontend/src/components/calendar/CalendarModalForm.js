@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { FiX } from "react-icons/fi";
 import Modal from 'react-modal';
 import DatePicker from 'react-datepicker';
 import { registerLocale, setDefaultLocale } from 'react-datepicker';
@@ -40,7 +41,7 @@ const CalendarModalForm = ({ onDateChange, selectedDates }) => {
             >
                 <div className='flex justify-end mt-2 mr-6'>
                     <button className='w-8 h-8 bg-primary border-2 text-2xl items-center 
-                    justify-center flex rounded-[50px] border-primary hover:border-white hover:scale-110' onClick={closeModal}>X</button>
+                    justify-center flex rounded-[50px] border-white hover:scale-110' onClick={closeModal}><FiX /></button>
                 </div>
                 <div className="flex justify-center items-center mt-2 mb-9">
                     <DatePicker
