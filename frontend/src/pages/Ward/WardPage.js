@@ -1,7 +1,10 @@
-import React, { useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 import SpeechToText from '../../components/ward/SpeechToText';
+import { AppContext } from '../../App';
 
-const WardPage = ({ setIsGuardian }) => {
+const WardPage = () => {
+    const { setIsGuardian } = useContext(AppContext);
+    
     useEffect(() => {
         setIsGuardian(false);
     }, [setIsGuardian])

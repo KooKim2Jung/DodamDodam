@@ -1,11 +1,14 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import AsideForm from '../../../components/section/aside/AsideForm';
 import EmotionAnalysisGraph from '../../../components/guardian/emotionAnalysis/EmotionAnalysisGraph';
 import EmotionAnalysisBoard from '../../../components/guardian/emotionAnalysis/EmotionAnalysisBoard';
 import CalendarModalForm from '../../../components/calendar/CalendarModalForm';
 import GuardianModeModalForm from '../../../components/guardian/GuardianModeModalForm';
+import { AppContext } from '../../../App';
 
-const ViewEmotionAnalysisPage = ({ isGuardian, setIsGuardian, isWardSetting }) => {
+const ViewEmotionAnalysisPage = () => {
+    const { isGuardian, setIsGuardian, isWardSetting } = useContext(AppContext);
+    
     return (
         <div className='flex flex-col h-screen w-screen pl-[240px] pr-10'>
             <AsideForm/>

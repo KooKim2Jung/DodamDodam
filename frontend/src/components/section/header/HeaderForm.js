@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { FiLogIn, FiLogOut, FiUserPlus, FiUnlock, FiLock } from "react-icons/fi";
 import { useNavigate } from 'react-router-dom';
 import '../../Wave.css';
 import ToggleForm from '../../toggle/ToggleForm';
+import { AppContext } from '../../../App';
 
-const HeaderForm = ({ isLoggedIn, setIsLoggedIn }) => {
+const HeaderForm = () => {
+    const { isLoggedIn, setIsLoggedIn } = useContext(AppContext);
 
     const navigate = useNavigate();
 
