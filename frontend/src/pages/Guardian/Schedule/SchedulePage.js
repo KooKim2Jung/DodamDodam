@@ -1,10 +1,13 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { FiEdit2, FiTrash2 } from "react-icons/fi";
 import AsideForm from '../../../components/section/aside/AsideForm';
 import ScheduleForm from '../../../components/guardian/schedule/ScheduleForm';
 import GuardianModeModalForm from '../../../components/guardian/GuardianModeModalForm';
+import { AppContext } from '../../../App';
 
-const SchedulePage = ({ isGuardian, setIsGuardian, isWardSetting }) => {
+const SchedulePage = () => {
+    const { isGuardian, setIsGuardian, isWardSetting } = useContext(AppContext);
+    
     const [items, setItems] = useState([]);
     const [isEditing, setIsEditing] = useState(false);
     const [currentItem, setCurrentItem] = useState(null);

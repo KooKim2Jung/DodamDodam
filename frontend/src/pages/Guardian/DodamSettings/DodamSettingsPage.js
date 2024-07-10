@@ -1,10 +1,13 @@
-import React, { useState, useEffect }  from 'react';
+import React, { useContext, useState, useEffect }  from 'react';
 import AsideForm from '../../../components/section/aside/AsideForm';
 import api from '../../../services/Api';
 import DodamVoiceForm from '../../../components/guardian/dodamSettings/DodamVoiceForm';
 import GuardianModeModalForm from '../../../components/guardian/GuardianModeModalForm';
+import { AppContext } from '../../../App';
 
-const DodamSettingsPage = ({ isGuardian, setIsGuardian, isWardSetting }) => {
+const DodamSettingsPage = () => {
+    const { isGuardian, setIsGuardian, isWardSetting } = useContext(AppContext);
+
     const [voice, setVoice] = useState('다정');
     const voices = [
         { name: "다정", mp3: '/mp3/Dajeong.mp3'}, // 하준

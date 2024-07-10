@@ -1,12 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import AsideForm from '../../../components/section/aside/AsideForm';
 import ConversationSummaryModalForm from '../../../components/guardian/conversation/ConversationSummaryModalForm';
 import CalendarModalForm from '../../../components/calendar/CalendarModalForm';
 import ConversationContentBoard from '../../../components/guardian/conversation/ConversationContentBoard';
 import api from '../../../services/Api';
 import GuardianModeModalForm from '../../../components/guardian/GuardianModeModalForm';
+import { AppContext } from '../../../App';
 
-const ViewConversationPage = ({ isGuardian, setIsGuardian, isWardSetting }) => {
+const ViewConversationPage = () => {
+    const { isGuardian, setIsGuardian, isWardSetting } = useContext(AppContext);
+    
     const [conversations, setConversations] = useState([]);
     const [summary, setSummary] = useState('');
     const [isSelected, setIsSelected] = useState(true);

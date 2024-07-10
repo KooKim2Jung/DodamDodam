@@ -1,10 +1,13 @@
 import { useNavigate } from 'react-router-dom';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import api from '../../../services/Api';
 import LoginForm from '../../../components/user/login/LoginForm';
 import LoginCheck from '../../../components/user/login/LoginCheck';
+import { AppContext } from '../../../App';
 
-const LoginPage = ({ setIsLoggedIn, setIsEdit, setIsWardSetting }) => {
+const LoginPage = () => {
+    const { setIsLoggedIn, setIsEdit, setIsWardSetting } = useContext(AppContext);
+
     const [user, setUser] = useState({
         email: '',
         password: '',
