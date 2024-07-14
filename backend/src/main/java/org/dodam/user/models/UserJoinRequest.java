@@ -11,12 +11,12 @@ import lombok.Data;
 @Data
 public class UserJoinRequest {
 
-    @Email(message = "{email.invalid}")
+    //@Email(message = "{email.invalid}")
     private String email;
 
-    @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[~!@#$%^&*()+|=])[A-Za-z\\d~!@#$%^&*()+|=]{8,16}$", message = "{password.pattern}")
+    //@Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[~!@#$%^&*()+|=])[A-Za-z\\d~!@#$%^&*()+|=]{8,16}$", message = "{password.pattern}")
     private String password;
 
-    @Pattern(regexp = "^\\d{11}$", message = "{phoneNumber.pattern}")
+    //@Pattern(regexp = "^\\d{11}$", message = "{phoneNumber.pattern}")
     private String phoneNumber;
 }
