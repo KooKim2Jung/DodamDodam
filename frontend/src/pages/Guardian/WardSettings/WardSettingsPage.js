@@ -10,11 +10,11 @@ const WardSettingsPage = () => {
     
     const [wardInfo, setWardInfo] = useState({
         photo: 'https://dodambuket.s3.ap-northeast-2.amazonaws.com/%ED%94%84%EB%A1%9C%ED%95%84%EA%B8%B0%EB%B3%B8%EC%9D%B4%EB%AF%B8%EC%A7%80.png',
-        lastName: '',
         name: '',
         gender: '',
         age: '',
         remark: '',
+        last_name: '',
     });
     const [initialWardInfo, setInitialWardInfo] = useState({});
     const [photoUpdated, setPhotoUpdated] = useState(false); // 사용자의 사진 업데이트 여부
@@ -25,7 +25,8 @@ const WardSettingsPage = () => {
         const formData = new FormData();
         if (photoUpdated) {
             formData.append('photo', wardInfo.photo); // 파일 객체 추가
-        } 
+        }
+        formData.append('last_name', wardInfo.last_name); 
         formData.append('name', wardInfo.name);
         formData.append('gender', wardInfo.gender);
         formData.append('age', wardInfo.age);
@@ -71,6 +72,9 @@ const WardSettingsPage = () => {
         
         if (photoUpdated && wardInfo.photo !== initialWardInfo.photo) {
             formData.append('photo', wardInfo.photo);
+        }
+        else if (wardInfo.last_name !== initialWardInfo.last_name) {
+            formData.append('last_name', wardInfo.last_name);
         }
         else if (wardInfo.name !== initialWardInfo.name) {
             formData.append('name', wardInfo.name);
