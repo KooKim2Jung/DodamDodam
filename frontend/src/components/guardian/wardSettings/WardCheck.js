@@ -5,7 +5,7 @@ const WardCheck = ({isEdit, setIsEdit, wardInfo, errorMessage, setErrorMessage, 
 
     const newAge = parseInt(wardInfo.age);
     const validAge = newAge >= 1 && newAge <= 100;
-    const validInfo = wardInfo.name && (wardInfo.gender === '여자' || wardInfo.gender === '남자') && wardInfo.age && wardInfo.remark;
+    const validInfo = wardInfo.last_name && wardInfo.name && (wardInfo.gender === '여자' || wardInfo.gender === '남자') && wardInfo.age && wardInfo.remark;
 
     const updateErrorMessage = (wardInfo, errorMessage) => {
         setErrorMessage(prevState => ({
@@ -15,7 +15,7 @@ const WardCheck = ({isEdit, setIsEdit, wardInfo, errorMessage, setErrorMessage, 
     };
 
     useEffect(() => {
-        updateErrorMessage('name', wardInfo.name ? (/\d/.test(wardInfo.name) ? '이름은 영어 또는 한글로 입력해 주세요.' : '') : '필수항목입니다.');
+        updateErrorMessage('name', wardInfo.last_name && wardInfo.name ? (/\d/.test(wardInfo.name) ? '이름은 영어 또는 한글로 입력해 주세요.' : '') : '필수항목입니다.');
         updateErrorMessage('gender', wardInfo.gender ? '' : '필수항목입니다.');
         updateErrorMessage('age', wardInfo.age ? (validAge ? '' : '1~100 사이의 정수만 입력해 주세요.') : '필수항목입니다.')
         updateErrorMessage('remark', wardInfo.remark ? '' : '필수항목입니다.')
@@ -25,10 +25,10 @@ const WardCheck = ({isEdit, setIsEdit, wardInfo, errorMessage, setErrorMessage, 
         if (validAge && validInfo && errorMessage.name === '' && errorMessage.gender === '' 
         && errorMessage.age === '' && errorMessage.remark === '') {
             if (isWardSetting===false) {
-                generateWardSetting(wardInfo.photo, wardInfo.name, wardInfo.gender, wardInfo.age, wardInfo.remark)
+                generateWardSetting(wardInfo.photo, wardInfo.last_name, wardInfo.name, wardInfo.gender, wardInfo.age, wardInfo.remark)
             }
             else {
-                editWardSetting(wardInfo.photo, wardInfo.name, wardInfo.gender, wardInfo.age, wardInfo.remark)
+                editWardSetting(wardInfo.photo, wardInfo.last_name, wardInfo.name, wardInfo.gender, wardInfo.age, wardInfo.remark)
             }
         } 
         else {

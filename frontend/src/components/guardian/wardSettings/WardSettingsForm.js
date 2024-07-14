@@ -47,9 +47,10 @@ const WardSettingsForm = ({ isEdit, setIsEdit, wardInfo, setWardInfo, editWardSe
                     </label>
                     {isEdit && <input className='hidden' id='file' type='file' name='image' onChange={photoUpdate} />}
                 </div>
-                <div className='w-[600px] flex-col'>
-                    <div className='inline-flex mb-8'>
-                        <input className={`px-3 py-2 border-2 input-box2 ${isEdit ? 'border-transparent bg-secondary' : 'border-transparent bg-white shadow-[2px_4px_1px_#a5996e]'}`} type='text' name='name' value={wardInfo.name} readOnly={isEdit===false} onChange={infoUpdate} />
+                <div className='w-[580px] flex-col'>
+                    <div className='flex mb-8'>
+                        <input className={`w-28 px-3 py-2 border-2 input-box2 ${isEdit ? 'border-transparent bg-secondary' : 'border-transparent bg-white shadow-[2px_4px_1px_#a5996e]'}`} type='text' name='last_name' value={wardInfo.last_name} readOnly={isEdit===false} onChange={infoUpdate} />
+                        <input className={`w-52 ml-[100px] px-3 py-2 border-2 input-box2 ${isEdit ? 'border-transparent bg-secondary' : 'border-transparent bg-white shadow-[2px_4px_1px_#a5996e]'}`} type='text' name='name' value={wardInfo.name} readOnly={isEdit===false} onChange={infoUpdate} />
                         <h2 className='text-small-size w-72 flex items-center ml-3'>{errorMessage.name}</h2>
                     </div>
                     <div className='flex mb-6'>

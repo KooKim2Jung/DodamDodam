@@ -14,6 +14,7 @@ const WardSettingsPage = () => {
         gender: '',
         age: '',
         remark: '',
+        last_name: '',
     });
     const [initialWardInfo, setInitialWardInfo] = useState({});
     const [photoUpdated, setPhotoUpdated] = useState(false); // 사용자의 사진 업데이트 여부
@@ -24,7 +25,8 @@ const WardSettingsPage = () => {
         const formData = new FormData();
         if (photoUpdated) {
             formData.append('photo', wardInfo.photo); // 파일 객체 추가
-        } 
+        }
+        formData.append('last_name', wardInfo.last_name); 
         formData.append('name', wardInfo.name);
         formData.append('gender', wardInfo.gender);
         formData.append('age', wardInfo.age);
@@ -71,6 +73,9 @@ const WardSettingsPage = () => {
         if (photoUpdated && wardInfo.photo !== initialWardInfo.photo) {
             formData.append('photo', wardInfo.photo);
         }
+        else if (wardInfo.last_name !== initialWardInfo.last_name) {
+            formData.append('last_name', wardInfo.last_name);
+        }
         else if (wardInfo.name !== initialWardInfo.name) {
             formData.append('name', wardInfo.name);
         }
@@ -111,7 +116,10 @@ const WardSettingsPage = () => {
             <div className='absolute grid grid-cols-3 left-[300px] top-[170px] w-[850px] text-left'>
                 <div className='col-span-1'></div>
                 <div className='col-span-2'>
-                    <div className='mt-8 -mb-1'>이름</div>
+                    <div className='mt-8 -mb-1 flex'>
+                        <div className='ml-3'>성</div>
+                        <div className='ml-[219px] z-30'>이름</div>
+                    </div>
                     <div className='mt-11 mb-1'>성별</div>
                     <div className='mt-8 mb-16'>나이</div>
                     <div className='mt-16 -ml-6'>특이사항</div>
