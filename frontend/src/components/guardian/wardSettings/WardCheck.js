@@ -28,7 +28,7 @@ const WardCheck = ({isEdit, setIsEdit, wardInfo, errorMessage, setErrorMessage, 
                 generateWardSetting(wardInfo.photo, wardInfo.last_name, wardInfo.name, wardInfo.gender, wardInfo.age, wardInfo.remark)
             }
             else {
-                editWardSetting(wardInfo.photo, wardInfo.lastName, wardInfo.name, wardInfo.gender, wardInfo.age, wardInfo.remark)
+                editWardSetting(wardInfo.photo, wardInfo.last_name, wardInfo.name, wardInfo.gender, wardInfo.age, wardInfo.remark)
             }
         } 
         else {
