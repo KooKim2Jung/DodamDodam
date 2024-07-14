@@ -10,6 +10,7 @@ const WardSettingsPage = () => {
     
     const [wardInfo, setWardInfo] = useState({
         photo: 'https://dodambuket.s3.ap-northeast-2.amazonaws.com/%ED%94%84%EB%A1%9C%ED%95%84%EA%B8%B0%EB%B3%B8%EC%9D%B4%EB%AF%B8%EC%A7%80.png',
+        lastName: '',
         name: '',
         gender: '',
         age: '',
@@ -111,7 +112,10 @@ const WardSettingsPage = () => {
             <div className='absolute grid grid-cols-3 left-[300px] top-[170px] w-[850px] text-left'>
                 <div className='col-span-1'></div>
                 <div className='col-span-2'>
-                    <div className='mt-8 -mb-1'>이름</div>
+                    <div className='mt-8 -mb-1 flex'>
+                        <div className='ml-3'>성</div>
+                        <div className='ml-[219px] z-30'>이름</div>
+                    </div>
                     <div className='mt-11 mb-1'>성별</div>
                     <div className='mt-8 mb-16'>나이</div>
                     <div className='mt-16 -ml-6'>특이사항</div>
