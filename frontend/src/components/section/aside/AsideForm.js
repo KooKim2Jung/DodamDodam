@@ -25,10 +25,15 @@ const AsideForm = () => {
             image: "./images/dodam_basic.png"
         },
         { 
+            title: "집 정보 설정", 
+            url: "/HomeInformationPage",
+            image: "./images/memo.png" 
+        },
+        { 
             title: "피보호자 설정", 
             url: "/WardSettingsPage",
             image: "./images/setting.png" 
-        }
+        },
     ];
 
     const location = useLocation();

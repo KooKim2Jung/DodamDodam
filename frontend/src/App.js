@@ -9,6 +9,7 @@ import MainPage from './pages/main/MainPage';
 import ViewConversationPage from './pages/guardian/viewConversation/ViewConversationPage';
 import ViewEmotionAnalysisPage from './pages/guardian/viewEmotionAnalysis/ViewEmotionAnalysisPage';
 import SchedulePage from './pages/guardian/schedule/SchedulePage';
+import HomeInformationPage from './pages/guardian/homeInformationSettings/HomeInformationPage';
 import DodamSettingsPage from './pages/guardian/dodamSettings/DodamSettingsPage';
 import WardSettingsPage from './pages/guardian/wardSettings/WardSettingsPage';
 
@@ -63,6 +64,7 @@ function App() {
           <Route path="/ViewConversationPage" element={<ViewConversationPage />}/>
           <Route path="/ViewEmotionAnalysisPage" element={<ViewEmotionAnalysisPage />}/>
           <Route path='/SchedulePage' element={<SchedulePage />}/>
+          <Route path='/HomeInformationPage' element={<HomeInformationPage />}/>
           <Route path='/DodamSettingsPage' element={<DodamSettingsPage />}/>
           <Route path='/WardSettingsPage' element={<WardSettingsPage />}/>
         </Routes>
