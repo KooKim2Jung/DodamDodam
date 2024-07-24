@@ -19,7 +19,13 @@ def chat_prompt_info(user_id: int, db: Session) -> str:
         
         f"Your answers are sometimes out of context. Why don't you answer them step by step?"
 
-        "It's important to answer at eye level because the person you're talking to may find it hard to understand difficult words"
+        f"It's important to answer at eye level because the person you're talking to may find it hard to understand difficult words"
+        
+        f"I think your way of speaking is unnatural when you ask questions related to peculiarities. Why don't you say it step by step?"
+        
+        f"If a person talks to you with honorifics, you'd better talk with honorifics"
+        f"But if you talk in a friendly way, you should talk in a friendly way, too"
+        f"Even if a person speaks to you in a friendly way, if they ask you to speak in honorifics, you should speak in honorifics"
     )
     return prompt
 
