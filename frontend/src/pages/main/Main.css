@@ -1,0 +1,28 @@
+.mainSwiper .swiper-slide {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: none;
+}
+
+.mainSwiper .swiper-pagination-bullet {
+    background-color: #FEEBA4 !important;
+    opacity: 1;
+    width: 20px;
+    height: 20px;
+    border: rgb(127, 91, 61) solid 2.5px;
+    margin-bottom: 15px !important;
+}
+
+.mainSwiper .swiper-pagination-bullet-active {
+    background-image: url('small_flower.png');
+    background-repeat: no-repeat;
+    background-color: transparent !important;
+    border-radius: 0px;
+    border: 2px solid transparent;
+    width: 35px;
+    height: 35px;
+    background-size: cover; 
+    position: relative;
+    right: 9px;
+}

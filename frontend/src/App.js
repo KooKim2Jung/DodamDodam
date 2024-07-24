@@ -1,59 +1,77 @@
-import { useState, useEffect } from 'react';
+import { createContext, useState, useEffect } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import LoginPage from './pages/Login/LoginPage';
-import SignupPage from './pages/Signup/SignupPage';
-import GaurdianPage from './pages/Gaurdian/GaurdianPage';
-import WardPage from './pages/Ward/WardPage';
-import UserHeaderForm from './components/Header/UserHeaderForm';
-import NonUserHeaderForm from './components/Header/NonUserHeaderForm';
-import MainPage from './pages/Main/MainPage';
-import AboutPage from './pages/Main/About/AboutPage';
-import EmotionalAnalysisPage from './pages/Main/Detail/EmotionalAnalysisPage';
-import ConversationSummaryPage from './pages/Main/Detail/ConversationSummaryPage';
-import SchedulingPage from './pages/Main/Detail/SchedulingPage';
-import SettingsPage from './pages/Main/Detail/SettingsPage';
-import ViewConversationPage from './pages/Gaurdian/ViewConversation/ViewConversationPage';
-import ViewEmotionAnalysisPage from './pages/Gaurdian/ViewEmotionAnalysis/ViewEmotionAnalysisPage';
-import SchedulePage from './pages/Gaurdian/Schedule/SchedulePage';
-import DodamSettingsPage from './pages/Gaurdian/DodamSettings/DodamSettingsPage';
-import WardSettingsPage from './pages/Gaurdian/WardSettings/WardSettingsPage';
-import Toggle from './components/Toggle/Toggle';
+import Modal from 'react-modal';
+import LoginPage from './pages/user/login/LoginPage';
+import SignupPage from './pages/user/signup/SignupPage';
+import WardPage from './pages/ward/WardPage';
+import HeaderForm from './components/section/header/HeaderForm';
+import MainPage from './pages/main/MainPage';
+import ViewConversationPage from './pages/guardian/viewConversation/ViewConversationPage';
+import ViewEmotionAnalysisPage from './pages/guardian/viewEmotionAnalysis/ViewEmotionAnalysisPage';
+import SchedulePage from './pages/guardian/schedule/SchedulePage';
+import HomeInformationPage from './pages/guardian/homeInformationSettings/HomeInformationPage';
+import DodamSettingsPage from './pages/guardian/dodamSettings/DodamSettingsPage';
+import WardSettingsPage from './pages/guardian/wardSettings/WardSettingsPage';
 
-function App() {
+Modal.setAppElement('#root');
+
+const AppContext = createContext();
+
+const AppProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isEdit, setIsEdit] = useState(false);
+  const [isWardSetting, setIsWardSetting] = useState(false);
+  const [isGuardian, setIsGuardian] = useState(false);
 
   useEffect(() => {
     const storedLoggedInState = localStorage.getItem('isLoggedIn');
     if (storedLoggedInState === 'true') {
         setIsLoggedIn(true);
     }
+    setIsLoading(false);
   }, []);
 
+  if (isLoading) {
+    return null;
+  }
+
   return (
-    <div>
+    <AppContext.Provider 
+      value={{
+        isLoggedIn, setIsLoggedIn, 
+        isEdit, setIsEdit, 
+        isWardSetting, setIsWardSetting, 
+        isGuardian, setIsGuardian
+      }}
+    >
+      {children}
+    </AppContext.Provider>
+  );
+}
+
+function App() {
+
+  return (
+    <AppProvider>
       <BrowserRouter>
-      {isLoggedIn ? <UserHeaderForm setIsLoggedIn={setIsLoggedIn} /> : <NonUserHeaderForm/>}
+        <HeaderForm />
         <Routes>
-          <Route path="/AboutPage" element={<AboutPage/>}/>
           <Route path="/" element={<MainPage/>}/>
-          <Route path="/LoginPage" element={<LoginPage setIsLoggedIn={setIsLoggedIn} />}/>
+          <Route path="/LoginPage" element={<LoginPage />}/>
           <Route path="/SignupPage" element={<SignupPage/>}/>
-          <Route path='/GaurdianPage' element={<GaurdianPage/>}/>
-          <Route path="/WardPage" element={<WardPage/>}/>
-          <Route path="/ConversationSummaryPage" element={<ConversationSummaryPage/>}/>
-          <Route path="/EmotionalAnalysisPage" element={<EmotionalAnalysisPage/>}/>
-          <Route path="/SchedulingPage" element={<SchedulingPage/>}/>
-          <Route path="/SettingsPage" element={<SettingsPage/>}/>
-          <Route path="/ViewConversationPage" element={<ViewConversationPage/>}/>
-          <Route path="/ViewEmotionAnalysisPage" element={<ViewEmotionAnalysisPage/>}/>
-          <Route path='/SchedulePage' element={<SchedulePage/>}/>
-          <Route path='/DodamSettingsPage' element={<DodamSettingsPage/>}/>
-          <Route path='/WardSettingsPage' element={<WardSettingsPage/>}/>
-          <Route path='/Toggle' element={<Toggle />}/>
+          <Route path="/WardPage" element={<WardPage />}/>
+          <Route path="/ViewConversationPage" element={<ViewConversationPage />}/>
+          <Route path="/ViewEmotionAnalysisPage" element={<ViewEmotionAnalysisPage />}/>
+          <Route path='/SchedulePage' element={<SchedulePage />}/>
+          <Route path='/HomeInformationPage' element={<HomeInformationPage />}/>
+          <Route path='/DodamSettingsPage' element={<DodamSettingsPage />}/>
+          <Route path='/WardSettingsPage' element={<WardSettingsPage />}/>
         </Routes>
       </BrowserRouter>
-    </div>
+    </AppProvider>
   );
 }
 
 export default App;
+export { AppContext, AppProvider };

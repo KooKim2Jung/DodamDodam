@@ -7,6 +7,7 @@ class Profile(Base):
 
     id = Column(Integer, primary_key=True)
     user = Column(Integer, nullable=False, unique=True)
+    last_name = Column(String, nullable=False)
     name = Column(String, nullable=False)
     gender = Column(String, nullable=False)
     age = Column(String, nullable=False)

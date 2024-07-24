@@ -3,6 +3,7 @@ from fastapi import UploadFile
 from typing import Optional, Union
 
 class ProfileRead(BaseModel):
+    last_name: str
     name: str
     gender: str
     age: str

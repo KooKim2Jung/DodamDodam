@@ -25,38 +25,21 @@ input::-webkit-inner-spin-button {
   -webkit-appearance: none;
 }
 
-.visibility-visible {
-  visibility: visible;
-}
-
-.visibility-hidden {
-  visibility: hidden;
-}
-
 .input-box {
-  @apply bg-secondary rounded-[10px] py-[8px] px-[20px] mb-[10px] border-secondary border-2
-  focus:outline-none focus:border-2 focus:border-black  text-middle-size;
+  @apply bg-secondary rounded-[50px] py-[8px] px-[20px] w-[360px] mb-[10px] border-secondary border-2
+  focus:outline-none focus:border-2 focus:border-white  text-middle-size;
 }
 
 .input-box2 {
-  @apply bg-transparent border-borderColor border-[3px] rounded-[10px] checked:border-borderColor
-  focus:outline-none focus:border-[3px] focus:border-borderColor
+  @apply border-[3px] rounded-[50px] checked:border-borderColor
+  focus:outline-none focus:border-[3px] focus:border-white
 }
 
 .radio-box {
   @apply appearance-none w-5 h-5 rounded-full border-[3px]
-  checked:bg-borderColor border-white shadow-custom1
 }
 
 .btn {
-  @apply bg-secondary w-[240px] h-[50px] rounded-[10px] py-[6px] mb-[10px] text-2xl
-  hover:bg-tertiay transition-all
-}
-
-.calendar-btn {
-  @apply w-8 h-8 bg-primary border-2 text-2xl items-center justify-center flex rounded-[10px] border-primary;
-}
-
-.calendar-btn:hover {
-  @apply border-black;
+  @apply bg-secondary w-[240px] h-[50px] rounded-[50px] py-[6px] mb-[10px] text-2xl
+  duration-300  hover:border-white hover:border-2
 }

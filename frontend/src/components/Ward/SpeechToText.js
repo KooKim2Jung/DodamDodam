@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
 import api from '../../services/Api';
-import Spinner from '../Spinner/Spinner';
+import Spinner from '../spinner/Spinner';
 
 const SpeechToText = () => {
     const contentRef = useRef(''); // 음성 인식 텍스트 저장
@@ -157,7 +157,7 @@ const SpeechToText = () => {
         <div className='flex justify-center'>
             {isLoading && <Spinner />}
             {!isLoading && voiceUrl && (<div className='flex-col flex'>
-                <div className='flex justify-center mb-3'><img className='w-64' src='./image/dodam_basic.png'/></div>
+                <div className='flex justify-center mb-3'><img className='w-64' src='./images/dodam_basic.png'/></div>
                 <audio autoPlay controls ref={audioRef} src={voiceUrl}/></div>
             )}
             <textarea readOnly

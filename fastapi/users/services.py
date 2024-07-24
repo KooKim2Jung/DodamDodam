@@ -39,8 +39,9 @@ class ProfileService:
             return "피보호자 정보를 찾을 수 없습니다."
         return ProfileRead.from_orm(profile)
 
-    def create_profile(user: int, name: str, gender: str, age: str, photo: str, remark: str, db: Session) -> str:
+    def create_profile(user: int, last_name: str, name: str, gender: str, age: str, photo: str, remark: str, db: Session) -> str:
         new_profile = models.Profile(
+            last_name=last_name,
             user=user,
             name=name,
             gender=gender,
@@ -53,12 +54,14 @@ class ProfileService:
 
         return "피보호자 정보가 생성되었습니다."
 
-    def update_profile(user: int, name: str, gender: str, age: str, photo: str, remark: str, db: Session) -> str:
+    def update_profile(user: int, last_name: str, name: str, gender: str, age: str, photo: str, remark: str, db: Session) -> str:
         profile = db.query(models.Profile).filter(models.Profile.user == user).first()
         if not profile:
             return "피보호자 정보를 찾을 수 없습니다."
 
-            # 입력 값이 있는 경우에만 업데이트
+         # 입력 값이 있는 경우에만 업데이트
+        if last_name is not None:
+            profile.last_name = last_name
         if name is not None:
             profile.name = name
         if gender is not None:
