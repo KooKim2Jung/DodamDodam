@@ -45,20 +45,23 @@ async def chat_api(message: Chat, db: Session = Depends(get_db), current_user_id
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e))
 
 
-
+# 대화 내역을 저장하기 위한 임시 저장소 (예: 메모리, DB 등)
+user_conversations = {}
 
 @router.post("/chat/me/test")
 async def chat_api_test(message: Chat, current_user_id: int = Depends(get_current_user), db: Session = Depends(get_db)):
     try:
-        # message.message를 사용하여 메시지 속성에 접근합니다.
-        similar_response = get_similar_response(message.message)
-        if similar_response:
-            return {"response": similar_response}
+        # 사용자별 대화 내역 가져오기
+        if current_user_id not in user_conversations:
+            user_conversations[current_user_id] = []
 
-        # chat 함수 호출 시 current_user_id와 db를 전달합니다.
-        response = chat(message.message, current_user_id, db)
-        # store_response(message.message, response)
-        return {"response": response}
+        # chat 함수 호출 시 current_user_id와 db, 그리고 대화 내역을 전달합니다.
+        response_text, updated_messages = chat(message.message, current_user_id, db, user_conversations[current_user_id])
+
+        # 대화 내역 업데이트
+        user_conversations[current_user_id] = updated_messages
+
+        return {"response": response_text}
     except Exception as e:
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e))
 
