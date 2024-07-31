@@ -5,7 +5,7 @@ import DodamVoiceForm from '../../../components/guardian/DodamSettings/DodamVoic
 import GuardianModeModalForm from '../../../components/guardian/Guardian/GuardianModeModalForm';
 import { AppContext } from '../../../App';
 
-const DodamS = () => {
+const DodamSettingsPage = () => {
     const { isGuardian, setIsGuardian, isWardSetting } = useContext(AppContext);
 
     const [voice, setVoice] = useState('다정');
@@ -69,4 +69,4 @@ const DodamS = () => {
     );
 };
 
-export default DodamS;
+export default DodamSettingsPage;
