@@ -1,12 +1,17 @@
 import { createContext, useState, useEffect } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Modal from 'react-modal';
+import MainPage from './pages/Main/MainPage';
 import LogInPage from './pages/user/LogIn/LogInPage';
 import SignUpPage from './pages/user/SignUp/SignUpPage';
-import WardPage from './pages/Ward/WardPage';
 import Header from './components/section/Header/Header';
-import MainPage from './pages/Main/MainPage';
-
+import WardPage from './pages/Ward/WardPage';
+import ViewConversationPage from './pages/guardian/ViewConversation/ViewConversationPage';
+import ViewEmotionAnalysisPage from './pages/guardian/ViewEmotionAnalysis/ViewEmotionAnalysisPage';
+import SchedulePage from './pages/guardian/Schedule/SchedulePage';
+import HomeInformationSettingsPage from './pages/guardian/HomeInformationSettings/HomeInformationSettingsPage';
+import DodamSettingsPage from './pages/guardian/DodamSettings/DodamSettingsPage';
+import WardSettingsPage from './pages/guardian/WardSettings/WardSettingsPage';
 
 Modal.setAppElement('#root');
 
@@ -52,11 +57,16 @@ function App() {
       <BrowserRouter>
         <Header />
         <Routes>
-          <Route path="/" element={<MainPage/>}/>
-          <Route path="/LogInPage" element={<LogInPage />}/>
-          <Route path="/SignUpPage" element={<SignUpPage/>}/>
-          <Route path="/WardPage" element={<WardPage />}/>
-
+          <Route path='/' element={<MainPage/>}/>
+          <Route path='/LogInPage' element={<LogInPage/>}/>
+          <Route path='/SignUpPage' element={<SignUpPage/>}/>
+          <Route path='/WardPage' element={<WardPage/>}/>
+          <Route path='/ViewConversationPage' element={<ViewConversationPage/>}/>
+          <Route path='/ViewEmotionAnalysisPage' element={<ViewEmotionAnalysisPage/>}/>
+          <Route path='/SchedulePage' element={<SchedulePage/>}/>
+          <Route path='/HomeInformationSettingsPage' element={<HomeInformationSettingsPage/>}/>
+          <Route path='/DodamSettingsPage' element={<DodamSettingsPage/>}/>
+          <Route path='/WardSettingsPage' element={<WardSettingsPage/>}/>
         </Routes>
       </BrowserRouter>
     </AppProvider>

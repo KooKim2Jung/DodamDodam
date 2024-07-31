@@ -34,10 +34,10 @@ const Header = () => {
                 </nav>
             </>) : (
             <nav className='wave absolute -top-10 left-[500px]'>
-                <a className='relative text-middle-size pb-[5px] hidden md:block' href="/SignupPage"><h2>회원가입</h2></a>
-                <a className='relative text-middle-size pb-[5px] ml-[40px] hidden md:block' href="/LoginPage"><h2>로그인</h2></a>
-                <a className='block md:hidden relative right-[340px] pb-[5px]' href="/SignupPage"><FiUserPlus size='30'/></a>
-                <a className='block md:hidden relative right-[330px] pb-[5px]' href="/LoginPage"><FiLogIn size='30'/></a>
+                <a className='relative text-middle-size pb-[5px] hidden md:block' href="/SignUpPage"><h2>회원가입</h2></a>
+                <a className='relative text-middle-size pb-[5px] ml-[40px] hidden md:block' href="/LogInPage"><h2>로그인</h2></a>
+                <a className='block md:hidden relative right-[340px] pb-[5px]' href="/SignUpPage"><FiUserPlus size='30'/></a>
+                <a className='block md:hidden relative right-[330px] pb-[5px]' href="/LogInPage"><FiLogIn size='30'/></a>
             </nav>
             )}
         </header>

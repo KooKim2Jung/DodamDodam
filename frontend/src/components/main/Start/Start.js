@@ -17,7 +17,7 @@ const Start = () => {
     }, []);
 
     const handlestart = () => {
-        navigate('/LoginPage');
+        navigate('/LogInPage');
     };
 
     return (
