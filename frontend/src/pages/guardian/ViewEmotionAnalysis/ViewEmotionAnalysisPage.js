@@ -6,7 +6,7 @@ import CalendarModalForm from '../../../components/Calendar/CalendarModalForm';
 import GuardianModeModalForm from '../../../components/guardian/Guardian/GuardianModeModalForm';
 import { AppContext } from '../../../App';
 
-const ViewE = () => {
+const ViewEmotionAnalysisPage = () => {
     const { isGuardian, setIsGuardian, isWardSetting } = useContext(AppContext);
     
     return (
@@ -24,4 +24,4 @@ const ViewE = () => {
     );
 };
 
-export default ViewE;
+export default ViewEmotionAnalysisPage;
