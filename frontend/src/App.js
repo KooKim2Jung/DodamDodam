@@ -6,12 +6,7 @@ import SignUpPage from './pages/user/SignUp/SignUpPage';
 import WardPage from './pages/Ward/WardPage';
 import Header from './components/section/Header/Header';
 import MainPage from './pages/Main/MainPage';
-import ViewConversationPage from './pages/guardian/ViewConversation/ViewConversationPage';
-import ViewEmotionAnalysisPage from './pages/guardian/ViewEmotionAnalysis/ViewEmotionAnalysisPage';
-import SchedulePage from './pages/guardian/Schedule/SchedulePage';
-import HomeInformationPage from './pages/guardian/HomeInformationSettings/HomeInformationSettingsPage';
-import DodamSettingsPage from './pages/guardian/DodamSettings/DodamSettingsPage';
-import WardSettingsPage from './pages/guardian/WardSettings/WardSettingsPage';
+
 
 Modal.setAppElement('#root');
 
@@ -61,12 +56,7 @@ function App() {
           <Route path="/LogInPage" element={<LogInPage />}/>
           <Route path="/SignUpPage" element={<SignUpPage/>}/>
           <Route path="/WardPage" element={<WardPage />}/>
-          <Route path="/ViewConversationPage" element={<ViewConversationPage />}/>
-          <Route path="/ViewEmotionAnalysisPage" element={<ViewEmotionAnalysisPage />}/>
-          <Route path='/SchedulePage' element={<SchedulePage />}/>
-          <Route path='/HomeInformationPage' element={<HomeInformationPage />}/>
-          <Route path='/DodamSettingsPage' element={<DodamSettingsPage />}/>
-          <Route path='/WardSettingsPage' element={<WardSettingsPage />}/>
+
         </Routes>
       </BrowserRouter>
     </AppProvider>
