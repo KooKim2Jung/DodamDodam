@@ -5,7 +5,7 @@ import GuardianModeModalForm from '../../../components/guardian/Guardian/Guardia
 import api from '../../../Service/Api';
 import { AppContext } from '../../../App';
 
-const WardS = () => {
+const WardSettingsPage = () => {
     const { isEdit, setIsEdit, isWardSetting, setIsWardSetting, isGuardian, setIsGuardian } = useContext(AppContext);
     
     const [wardInfo, setWardInfo] = useState({
@@ -134,4 +134,4 @@ const WardS = () => {
     )
 };
 
-export default WardS;
+export default WardSettingsPage;
