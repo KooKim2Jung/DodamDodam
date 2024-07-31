@@ -7,7 +7,7 @@ import api from '../../../Service/Api';
 import GuardianModeModalForm from '../../../components/guardian/Guardian/GuardianModeModalForm';
 import { AppContext } from '../../../App';
 
-const ViewC = () => {
+const ViewConversationPage = () => {
     const { isGuardian, setIsGuardian, isWardSetting } = useContext(AppContext);
     
     const [conversations, setConversations] = useState([]);
@@ -90,5 +90,5 @@ const ViewC = () => {
     );
 };
 
-export default ViewC;
+export default ViewConversationPage;
 
