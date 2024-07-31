@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
-import EmotionalAnalysis from './detailForm/emotionalanalysis/EmotionalAnalysis';
-import ConversationSummary from './detailForm/conversationsummary/ConversationSummary';
-import Scheduling from './detailForm/scheduling/Scheduling';
-import Settings from './detailForm/settings/Settings';
+import EmotionalAnalysis from './detailForm/Emotionalanalysis/EmotionalAnalysis';
+import ConversationSummary from './detailForm/Conversationsummary/ConversationSummary';
+import Scheduling from './detailForm/Scheduling/Scheduling';
+import Settings from './detailForm/Settings/Settings';
 import './Detail.css';
 
 const Detail = () => {

@@ -1,9 +1,9 @@
 import React, { useContext } from 'react';
-import AsideForm from '../../../components/section/aside/AsideForm';
-import EmotionAnalysisGraph from '../../../components/guardian/emotionAnalysis/EmotionAnalysisGraph';
-import EmotionAnalysisBoard from '../../../components/guardian/emotionAnalysis/EmotionAnalysisBoard';
-import CalendarModalForm from '../../../components/calendar/CalendarModalForm';
-import GuardianModeModalForm from '../../../components/guardian/GuardianModeModalForm';
+import Aside from '../../../components/section/Aside/Aside';
+import EmotionAnalysisGraph from '../../../components/guardian/EmotionAnalysis/EmotionAnalysisGraph';
+import EmotionAnalysisBoard from '../../../components/guardian/EmotionAnalysis/EmotionAnalysisBoard';
+import CalendarModalForm from '../../../components/Calendar/CalendarModalForm';
+import GuardianModeModalForm from '../../../components/guardian/Guardian/GuardianModeModalForm';
 import { AppContext } from '../../../App';
 
 const ViewEmotionAnalysisPage = () => {
@@ -11,7 +11,7 @@ const ViewEmotionAnalysisPage = () => {
     
     return (
         <div className='flex flex-col h-screen w-screen pl-[240px] pr-10'>
-            <AsideForm/>
+            <Aside/>
             <div className='pt-28 pl-5 relative h-full'>
                 <div className='flex justify-between text-2xl'>
                     <CalendarModalForm/>

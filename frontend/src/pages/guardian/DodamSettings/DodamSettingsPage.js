@@ -1,8 +1,8 @@
 import React, { useContext, useState, useEffect }  from 'react';
-import AsideForm from '../../../components/section/aside/AsideForm';
-import api from '../../../services/Api';
-import DodamVoiceForm from '../../../components/guardian/dodamSettings/DodamVoiceForm';
-import GuardianModeModalForm from '../../../components/guardian/GuardianModeModalForm';
+import Aside from '../../../components/section/Aside/Aside';
+import api from '../../../Service/Api';
+import DodamVoiceForm from '../../../components/guardian/DodamSettings/DodamVoiceForm';
+import GuardianModeModalForm from '../../../components/guardian/Guardian/GuardianModeModalForm';
 import { AppContext } from '../../../App';
 
 const DodamSettingsPage = () => {
@@ -53,7 +53,7 @@ const DodamSettingsPage = () => {
 
     return (
         <div className='flex flex-col h-screen w-screen pl-[240px]'>
-            <AsideForm/>
+            <Aside/>
             <div className='pt-28 pl-5'>
                 <h2 className='text-3xl text-left'>도담이 목소리</h2>
                 <div className='flex justify-center relative -top-8'>

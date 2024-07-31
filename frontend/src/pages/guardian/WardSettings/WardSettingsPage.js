@@ -1,8 +1,8 @@
 import React, { useContext, useState, useEffect } from 'react';
-import AsideForm from '../../../components/section/aside/AsideForm';
-import WardSettingsForm from '../../../components/guardian/wardSettings/WardSettingsForm';
-import GuardianModeModalForm from '../../../components/guardian/GuardianModeModalForm';
-import api from '../../../services/Api';
+import Aside from '../../../components/section/Aside/Aside';
+import WardSettingsForm from '../../../components/guardian/WardSettings/WardSettingsForm';
+import GuardianModeModalForm from '../../../components/guardian/Guardian/GuardianModeModalForm';
+import api from '../../../Service/Api';
 import { AppContext } from '../../../App';
 
 const WardSettingsPage = () => {
@@ -112,7 +112,7 @@ const WardSettingsPage = () => {
     return (
         <div className='text-3xl w-screen'>
             <h2 className='absolute top-28 left-[265px]'>피보호자 설정</h2>
-            <AsideForm/>
+            <Aside/>
             <div className='absolute grid grid-cols-3 left-[300px] top-[170px] w-[850px] text-left'>
                 <div className='col-span-1'></div>
                 <div className='col-span-2'>

@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import api from '../../../services/Api';
-import SignupForm from '../../../components/user/signup/SignupForm';
-import SignupCheck from '../../../components/user/signup/SignupCheck';
+import api from '../../../Service/Api';
+import SignUpForm from '../../../components/user/SignUp/SignUpForm';
+import SignUpCheck from '../../../components/user/SignUp/SignUpCheck';
 
-const SignupPage = () => {
+const SignUpPage = () => {
     const [welcomeUser, setWelcomeUser] = useState({
         email: '',
         password: '',
@@ -19,10 +19,10 @@ const SignupPage = () => {
     }
 
     const handleLogin = () => {
-        navigate('/loginPage');
+        navigate('/LogInPage');
     }
 
-    const submitSignup  = async (event) => {
+    const submitSignUp  = async (event) => {
         event.preventDefault();
         if (validateForm()) {
             try {
@@ -33,9 +33,9 @@ const SignupPage = () => {
                 });
                 alert(response.data.message);
                 handleLogin();
-            } catch (signupError) {
-                console.log("회원가입 요청 오류", signupError);
-                const { message } = signupError.response.data;
+            } catch (signUpError) {
+                console.log("회원가입 요청 오류", signUpError);
+                const { message } = signUpError.response.data;
                 const firstMessage = message.split('\n')[0]; 
                 setErrorMessage(firstMessage);
             }
@@ -62,14 +62,14 @@ const SignupPage = () => {
     }
 
     return (
-        <form onSubmit={submitSignup}>
+        <form onSubmit={submitSignUp}>
             <div className='relative flex justify-center items-center mt-[120px] mb-[25px] 
             w-[560px] h-[680px] rounded-[50px] shadow-[6px_4px_10px_#a5996e]'>
                 <img src='/images/dodam_signup.png' className='w-[440px] h-[600px]'/>
                 <div className='absolute mt-40 w-[360px] z-10'>
                     <h1 className='text-basic-size'>회원가입</h1>
-                    <SignupForm welcomeUser={welcomeUser} setWelcomeUser={setWelcomeUser}/>
-                    <SignupCheck errorMessage={errorMessage}/>
+                    <SignUpForm welcomeUser={welcomeUser} setWelcomeUser={setWelcomeUser}/>
+                    <SignUpCheck errorMessage={errorMessage}/>
                     <button className='btn -mt-4' type='submit'>가입하기</button>
                 </div>
             </div>
@@ -77,4 +77,4 @@ const SignupPage = () => {
     );
 };
 
-export default SignupPage;
+export default SignUpPage;

@@ -1,8 +1,8 @@
 import React, { useContext, useState } from 'react';
 import { FiEdit2, FiTrash2 } from "react-icons/fi";
-import AsideForm from '../../../components/section/aside/AsideForm';
-import ScheduleForm from '../../../components/guardian/schedule/ScheduleForm';
-import GuardianModeModalForm from '../../../components/guardian/GuardianModeModalForm';
+import Aside from '../../../components/section/Aside/Aside';
+import ScheduleForm from '../../../components/guardian/Schedule/ScheduleForm';
+import GuardianModeModalForm from '../../../components/guardian/Guardian/GuardianModeModalForm';
 import { AppContext } from '../../../App';
 
 const SchedulePage = () => {
@@ -36,7 +36,7 @@ const SchedulePage = () => {
 
     return (
         <div className='flex flex-col h-screen w-screen pl-[240px]'>
-            <AsideForm />
+            <Aside />
             <div className='pt-32 text-3xl'>
                 <div className='grid grid-cols-5 mb-5'>
                     <h2>날짜</h2>

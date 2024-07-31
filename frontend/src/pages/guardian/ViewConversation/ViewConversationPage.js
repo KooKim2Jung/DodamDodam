@@ -1,10 +1,10 @@
 import React, { useContext, useState, useEffect } from 'react';
-import AsideForm from '../../../components/section/aside/AsideForm';
-import ConversationSummaryModalForm from '../../../components/guardian/conversation/ConversationSummaryModalForm';
-import CalendarModalForm from '../../../components/calendar/CalendarModalForm';
-import ConversationContentBoard from '../../../components/guardian/conversation/ConversationContentBoard';
-import api from '../../../services/Api';
-import GuardianModeModalForm from '../../../components/guardian/GuardianModeModalForm';
+import Aside from '../../../components/section/Aside/Aside';
+import ConversationSummaryModalForm from '../../../components/guardian/Conversation/ConversationSummaryModalForm';
+import CalendarModalForm from '../../../components/Calendar/CalendarModalForm';
+import ConversationContentBoard from '../../../components/guardian/Conversation/ConversationContentBoard';
+import api from '../../../Service/Api';
+import GuardianModeModalForm from '../../../components/guardian/Guardian/GuardianModeModalForm';
 import { AppContext } from '../../../App';
 
 const ViewConversationPage = () => {
@@ -69,7 +69,7 @@ const ViewConversationPage = () => {
 
     return (
         <div className="flex flex-col h-screen w-screen pl-[240px] pr-5">
-            <AsideForm />
+            <Aside />
             <div className="pt-28 pl-5 relative h-full">
                 <div className="flex justify-between text-2xl mb-3">
                     <CalendarModalForm onDateChange={handleDateChange}  />

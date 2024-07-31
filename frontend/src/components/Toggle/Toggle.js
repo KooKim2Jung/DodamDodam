@@ -1,8 +1,8 @@
 import { useNavigate, useLocation } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
-import './ToggleForm.css';
+import './Toggle.css';
 
-const ToggleForm = () => {
+const Toggle = () => {
     const [isToggled, setIsToggled] = useState('피보호자');
 
     const navigate = useNavigate();
@@ -55,4 +55,4 @@ const ToggleForm = () => {
     );
 };
 
-export default ToggleForm;
+export default Toggle;

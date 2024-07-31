@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Modal from 'react-modal';
-import api from '../../services/Api';
+import api from '../../../Service/Api';
 
 const GuardianModeModalForm = ({ isGuardian, setIsGuardian, isWardSetting }) => {
     const [isOpen, setIsOpen] = useState(false);

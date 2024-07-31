@@ -1,17 +1,17 @@
 import { createContext, useState, useEffect } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Modal from 'react-modal';
-import LoginPage from './pages/user/login/LoginPage';
-import SignupPage from './pages/user/signup/SignupPage';
-import WardPage from './pages/ward/WardPage';
-import HeaderForm from './components/section/header/HeaderForm';
-import MainPage from './pages/main/MainPage';
-import ViewConversationPage from './pages/guardian/viewConversation/ViewConversationPage';
-import ViewEmotionAnalysisPage from './pages/guardian/viewEmotionAnalysis/ViewEmotionAnalysisPage';
-import SchedulePage from './pages/guardian/schedule/SchedulePage';
-import HomeInformationPage from './pages/guardian/homeInformationSettings/HomeInformationPage';
-import DodamSettingsPage from './pages/guardian/dodamSettings/DodamSettingsPage';
-import WardSettingsPage from './pages/guardian/wardSettings/WardSettingsPage';
+import LogInPage from './pages/user/LogIn/LogInPage';
+import SignUpPage from './pages/user/SignUp/SignUpPage';
+import WardPage from './pages/Ward/WardPage';
+import Header from './components/section/Header/Header';
+import MainPage from './pages/Main/MainPage';
+import ViewConversationPage from './pages/guardian/ViewConversation/ViewConversationPage';
+import ViewEmotionAnalysisPage from './pages/guardian/ViewEmotionAnalysis/ViewEmotionAnalysisPage';
+import SchedulePage from './pages/guardian/Schedule/SchedulePage';
+import HomeInformationPage from './pages/guardian/HomeInformationSettings/HomeInformationSettingsPage';
+import DodamSettingsPage from './pages/guardian/DodamSettings/DodamSettingsPage';
+import WardSettingsPage from './pages/guardian/WardSettings/WardSettingsPage';
 
 Modal.setAppElement('#root');
 
@@ -55,11 +55,11 @@ function App() {
   return (
     <AppProvider>
       <BrowserRouter>
-        <HeaderForm />
+        <Header />
         <Routes>
           <Route path="/" element={<MainPage/>}/>
-          <Route path="/LoginPage" element={<LoginPage />}/>
-          <Route path="/SignupPage" element={<SignupPage/>}/>
+          <Route path="/LogInPage" element={<LogInPage />}/>
+          <Route path="/SignUpPage" element={<SignUpPage/>}/>
           <Route path="/WardPage" element={<WardPage />}/>
           <Route path="/ViewConversationPage" element={<ViewConversationPage />}/>
           <Route path="/ViewEmotionAnalysisPage" element={<ViewEmotionAnalysisPage />}/>

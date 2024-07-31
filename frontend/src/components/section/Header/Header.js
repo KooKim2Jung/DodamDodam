@@ -2,10 +2,10 @@ import React, { useContext } from 'react';
 import { FiLogIn, FiLogOut, FiUserPlus, FiUnlock, FiLock } from "react-icons/fi";
 import { useNavigate } from 'react-router-dom';
 import '../../Wave.css';
-import ToggleForm from '../../toggle/ToggleForm';
+import Toggle from '../../Toggle/Toggle';
 import { AppContext } from '../../../App';
 
-const HeaderForm = () => {
+const Header = () => {
     const { isLoggedIn, setIsLoggedIn } = useContext(AppContext);
 
     const navigate = useNavigate();
@@ -25,7 +25,7 @@ const HeaderForm = () => {
                 <img className='h-10 w-11 ml-2 hidden md:block' src='./images/middle_flower.png'/>
             </h1>
             {isLoggedIn ? (<>
-                <div className='absolute top-6 left-[30px] hidden md:left-[875px] md:block'><ToggleForm /></div>
+                <div className='absolute top-6 left-[30px] hidden md:left-[875px] md:block'><Toggle /></div>
                 <a className='block md:hidden relative -top-10 left-[375px] pb-[5px]' href="/WardSettingsPage"><FiLock size='30'/></a>
                 <a className='block md:hidden relative -top-[75px] left-[410px] pb-[5px]' href="/WardPage"><FiUnlock size='30'/></a>
                 <nav className='wave absolute -top-10 left-[555px] ml-5'>
@@ -44,4 +44,4 @@ const HeaderForm = () => {
     );
 };
 
-export default HeaderForm;
+export default Header;

@@ -1,11 +1,11 @@
 import { useNavigate } from 'react-router-dom';
 import React, { useContext, useState } from 'react';
-import api from '../../../services/Api';
-import LoginForm from '../../../components/user/login/LoginForm';
-import LoginCheck from '../../../components/user/login/LoginCheck';
+import api from '../../../Service/Api';
+import LogInForm from '../../../components/user/LogIn/LogInForm';
+import LogInCheck from '../../../components/user/LogIn/LogInCheck';
 import { AppContext } from '../../../App';
 
-const LoginPage = () => {
+const LogInPage = () => {
     const { setIsLoggedIn, setIsEdit, setIsWardSetting } = useContext(AppContext);
 
     const [user, setUser] = useState({
@@ -16,16 +16,16 @@ const LoginPage = () => {
     const [errorMessage, setErrorMessage] = useState('');
     const navigate = useNavigate();
 
-    const handleLogin = () => {
+    const handleLogIn = () => {
         setIsLoggedIn(true);
         localStorage.setItem('isLoggedIn', 'true');
     }
 
     const handleSignup = () => {
-        navigate('/SignupPage')
+        navigate('/SignUpPage')
     }
 
-    const submitLogin = async (event) => {
+    const submitLogIn = async (event) => {
         event.preventDefault();
         if (validateForm()) {
             try {
@@ -35,11 +35,11 @@ const LoginPage = () => {
                 });
                 const token = response.data.token; 
                 localStorage.setItem('jwtToken', token);
-                handleLogin();
+                handleLogIn();
                 checkWard();
-            } catch (loginError) {
-                console.error("로그인 요청 오류", loginError);
-                const { message } = loginError.response.data;
+            } catch (logInError) {
+                console.error("로그인 요청 오류", logInError);
+                const { message } = logInError.response.data;
                 setErrorMessage(message);
             }
         }
@@ -85,16 +85,16 @@ const LoginPage = () => {
     }
 
     return (
-        <form onSubmit={submitLogin}>
+        <form onSubmit={submitLogIn}>
             <div className='flex items-center justify-center bg-primary mt-[120px] mb-[25px] 
             w-[700px] h-[450px] rounded-[50px] shadow-[6px_4px_10px_#a5996e]'>
                 <div className='flex mx-10 pl-4'>
                     <img src='/images/dodam_basic.png' className='w-[205px] h-[235px] relative top-[70px]'/>
                     <div>
                         <h1 className='text-basic-size'>로그인</h1>
-                        <LoginForm user={user} setUser={setUser}/>
+                        <LogInForm user={user} setUser={setUser}/>
                         <div className='text-small-size mb-4 mt-2 text-gray-400'><a href="#">비밀번호를 잊으셨나요?</a></div>
-                        <LoginCheck errorMessage={errorMessage}/>
+                        <LogInCheck errorMessage={errorMessage}/>
                         <button className='btn' type='submit' >로그인하기</button>
                         <button className='btn' type='button' onClick={handleSignup}>회원 가입하기</button>
                     </div>
@@ -104,4 +104,4 @@ const LoginPage = () => {
     );
 };
 
-export default LoginPage;
+export default LogInPage;

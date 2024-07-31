@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import '../../Wave.css';
 
-const AsideForm = () => {
+const Aside = () => {
     const features = [
         { 
             title: "대화내용 보기", 
@@ -26,7 +26,7 @@ const AsideForm = () => {
         },
         { 
             title: "집 정보 설정", 
-            url: "/HomeInformationPage",
+            url: "/HomeInformationSettingsPage",
             image: "./images/memo.png" 
         },
         { 
@@ -67,4 +67,4 @@ const AsideForm = () => {
     );
 };
 
-export default AsideForm;
+export default Aside;
