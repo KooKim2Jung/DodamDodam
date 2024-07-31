@@ -5,7 +5,7 @@ import ScheduleForm from '../../../components/guardian/Schedule/ScheduleForm';
 import GuardianModeModalForm from '../../../components/guardian/Guardian/GuardianModeModalForm';
 import { AppContext } from '../../../App';
 
-const Sched = () => {
+const SchedulePage = () => {
     const { isGuardian, setIsGuardian, isWardSetting } = useContext(AppContext);
     
     const [items, setItems] = useState([]);
@@ -72,5 +72,5 @@ const Sched = () => {
     );
 };
 
-export default Sched;
+export default SchedulePage;
 
