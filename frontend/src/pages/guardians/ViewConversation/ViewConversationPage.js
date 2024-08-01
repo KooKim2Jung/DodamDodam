@@ -1,10 +1,10 @@
 import React, { useContext, useState, useEffect } from 'react';
 import Aside from '../../../components/section/Aside/Aside';
-import ConversationSummaryModalForm from '../../../components/guardian/Conversation/ConversationSummaryModalForm';
-import CalendarModalForm from '../../../components/Calendar/CalendarModalForm';
-import ConversationContentBoard from '../../../components/guardian/Conversation/ConversationContentBoard';
+import ConversationSummaryModalForm from '../../../components/guardians/Conversation/ConversationSummaryModalForm';
+import Calendar from '../../../components/Calendar/Calendar';
+import ConversationContentBoard from '../../../components/guardians/Conversation/ConversationContentBoard';
 import api from '../../../Service/Api';
-import GuardianModeModalForm from '../../../components/guardian/Guardian/GuardianModeModalForm';
+import GuardianModeModalForm from '../../../components/guardians/Guardian/GuardianModeModalForm';
 import { AppContext } from '../../../App';
 
 const ViewConversationPage = () => {
@@ -72,7 +72,7 @@ const ViewConversationPage = () => {
             <Aside />
             <div className="pt-28 pl-5 relative h-full">
                 <div className="flex justify-between text-2xl mb-3">
-                    <CalendarModalForm onDateChange={handleDateChange}  />
+                    <Calendar onDateChange={handleDateChange}  />
                     <ConversationSummaryModalForm summary={summary} />
                 </div>
                 {isSelected ? (

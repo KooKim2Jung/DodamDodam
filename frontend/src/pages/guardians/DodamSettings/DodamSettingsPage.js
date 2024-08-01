@@ -1,8 +1,8 @@
 import React, { useContext, useState, useEffect }  from 'react';
 import Aside from '../../../components/section/Aside/Aside';
 import api from '../../../Service/Api';
-import DodamVoiceForm from '../../../components/guardian/DodamSettings/DodamVoiceForm';
-import GuardianModeModalForm from '../../../components/guardian/Guardian/GuardianModeModalForm';
+import DodamVoiceForm from '../../../components/guardians/DodamSettings/DodamVoiceForm';
+import GuardianModeModalForm from '../../../components/guardians/Guardian/GuardianModeModalForm';
 import { AppContext } from '../../../App';
 
 const DodamSettingsPage = () => {

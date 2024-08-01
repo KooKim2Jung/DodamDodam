@@ -1,8 +1,8 @@
 import React, { useContext, useState } from 'react';
 import { FiEdit2, FiTrash2 } from "react-icons/fi";
 import Aside from '../../../components/section/Aside/Aside';
-import ScheduleForm from '../../../components/guardian/Schedule/ScheduleForm';
-import GuardianModeModalForm from '../../../components/guardian/Guardian/GuardianModeModalForm';
+import ScheduleForm from '../../../components/guardians/Schedule/ScheduleForm';
+import GuardianModeModalForm from '../../../components/guardians/Guardian/GuardianModeModalForm';
 import { AppContext } from '../../../App';
 
 const SchedulePage = () => {

@@ -6,12 +6,12 @@ import LogInPage from './pages/user/LogIn/LogInPage';
 import SignUpPage from './pages/user/SignUp/SignUpPage';
 import Header from './components/section/Header/Header';
 import WardPage from './pages/Ward/WardPage';
-import ViewConversationPage from './pages/guardian/ViewConversation/ViewConversationPage';
-import ViewEmotionAnalysisPage from './pages/guardian/ViewEmotionAnalysis/ViewEmotionAnalysisPage';
-import SchedulePage from './pages/guardian/Schedule/SchedulePage';
-import HomeInformationSettingsPage from './pages/guardian/HomeInformationSettings/HomeInformationSettingsPage';
-import DodamSettingsPage from './pages/guardian/DodamSettings/DodamSettingsPage';
-import WardSettingsPage from './pages/guardian/WardSettings/WardSettingsPage';
+import ViewConversationPage from './pages/guardians/ViewConversation/ViewConversationPage';
+import ViewEmotionAnalysisPage from './pages/guardians/ViewEmotionAnalysis/ViewEmotionAnalysisPage';
+import SchedulePage from './pages/guardians/Schedule/SchedulePage';
+import HomeInformationSettingsPage from './pages/guardians/HomeInformationSettings/HomeInformationSettingsPage';
+import DodamSettingsPage from './pages/guardians/DodamSettings/DodamSettingsPage';
+import WardSettingsPage from './pages/guardians/WardSettings/WardSettingsPage';
 
 Modal.setAppElement('#root');
 

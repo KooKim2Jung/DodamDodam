@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from 'react';
 import Aside from '../../../components/section/Aside/Aside';
-import WardSettingsForm from '../../../components/guardian/WardSettings/WardSettingsForm';
-import GuardianModeModalForm from '../../../components/guardian/Guardian/GuardianModeModalForm';
+import WardSettingsForm from '../../../components/guardians/WardSettings/WardSettingsForm';
+import GuardianModeModalForm from '../../../components/guardians/Guardian/GuardianModeModalForm';
 import api from '../../../Service/Api';
 import { AppContext } from '../../../App';
 

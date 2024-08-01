@@ -5,12 +5,12 @@ import DatePicker from 'react-datepicker';
 import { registerLocale, setDefaultLocale } from 'react-datepicker';
 import ko from 'date-fns/locale/ko'; // 한국어 로케일 가져오기
 import 'react-datepicker/dist/react-datepicker.css';
-import './DatePicker.css';
+import './Calendar.css';
 
 registerLocale('ko', ko); // 한국어 로케일 등록
 setDefaultLocale('ko'); // 기본 로케일을 한국어로 설정
 
-const CalendarModalForm = ({ onDateChange, selectedDates }) => {
+const Calendar = ({ onDateChange, selectedDates }) => {
     const [isOpen, setIsOpen] = useState(false);
     const [selectedDate, setSelectedDate] = useState(null);
 
@@ -59,4 +59,4 @@ const CalendarModalForm = ({ onDateChange, selectedDates }) => {
     );
 };
 
-export default CalendarModalForm;
+export default Calendar;
