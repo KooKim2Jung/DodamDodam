@@ -10,7 +10,7 @@ const convertToKST = (utcTime) => {
     return kstTime.toISOString().split('T')[1].substring(0, 5); // HH:MM 형식으로 반환
 };
 
-const ConversationContentBoard = ({ conversation }) => {
+const ConversationBoard = ({ conversation }) => {
     const { speaker, content, time } = conversation;
     const isDodam = speaker === 'dodam'; // 스피커가 도담인지 확인
     const kstTime = convertToKST(time); // 시간을 KST로 변환
@@ -34,4 +34,4 @@ const ConversationContentBoard = ({ conversation }) => {
     );
 };
 
-export default ConversationContentBoard;
+export default ConversationBoard;

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Modal from 'react-modal';
 
-const ConversationSummaryModalForm = ({ summary }) => {
+const ConversationSummary = ({ summary }) => {
     const [isOpen, setIsOpen] = useState(false);
 
     const openModal = () => {
@@ -34,4 +34,4 @@ const ConversationSummaryModalForm = ({ summary }) => {
     );
 };
 
-export default ConversationSummaryModalForm;
+export default ConversationSummary;
