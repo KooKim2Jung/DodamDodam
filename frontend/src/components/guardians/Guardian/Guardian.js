@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import Modal from 'react-modal';
 import api from '../../../Service/Api';
 
-const GuardianModeModalForm = ({ isGuardian, setIsGuardian, isWardSetting }) => {
+const Guardian = ({ isGuardian, setIsGuardian, isWardSetting }) => {
     const [isOpen, setIsOpen] = useState(false);
     const [guardianPassword, setGuardianPassword] = useState('')
     const [errorMessage, setErrorMessage] = useState('');
@@ -87,4 +87,4 @@ const GuardianModeModalForm = ({ isGuardian, setIsGuardian, isWardSetting }) => 
     )
 };
 
-export default GuardianModeModalForm;
+export default Guardian;

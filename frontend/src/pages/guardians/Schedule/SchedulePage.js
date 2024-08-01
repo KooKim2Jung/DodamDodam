@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 import { FiEdit2, FiTrash2 } from "react-icons/fi";
 import Aside from '../../../components/section/Aside/Aside';
 import ScheduleForm from '../../../components/guardians/Schedule/ScheduleForm';
-import GuardianModeModalForm from '../../../components/guardians/Guardian/GuardianModeModalForm';
+import Guardian from '../../../components/guardians/Guardian/Guardian';
 import { AppContext } from '../../../App';
 
 const SchedulePage = () => {
@@ -67,7 +67,7 @@ const SchedulePage = () => {
                     }
                 </div>
             ))}
-             <GuardianModeModalForm isGuardian={isGuardian} setIsGuardian={setIsGuardian} isWardSetting={isWardSetting}/>
+             <Guardian isGuardian={isGuardian} setIsGuardian={setIsGuardian} isWardSetting={isWardSetting}/>
         </div>
     );
 };

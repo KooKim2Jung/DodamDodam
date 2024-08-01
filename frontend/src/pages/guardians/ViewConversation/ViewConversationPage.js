@@ -4,7 +4,7 @@ import ConversationSummaryModalForm from '../../../components/guardians/Conversa
 import Calendar from '../../../components/Calendar/Calendar';
 import ConversationContentBoard from '../../../components/guardians/Conversation/ConversationContentBoard';
 import api from '../../../Service/Api';
-import GuardianModeModalForm from '../../../components/guardians/Guardian/GuardianModeModalForm';
+import Guardian from '../../../components/guardians/Guardian/Guardian';
 import { AppContext } from '../../../App';
 
 const ViewConversationPage = () => {
@@ -85,7 +85,7 @@ const ViewConversationPage = () => {
                     <div className="text-center text-2xl text-gray-400">{error}</div>
                 )}
             </div>
-            <GuardianModeModalForm isGuardian={isGuardian} setIsGuardian={setIsGuardian} isWardSetting={isWardSetting}/>
+            <Guardian isGuardian={isGuardian} setIsGuardian={setIsGuardian} isWardSetting={isWardSetting}/>
         </div>
     );
 };

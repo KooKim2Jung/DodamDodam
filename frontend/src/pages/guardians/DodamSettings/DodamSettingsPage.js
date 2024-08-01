@@ -2,7 +2,7 @@ import React, { useContext, useState, useEffect }  from 'react';
 import Aside from '../../../components/section/Aside/Aside';
 import api from '../../../Service/Api';
 import DodamVoiceForm from '../../../components/guardians/DodamSettings/DodamVoiceForm';
-import GuardianModeModalForm from '../../../components/guardians/Guardian/GuardianModeModalForm';
+import Guardian from '../../../components/guardians/Guardian/Guardian';
 import { AppContext } from '../../../App';
 
 const DodamSettingsPage = () => {
@@ -64,7 +64,7 @@ const DodamSettingsPage = () => {
                     <button className='input-box2 relative p-2 w-40 top-14 hover:scale-110 bg-secondary border-transparent' onClick={voiceSetting}>확인</button>
                 </div>
             </div>
-            <GuardianModeModalForm isGuardian={isGuardian} setIsGuardian={setIsGuardian} isWardSetting={isWardSetting}/>
+            <Guardian isGuardian={isGuardian} setIsGuardian={setIsGuardian} isWardSetting={isWardSetting}/>
         </div>
     );
 };

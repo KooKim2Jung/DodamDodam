@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from 'react';
 import Aside from '../../../components/section/Aside/Aside';
 import WardSettingsForm from '../../../components/guardians/WardSettings/WardSettingsForm';
-import GuardianModeModalForm from '../../../components/guardians/Guardian/GuardianModeModalForm';
+import Guardian from '../../../components/guardians/Guardian/Guardian';
 import api from '../../../Service/Api';
 import { AppContext } from '../../../App';
 
@@ -129,7 +129,7 @@ const WardSettingsPage = () => {
             editWardSetting={editWardSetting} setPhotoUpdated={setPhotoUpdated} previewUrl={previewUrl} setPreviewUrl={setPreviewUrl} 
             isWardSetting={isWardSetting} generateWardSetting={generateWardSetting}
             />
-             <GuardianModeModalForm isGuardian={isGuardian} setIsGuardian={setIsGuardian} isWardSetting={isWardSetting}/>
+             <Guardian isGuardian={isGuardian} setIsGuardian={setIsGuardian} isWardSetting={isWardSetting}/>
         </div>
     )
 };

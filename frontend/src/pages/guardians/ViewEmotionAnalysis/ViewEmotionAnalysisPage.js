@@ -3,7 +3,7 @@ import Aside from '../../../components/section/Aside/Aside';
 import EmotionAnalysisGraph from '../../../components/guardians/EmotionAnalysis/EmotionAnalysisGraph';
 import EmotionAnalysisBoard from '../../../components/guardians/EmotionAnalysis/EmotionAnalysisBoard';
 import Calendar from '../../../components/Calendar/Calendar';
-import GuardianModeModalForm from '../../../components/guardians/Guardian/GuardianModeModalForm';
+import Guardian from '../../../components/guardians/Guardian/Guardian';
 import { AppContext } from '../../../App';
 
 const ViewEmotionAnalysisPage = () => {
@@ -19,7 +19,7 @@ const ViewEmotionAnalysisPage = () => {
                 <EmotionAnalysisGraph/>
                 <EmotionAnalysisBoard/>
             </div>
-            <GuardianModeModalForm isGuardian={isGuardian} setIsGuardian={setIsGuardian} isWardSetting={isWardSetting}/>
+            <Guardian isGuardian={isGuardian} setIsGuardian={setIsGuardian} isWardSetting={isWardSetting}/>
         </div>
     );
 };
