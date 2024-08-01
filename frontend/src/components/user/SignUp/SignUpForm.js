@@ -1,6 +1,6 @@
 import React from 'react';
 
-const SignupForm = ({welcomeUser, setWelcomeUser}) => {
+const SignUpForm = ({welcomeUser, setWelcomeUser}) => {
     const submitWelcomeUser = (e) => {
         const { name, value } = e.target;
         setWelcomeUser(welcomeUser => ({
@@ -35,4 +35,4 @@ const SignupForm = ({welcomeUser, setWelcomeUser}) => {
     );
 };
 
-export default SignupForm;
+export default SignUpForm;

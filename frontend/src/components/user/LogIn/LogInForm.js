@@ -1,6 +1,6 @@
 import React from 'react';
 
-const LoginForm = ({ user, setUser }) => {
+const LogInForm = ({ user, setUser }) => {
     const submitUser = (e) => {
         const { name, value } = e.target;
         setUser(user => ({
@@ -29,4 +29,4 @@ const LoginForm = ({ user, setUser }) => {
     );
 };
 
-export default LoginForm;
+export default LogInForm;

@@ -1,6 +1,6 @@
 import React from 'react';
 
-const LoginCheck = ({ errorMessage }) => {    
+const LogInCheck = ({ errorMessage }) => {    
     return (
         <div>
             <div className='text-small-size  mb-4'>{errorMessage}</div>
@@ -8,4 +8,4 @@ const LoginCheck = ({ errorMessage }) => {
     );
 };
 
-export default LoginCheck;
+export default LogInCheck;

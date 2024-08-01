@@ -1,6 +1,6 @@
 import React from 'react';
 
-const SignupCheck = ({ errorMessage }) => {
+const SignUpCheck = ({ errorMessage }) => {
     return (
         <div>
             <div className='text-small-size mt-2 mb-7 whitespace-pre-line'>{errorMessage}</div>
@@ -8,4 +8,4 @@ const SignupCheck = ({ errorMessage }) => {
     );
 };
 
-export default SignupCheck;
+export default SignUpCheck;

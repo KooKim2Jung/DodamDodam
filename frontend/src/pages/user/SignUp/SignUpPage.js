@@ -18,7 +18,7 @@ const SignUpPage = () => {
         setErrorMessage('');
     }
 
-    const handleLogin = () => {
+    const handleLogIn = () => {
         navigate('/LogInPage');
     }
 
@@ -32,7 +32,7 @@ const SignUpPage = () => {
                     phoneNumber: welcomeUser.phoneNumber
                 });
                 alert(response.data.message);
-                handleLogin();
+                handleLogIn();
             } catch (signUpError) {
                 console.log("회원가입 요청 오류", signUpError);
                 const { message } = signUpError.response.data;
