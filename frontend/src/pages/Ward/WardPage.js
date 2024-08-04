@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from 'react';
-import SpeechToText from '../../components/ward/SpeechToText';
+import SpeechToText from '../../components/Ward/SpeechToText';
 import { AppContext } from '../../App';
 
 const WardPage = () => {

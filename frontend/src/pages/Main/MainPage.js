@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
-import Start from '../../components/main/start/Start';
-import About from '../../components/main/about/About';
-import Detail from '../../components/main/detail/Detail';
+import Start from '../../components/main/Start/Start';
+import About from '../../components/main/About/About';
+import Detail from '../../components/main/Detail/Detail';
 import './Main.css';
 
 const MainPage = () => {
