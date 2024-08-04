@@ -1,4 +1,6 @@
 # gpt_model_utility.py
+from collections import deque
+
 import openai
 from sqlalchemy.orm import Session
 from users.services import ProfileService
@@ -11,27 +13,21 @@ def chat_prompt_info(user_id: int, db: Session) -> str:
         f"Your name is 도담, and you are a friendly and casual assistant. "
         f"The user's name is {profile.name}, last name is {profile.last_name}, they are {profile.age} years old. "
         f"The user's gender is {profile.gender}, and their peculiarity is '{profile.remark}'. "
-
         f"Please respond informally in Korean. Do not use emoticons. "
         f"Include the user's profile information in your responses only if the conversation naturally leads to it."
-
         f"Since people are shy about the peculiarities, it is better to have a conversation based on the relevant contents "
         f"when the conversation is about the peculiarities rather than recklessly mentioning the peculiarities."
-
         f"Your answers are sometimes out of context. Why don't you answer them step by step?"
-
         f"It's important to answer at eye level because the person you're talking to may find it hard to understand difficult words."
-
         f"I think your way of speaking is unnatural when you ask questions related to peculiarities. Why don't you say it step by step?"
-
         f"If a person talks to you with honorifics, you'd better talk with honorifics."
         f"But if you talk in a friendly way, you should talk in a friendly way, too."
         f"Even if a person speaks to you in a friendly way, if they ask you to speak in honorifics, you should speak in honorifics."
     )
     return prompt
 
-def chat(message: str, user_id: int, db: Session, messages: List[Dict[str, str]]) -> str:
-    if not messages:
+def chat(message: str, user_id: int, db: Session, messages: deque) -> str:
+    if not messages:  # deque가 비어있는 경우 초기 메시지 추가
         prompt = chat_prompt_info(user_id, db)
         messages.append({"role": "system", "content": prompt})
 
@@ -39,7 +35,7 @@ def chat(message: str, user_id: int, db: Session, messages: List[Dict[str, str]]
 
     response = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
-        messages=messages,
+        messages=list(messages),  # deque를 list로 변환하여 전달
         max_tokens=500,
         temperature=0.9,
     )
