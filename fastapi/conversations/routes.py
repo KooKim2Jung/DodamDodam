@@ -1,6 +1,8 @@
 import io
 import re
 import tempfile
+from collections import deque
+
 from fastapi import Query, APIRouter, HTTPException, File, UploadFile, Form, Depends
 from starlette import status
 from sqlalchemy.orm import Session
@@ -45,15 +47,15 @@ async def chat_api(message: Chat, db: Session = Depends(get_db), current_user_id
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e))
 
 
-# 대화 내역을 저장하기 위한 임시 저장소 (예: 메모리, DB 등)
+# 대화 내역 저장을 deque로 변경
 user_conversations = {}
 
 @router.post("/chat/me/test")
 async def chat_api_test(message: Chat, current_user_id: int = Depends(get_current_user), db: Session = Depends(get_db)):
     try:
-        # 사용자별 대화 내역 가져오기
+        # 사용자별 대화 내역 가져오기, 없으면 deque 생성
         if current_user_id not in user_conversations:
-            user_conversations[current_user_id] = []
+            user_conversations[current_user_id] = deque(maxlen=10)
 
         # chat 함수 호출 시 current_user_id와 db, 그리고 대화 내역을 전달합니다.
         response_text, updated_messages = chat(message.message, current_user_id, db, user_conversations[current_user_id])
