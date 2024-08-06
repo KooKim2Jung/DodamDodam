@@ -1,14 +1,8 @@
 from fastapi import FastAPI, HTTPException, APIRouter, Depends
-from fastapi.responses import RedirectResponse
-from urllib.parse import urlencode
 from mysql_connection import get_db
-from sqlalchemy.orm import Session
-from datetime import datetime, timedelta
-from .models import Token
-from .services import  get_access_token, get_refresh_token
+from .services import  *
 import httpx
 import os
-import json
 import pytz
 
 
@@ -24,54 +18,26 @@ now_korea = datetime.utcnow().replace(tzinfo=pytz.utc).astimezone(korea_timezone
 
 @router.get("/token")
 async def get_token(authorize_code: str, db: Session = Depends(get_db)):
-    url = "https://kauth.kakao.com/oauth/token"
-    headers = {
-        "Content-Type": "application/x-www-form-urlencoded"
-    }
-    data = {
-        "grant_type": "authorization_code",
-        "client_id": kakao_api_key,
-        "redirect_uri": redirect_uri,
-        "code": authorize_code
-    }
+    token_data = await fetch_kakao_token(authorize_code, db, kakao_api_key, redirect_uri)
+    return token_data
 
-    async with httpx.AsyncClient() as client:
-        response = await client.post(url, headers=headers, data=data)
+#친구 목록
+@router.get("/friend")
+async def get_friend(db: Session = Depends(get_db)):
+    friends_list = await fetch_friends_list(db)
+    return friends_list
 
-        if response.status_code != 200:
-            raise HTTPException(status_code=response.status_code, detail="Failed to fetch token")
+# 카톡 보내기
+@router.post("/send")
+async def send_message(text: str, db: Session = Depends(get_db)):
+    response = await send_kakao_message(text, db)
+    return response
 
-        #응답으로 받은 토큰을 데이터베이스에 저장
-        token_data = response.json()
-        access_token = token_data.get("access_token")
-        refresh_token = token_data.get("refresh_token")
-
-        if not access_token or not refresh_token:
-            raise HTTPException(status_code=400, detail="Invalid token response")
-
-        access_token_expires_at = now_korea + timedelta(seconds=21599)
-        refresh_token_expires_at = now_korea + timedelta(seconds=5183999)
-
-        token = db.query(Token).filter(Token.id == 1).first()
-
-        if token:
-            token.access_token = access_token
-            token.refresh_token = refresh_token
-            token.access_token_expires_at = access_token_expires_at
-            token.refresh_token_expires_at = refresh_token_expires_at
-        else:
-            token = Token(
-                access_token=access_token,
-                refresh_token=refresh_token,
-                access_token_expires_at=access_token_expires_at,
-                refresh_token_expires_at=refresh_token_expires_at
-            )
-            db.add(token)
-
-        db.commit()
-        db.refresh(token)
-
-        return token_data
+# refresh token으로 access token 재발급
+@router.get("/refresh")
+async def refresh_access_token_route(db: Session = Depends(get_db)):
+    new_tokens = await refresh_access_token(db, kakao_api_key)
+    return new_tokens
 
 # #사용자 정보 가져오기
 # @router.get("/profile")
@@ -109,86 +75,3 @@ async def get_token(authorize_code: str, db: Session = Depends(get_db)):
 #             raise HTTPException(status_code=response.status_code, detail=f"Failed to fetch app users: {response.text}")
 #
 #         return response.json()
-
-#친구 목록
-@router.get("/friend")
-async def get_friend(db: Session = Depends(get_db)):
-    access_token = get_access_token(db)
-    url = "https://kapi.kakao.com/v1/api/talk/friends"
-    headers = {
-        "Authorization": f"Bearer {access_token}"
-    }
-
-    async with httpx.AsyncClient() as client:
-        response = await client.get(url, headers=headers)
-
-        if response.status_code != 200:
-            raise HTTPException(status_code=response.status_code, detail=f"Failed to fetch profile: {response.text}")
-
-        return response.json()
-
-@router.post("/send")
-async def send_message(db: Session = Depends(get_db)):
-    access_token = get_access_token(db)
-    url = "https://kapi.kakao.com/v1/api/talk/friends/message/default/send"
-    headers = {
-        "Content-Type": "application/x-www-form-urlencoded",
-        "Authorization": f"Bearer {access_token}"
-    }
-    data = {
-        "receiver_uuids": json.dumps(["uom-iriLvYq5laSTo5elkKKWuou7grqCtYTj", "uo6_irqDu4y_k6GVppKll6GRqYW0hL2FvYq7yg", "uo62j72Iu46ikaOSqp2tm6OXu4q6g7uDtIXq"]), #순서: 진우, 대윤, 가은
-        #"receiver_uuids": json.dumps(["uom-iriLvYq5laSTo5elkKKWuou7grqCtYTj"]),  # 진우
-        #"receiver_uuids": json.dumps(["uo6_irqDu4y_k6GVppKll6GRqYW0hL2FvYq7yg"]),  # 대윤
-        # "receiver_uuids": json.dumps(["uo62j72Iu46ikaOSqp2tm6OXu4q6g7uDtIXq"]),  # 가은
-        "template_object": json.dumps({
-            "object_type": "text",
-            "text": "테스트입니다",
-            "link": {
-                "web_url": "https://developers.kakao.com",
-                "mobile_web_url": "https://developers.kakao.com"
-            },
-            "button_title": "바로 확인"
-        })
-    }
-
-    encoded_data = urlencode(data)
-
-    async with httpx.AsyncClient() as client:
-        response = await client.post(url, headers=headers, data=encoded_data)
-
-        if response.status_code != 200:
-            raise HTTPException(status_code=response.status_code, detail=f"Failed to send message: {response.text}")
-
-        return response.json()
-
-@router.get("/refresh")
-async def refresh_access_token(db: Session = Depends(get_db)):
-    refresh_token = get_refresh_token(db)
-    url = "https://kauth.kakao.com/oauth/token"
-    headers = {
-        "Content-Type": "application/x-www-form-urlencoded"
-    }
-    data = {
-        "grant_type": "refresh_token",
-        "client_id": kakao_api_key,
-        "refresh_token": refresh_token
-    }
-
-    async with httpx.AsyncClient() as client:
-        response = await client.post(url, headers=headers, data=data)
-
-        if response.status_code != 200:
-            raise HTTPException(status_code=response.status_code, detail="Failed to refresh token")
-
-        new_tokens = response.json()
-
-        # 데이터베이스 access_token 업데이트
-        if new_tokens.get("access_token"):
-            new_access_token = new_tokens.get("access_token")
-            token = db.query(Token).filter(Token.id == 1).first()
-            token.access_token = new_access_token
-            token.access_token_expires_at = now_korea + timedelta(seconds=21599)
-            db.commit()
-
-        return new_tokens
-
