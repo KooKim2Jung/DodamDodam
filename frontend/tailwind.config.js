@@ -15,7 +15,8 @@ module.exports = {
         borderColor: 'rgb(127, 91, 61)',
       },
       boxShadow: {
-        custom1: '0 0 0 3px rgb(127, 91, 61)',
+        custom1: '0 0 0 3px rgb(254, 232, 147)',
+        custom2: '0 0 0 3px rgb(127, 91, 61)',
       },
       fontSize: {
         'basic-size': '2.5rem',
@@ -24,11 +25,22 @@ module.exports = {
         'small-size': '1.2rem',
       },
       backgroundImage: {
-        'signup-image': "url(/public/image/dodam_signup.png)",
-        'basic-image': "url(/public/image/dodam_basic.png)"
+        'basic-image': "url(/public/images/dodam_basic.png)",
       },
-      backgroundSize: {
-        'signup-image': '58%',
+      animation: {
+        'translate-right-dodam': 'translateRightDodam 1s ease-in-out forwards',
+        'translate-left-dodam': 'translateLeftDodam 1s ease-in-out forwards',
+        'translate-dodam': 'translateDodam 1s ease-in-out forwards',
+      },
+      keyframes: {
+        translateRightDodam: {
+          '0%': { transform: 'translateX(0)' }, 
+          '100%': { transform: 'translateX(6rem)' }, 
+        },
+        translateLeftDodam: {
+          '0%': { transform: 'translateX(0)' }, 
+          '100%': { transform: 'translateX(-6rem)' }, 
+        },
       },
     },
   },
