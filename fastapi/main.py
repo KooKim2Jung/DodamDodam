@@ -12,6 +12,7 @@ from s3_connection import router as s3_router
 from conversations.routes import router as transcribe_router
 from jwt_utils import router as jwt_router
 from users.routes import router as users_router
+from talk.routes import router as talk_router
 from conversations.stt_connection import stt_authenticate
 
 
@@ -41,3 +42,4 @@ app.include_router(s3_router)
 app.include_router(transcribe_router)
 app.include_router(jwt_router)
 app.include_router(users_router)
+app.include_router(talk_router)
