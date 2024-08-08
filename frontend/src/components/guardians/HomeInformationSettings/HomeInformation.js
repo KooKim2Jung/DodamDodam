@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Modal from 'react-modal';
 import { FiX, FiTrash2 } from "react-icons/fi";
 import HomeInformationForm from './HomeInformationForm';
@@ -13,10 +13,6 @@ const HomeInformation = ({ isOpen, setIsOpen }) => {
     const addItem = (item) => {
         setItems(prevData => [...prevData, item])
     }
-
-    useEffect(() => {
-        console.log(items)
-    }, [items])
 
     return (
         <Modal
