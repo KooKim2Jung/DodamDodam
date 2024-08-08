@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { FaPlus } from "react-icons/fa";
 import { FiEdit2, FiCheck } from "react-icons/fi";
 import HomeInformationFolder from './HomeInformationFolder';
@@ -29,10 +29,6 @@ const HomeInformationBoard = () => {
             folder.id === currentFolderId ? { ...folder, name: e.target.value } : folder
         ));
     }
-
-    useEffect(() => {
-        console.log(folders);
-    }, [folders]);
 
     return (
         <div className='grid grid-cols-4'>
