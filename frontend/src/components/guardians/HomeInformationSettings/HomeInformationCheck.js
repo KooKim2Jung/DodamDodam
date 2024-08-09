@@ -10,7 +10,7 @@ const HomeInformationCheck = ({ data, homeInformationError, setHomeInformationEr
     }, [data]);
 
     return (
-        <div className='text-2xl w-full my-3 text-gray-400'>{homeInformationError}</div>
+        <div className='text-2xl bg-primary rounded-[70px] text-gray-400'>{homeInformationError}</div>
     );
 };
 

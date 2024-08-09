@@ -11,6 +11,7 @@ const HomeInformation = ({ isOpen, setIsOpen }) => {
 
     const closeModal = () => {
         setIsOpen(false);
+        setIsEditing(false);
     }
 
     const addItem = (item) => {
@@ -41,27 +42,27 @@ const HomeInformation = ({ isOpen, setIsOpen }) => {
             shouldCloseOnOverlayClick={false}
             className='w-[500px] h-[500px] relative flex-col justify-center bg-tertiay rounded-[80px] shadow-[4px_6px_2px_#a5996e]'
         >
-        <div className='text-2xl absolute top-5 right-14'>
+        <div className='text-2xl absolute top-5 right-11'>
             <button className='p-2 mr-2 rounded-[50px] border-2 border-black hover:scale-110'><FiTrash2 /></button>
             <button className='p-2 rounded-[50px] border-2 border-black hover:scale-110' onClick={closeModal}><FiX /></button>
         </div>
         <div className='absolute top-14 left-5 right-5 text-2xl'>
         {items.map((item, index) => (
-            <div>{isEditing && currentItemIndex === index ? 
-                <HomeInformationForm
+            <>{isEditing && currentItemIndex === index ? 
+                <div className='mt-5 py-2'><HomeInformationForm
                     item={currentItem}
                     saveItem={(newItem) => editItem(index, newItem)}
                     editMode={true}
-                /> :
-                <div className='items-center border-transparent bg-white shadow-[2px_4px_1px_#a5996e] rounded-[50px] my-6' 
+                /></div> :
+                <div className='items-center flex justify-center border-transparent bg-white shadow-[2px_4px_1px_#a5996e] rounded-[50px] my-5' 
                 key={index}>{item.content}
                 <button onClick={() => handleEdit(index)} className='p-2 text-2xl rounded-[50px] border-2 mx-2 my-3 border-black hover:scale-110'><FiEdit2 /></button>
                 <button onClick={() => deleteItem(index)} className='p-2 text-2xl rounded-[50px] border-2 border-black hover:scale-110'><FiTrash2 /></button>
             </div>
-            }</div>
+            }</>
         ))}
         </div>
-        <div className='absolute bottom-5 right-5 left-5 text-2xl flex justify-center'>
+        <div className='absolute bottom-5 right-5 left-7 text-2xl'>
             <HomeInformationForm addItem={addItem}/>
         </div>
         </Modal>

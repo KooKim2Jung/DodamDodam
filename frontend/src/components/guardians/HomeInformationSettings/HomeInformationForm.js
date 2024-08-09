@@ -37,16 +37,21 @@ const HomeInformationForm = ({ addItem, item, saveItem, editMode = false }) => {
     }, [editMode, item]);
 
     return (
-        <div>
-            <HomeInformationCheck data={data} homeInformationError={homeInformationError} setHomeInformationError={setHomeInformationError}/>
-            <input className='w-[350px] py-2 px-3 mr-3 rounded-[50px] bg-secondary border-2 border-transparent focus:border-white outline-none'
+        <div className='relative flex justify-center'>
+            <input className='w-[380px] px-3 mr-2 rounded-[50px] bg-secondary border-2 border-transparent focus:border-white outline-none'
                 type='text'
                 name='content'
                 value={data.content}
                 onChange={inputData}
             />
-            <button className='p-2 my-3 rounded-[50px] bg-secondary border-2 border-transparent focus:border-white hover:scale-110' 
-            onClick={submitData}>{editMode ? '저장' : '추가'}</button>
+            <div className='group'>
+                <button className='p-2 rounded-[50px] bg-secondary border-2 border-transparent focus:border-white hover:scale-110' 
+                onClick={submitData}>{editMode ? '저장' : '추가'}
+                </button>
+                <div className='absolute -top-8 left-28 right-28 invisible group-hover:visible'>
+                    <HomeInformationCheck data={data} homeInformationError={homeInformationError} setHomeInformationError={setHomeInformationError}/>
+                </div>
+            </div>
         </div>
     );
 };
