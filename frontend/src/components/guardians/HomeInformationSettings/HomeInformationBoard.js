@@ -30,20 +30,29 @@ const HomeInformationBoard = () => {
         ));
     }
 
+    const deleteFolder = (deleteId) => {
+        setFolders(folders => folders.filter(folder => folder.id !== deleteId));
+    }
+
     return (
         <div className='grid grid-cols-4'>
             {folders.map((folder) => (
                 <div key={folder.id}>
-                    <HomeInformationFolder folder={folder} />
+                    <HomeInformationFolder folder={folder} deleteFolder={deleteFolder}/>
                     {isEdit && currentFolderId === folder.id ? (
                         <div className='flex items-center mt-3.5 ml-5'>
-                            <input type='text' value={folder.name} onChange={inputChange} 
-                            className='w-44 py-1 text-center focus:border-white border-transparent border-2 outline-none bg-secondary rounded-[50px]' />
+                            <input 
+                                className='w-44 py-1 text-center focus:border-white border-transparent border-2 outline-none bg-secondary rounded-[50px]'
+                                type='text' 
+                                value={folder.name} 
+                                onChange={inputChange} 
+                             />
                             <div className='p-2 ml-3 text-xl w-10 h-10 bg-secondary rounded-[50px] border-2 border-secondary focus:border-white shadow-custom1 hover:scale-110 transition-transform cursor-pointer' 
                             onClick={unChangeNameFolder}><FiCheck /></div>
                         </div>
                     ) : (
-                        <div className='w-full border-transparent border-2 cursor-pointer flex justify-center items-center group pl-[56px]' onClick={() => changeNameFolder(folder.id)}>
+                        <div className='w-full border-transparent border-2 cursor-pointer flex justify-center items-center group pl-[56px]' 
+                            onClick={() => changeNameFolder(folder.id)}>
                             {folder.name}
                             <div className='invisible group-hover:visible transition-transform p-2 text-xl rounded-[50px] border-2 mx-2 my-4 border-black hover:scale-110'><FiEdit2 /></div>
                         </div>
