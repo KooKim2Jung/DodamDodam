@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import HomeInformation from './HomeInformation';
+import HomeInformation from './HomeInformationModal/HomeInformation';
 
 const HomeInformationFolder = ({ folder, deleteFolder }) => {
     const [isOpen, setIsOpen] = useState(false);
