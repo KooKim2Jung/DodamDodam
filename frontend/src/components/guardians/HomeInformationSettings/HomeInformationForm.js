@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import HomeInformationCheck from './HomeInformationCheck';
 
-const HomeInformationForm = ({ addItem }) => {
+const HomeInformationForm = ({ addItem, item, saveItem, editMode = false }) => {
     const [data, setData] = useState({
         content: '',
     });
@@ -18,12 +18,23 @@ const HomeInformationForm = ({ addItem }) => {
 
     const submitData = () => {
         if (!homeInformationError) {
-            addItem(data);
+            if (editMode) {
+                saveItem(data)
+            }
+            else {
+                addItem(data);
+            }
         } 
         setData({
             content: '',
         });
     }
+
+    useEffect(() => {
+        if (editMode && item) {
+            setData(item);
+        }
+    }, [editMode, item]);
 
     return (
         <div>
@@ -34,7 +45,8 @@ const HomeInformationForm = ({ addItem }) => {
                 value={data.content}
                 onChange={inputData}
             />
-            <button  className='p-2 rounded-[50px] bg-secondary border-2 border-transparent focus:border-white hover:scale-110' onClick={submitData}>추가</button>
+            <button className='p-2 my-3 rounded-[50px] bg-secondary border-2 border-transparent focus:border-white hover:scale-110' 
+            onClick={submitData}>{editMode ? '저장' : '추가'}</button>
         </div>
     );
 };
