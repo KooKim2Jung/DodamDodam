@@ -12,8 +12,8 @@ const Header = () => {
 
     const handleLogout = () => {
         setIsLoggedIn(false);
-        localStorage.removeItem('isLoggedIn');
-        localStorage.removeItem('jwtToken');
+        sessionStorage.removeItem('isLoggedIn');
+        sessionStorage.removeItem('jwtToken');
         navigate('/')
     }
 

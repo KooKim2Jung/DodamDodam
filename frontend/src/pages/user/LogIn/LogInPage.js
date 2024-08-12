@@ -18,7 +18,7 @@ const LogInPage = () => {
 
     const handleLogIn = () => {
         setIsLoggedIn(true);
-        localStorage.setItem('isLoggedIn', 'true');
+        sessionStorage.setItem('isLoggedIn', 'true');
     }
 
     const handleSignUp = () => {
@@ -34,7 +34,7 @@ const LogInPage = () => {
                     password: user.password,
                 });
                 const token = response.data.token; 
-                localStorage.setItem('jwtToken', token);
+                sessionStorage.setItem('jwtToken', token);
                 handleLogIn();
                 checkWard();
             } catch (logInError) {
