@@ -1,16 +1,19 @@
 import React, { useState } from 'react';
 import Modal from 'react-modal';
-import { FiX, FiTrash2, FiEdit2 } from "react-icons/fi";
+import { FiX, FiTrash2, FiEdit2, FiSmile } from "react-icons/fi";
 import HomeInformationForm from './HomeInformationForm';
+import IconPicker from './IconPicker/IconPicker';
 
-const HomeInformation = ({ isOpen, setIsOpen, folder, deleteFolder }) => {
+const HomeInformation = ({ isFolderOpen, setIsFolderOpen, folder, deleteFolder }) => {
     const [items, setItems] = useState([]);
     const [isEditing, setIsEditing] = useState(false);
     const [currentItem, setCurrentItem] = useState(null);
     const [currentItemIndex, setCurrentItemIndex] = useState(null);
 
-    const closeModal = () => {
-        setIsOpen(false);
+    const [isIconPickerOpen, setIsIconPickerOpen] = useState(false);
+
+    const closeFolder = () => {
+        setIsFolderOpen(false);
         setIsEditing(false);
     }
 
@@ -36,20 +39,26 @@ const HomeInformation = ({ isOpen, setIsOpen, folder, deleteFolder }) => {
     };
 
     const handleDelete = (id) => {
-        closeModal();
+        closeFolder();
         deleteFolder(id);
+    }
+
+    const openIconPicker = () => {
+        setIsIconPickerOpen(true);
     }
 
     return (
         <Modal
             overlayClassName='fixed mt-20 z-20 inset-0 flex justify-center items-center'
-            isOpen={isOpen}
+            isOpen={isFolderOpen}
             shouldCloseOnOverlayClick={false}
             className='w-[500px] h-[500px] relative flex-col justify-center bg-tertiay rounded-[80px] shadow-[4px_6px_2px_#a5996e]'
         >
         <div className='text-2xl absolute top-5 right-11'>
+        <IconPicker isIconPickerOpen={isIconPickerOpen} setIsIconPickerOpen={setIsIconPickerOpen}/>
+        <button className='p-2 mr-2 rounded-[50px] border-2 border-black hover:scale-110' onClick={openIconPicker}><FiSmile /></button>
             <button className='p-2 mr-2 rounded-[50px] border-2 border-black hover:scale-110' onClick={() => handleDelete(folder.id)}><FiTrash2 /></button>
-            <button className='p-2 rounded-[50px] border-2 border-black hover:scale-110' onClick={closeModal}><FiX /></button>
+            <button className='p-2 rounded-[50px] border-2 border-black hover:scale-110' onClick={closeFolder}><FiX /></button>
         </div>
         <div className='absolute top-14 left-5 right-5 text-2xl'>
         {items.map((item, index) => (
