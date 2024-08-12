@@ -25,11 +25,12 @@ const AppProvider = ({ children }) => {
   const [isGuardian, setIsGuardian] = useState(false);
 
   useEffect(() => {
-    const storedLoggedInState = localStorage.getItem('isLoggedIn');
+    const storedLoggedInState = sessionStorage.getItem('isLoggedIn');
     if (storedLoggedInState === 'true') {
         setIsLoggedIn(true);
     }
     setIsLoading(false);
+
   }, []);
 
   if (isLoading) {
