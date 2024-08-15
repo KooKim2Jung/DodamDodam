@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { FiLogIn, FiLogOut, FiUserPlus, FiUnlock, FiLock } from "react-icons/fi";
 import { useNavigate } from 'react-router-dom';
 import '../../Wave.css';
-import Toggle from '../../Toggle/Toggle';
+import Toggle from '../../guardians/Guardian/Toggle/Toggle';
 import { AppContext } from '../../../App';
 
 const Header = () => {
