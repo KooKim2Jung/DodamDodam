@@ -56,22 +56,22 @@ async def refresh_access_token_route(db: Session = Depends(get_db)):
 #
 #         return response.json()
 #
-# #여러 사용자 정보 가져오기
-# @router.get("/users")
-# async def get_app_users():
-#     url = "https://kapi.kakao.com/v2/app/users"
-#     headers = {
-#         "Authorization": f"KakaoAK {admin_key}"
-#     }
-#     params = {
-#         "target_id_type": "user_id",
-#         "target_ids": json.dumps([3601528360, 3602805925, 3606070861, 3602260771])  # JSON 문자열로 변환
-#     }
-#
-#     async with httpx.AsyncClient() as client:
-#         response = await client.get(url, headers=headers, params=params)
-#
-#         if response.status_code != 200:
-#             raise HTTPException(status_code=response.status_code, detail=f"Failed to fetch app users: {response.text}")
-#
-#         return response.json()
+#여러 사용자 정보 가져오기
+@router.get("/users")
+async def get_app_users():
+    url = "https://kapi.kakao.com/v2/app/users"
+    headers = {
+        "Authorization": f"KakaoAK {admin_key}"
+    }
+    params = {
+        "target_id_type": "user_id",
+        "target_ids": json.dumps(["3665796096"])  # JSON 문자열로 변환
+    }
+
+    async with httpx.AsyncClient() as client:
+        response = await client.get(url, headers=headers, params=params)
+
+        if response.status_code != 200:
+            raise HTTPException(status_code=response.status_code, detail=f"Failed to fetch app users: {response.text}")
+
+        return response.json()
