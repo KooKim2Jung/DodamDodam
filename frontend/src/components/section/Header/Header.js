@@ -6,7 +6,7 @@ import Toggle from '../../Toggle/Toggle';
 import { AppContext } from '../../../App';
 
 const Header = () => {
-    const { isLoggedIn, setIsLoggedIn } = useContext(AppContext);
+    const { isLoggedIn, setIsLoggedIn, isGuardian } = useContext(AppContext);
 
     const navigate = useNavigate();
 
@@ -32,7 +32,7 @@ const Header = () => {
                         <a className='block md:hidden relative mr-4 pb-1' href="/WardPage"><FiUnlock size='30'/></a>
                     </div>
                     <div className='flex items-center wave'>
-                        <button className='relative text-middle-size hidden md:block mr-6'>도움말</button>
+                        {isGuardian && (<><button className='relative text-middle-size hidden md:block mr-6'>도움말</button></>)}
                         <button className='relative text-middle-size hidden md:block' onClick={handleLogout}>로그아웃</button>
                         <button className='block md:hidden relative pb-1' onClick={handleLogout}><FiLogOut size='30'/></button>
                     </div>
