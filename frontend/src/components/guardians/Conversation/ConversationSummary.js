@@ -1,22 +1,23 @@
-import React, { useState } from 'react';
+import React, { useContext } from 'react';
 import Modal from 'react-modal';
+import { AppContext } from '../../../App';
 
 const ConversationSummary = ({ summary }) => {
-    const [isOpen, setIsOpen] = useState(false);
+    const { isSummaryOpen, setIsSummaryOpen } = useContext(AppContext);
 
     const openModal = () => {
-        setIsOpen(true);
+        setIsSummaryOpen(true);
     };
 
     const closeModal = () => {
-        setIsOpen(false);
+        setIsSummaryOpen(false);
     };
     
     return (
         <div>
             <Modal 
                 overlayClassName="fixed mt-20 z-20 inset-0 flex justify-center items-center" 
-                isOpen={isOpen} 
+                isOpen={isSummaryOpen} 
                 onRequestClose={closeModal}
                 shouldCloseOnOverlayClick={false}
                 className='w-[500px] bg-primary rounded-[10px] shadow-[2px_4px_10px_#a5996e]'

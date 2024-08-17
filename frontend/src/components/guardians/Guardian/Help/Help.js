@@ -4,10 +4,11 @@ import Modal from 'react-modal';
 import { AppContext } from '../../../../App';
 
 const Help = () => {
-    const { isHelpOpen, setIsHelpOpen } = useContext(AppContext);
+    const { isHelpOpen, setIsHelpOpen, setIsCalendarOpen } = useContext(AppContext);
 
     const openHelp = () => {
         setIsHelpOpen(true);
+        setIsCalendarOpen(true);
     }
 
     const closeHelp = () => {

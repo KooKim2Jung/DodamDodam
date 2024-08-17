@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { FiX } from "react-icons/fi";
 import Modal from 'react-modal';
 import DatePicker from 'react-datepicker';
@@ -6,20 +6,22 @@ import { registerLocale, setDefaultLocale } from 'react-datepicker';
 import ko from 'date-fns/locale/ko'; // 한국어 로케일 가져오기
 import 'react-datepicker/dist/react-datepicker.css';
 import './Calendar.css';
+import { AppContext } from '../../App';
 
 registerLocale('ko', ko); // 한국어 로케일 등록
 setDefaultLocale('ko'); // 기본 로케일을 한국어로 설정
 
 const Calendar = ({ onDateChange, selectedDates }) => {
-    const [isOpen, setIsOpen] = useState(false);
+    const { isCalendarOpen, setIsCalendarOpen } = useContext(AppContext);
+
     const [selectedDate, setSelectedDate] = useState(null);
 
     const openModal = () => {
-        setIsOpen(true);
+        setIsCalendarOpen(true);
     };
 
     const closeModal = () => {
-        setIsOpen(false);
+        setIsCalendarOpen(false)
     };
 
     const handleDateChange = (date) => {
@@ -34,7 +36,7 @@ const Calendar = ({ onDateChange, selectedDates }) => {
         <div>
             <Modal
                 overlayClassName="fixed mt-20 z-20 inset-0 flex justify-center items-center"
-                isOpen={isOpen}
+                isOpen={isCalendarOpen}
                 onRequestClose={closeModal}
                 shouldCloseOnOverlayClick={false}
                 className="w-[500px] bg-primary rounded-[10px] shadow-[2px_4px_10px_#a5996e]"
