@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { FiX } from "react-icons/fi";
+import { FiXCircle } from "react-icons/fi";
 import Modal from 'react-modal';
 import DatePicker from 'react-datepicker';
 import { registerLocale, setDefaultLocale } from 'react-datepicker';
@@ -42,8 +42,7 @@ const Calendar = ({ onDateChange, selectedDates }) => {
                 className="w-[500px] bg-primary rounded-[10px] shadow-[2px_4px_10px_#a5996e]"
             >
                 <div className='flex justify-end mt-2 mr-6'>
-                    <button className='w-8 h-8 bg-primary border-2 text-2xl items-center 
-                    justify-center flex rounded-[50px] border-white hover:scale-110' onClick={closeModal}><FiX /></button>
+                    <button className='hover:scale-110' onClick={closeModal}><FiXCircle size={30}/></button>
                 </div>
                 <div className="flex justify-center items-center mt-2 mb-9">
                     <DatePicker
