@@ -1,12 +1,13 @@
 import React, { useContext } from 'react';
-import { FiLogIn, FiLogOut, FiUserPlus, FiUnlock, FiLock } from "react-icons/fi";
+import { FiLogIn, FiLogOut, FiUserPlus, FiToggleLeft, FiToggleRight, FiBook } from "react-icons/fi";
 import { useNavigate } from 'react-router-dom';
 import '../../Wave.css';
 import Toggle from '../../guardians/Guardian/Toggle/Toggle';
+import Help from '../../guardians/Guardian/Help/Help';
 import { AppContext } from '../../../App';
 
 const Header = () => {
-    const { isLoggedIn, setIsLoggedIn, isGuardian } = useContext(AppContext);
+    const { isLoggedIn, setIsLoggedIn, isGuardian, setIsHelpOpen } = useContext(AppContext);
 
     const navigate = useNavigate();
 
@@ -14,7 +15,11 @@ const Header = () => {
         setIsLoggedIn(false);
         sessionStorage.removeItem('isLoggedIn');
         sessionStorage.removeItem('jwtToken');
-        navigate('/')
+        navigate('/');
+    }
+
+    const handleHelp = () => {
+        setIsHelpOpen(true)
     }
 
     return (
@@ -28,11 +33,14 @@ const Header = () => {
                 {isLoggedIn ? (<>
                     <div className='flex items-center wave'>
                         <div className='relative hidden md:block mr-16'><Toggle /></div>
-                        <a className='block md:hidden relative mr-4 pb-1' href="/WardSettingsPage"><FiLock size='30'/></a>
-                        <a className='block md:hidden relative mr-4 pb-1' href="/WardPage"><FiUnlock size='30'/></a>
+                        <a className='block md:hidden relative mr-4 pb-1' href="/WardSettingsPage"><FiToggleRight size='30'/></a>
+                        <a className='block md:hidden relative mr-4 pb-1' href="/WardPage"><FiToggleLeft size='30'/></a>
                     </div>
                     <div className='flex items-center wave'>
-                        {isGuardian && (<><button className='relative text-middle-size hidden md:block mr-6'>도움말</button></>)}
+                        {isGuardian && (<>
+                            <div className='relative text-middle-size hidden md:block mr-6'><Help></Help></div>
+                            <button className='block md:hidden relative mr-4 pb-1' onClick={handleHelp}><FiBook size='30'></FiBook></button>
+                        </>)}
                         <button className='relative text-middle-size hidden md:block' onClick={handleLogout}>로그아웃</button>
                         <button className='block md:hidden relative pb-1' onClick={handleLogout}><FiLogOut size='30'/></button>
                     </div>

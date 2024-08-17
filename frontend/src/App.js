@@ -23,6 +23,7 @@ const AppProvider = ({ children }) => {
   const [isEdit, setIsEdit] = useState(false);
   const [isWardSetting, setIsWardSetting] = useState(false);
   const [isGuardian, setIsGuardian] = useState(false);
+  const [isHelpOpen, setIsHelpOpen] = useState(false);
 
   useEffect(() => {
     const storedLoggedInState = sessionStorage.getItem('isLoggedIn');
@@ -43,7 +44,8 @@ const AppProvider = ({ children }) => {
         isLoggedIn, setIsLoggedIn, 
         isEdit, setIsEdit, 
         isWardSetting, setIsWardSetting, 
-        isGuardian, setIsGuardian
+        isGuardian, setIsGuardian,
+        isHelpOpen, setIsHelpOpen,
       }}
     >
       {children}
