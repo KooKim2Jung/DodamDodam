@@ -2,7 +2,9 @@ from fastapi import Depends, HTTPException, status
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from fastapi import APIRouter
 from dotenv import load_dotenv
+from datetime import datetime, timedelta
 import jwt
+import base64
 import os
 from jwt.exceptions import ExpiredSignatureError, InvalidTokenError, PyJWTError
 
@@ -12,8 +14,21 @@ load_dotenv()
 
 SECRET_KEY = os.getenv("JWT_TOKEN_SECRET")
 ALGORITHM ="HS256"
+ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
 http_bearer_scheme = HTTPBearer()
+
+def create_token(user_id: int):
+    expire = datetime.utcnow() + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+    to_encode = {
+        "exp": expire,
+        "id": str(user_id)  # user_id 필드를 추가
+    }
+    # 토큰 생성
+    encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
+
+    return encoded_jwt
+
 
 def get_current_user(http_auth_credentials: HTTPAuthorizationCredentials = Depends(http_bearer_scheme)):
     try:
