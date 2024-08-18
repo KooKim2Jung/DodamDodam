@@ -1,5 +1,5 @@
 import { createContext, useState, useEffect } from 'react';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { Route, Routes, useLocation } from 'react-router-dom';
 import Modal from 'react-modal';
 import MainPage from './pages/Main/MainPage';
 import LogInPage from './pages/user/LogIn/LogInPage';
@@ -53,7 +53,6 @@ const AppProvider = ({ children }) => {
         isCalendarOpen, setIsCalendarOpen,
         isSummaryOpen, setIsSummaryOpen,
         helpStep, setHelpStep,
-        howManySteps, setHowManySteps,
       }}
     >
       {children}
@@ -62,11 +61,31 @@ const AppProvider = ({ children }) => {
 }
 
 function App() {
+  const location = useLocation();
+
+  const getPageKey = () => {
+    
+    switch(location.pathname) {
+      case '/ViewConversationPage':
+        return 'ViewConversationPage';
+      case '/ViewEmotionAnalysisPage':
+        return 'ViewEmotionAnalysisPage';
+      case '/SchedulePage':
+        return 'SchedulePage';
+      case '/HomeInformationSettingsPage':
+        return 'HomeInformationSettingsPage';
+      case '/DodamSettingsPage':
+        return 'DodamSettingsPage';
+      case '/WardSettingsPage':
+        return 'WardSettingsPage';
+      default:
+        return null;
+    }
+  }
 
   return (
     <AppProvider>
-      <BrowserRouter>
-        <Header />
+        <Header pageKey={getPageKey()}/>
         <Routes>
           <Route path='/' element={<MainPage/>}/>
           <Route path='/LogInPage' element={<LogInPage/>}/>
@@ -79,7 +98,6 @@ function App() {
           <Route path='/DodamSettingsPage' element={<DodamSettingsPage/>}/>
           <Route path='/WardSettingsPage' element={<WardSettingsPage/>}/>
         </Routes>
-      </BrowserRouter>
     </AppProvider>
   );
 }

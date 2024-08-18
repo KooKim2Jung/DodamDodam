@@ -8,7 +8,7 @@ import Guardian from '../../../components/guardians/Guardian/Guardian';
 import { AppContext } from '../../../App';
 
 const ViewConversationPage = () => {
-    const { isGuardian, setIsGuardian, isWardSetting, setHowManySteps } = useContext(AppContext);
+    const { isGuardian, setIsGuardian, isWardSetting } = useContext(AppContext);
     
     const [conversations, setConversations] = useState([]);
     const [summary, setSummary] = useState('');
@@ -59,7 +59,6 @@ const ViewConversationPage = () => {
     useEffect(() => {
         const today = formatDate(new Date());
         handleDateChange(today); // 초기 로드 시 오늘 날짜로 데이터 가져오기
-        setHowManySteps(2);
     }, []);
 
     const handleDateChange = (date) => {

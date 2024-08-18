@@ -43,7 +43,7 @@ const DodamVoiceForm = ({ voice, setVoice, voices }) => {
                     />
                     <FiVolume2 className='hover:scale-110 hover:cursor-pointer' color='rgb(113, 70, 41)' size='52' onClick={voiceListening}/>
                     <input 
-                        className='input-box2 w-[600px] p-3 ml-3 bg-secondary border-transparent'
+                        className='input-box2 w-[600px] hidden md:block p-3 ml-3 bg-secondary border-transparent'
                         type='text' 
                         value='안녕 나는 도담이야. 앞으로 잘 부탁해.' 
                         readOnly
