@@ -26,6 +26,8 @@ const AppProvider = ({ children }) => {
   const [isHelpOpen, setIsHelpOpen] = useState(false);
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
   const [isSummaryOpen, setIsSummaryOpen] = useState(false);
+  const [helpStep, setHelpStep] = useState(0);
+  const [howManySteps, setHowManySteps] = useState(0);
 
   useEffect(() => {
     const storedLoggedInState = sessionStorage.getItem('isLoggedIn');
@@ -49,7 +51,9 @@ const AppProvider = ({ children }) => {
         isGuardian, setIsGuardian,
         isHelpOpen, setIsHelpOpen,
         isCalendarOpen, setIsCalendarOpen,
-        isSummaryOpen, setIsSummaryOpen
+        isSummaryOpen, setIsSummaryOpen,
+        helpStep, setHelpStep,
+        howManySteps, setHowManySteps,
       }}
     >
       {children}

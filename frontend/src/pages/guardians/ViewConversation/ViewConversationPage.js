@@ -8,7 +8,7 @@ import Guardian from '../../../components/guardians/Guardian/Guardian';
 import { AppContext } from '../../../App';
 
 const ViewConversationPage = () => {
-    const { isGuardian, setIsGuardian, isWardSetting } = useContext(AppContext);
+    const { isGuardian, setIsGuardian, isWardSetting, setHowManySteps } = useContext(AppContext);
     
     const [conversations, setConversations] = useState([]);
     const [summary, setSummary] = useState('');
@@ -59,6 +59,7 @@ const ViewConversationPage = () => {
     useEffect(() => {
         const today = formatDate(new Date());
         handleDateChange(today); // 초기 로드 시 오늘 날짜로 데이터 가져오기
+        setHowManySteps(2);
     }, []);
 
     const handleDateChange = (date) => {
@@ -70,9 +71,9 @@ const ViewConversationPage = () => {
     return (
         <div className="flex flex-col h-screen w-screen pl-[240px] pr-5">
             <Aside />
-            <div className="pt-28 pl-5 relative h-full">
-                <div className="flex justify-between text-2xl mb-3">
-                    <Calendar onDateChange={handleDateChange}  />
+            <div className="pt-28 pl-4 relative h-full">
+                <div className="flex relative justify-between text-2xl mb-3">
+                    <Calendar onDateChange={handleDateChange} />
                     <ConversationSummary summary={summary} />
                 </div>
                 {isSelected ? (

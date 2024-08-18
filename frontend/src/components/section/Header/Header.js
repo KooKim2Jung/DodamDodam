@@ -7,7 +7,7 @@ import Help from '../../guardians/Guardian/Help/Help';
 import { AppContext } from '../../../App';
 
 const Header = () => {
-    const { isLoggedIn, setIsLoggedIn, isGuardian, setIsHelpOpen } = useContext(AppContext);
+    const { isLoggedIn, setIsLoggedIn, isGuardian, isHelpOpen, setIsHelpOpen } = useContext(AppContext);
 
     const navigate = useNavigate();
 
@@ -23,7 +23,7 @@ const Header = () => {
     }
 
     return (
-        <header className='fixed top-0 left-0 h-[90px] w-screen shadow-[0px_2px_6px_#a5996e] z-40 bg-primary flex items-center justify-center'>
+        <header className='fixed top-0 left-0 h-[90px] w-screen shadow-[0px_2px_6px_#a5996e] z-50 bg-primary flex items-center justify-center'>
             <h1 className='absolute left-1/2 transform -translate-x-1/2 flex items-center text-5xl'>
                 <img className='h-10 w-11 mr-1 hidden md:block' src='./images/middle_flower.png'/>
                 <a href="/">도담도담</a>
@@ -38,7 +38,7 @@ const Header = () => {
                     </div>
                     <div className='flex items-center wave'>
                         {isGuardian && (<>
-                            <div className='relative text-middle-size hidden md:block mr-6'><Help></Help></div>
+                            <div className='relative text-middle-size hidden md:block mr-6 z-40'><Help></Help></div>
                             <button className='block md:hidden relative mr-4 pb-1' onClick={handleHelp}><FiBook size='30'></FiBook></button>
                         </>)}
                         <button className='relative text-middle-size hidden md:block' onClick={handleLogout}>로그아웃</button>
@@ -53,6 +53,9 @@ const Header = () => {
                     </div>
                 )}
             </div>
+            {isHelpOpen && (
+                <div className='fixed z-2 top-[90px] left-0 bg-black bg-opacity-50 w-screen h-[calc(100vh-90px)]'></div>
+            )}
         </header>
     );
 };

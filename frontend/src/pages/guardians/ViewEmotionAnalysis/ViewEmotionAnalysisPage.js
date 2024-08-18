@@ -12,7 +12,7 @@ const ViewEmotionAnalysisPage = () => {
     return (
         <div className='flex flex-col h-screen w-screen pl-[240px] pr-10'>
             <Aside/>
-            <div className='pt-28 pl-5 relative h-full'>
+            <div className='pt-28 pl-4 relative h-full'>
                 <div className='flex justify-between text-2xl'>
                     <Calendar/>
                 </div>

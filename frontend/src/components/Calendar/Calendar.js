@@ -12,7 +12,7 @@ registerLocale('ko', ko); // 한국어 로케일 등록
 setDefaultLocale('ko'); // 기본 로케일을 한국어로 설정
 
 const Calendar = ({ onDateChange, selectedDates }) => {
-    const { isCalendarOpen, setIsCalendarOpen } = useContext(AppContext);
+    const { isCalendarOpen, setIsCalendarOpen, isHelpOpen, helpStep } = useContext(AppContext);
 
     const [selectedDate, setSelectedDate] = useState(null);
 
@@ -35,11 +35,11 @@ const Calendar = ({ onDateChange, selectedDates }) => {
     return (
         <div>
             <Modal
-                overlayClassName="fixed mt-20 z-20 inset-0 flex justify-center items-center"
-                isOpen={isCalendarOpen}
-                onRequestClose={closeModal}
-                shouldCloseOnOverlayClick={false}
-                className="w-[500px] bg-primary rounded-[10px] shadow-[2px_4px_10px_#a5996e]"
+            overlayClassName="fixed mt-20 z-50 inset-0 flex justify-center items-center"
+            isOpen={isCalendarOpen}
+            onRequestClose={closeModal}
+            shouldCloseOnOverlayClick={false}
+            className="w-[500px] bg-primary rounded-[10px] shadow-[2px_4px_10px_#a5996e]"
             >
                 <div className='flex justify-end mt-2 mr-6'>
                     <button className='hover:scale-110' onClick={closeModal}><FiXCircle size={30}/></button>
@@ -55,7 +55,7 @@ const Calendar = ({ onDateChange, selectedDates }) => {
                     />
                 </div>
             </Modal>
-            <button onClick={openModal}>날짜 선택</button>
+            <button className={`relative py-2 px-3 -mt-2 ${isHelpOpen && helpStep === 0 ? 'bg-white z-[1000] rounded-[10px]' : ''}`} onClick={openModal}>날짜 선택</button>
         </div>
     );
 };
