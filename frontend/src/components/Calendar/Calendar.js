@@ -35,7 +35,7 @@ const Calendar = ({ onDateChange, selectedDates }) => {
     return (
         <div>
             <Modal
-            overlayClassName="fixed mt-20 z-50 inset-0 flex justify-center items-center"
+            overlayClassName="fixed mt-20 z-40 inset-0 flex justify-center items-center"
             isOpen={isCalendarOpen}
             onRequestClose={closeModal}
             shouldCloseOnOverlayClick={false}
@@ -55,7 +55,7 @@ const Calendar = ({ onDateChange, selectedDates }) => {
                     />
                 </div>
             </Modal>
-            <button className={`relative py-2 px-3 -mt-2 ${isHelpOpen && helpStep === 0 ? 'bg-white z-[1000] rounded-[10px]' : ''}`} onClick={openModal}>날짜 선택</button>
+            <button className={`py-2 px-3 -mt-2 ${isHelpOpen && helpStep === 0 ? 'bg-primary rounded-[10px]' : ''}`} onClick={openModal}>날짜 선택</button>
         </div>
     );
 };

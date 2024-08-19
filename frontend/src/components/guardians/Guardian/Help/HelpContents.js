@@ -12,7 +12,7 @@ const HelpContents = {
         },
         {
             title: '대화 요약 보기',
-            description: '도담이와의 대화 내용을 확인할 수 있습니다. 원하는 날짜를 선택해 주세요.'
+            description: '도담이와의 대화 내용을 요약한 결과를 확인할 수 있습니다.'
         },
     ],
     ViewEmotionAnalysisPage: [

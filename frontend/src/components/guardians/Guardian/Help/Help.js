@@ -62,18 +62,18 @@ const Help = ({ pageKey }) => {
     return (
         <div>
             <Modal
-            overlayClassName='fixed flex z-[1000] justify-center items-center inset-0 outline-none'
+            overlayClassName='fixed flex z-50 justify-center items-center inset-0 outline-none'
             isOpen={isHelpOpen} 
             onRequestClose={closeHelp}
             shouldCloseOnOverlayClick={false}
             style={{content : getHelpPosition()}}
-            className='relative outline-none w-[400px] h-[280px] flex shadow-[6px_5px_10px_#a5996e] justify-center items-center bg-primary rounded-[15px]'
+            className='relative outline-none w-[400px] h-[250px] flex shadow-[6px_5px_10px_#a5996e] justify-center items-center bg-primary rounded-[15px]'
             >
                 <div className='flex justify-between w-full top-0 absolute py-4 px-5'>
                     <div className='text-2xl'>{title}</div>
                     <button className='hover:scale-110' onClick={closeHelp}><FiXCircle size={30}/></button>
                 </div>
-                <div className='flex justify-center items-center absolute top-16 bottom-16 left-6 right-6 px-2 rounded-[10px] text-2xl bg-white'>
+                <div className='flex justify-center items-center absolute top-16 bottom-16 left-6 right-6 px-3 rounded-[10px] text-2xl bg-white'>
                     {description}
                 </div>
                 <div className='flex right-5 bottom-4 absolute'>
