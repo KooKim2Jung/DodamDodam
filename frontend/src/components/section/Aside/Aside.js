@@ -5,7 +5,7 @@ import '../../Wave.css';
 const Aside = () => {
     const features = [
         { 
-            title: "대화내용 보기", 
+            title: "대화 내용 보기", 
             url: "/ViewConversationPage",
             image: "./images/speechbubble.png"
         },
@@ -51,8 +51,8 @@ const Aside = () => {
     }, [location.pathname])
 
     return (
-        <aside className='fixed left-0 top-4 h-full shadow-[1px_0px_6px_#a5996e] z-10 bg-primary overflow-y-auto'>
-            <nav className='flex flex-col items-start mt-[97px]'>
+        <aside className='fixed left-0 top-0 h-screen shadow-[1px_0px_6px_#a5996e] z-1 bg-primary overflow-y-auto'>
+            <nav className='flex flex-col items-start justify-between mt-[80px] h-[90vh]'>
                 {features.map((features, index) => (
                     <Link key={index} to={features.url}> 
                         <div className='wave inline-flex items-center relative m-7 text-middle-size'>
