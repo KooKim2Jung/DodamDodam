@@ -55,7 +55,7 @@ const Calendar = ({ onDateChange, selectedDates }) => {
                     />
                 </div>
             </Modal>
-            <button className={`py-2 px-3 -mt-2 ${isHelpOpen && helpStep === 0 ? 'bg-primary rounded-[10px]' : ''}`} onClick={openModal}>날짜 선택</button>
+            <button className={`relative py-2 px-3 -mt-2 ${isHelpOpen && helpStep === 0 ? 'bg-primary z-40 rounded-[10px]' : ''}`} onClick={openModal}>날짜 선택</button>
         </div>
     );
 };
