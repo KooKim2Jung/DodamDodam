@@ -25,7 +25,7 @@ const ConversationSummary = ({ summary, testSummary }) => {
                 <div className='my-2 ml-7 text-left text-2xl'>대화 요약</div>
                 <div className='flex justify-center items-center mt-3'>
                     <div className='flex justify-center items-center px-5 py-2 rounded-[10px] w-[440px] h-[300px] text-2xl bg-white '>
-                        {summary ? summary : (isHelpOpen && helpStep === 2 ? testSummary.message : '안녕')}
+                        {summary ? summary : (isHelpOpen && helpStep === 2 && testSummary.message)}
                     </div>
                 </div>
                 <div className='justify-center items-end my-5'>
