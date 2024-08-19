@@ -93,31 +93,31 @@ const ViewConversationPage = () => {
             <div className="pt-28 pl-4 relative h-full">
                 <div className="flex relative justify-between text-2xl mb-3 z-40">
                     <Calendar onDateChange={handleDateChange} />
-                    {isSelected ? (
-                        <ConversationSummary summary={summary} />
+                    {isHelpOpen && helpStep === 2 ? (
+                        <ConversationSummary testSummary={testSummary} />
                     ) : (<>
-                        {isHelpOpen && helpStep === 2 ? (
-                            <ConversationSummary testSummary={testSummary} />
+                        {isSelected ? (
+                            <ConversationSummary summary={summary} />
                     ) : null}
                     </>)}
                 </div>
-                {isSelected ? (
-                    <div>
-                        {conversations.map((conversation, index) => (
-                            <ConversationBoard key={index} conversation={conversation} />
+                {isHelpOpen ? (
+                    <div className='z-50'>
+                        {testConversations.map((testConversation, index) => (
+                            <ConversationBoard key={index} testConversation={testConversation} />
                         ))}
                     </div>
-                ) : (<>
-                    {isHelpOpen && (helpStep === 1 || helpStep === 2) ? (
-                        <div>
-                            {testConversations.map((testConversation, index) => (
-                                <ConversationBoard key={index} testConversation={testConversation} />
-                            ))}
-                        </div>
-                    ) : (
-                        <div className="text-center text-2xl text-gray-400">{error}</div>
-                    )}
-                </>)}
+                    ) : (<>
+                        {isSelected ? (
+                            <div className='z-50'>
+                                {conversations.map((conversation, index) => (
+                                    <ConversationBoard key={index} conversation={conversation} />
+                                ))}
+                            </div>
+                        ) : (
+                            <div className="text-center text-2xl text-gray-400">{error}</div>
+                        )}
+                    </>)}
             </div>
             <Guardian isGuardian={isGuardian} setIsGuardian={setIsGuardian} isWardSetting={isWardSetting}/>
         </div>
