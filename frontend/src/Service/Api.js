@@ -3,7 +3,7 @@ import axios from 'axios';
 const api = axios.create();
 
 api.interceptors.request.use((config) => {
-    const token = localStorage.getItem("jwtToken");
+    const token = sessionStorage.getItem("jwtToken");
     // 요청 URL에 따라 baseURL 동적으로 설정
     if (config.url.includes('/auth')) {
         config.baseURL = "http://localhost:8082/api";

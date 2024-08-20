@@ -4,6 +4,7 @@ from .gpt_model_utility import summary as gpt_summary
 import json
 import httpx
 import asyncio
+import pytz
 from fastapi import HTTPException
 from .models import Message, Conversation
 from .schemas import MessageCreate
@@ -55,10 +56,13 @@ def create_message(user: int, content: str, voice_url: str, speaker: str, db: Se
         db.add(conversation)
         db.commit()
 
+    korea_tz = pytz.timezone('Asia/Seoul')
+    current_time_korea = datetime.now(korea_tz)
+
     # Message 객체 생성
     new_message = Message(
         conversation_id=conversation.id,
-        time=datetime.now(),
+        time=current_time_korea,
         speaker=speaker,
         content=content,
         voice=voice_url

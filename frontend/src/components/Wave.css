@@ -1,6 +1,5 @@
 .wave {
     position: relative;
-    display: inline-flex;
 }
 
 .wave button::after, .wave a::after, .wave h2::after {

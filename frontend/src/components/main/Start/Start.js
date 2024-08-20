@@ -1,7 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { AppContext } from '../../../App';
 
 const Start = () => {
+    const { isLoggedIn } = useContext(AppContext);
     const [animation, setAnimation] = useState({
         rightAnimation: '',
         leftAnimation: '',
@@ -17,7 +19,12 @@ const Start = () => {
     }, []);
 
     const handlestart = () => {
-        navigate('/LogInPage');
+        if (isLoggedIn) {
+            navigate('/WardPage');
+        } 
+        else {
+            navigate('/LogInPage');
+        }
     };
 
     return (
