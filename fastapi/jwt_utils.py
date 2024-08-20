@@ -51,6 +51,6 @@ def get_current_user(http_auth_credentials: HTTPAuthorizationCredentials = Depen
 
 
 #Swagger 확인용 코드
-@router.get("/users/me")
+@router.get("/users/me", tags=["Test"])
 async def read_users_me(current_user_id: str = Depends(get_current_user)):
     return {"user_id": current_user_id}
