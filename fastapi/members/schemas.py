@@ -1,7 +1,7 @@
-from pydantic import BaseModel, EmailStr, constr
+from pydantic import BaseModel
 
 class UserJoinRequest(BaseModel):
-    email: EmailStr  # 이메일 형식 자동 검증
+    email: str
     password: str
     phone_number: str
 
@@ -9,7 +9,7 @@ class UserJoinRequest(BaseModel):
         from_attributes = True
 
 class UserLoginRequest(BaseModel):
-    email: EmailStr
+    email: str
     password: str
 
     class Config:
