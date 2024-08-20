@@ -6,7 +6,7 @@ import Toggle from '../../guardians/Guardian/Toggle/Toggle';
 import Help from '../../guardians/Guardian/Help/Help';
 import { AppContext } from '../../../App';
 
-const Header = ({ pageKey }) => {
+const Header = ({ pageAddress }) => {
     const { isLoggedIn, setIsLoggedIn, isGuardian, isHelpOpen, setIsHelpOpen } = useContext(AppContext);
 
     const navigate = useNavigate();
@@ -39,7 +39,7 @@ const Header = ({ pageKey }) => {
                     </div>
                     <div className='flex items-center wave'>
                         {isGuardian && (<>
-                            <div className='relative text-middle-size hidden md:block mr-6 z-40'><Help pageKey={pageKey}></Help></div>
+                            <div className='relative text-middle-size hidden md:block mr-6 z-40'><Help pageAddress={pageAddress}></Help></div>
                             <button className='block md:hidden relative mr-4 pb-1' onClick={handleHelp}><FiBook size='30'></FiBook></button>
                         </>)}
                         <button className='relative text-middle-size hidden md:block' onClick={handleLogout}>로그아웃</button>

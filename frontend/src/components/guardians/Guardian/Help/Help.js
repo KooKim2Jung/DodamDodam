@@ -4,14 +4,14 @@ import Modal from 'react-modal';
 import HelpContents from './HelpContents';
 import { AppContext } from '../../../../App';
 
-const Help = ({ pageKey }) => {
+const Help = ({ pageAddress }) => {
     const { isHelpOpen, setIsHelpOpen, setIsCalendarOpen, 
     setIsSummaryOpen, helpStep, setHelpStep } = useContext(AppContext);
 
-    const currentHelp = HelpContents[pageKey] ? HelpContents[pageKey][helpStep] : null;
+    const currentHelp = HelpContents[pageAddress] ? HelpContents[pageAddress][helpStep] : null;
     const title = currentHelp ? currentHelp.title : '';
     const description = currentHelp ? currentHelp.description : '';
-    const howManySteps = HelpContents[pageKey] ? HelpContents[pageKey].length : 0;
+    const howManySteps = HelpContents[pageAddress] ? HelpContents[pageAddress].length : 0;
 
     const openHelp = () => {
         setIsHelpOpen(true);
@@ -48,15 +48,36 @@ const Help = ({ pageKey }) => {
     }, [helpStep])
 
     const getHelpPosition = () => {
-        switch (helpStep) {
-            case 0:
-                return { bottom: '6%', right: '32%' };
-            case 1:
-                return {};
-            case 2:
-                return { bottom: '8%', left: '32%' };
-            default:
+        const position = {
+            ViewConversationPage:
+            {
+                0 : { bottom: '6%', right: '32%' },
+                1 : { bottom: '15%', left: '15%' },
+                2 : { bottom: '6%', left: '32%' },
+            },
+            ViewEmotionAnalysisPage:
+            {
+                0 : { bottom: '6%', right: '32%' },
+                1 : { bottom: '6%', right: '32%' },
+            },
+            SchedulePage: 
+            {
+                0 : { top: '5%', left: '32%' },
+                1 : { top: '20%', left: '32%' },
+            },
+            DodamSettingsPage: 
+            {
+                0 : { bottom: '6%', right: '30%' },
+            },
+            HomeInformationSettingsPage: 
+            {},
+            WardSettingsPage:
+            {
+                0 : { top: '25%', right: '23%' },
+                1 : { top: '25%', right: '23%' },
+            },
         }
+        return position[pageAddress] && position[pageAddress][helpStep] ? position[pageAddress][helpStep] : {}
     }
 
     return (

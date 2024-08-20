@@ -27,7 +27,6 @@ const AppProvider = ({ children }) => {
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
   const [isSummaryOpen, setIsSummaryOpen] = useState(false);
   const [helpStep, setHelpStep] = useState(0);
-  const [howManySteps, setHowManySteps] = useState(0);
 
   useEffect(() => {
     const storedLoggedInState = sessionStorage.getItem('isLoggedIn');
@@ -37,6 +36,13 @@ const AppProvider = ({ children }) => {
     setIsLoading(false);
 
   }, []);
+
+
+  useEffect(() => {
+    console.log('편집중이니?', isEdit);
+    console.log(isHelpOpen);
+    console.log(helpStep);
+  }, [isEdit, isHelpOpen, helpStep])
 
   if (isLoading) {
     return null;
@@ -63,7 +69,7 @@ const AppProvider = ({ children }) => {
 function App() {
   const location = useLocation();
 
-  const getPageKey = () => {
+  const getPageAddress = () => {
     
     switch(location.pathname) {
       case '/ViewConversationPage':
@@ -85,7 +91,7 @@ function App() {
 
   return (
     <AppProvider>
-        <Header pageKey={getPageKey()}/>
+        <Header pageAddress={getPageAddress()}/>
         <Routes>
           <Route path='/' element={<MainPage/>}/>
           <Route path='/LogInPage' element={<LogInPage/>}/>

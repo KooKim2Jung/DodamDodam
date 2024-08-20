@@ -51,7 +51,6 @@ const WardCheck = ({isEdit, setIsEdit, wardInfo, errorMessage,
     };
 
     useEffect(() => {
-        console.log(isEdit)
         setBtn(isEdit || isHelpOpen && helpStep === 0 ? '완료' : '수정')
     }, [isEdit, isHelpOpen, helpStep])
 

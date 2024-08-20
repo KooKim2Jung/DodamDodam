@@ -50,7 +50,7 @@ const WardSettingsForm = ({ isEdit, setIsEdit, wardInfo, setWardInfo, editWardSe
                         className={`w-[210px] h-[225px] ${isEdit ? '' : 'shadow-[3px_5px_1px_#a5996e]'} rounded-[10px]`} 
                         src={previewUrl || wardInfo.photo} 
                     />
-                    {isEdit || helpStep === 1 && (<FiCamera className='flex absolute' color='rgb(128, 128, 128)' size={45}/>)}
+                    {((isHelpOpen && helpStep === 0) || isEdit && helpStep === 0) && (<FiCamera className='flex absolute' color='rgb(128, 128, 128)' size={45}/>)}
                 </div>
                 {isEdit && (<input className='hidden' id='file' type='file' name='image' onChange={photoUpdate} />)}
             </div>
