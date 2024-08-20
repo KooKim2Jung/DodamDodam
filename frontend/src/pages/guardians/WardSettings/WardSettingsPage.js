@@ -6,7 +6,8 @@ import api from '../../../Service/Api';
 import { AppContext } from '../../../App';
 
 const WardSettingsPage = () => {
-    const { isEdit, setIsEdit, isWardSetting, setIsWardSetting, isGuardian, setIsGuardian } = useContext(AppContext);
+    const { isEdit, setIsEdit, isWardSetting, setIsWardSetting, 
+    isGuardian, setIsGuardian, isHelpOpen, helpStep } = useContext(AppContext);
     
     const [wardInfo, setWardInfo] = useState({
         photo: 'https://dodambuket.s3.ap-northeast-2.amazonaws.com/%ED%94%84%EB%A1%9C%ED%95%84%EA%B8%B0%EB%B3%B8%EC%9D%B4%EB%AF%B8%EC%A7%80.png',
@@ -16,9 +17,19 @@ const WardSettingsPage = () => {
         remark: '',
         last_name: '',
     });
+
     const [initialWardInfo, setInitialWardInfo] = useState({});
     const [photoUpdated, setPhotoUpdated] = useState(false); // 사용자의 사진 업데이트 여부
     const [previewUrl, setPreviewUrl] = useState(''); // 미리보기 URL 상태
+
+    const testInfo = { 
+        testPhoto: 'https://dodambuket.s3.ap-northeast-2.amazonaws.com/%ED%94%84%EB%A1%9C%ED%95%84%EA%B8%B0%EB%B3%B8%EC%9D%B4%EB%AF%B8%EC%A7%80.png',
+        testName: '가은',
+        testGender: '여자',
+        testAge: '8',
+        testRemark: '밝고 명랑하다.',
+        testLastName: '정',
+    }
 
     // 피보호자 정보 생성 & 도담이 정보 생성
     const generateWardSetting = async () => {
@@ -110,26 +121,43 @@ const WardSettingsPage = () => {
     }, []);
 
     return (
-        <div className='text-3xl w-screen'>
-            <h2 className='absolute top-28 left-[265px]'>피보호자 설정</h2>
+        <div className='flex flex-col h-screen w-screen pl-[240px]'>
             <Aside/>
-            <div className='absolute grid grid-cols-3 left-[300px] top-[170px] w-[850px] text-left'>
-                <div className='col-span-1'></div>
-                <div className='col-span-2'>
-                    <div className='mt-8 -mb-1 flex'>
-                        <div className='ml-3'>성</div>
-                        <div className='ml-[219px] z-30'>이름</div>
-                    </div>
-                    <div className='mt-11 mb-1'>성별</div>
-                    <div className='mt-8 mb-16'>나이</div>
-                    <div className='mt-16 -ml-6'>특이사항</div>
-                </div>
+            <div className='pt-28 pl-5 z-40'>
+                <h2 className='text-3xl text-left'>피보호자 설정</h2>
+                {isHelpOpen ? (<>
+                    {helpStep === 0 ? (
+                        <WardSettingsForm 
+                            wardInfo={{
+                                photo: testInfo.testPhoto,
+                                name: '',
+                                gender: '',
+                                age: '',
+                                remark: '',
+                                last_name: '',}} 
+                            setWardInfo={setWardInfo} isEdit={isEdit} setIsEdit={setIsEdit} 
+                            setPhotoUpdated={setPhotoUpdated} previewUrl={testInfo.testPhoto} setPreviewUrl={setPreviewUrl} 
+                            isWardSetting={isWardSetting} />
+                    ) : (
+                        <WardSettingsForm 
+                            wardInfo={{
+                                photo: testInfo.testPhoto,
+                                name: testInfo.testName,
+                                gender: testInfo.testGender,
+                                age: testInfo.testAge,
+                                remark: testInfo.testRemark,
+                                last_name: testInfo.testLastName,}}
+                            setWardInfo={setWardInfo} isEdit={isEdit} setIsEdit={setIsEdit} 
+                            editWardSetting={editWardSetting} setPhotoUpdated={setPhotoUpdated} previewUrl={testInfo.testPhoto} setPreviewUrl={setPreviewUrl} 
+                            isWardSetting={isWardSetting} />
+                    )}
+                </>) : (
+                    <WardSettingsForm wardInfo={wardInfo} setWardInfo={setWardInfo} isEdit={isEdit} setIsEdit={setIsEdit} 
+                    editWardSetting={editWardSetting} setPhotoUpdated={setPhotoUpdated} previewUrl={previewUrl} setPreviewUrl={setPreviewUrl} 
+                    isWardSetting={isWardSetting} generateWardSetting={generateWardSetting}/>
+                )}
             </div>
-            <WardSettingsForm wardInfo={wardInfo} setWardInfo={setWardInfo} isEdit={isEdit} setIsEdit={setIsEdit} 
-            editWardSetting={editWardSetting} setPhotoUpdated={setPhotoUpdated} previewUrl={previewUrl} setPreviewUrl={setPreviewUrl} 
-            isWardSetting={isWardSetting} generateWardSetting={generateWardSetting}
-            />
-             <Guardian isGuardian={isGuardian} setIsGuardian={setIsGuardian} isWardSetting={isWardSetting}/>
+            <Guardian isGuardian={isGuardian} setIsGuardian={setIsGuardian} isWardSetting={isWardSetting}/>
         </div>
     )
 };

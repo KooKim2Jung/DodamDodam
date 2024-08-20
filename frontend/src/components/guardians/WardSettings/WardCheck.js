@@ -1,6 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import { AppContext } from '../../../App';
 
-const WardCheck = ({isEdit, setIsEdit, wardInfo, errorMessage, setErrorMessage, editWardSetting, isWardSetting, generateWardSetting}) => {
+const WardCheck = ({isEdit, setIsEdit, wardInfo, errorMessage, 
+    setErrorMessage, editWardSetting, isWardSetting, generateWardSetting}) => {
+    const { isHelpOpen, helpStep } = useContext(AppContext);
+
     const [btn, setBtn] = useState('완료')
 
     const newAge = parseInt(wardInfo.age);
@@ -47,13 +51,13 @@ const WardCheck = ({isEdit, setIsEdit, wardInfo, errorMessage, setErrorMessage, 
     };
 
     useEffect(() => {
-        setBtn(isEdit ? '완료' : '수정')
-    }, [isEdit])
+        setBtn(isEdit || isHelpOpen && helpStep === 0 ? '완료' : '수정')
+    }, [isEdit, isHelpOpen, helpStep])
 
     return (
         <div>
-            <button className={`input-box2 border-borderColor absolute left-[300px] p-2 w-40 text-3xl hover:scale-110
-            ${isEdit ? 'border-transparent bg-secondary' : 'border-transparent bg-white shadow-[2px_4px_1px_#a5996e]'}
+            <button className={`input-box2 border-borderColor p-2 w-40 text-3xl hover:scale-110
+            ${isEdit || isHelpOpen && helpStep === 0 ? 'border-transparent bg-secondary' : 'border-transparent bg-white shadow-[2px_4px_1px_#a5996e]'}
             `} onClick={wardSetting}>{btn}</button>
         </div>
     );

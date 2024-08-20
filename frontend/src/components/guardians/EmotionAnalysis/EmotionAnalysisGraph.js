@@ -1,26 +1,21 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { AppContext } from '../../../App';
 
-const EmotionAnalysisGraph = () => {
-    return (
-        <div className='flex justify-center items-end mt-3 mb-9'>
-        {/*happy*/}
-        <div className='mx-2'>
-            <img className='w-[100px]' src='./images/dodam_happy.png'/>
-            <div className='bg-secondary w-13 h-[220px] mx-5'></div>
-        </div>
-        {/*hurt*/}
-        <div className='mx-2'>
-            <img className='w-[100px]' src='./images/dodam_hurt.png'/>
-            <div className='bg-secondary w-13 h-[80px] mx-5'></div>
-        </div>
-        {/*sad*/}
-        <div className='mx-2'>
-            <img className='w-[100px]' src='./images/dodam_sad.png'/>
-            <div className='bg-secondary w-13 h-[80px] mx-5'></div>
-        </div>
-       
-        </div>
-    );
+const EmotionAnalysisGraph = ({ testGraph, realKey }) => {
+    const { isHelpOpen, helpStep } = useContext(AppContext);
+    
+    if (isHelpOpen && helpStep === 1 && testGraph) {
+        const { testImage } = testGraph;
+
+        return (
+            <div className='inline-flex justify-center items-end mt-3 mb-9 relative z-40'>
+                <div className='mx-2'>
+                    <img className='w-[100px]' src={testImage}/>
+                    <div className={`bg-secondary w-13 mx-5 ${realKey === 0 ? 'h-[200px]' : 'h-[80px]'}`}></div>
+                </div>
+            </div>
+        );
+    }
 };
 
 export default EmotionAnalysisGraph;

@@ -104,11 +104,7 @@ async def send_kakao_message(text: str, db: Session):
         "Authorization": f"Bearer {access_token}"
     }
     data = {
-        "receiver_uuids": json.dumps(["uom-iriLvYq5laSTo5elkKKWuou7grqCtYTj", "uo6_irqDu4y_k6GVppKll6GRqYW0hL2FvYq7yg",
-                                      "uo62j72Iu46ikaOSqp2tm6OXu4q6g7uDtIXq"]),  # 순서: 진우, 대윤, 가은
-        # "receiver_uuids": json.dumps(["uom-iriLvYq5laSTo5elkKKWuou7grqCtYTj"]),  # 진우
-        # "receiver_uuids": json.dumps(["uo6_irqDu4y_k6GVppKll6GRqYW0hL2FvYq7yg"]),  # 대윤
-        # "receiver_uuids": json.dumps(["uo62j72Iu46ikaOSqp2tm6OXu4q6g7uDtIXq"]),  # 가은
+        "receiver_uuids": json.dumps(["Pw05CTwENwc2GisYKxwpECgaKAQ1BDYHNwY2ZQ"]),  # 미현
         "template_object": json.dumps({
             "object_type": "text",
             "text": text,

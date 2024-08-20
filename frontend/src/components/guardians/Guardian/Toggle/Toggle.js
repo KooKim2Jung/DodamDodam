@@ -28,7 +28,7 @@ const Toggle = () => {
 
     return (
         <div className='text-middle-size'>
-            <div className='relative -left-3 flex justify-center items-center w-[200px] bg-secondary rounded-[20px] py-1 pr-2'>
+            <div className='relative flex justify-center items-center w-[200px] bg-secondary rounded-[20px] py-1 pr-2'>
                 <input
                     id='guardian'
                     type='radio'
