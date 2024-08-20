@@ -1,6 +1,4 @@
 from pydantic import BaseModel
-from fastapi import UploadFile
-from typing import Optional, Union
 
 class ProfileRead(BaseModel):
     last_name: str

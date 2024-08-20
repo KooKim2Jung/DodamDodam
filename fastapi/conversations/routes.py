@@ -115,7 +115,8 @@ async def add_message(
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-@router.get("/conversation/{date}")
+# 대화 보기
+@router.get("/conversation/{date}", tags=["Conversation"])
 async def get_conversation(
         date: str,
         db: Session = Depends(get_db),
@@ -127,7 +128,7 @@ async def get_conversation(
     return get_messages(db=db, user=current_user_id, date=date)
 
 # 대화 요약 테스트 라우터
-@router.post("/conversation/summary")
+@router.post("/conversation/summary", tags=["Test"])
 def create_conversaton_summary(
         date: str = Query(..., regex=r"^\d{4}-\d{2}-\d{2}$"),
         db: Session = Depends(get_db),
@@ -135,7 +136,8 @@ def create_conversaton_summary(
 ):
     return create_summary(db=db, user=current_user_id, date=date)
 
-@router.get("/conversation/summary/{date}")
+# 대화 요약 보기
+@router.get("/conversation/summary/{date}", tags=["Conversation"])
 def conversaton_summary(
         date: str,
         db: Session = Depends(get_db),
