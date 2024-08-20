@@ -1,7 +1,10 @@
-import React, { useRef } from 'react';
+import React, { useContext, useRef } from 'react';
 import { FiVolume2 } from "react-icons/fi";
+import { AppContext } from '../../../App';
 
 const DodamVoiceForm = ({ voice, setVoice, voices }) => {
+    const { isHelpOpen, helpStep } = useContext(AppContext);
+
     const audioRef = useRef(null);
 
     const voiceChange = (e) => {
@@ -22,18 +25,20 @@ const DodamVoiceForm = ({ voice, setVoice, voices }) => {
 
     return (
         <div>
-            {voices.map((voices) => (
-            <label key={voices.name}>
-                <input 
-                    className='ml-8 mr-3 radio-box checked:bg-secondary border-white shadow-custom1'
-                    type='radio' 
-                    value={voices.name} 
-                    checked={voice===voices.name}
-                    onChange={voiceChange}
-                />{voices.name}
-            </label>
+            <div className={`inline-flex justify-center pr-7 py-1 ${isHelpOpen && helpStep === 0 ? 'bg-white z-[2000] rounded-[14px]' : ''}`}>
+                {voices.map((voices) => (
+                <label key={voices.name}>
+                    <input 
+                        className='ml-8 mr-3 radio-box checked:bg-secondary border-white shadow-custom1'
+                        type='radio' 
+                        value={voices.name} 
+                        checked={voice===voices.name}
+                        onChange={voiceChange}
+                    />{voices.name}
+                </label>
             ))}
-            <p className='relative top-6'>
+            </div>
+            <p className='relative top-7'>
                 <div className='inline-flex items-center'>
                     {selectedVoice &&(<>
                     <audio
@@ -41,9 +46,11 @@ const DodamVoiceForm = ({ voice, setVoice, voices }) => {
                         ref={audioRef}
                         src={`${process.env.PUBLIC_URL}${selectedVoice.mp3}`}
                     />
-                    <FiVolume2 className='hover:scale-110 hover:cursor-pointer' color='rgb(113, 70, 41)' size='52' onClick={voiceListening}/>
+                    <FiVolume2 className={`hover:scale-110 hover:cursor-pointer px-1 
+                    ${isHelpOpen && helpStep === 0 ? 'bg-white z-[1000] rounded-[14px]' : ''}`} color='rgb(113, 70, 41)' size='56' 
+                    onClick={voiceListening}/>
                     <input 
-                        className='input-box2 w-[600px] p-3 ml-3 bg-secondary border-transparent'
+                        className='input-box2 w-[600px] hidden md:block p-3 ml-3 bg-secondary border-transparent'
                         type='text' 
                         value='안녕 나는 도담이야. 앞으로 잘 부탁해.' 
                         readOnly

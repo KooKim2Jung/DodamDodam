@@ -8,13 +8,33 @@ import Guardian from '../../../components/guardians/Guardian/Guardian';
 import { AppContext } from '../../../App';
 
 const ViewConversationPage = () => {
-    const { isGuardian, setIsGuardian, isWardSetting } = useContext(AppContext);
+    const { isGuardian, setIsGuardian, isWardSetting, 
+    isHelpOpen, helpStep } = useContext(AppContext);
     
     const [conversations, setConversations] = useState([]);
     const [summary, setSummary] = useState('');
     const [isSelected, setIsSelected] = useState(true);
     // const [selectedDates, setSelectedDates] = useState([]);
     const [error, setError] = useState('');
+
+    const testConversations = [
+        { talker: 'user', message: '도담아 안녕', clock: '16:19' }, 
+        { talker: 'dodam', message: '안녕 가은아! 무슨 일 있어?', clock: '16:19' },
+        { talker: 'user', message: '친구들이랑 그네타고 미끄럼틀타다가 넘어졌어', clock: '16:20' },
+        { talker: 'dodam', message: '괜찮아? 많이 다치지는 않았어?', clock: '16:20' },
+        { talker: 'user', message: '많이 아파서 울었는데 이제 괜찮아', clock: '16:21' },
+        { talker: 'dodam', message: '다행이다~ 그래도 부모님께 꼭 말씀드려~', clock: '16:21' },
+        { talker: 'user', message: '알겠어', clock: '16:22' },
+        { talker: 'dodam', message: '다른 일은 없었어?', clock: '16:22' },
+        { talker: 'user', message: '친구들이랑 좋아하는 떡볶이도 먹어서 기분이 좋아졌어!', clock: '16:22' },
+        { talker: 'dodam', message: '오~ 떡볶이 좋아하는구나! 맛있었겠다~', clock: '16:22' },
+        { talker: 'user', message: '응 또 부를게', clock: '16:22' },
+        { talker: 'dodam', message: '그래~ 필요하면 또 불러줘^^', clock: '16:22' },
+    ]
+
+    const testSummary = {
+        message: '가은님은 오늘 친구들과 그네를 타고 미끄럼틀을 타다가 넘어져서 많이 아파 울었지만, 이제는 괜찮아졌습니다. 이후 좋아하는 떡볶이를 먹고 기분이 좋아졌습니다.'
+    };
 
     // 특정 날짜에 대한 대화 내용 가져오기
     const getConversation = async (date) => { 
@@ -70,20 +90,32 @@ const ViewConversationPage = () => {
     return (
         <div className="flex flex-col h-screen w-screen pl-[240px] pr-5">
             <Aside />
-            <div className="pt-28 pl-5 relative h-full">
-                <div className="flex justify-between text-2xl mb-3">
-                    <Calendar onDateChange={handleDateChange}  />
-                    <ConversationSummary summary={summary} />
+            <div className="pt-28 pl-4 relative h-full">
+                <div className="flex relative justify-between text-2xl mb-3 z-50">
+                    <Calendar onDateChange={handleDateChange} />
+                    {isHelpOpen && helpStep === 2 ? (
+                        <ConversationSummary testSummary={testSummary} />
+                    ) : (
+                        <ConversationSummary summary={summary} />
+                    )}
                 </div>
-                {isSelected ? (
-                    <div>
-                        {conversations.map((conversation, index) => (
-                            <ConversationBoard key={index} conversation={conversation} />
+                {isHelpOpen ? (
+                    <div className='z-50'>
+                        {testConversations.map((testConversation, index) => (
+                            <ConversationBoard key={index} testConversation={testConversation} />
                         ))}
                     </div>
-                ):(
-                    <div className="text-center text-2xl text-gray-400">{error}</div>
-                )}
+                    ) : (<>
+                        {isSelected ? (
+                            <div className='z-50'>
+                                {conversations.map((conversation, index) => (
+                                    <ConversationBoard key={index} conversation={conversation} />
+                                ))}
+                            </div>
+                        ) : (
+                            <div className="text-center text-2xl text-gray-400">{error}</div>
+                        )}
+                    </>)}
             </div>
             <Guardian isGuardian={isGuardian} setIsGuardian={setIsGuardian} isWardSetting={isWardSetting}/>
         </div>

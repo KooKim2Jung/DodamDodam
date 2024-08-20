@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import ScheduleCheck from './ScheduleCheck';
 
 const ScheduleForm = ({ addItem, item, saveItem, editMode = false }) => {
+
     const [schedule, setSchedule] = useState({
         date: '',
         time: '',
@@ -54,7 +55,7 @@ const ScheduleForm = ({ addItem, item, saveItem, editMode = false }) => {
                     value={schedule.date}
                     onChange={inputSchedule}
                 />
-                <input className='py-2 px-3 rounded-[50px] bg-secondary border-2 border-transparent focus:border-white outline-none z-10'
+                <input className='py-2 px-3 rounded-[50px] bg-secondary border-2 border-transparent focus:border-white outline-none'
                     type="time"
                     name="time"
                     value={schedule.time}
