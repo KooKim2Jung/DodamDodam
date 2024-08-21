@@ -73,6 +73,8 @@ def create_message(user: int, content: str, voice_url: str, speaker: str, db: Se
 
     return "Message 저장 완료"
 
+# def recent_messages(user: int, content: str, speaker: str)
+
 #사용자, 날짜 정보를 통해 대화 데이터를 반환
 def get_messages(db: Session, user: int, date: str):
     try:
