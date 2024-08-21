@@ -5,7 +5,8 @@ import openai
 from sqlalchemy.orm import Session
 from users.services import ProfileService
 from users.schemas import ProfileRead
-from typing import List, Dict
+from typing import List, Dict, Tuple, Any
+
 
 def chat_prompt_info(user_id: int, db: Session) -> str:
     profile: ProfileRead = ProfileService.read_profile(user=user_id, db=db)
@@ -26,12 +27,38 @@ def chat_prompt_info(user_id: int, db: Session) -> str:
     )
     return prompt
 
-def chat(message: str, user_id: int, db: Session, messages: deque) -> str:
+def summarize_messages(messages: deque, prompt: str) -> deque:
+    summary_message = "요약된 대화 내용: "
+    for message in messages:
+        summary_message += f"{message['role']}: {message['content']} "
+
+    # 요약된 내용을 새로운 deque로 반환, 프롬프트를 다시 포함
+    summarized_deque = deque([{"role": "system", "content": prompt}, {"role": "system", "content": summary_message}], maxlen=10)
+    return summarized_deque
+
+def chat(message: str, user_id: int, db: Session, messages: deque) -> tuple[Any, deque]:
     if not messages:  # deque가 비어있는 경우 초기 메시지 추가
         prompt = chat_prompt_info(user_id, db)
         messages.append({"role": "system", "content": prompt})
 
     messages.append({"role": "user", "content": message})
+
+    # 토큰 수 계산
+    total_tokens = sum(len(m["content"]) for m in messages)
+    print(f"Current total tokens: {total_tokens}")
+
+    # 최대 토큰 수 제한을 초과할 경우 요약
+    if total_tokens > 1500:  # 1500은 예시로, 실제 모델 토큰 제한을 고려하여 설정
+        prompt = chat_prompt_info(user_id, db)
+        messages = summarize_messages(messages, prompt)
+        total_tokens = sum(len(m["content"]) for m in messages)  # 요약 후 토큰 수 다시 계산
+        print(f"요약된 내용: {messages}")
+        print(f"Messages summarized. New total tokens: {total_tokens}")
+
+    # 실제 GPT-3.5 API 호출 전, 메시지 출력
+    print("Sending the following messages to GPT-3.5 API:")
+    for m in messages:
+        print(f"{m['role']}: {m['content']}")
 
     response = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
