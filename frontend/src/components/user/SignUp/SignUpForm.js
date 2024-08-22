@@ -21,7 +21,7 @@ const SignUpForm = ({welcomeUser, setWelcomeUser}) => {
                 type="password"
                 name='password'
                 value={welcomeUser.password}
-                placeholder='비밀번호 (8~16자 영문자, 특수문자 포함)'
+                placeholder='비밀번호 (8~16자 영문, 숫자, 특수문자)'
                 onChange={submitWelcomeUser}
             />
             <input className='input-box'

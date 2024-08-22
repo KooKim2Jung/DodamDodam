@@ -39,7 +39,7 @@ const LogInPage = () => {
                 checkWard();
             } catch (logInError) {
                 console.error("로그인 요청 오류", logInError);
-                const message = logInError.response.data.detail;
+                const { message } = logInError.response.data;
                 setErrorMessage(message);
             }
         }

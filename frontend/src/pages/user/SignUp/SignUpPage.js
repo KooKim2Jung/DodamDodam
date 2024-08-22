@@ -29,14 +29,15 @@ const SignUpPage = () => {
                 const response = await api.post('/v1/auth/join', {
                     email: welcomeUser.email,
                     password: welcomeUser.password,
-                    phone_number: welcomeUser.phoneNumber
+                    phoneNumber: welcomeUser.phoneNumber
                 });
                 alert(response.data.message);
                 handleLogIn();
             } catch (signUpError) {
                 console.log("회원가입 요청 오류", signUpError);
-                const message = signUpError.response.data.detail;
-                setErrorMessage(message);
+                const { message } = signUpError.response.data;
+                const firstMessage = message.split('\n')[0]; 
+                setErrorMessage(firstMessage);
             }
         }
     };
