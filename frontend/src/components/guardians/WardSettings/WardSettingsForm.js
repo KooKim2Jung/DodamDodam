@@ -44,16 +44,15 @@ const WardSettingsForm = ({ isEdit, setIsEdit, wardInfo, setWardInfo, editWardSe
     return (
         <div className={`grid grid-cols-3 absolute top-[190px] -ml-5 z-40 rounded-[15px] py-3 ${isHelpOpen ? 'bg-white' : ''}`}>
             <div className='col-span-1 flex justify-center items-center'>
-                <label htmlFor='file'>
-                    <div className='flex justify-center items-center -mt-10'>
-                        <img 
-                            className={`w-[210px] h-[225px] ${isEdit ? '' : 'shadow-[3px_5px_1px_#a5996e]'} rounded-[10px]`} 
-                            src={previewUrl || wardInfo.photo} 
-                        />
-                        {((isHelpOpen && helpStep === 0) || isEdit && helpStep === 0) && (<FiCamera className='flex absolute' color='rgb(128, 128, 128)' size={45}/>)}
-                    </div>
-                    {isEdit && (<input className='hidden' id='file' type='file' name='image' onChange={photoUpdate} />)}
-                </label>
+                <label htmlFor='file'></label>
+                <div className='flex justify-center items-center -mt-10'>
+                    <img 
+                        className={`w-[210px] h-[225px] ${isEdit ? '' : 'shadow-[3px_5px_1px_#a5996e]'} rounded-[10px]`} 
+                        src={previewUrl || wardInfo.photo} 
+                    />
+                    {((isHelpOpen && helpStep === 0) || isEdit && helpStep === 0) && (<FiCamera className='flex absolute' color='rgb(128, 128, 128)' size={45}/>)}
+                </div>
+                {isEdit && (<input className='hidden' id='file' type='file' name='image' onChange={photoUpdate} />)}
             </div>
             <div className='col-span-2 text-3xl'>
                 <div className='flex items-center mb-8'>
