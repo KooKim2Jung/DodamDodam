@@ -13,7 +13,7 @@ router = APIRouter(prefix="/api/v1/auth")
 # 회원가입
 @router.post("/join", response_model=Dict[str, str], tags=["Auth"])
 def join(user_data: UserJoinRequest, db: Session = Depends(get_db)):
-    validate_user_data(user_data)
+    # validate_user_data(user_data)
     return join_user(user_data, db)
 
 # 로그인
