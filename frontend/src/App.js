@@ -19,7 +19,6 @@ const AppContext = createContext();
 
 const AppProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
   const [isEdit, setIsEdit] = useState(false);
   const [isWardSetting, setIsWardSetting] = useState(false);
   const [isGuardian, setIsGuardian] = useState(false);
@@ -36,17 +35,6 @@ const AppProvider = ({ children }) => {
     setIsLoading(false);
 
   }, []);
-
-
-  useEffect(() => {
-    console.log('편집중이니?', isEdit);
-    console.log(isHelpOpen);
-    console.log(helpStep);
-  }, [isEdit, isHelpOpen, helpStep])
-
-  if (isLoading) {
-    return null;
-  }
 
   return (
     <AppContext.Provider 

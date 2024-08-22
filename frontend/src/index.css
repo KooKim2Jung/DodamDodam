@@ -26,7 +26,7 @@ input::-webkit-inner-spin-button {
 }
 
 .input-box {
-  @apply bg-secondary rounded-[50px] py-[8px] px-[20px] w-[360px] mb-[10px] border-secondary border-2
+  @apply bg-secondary rounded-[50px] py-[8px] px-[20px] w-[365px] mb-[10px] border-secondary border-2
   focus:outline-none focus:border-2 focus:border-white  text-middle-size;
 }
 
