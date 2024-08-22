@@ -32,7 +32,6 @@ const AppProvider = ({ children }) => {
     if (storedLoggedInState === 'true') {
         setIsLoggedIn(true);
     }
-    setIsLoading(false);
 
   }, []);
 
