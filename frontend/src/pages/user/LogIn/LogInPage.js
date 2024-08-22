@@ -93,7 +93,6 @@ const LogInPage = () => {
                     <div>
                         <h1 className='text-basic-size'>로그인</h1>
                         <LogInForm user={user} setUser={setUser}/>
-                        <div className='text-small-size mb-4 mt-2 text-gray-400'><a href="#">비밀번호를 잊으셨나요?</a></div>
                         <LogInCheck errorMessage={errorMessage}/>
                         <button className='btn' type='submit' >로그인하기</button>
                         <button className='btn' type='button' onClick={handleSignUp}>회원 가입하기</button>
