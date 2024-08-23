@@ -7,8 +7,8 @@ from fastapi import Query, APIRouter, HTTPException, File, UploadFile, Form, Dep
 from starlette import status
 from sqlalchemy.orm import Session
 from .services import *
-from .schemas import Chat
-from .services import create_message, transcribe_audio
+from .schemas import Chat, HomeInfoRequest
+from .services import create_message, transcribe_audio, add_home_info, get_home_info, update_home_info, delete_home_info
 from .tts_connection import text_to_speech
 from s3_connection import upload_file_to_s3
 from mysql_connection import get_db
@@ -153,3 +153,47 @@ def conversaton_summary(
         raise HTTPException(status_code=400, detail="Invalid date format. Use YYYY-MM-DD.")
 
     return get_summary(db=db, user=current_user_id, date_str=date)
+
+# 집 정보 저장 API (POST)
+@router.post("/home/info", tags=["Home"])
+async def add_home_info_route(home_info: HomeInfoRequest, db: Session = Depends(get_db), current_user_id: int = Depends(get_current_user)):
+    try:
+        # MySQL의 user_id를 사용해 Pinecone에 집 정보를 저장하고 벡터 ID를 MySQL에 저장
+        result = add_home_info(user_id=current_user_id, info=home_info.info, db=db)
+        return {"message": "Home information added successfully", "vector_id": result.pinecone_vector_id}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+# 집 정보 검색 API (GET)
+@router.get("/home/info", tags=["Home"])
+async def get_home_info_route(db: Session = Depends(get_db), current_user_id: int = Depends(get_current_user)):
+    try:
+        # MySQL에서 user_id로 Pinecone 벡터 ID와 집 정보 가져오기
+        home_info = get_home_info(user_id=current_user_id, db=db)
+        if home_info:
+            return {"home_info": home_info}
+        else:
+            return {"message": "No home information found for the current user."}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+# 집 정보 수정 API (PUT)
+@router.put("/home/info/{vector_id}", tags=["Home"])
+async def update_home_info_route(vector_id: str, home_info: HomeInfoRequest, db: Session = Depends(get_db), current_user_id: int = Depends(get_current_user)):
+    try:
+        # MySQL의 user_id 및 vector_id를 사용해 Pinecone에서 집 정보 수정
+        updated_info = update_home_info(user_id=current_user_id, info=home_info.info, vector_id=vector_id, db=db)
+        return {"message": "Home information updated successfully"}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+# 집 정보 삭제 API (DELETE)
+@router.delete("/home/info/{vector_id}", tags=["Home"])
+async def delete_home_info_route(vector_id: str, db: Session = Depends(get_db), current_user_id: int = Depends(get_current_user)):
+    try:
+        # MySQL의 user_id 및 vector_id를 사용해 Pinecone에서 집 정보 삭제
+        delete_home_info(user_id=current_user_id, vector_id=vector_id, db=db)
+        return {"message": "Home information deleted successfully"}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
