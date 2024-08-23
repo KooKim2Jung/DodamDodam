@@ -19,13 +19,19 @@ router = APIRouter(prefix="/api/v1")
 
 @router.post("/chat/dodam")
 async def chat_api(message: Chat, db: Session = Depends(get_db), current_user_id: int = Depends(get_current_user)):
-    # message를 받고 gpt에게 넘겨주는 과정
     try:
-        similar_response = get_similar_response(message.message)
-        final_response = similar_response if similar_response else chat(message.message, current_user_id, db)
+        # 사용자별 대화 내역 가져오기, 없으면 deque 생성
+        if current_user_id not in user_conversations:
+            user_conversations[current_user_id] = deque(maxlen=10)
+
+        # chat 함수 호출 시 current_user_id와 db, 그리고 대화 내역을 전달합니다.
+        response_text, updated_messages = chat(message.message, current_user_id, db, user_conversations[current_user_id])
+
+        # 대화 내역 업데이트
+        user_conversations[current_user_id] = updated_messages
 
         # response를 tts화 하는 과정
-        speech_stream = text_to_speech(gpt_message=final_response, user=current_user_id, db=db)
+        speech_stream = text_to_speech(gpt_message=response_text, user=current_user_id, db=db)
         if not speech_stream:
             raise HTTPException(status_code=500, detail="Failed to generate speech")
 
@@ -39,10 +45,11 @@ async def chat_api(message: Chat, db: Session = Depends(get_db), current_user_id
         mp3_url = upload_result.get("url")
 
         # response str과 mp3_url을 데이터베이스에 넣는 과정
-        create_message(user=current_user_id, content=final_response, voice_url=mp3_url, speaker="dodam", db=db)
+        create_message(user=current_user_id, content=response_text, voice_url=mp3_url, speaker="dodam", db=db)
 
         # mp3_url json 형식으로 리턴
         return {"mp3_url": mp3_url}
+
     except Exception as e:
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e))
 
