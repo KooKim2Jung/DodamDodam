@@ -19,7 +19,7 @@ def upload_data_to_pinecone(index, filename, dimension):
         }
         index.upsert([(vector_id, vector, metadata)])
 
-def init_pinecone(filename, dimension):
+def init_pinecone(filename=None, dimension=1536):
     load_dotenv()
     api_key = os.getenv("PINECONE_API_KEY")
 
@@ -28,7 +28,7 @@ def init_pinecone(filename, dimension):
     region = 'us-east-1'
     spec = ServerlessSpec(cloud=cloud, region=region)
 
-    index_name = "dodam-chat"
+    index_name = "dodam-chat" 
     existing_indexes = [index_info["name"] for index_info in pc.list_indexes()]
 
     if index_name not in existing_indexes:
@@ -39,9 +39,10 @@ def init_pinecone(filename, dimension):
         index = pc.Index(index_name)
         time.sleep(1)  # 인덱스 접속 지연을 고려하여 대기
 
-        # 인덱스 생성 후 데이터 업로드
-        upload_data_to_pinecone(index, filename, dimension)
-        print("Data uploaded successfully.")
+        # 인덱스 생성 후 데이터 업로드, 파일이 있는 경우에만 호출
+        if filename:
+            upload_data_to_pinecone(index, filename, dimension)
+            print("Data uploaded successfully.")
     else:
         index = pc.Index(index_name)
         time.sleep(1)  # 인덱스 접속 지연을 고려하여 대기
