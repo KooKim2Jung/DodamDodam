@@ -9,9 +9,12 @@ from fastapi import HTTPException
 from .models import Message, Conversation
 from .schemas import MessageCreate
 from .stt_connection import get_jwt_token
-from .pinecone import init_pinecone  # import init_pinecone
 from sqlalchemy.orm import Session
 from datetime import date, datetime
+from .pinecone import init_pinecone
+from .models import HomeInfo
+from members.models import User
+
 
 def get_similar_response(message: str) -> str or None:
     filename = 'dataset.json'
@@ -194,3 +197,92 @@ def get_summary(db: Session, user: int, date_str: str):
 
     # 요약이 없거나, 날짜가 오늘 날짜인 경우 새로운 요약 생성
     return create_summary(db=db, user=user, date=date_str)
+
+
+# Pinecone 인덱스 가져오기
+index = init_pinecone()
+
+# MySQL의 user_id를 사용해 Pinecone에 집 정보를 저장하는 함수
+def add_home_info(user_id: int, info: str, db: Session):
+    # 집 정보 벡터화
+    vector = vectorize_message(info)
+    # Pinecone 메타데이터 구성
+    metadata = {
+        "user_id": user_id,
+        "info": info
+    }
+    # Pinecone에 고유한 ID로 벡터 업로드
+    vector_id = str(uuid.uuid4())
+    index.upsert([(vector_id, vector, metadata)])
+
+    # MySQL에 Pinecone 벡터 ID와 함께 정보 저장
+    new_home_info = HomeInfo(user_id=user_id, pinecone_vector_id=vector_id, info=info)
+    db.add(new_home_info)
+    db.commit()
+    db.refresh(new_home_info)
+
+    return new_home_info
+
+# Pinecone에서 MySQL의 user_id를 기반으로 집 정보를 가져오는 함수
+def get_home_info(user_id: int, db: Session):
+    # MySQL에서 user_id로 해당 유저의 모든 집 정보 조회 (벡터 ID 포함)
+    home_infos = db.query(HomeInfo).filter(HomeInfo.user_id == user_id).all()
+
+    # 집 정보가 없을 경우
+    if not home_infos:
+        return None
+
+    # Pinecone에서 각 벡터 ID로 집 정보 검색
+    results = []
+    for home_info in home_infos:
+        # Pinecone에서 벡터 ID로 검색
+        result = index.fetch(ids=[home_info.pinecone_vector_id])
+        if result and result['vectors']:
+            # Pinecone에서 가져온 메타데이터와 MySQL 정보를 함께 반환
+            pinecone_info = result['vectors'][home_info.pinecone_vector_id]['metadata']['info']
+            results.append({
+                "info": home_info.info,
+                "vector_id": home_info.pinecone_vector_id
+            })
+
+    return results
+
+# Pinecone에서 MySQL의 user_id를 기반으로 집 정보를 수정하는 함수
+def update_home_info(user_id: int, info: str, vector_id: str, db: Session):
+    # MySQL에서 벡터 ID로 정보 찾기
+    home_info = db.query(HomeInfo).filter(HomeInfo.user_id == user_id, HomeInfo.pinecone_vector_id == vector_id).first()
+
+    if home_info:
+        # Pinecone에서 정보 업데이트
+        vector = vectorize_message(info)
+        metadata = {
+            "user_id": user_id,
+            "info": info
+        }
+        index.upsert([(vector_id, vector, metadata)])
+
+        # MySQL에서도 정보 업데이트
+        home_info.info = info
+        db.commit()
+        db.refresh(home_info)
+
+        return home_info
+    else:
+        raise Exception("No home information found to update.")
+
+# Pinecone에서 MySQL의 user_id를 기반으로 집 정보를 삭제하는 함수
+def delete_home_info(user_id: int, vector_id: str, db: Session):
+    # MySQL에서 벡터 ID로 정보 찾기
+    home_info = db.query(HomeInfo).filter(HomeInfo.user_id == user_id, HomeInfo.pinecone_vector_id == vector_id).first()
+
+    if home_info:
+        # Pinecone에서 해당 벡터 삭제
+        index.delete(ids=[vector_id])
+
+        # MySQL에서도 정보 삭제
+        db.delete(home_info)
+        db.commit()
+
+        return {"message": "Home information deleted successfully"}
+    else:
+        raise Exception("No home information found to delete.")
