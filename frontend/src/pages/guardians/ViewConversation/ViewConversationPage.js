@@ -94,7 +94,6 @@ const ViewConversationPage = () => {
             <div className="pt-28 pl-4 relative h-full">
                 <div className="flex relative justify-between text-2xl mb-3 z-50">
                     <Calendar onDateChange={handleDateChange} />
-                    <Cona/>
                     {isHelpOpen && helpStep === 2 ? (
                         <ConversationSummary testSummary={testSummary} />
                     ) : (
