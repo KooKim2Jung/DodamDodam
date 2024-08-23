@@ -6,7 +6,6 @@ import ConversationBoard from '../../../components/guardians/Conversation/Conver
 import api from '../../../Service/Api';
 import Guardian from '../../../components/guardians/Guardian/Guardian';
 import { AppContext } from '../../../App';
-import Cona from '../Cona';
 
 const ViewConversationPage = () => {
     const { isGuardian, setIsGuardian, isWardSetting, 
