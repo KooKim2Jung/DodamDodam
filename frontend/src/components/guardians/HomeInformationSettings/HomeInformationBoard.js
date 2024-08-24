@@ -32,6 +32,9 @@ const HomeInformationBoard = () => {
 
     const deleteFolder = (deleteId) => {
         setFolders(folders => folders.filter(folder => folder.id !== deleteId));
+        const deleteEmoji = JSON.parse(localStorage.getItem('selectedEmojis'));
+        delete deleteEmoji[deleteId];
+        localStorage.setItem('selectedEmojis', JSON.stringify(deleteEmoji));
     }
 
     return (

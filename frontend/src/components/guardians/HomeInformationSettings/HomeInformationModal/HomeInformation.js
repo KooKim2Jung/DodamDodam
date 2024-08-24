@@ -49,7 +49,7 @@ const HomeInformation = ({ isFolderOpen, setIsFolderOpen, folder, deleteFolder }
             className='w-[500px] h-[500px] relative flex-col justify-center bg-tertiay rounded-[80px] shadow-[4px_6px_2px_#a5996e]'
         >
         <div className='flex text-2xl absolute top-5 right-11'>
-            <IconPicker/>
+            <IconPicker folder={folder}/>
             <button className='p-2 mr-2 rounded-[50px] border-2 border-black hover:scale-110' onClick={() => handleDelete(folder.id)}><FiTrash2 /></button>
             <button className='p-2 rounded-[50px] border-2 border-black hover:scale-110' onClick={closeFolder}><FiX /></button>
         </div>
