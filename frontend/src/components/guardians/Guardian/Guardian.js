@@ -66,7 +66,7 @@ const Guardian = ({ isGuardian, setIsGuardian, isWardSetting }) => {
 
     return (
         <Modal 
-            overlayClassName='fixed flex z-40 justify-center items-center inset-0 bg-primary outline-none' 
+            overlayClassName='fixed flex z-50 justify-center items-center inset-0 bg-primary outline-none' 
             isOpen={isOpen} 
             onRequestClose={closeModal}
             shouldCloseOnOverlayClick={false}
