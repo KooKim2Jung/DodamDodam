@@ -26,6 +26,7 @@ const AppProvider = ({ children }) => {
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
   const [isSummaryOpen, setIsSummaryOpen] = useState(false);
   const [helpStep, setHelpStep] = useState(0);
+  const [isEmojiSelected, setIsEmojiSelected] = useState(false);
 
   useEffect(() => {
     const storedLoggedInState = sessionStorage.getItem('isLoggedIn');
@@ -46,6 +47,7 @@ const AppProvider = ({ children }) => {
         isCalendarOpen, setIsCalendarOpen,
         isSummaryOpen, setIsSummaryOpen,
         helpStep, setHelpStep,
+        isEmojiSelected, setIsEmojiSelected,
       }}
     >
       {children}
