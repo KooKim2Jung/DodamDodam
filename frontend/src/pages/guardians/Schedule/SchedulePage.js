@@ -45,43 +45,42 @@ const SchedulePage = () => {
         <div className='flex flex-col h-screen w-screen pl-[240px]'>
             <Aside />
             <div className={`mt-32 text-3xl ${isHelpOpen && helpStep === 0 ? 'bg-white z-40 rounded-[10px]' : ''}`}>
-                <div className='grid grid-cols-5 mb-5'>
+                <div className='grid grid-cols-4 mb-4 text-center hidden lg:grid'>
                     <h2>날짜</h2>
                     <h2>시간</h2>
-                    <h2>반복</h2>
-                    <h2 className='col-span-2'>내용</h2>
+                    <h2 className='col-span-2'>반복</h2>
                 </div>
                 <ScheduleForm addItem={addItem} />
             </div>
             {isHelpOpen ? (<>
                 {helpStep === 1 ? (
-                    <div className='grid grid-cols-5 text-2xl z-40 items-center border-transparent bg-white shadow-[2px_4px_1px_#a5996e] rounded-[50px] mx-2'>
+                    <div className='grid grid-cols-5 text-2xl z-40 items-center border-transparent bg-white shadow-[2px_4px_1px_#a5996e] rounded-[50px] my-2 mx-6'>
                         <div>{testSchedule.testDate}</div>
                         <div>{testSchedule.testTime}</div>
                         <div>{testSchedule.testRepeat}</div>
                         <div className='flex col-span-2 items-center justify-center'>
                             <div>{testSchedule.testNote}</div>
-                            <button className='p-2 text-2xl rounded-[50px] border-2 mx-2 my-3 border-black hover:scale-110'><FiEdit2 /></button>
+                            <button className='p-2 text-2xl rounded-[50px] border-2 mx-2 my-2 border-black hover:scale-110'><FiEdit2 /></button>
                             <button className='p-2 text-2xl rounded-[50px] border-2 border-black hover:scale-110'><FiTrash2 /></button>
                         </div>
                     </div>
                 ) : null}
             </>) : (<>
                 {items.map((item, index) => (
-                    <div key={index} className='text-2xl m-1'>
+                    <div key={index} className='text-2xl'>
                         {isEditing && currentItemIndex === index ?
                             <ScheduleForm 
                                 item={currentItem}
                                 saveItem={(newItem) => editItem(index, newItem)}
                                 editMode={true}
                             />:
-                            <div className='grid grid-cols-5 items-center border-transparent bg-white shadow-[2px_4px_1px_#a5996e] rounded-[50px] mx-2'>
-                                <div>{item.date}</div>
-                                <div>{item.time}</div>
-                                <div>{item.repeat.join(', ')}</div>
+                            <div className='grid grid-cols-1 md:grid-cols-5 items-center border-transparent bg-white shadow-[2px_4px_1px_#a5996e] rounded-[50px] my-2 mx-6'>
+                                <div className='my-2'>{item.date}</div>
+                                <div className='my-2'>{item.time}</div>
+                                <div className='my-2'>{item.repeat.join(', ')}</div>
                                 <div className='flex col-span-2 items-center justify-center'>
                                     <div>{item.note}</div>
-                                    <button onClick={() => handleEdit(index)} className='p-2 text-2xl rounded-[50px] border-2 mx-2 my-3 border-black hover:scale-110'><FiEdit2 /></button>
+                                    <button onClick={() => handleEdit(index)} className='p-2 text-2xl rounded-[50px] border-2 mx-2 my-2 border-black hover:scale-110'><FiEdit2 /></button>
                                     <button onClick={() => deleteItem(index)} className='p-2 text-2xl rounded-[50px] border-2 border-black hover:scale-110'><FiTrash2 /></button>
                                 </div>
                             </div>
