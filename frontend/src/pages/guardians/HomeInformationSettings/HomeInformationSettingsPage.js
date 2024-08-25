@@ -12,7 +12,7 @@ const HomeInformationSettingsPage = () => {
             <Aside/>
             <h2 className='absolute top-28 left-[265px]'>집 정보 설정</h2>
             <div className='flex justify-center pl-60 mt-36'>
-                {/* <HomeInformationBoard /> */}
+                <HomeInformationBoard />
             </div>
             <Guardian isGuardian={isGuardian} setIsGuardian={setIsGuardian} isWardSetting={isWardSetting}/>
         </div>
