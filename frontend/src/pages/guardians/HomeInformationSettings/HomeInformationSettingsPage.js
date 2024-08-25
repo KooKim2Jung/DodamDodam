@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import Aside from '../../../components/section/Aside/Aside';
-// import HomeInformationBoard from '../../../components/guardians/HomeInformationSettings/HomeInformationBoard';
+import HomeInformationBoard from '../../../components/guardians/HomeInformationSettings/HomeInformationBoard';
 import { AppContext } from '../../../App';
 import Guardian from '../../../components/guardians/Guardian/Guardian';
 
