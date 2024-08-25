@@ -14,6 +14,7 @@ from jwt_utils import router as jwt_router
 from users.routes import router as users_router
 from talk.routes import router as talk_router
 from members.routes import router as member_router
+from schedules.routes import router as schedules_router
 from conversations.stt_connection import stt_authenticate
 
 
@@ -45,3 +46,4 @@ app.include_router(jwt_router)
 app.include_router(users_router)
 app.include_router(talk_router)
 app.include_router(member_router)
+app.include_router(schedules_router)
