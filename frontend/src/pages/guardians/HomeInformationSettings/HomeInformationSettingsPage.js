@@ -35,28 +35,29 @@ const HomeInformationSettingsPage = () => {
     };
 
     return (
-        <div className='text-3xl w-screen'>
+        <div className='flex flex-col h-screen w-screen pl-[240px]'>
             <Aside/>
-            <h2 className='absolute top-28 left-[265px]'>집 정보 설정</h2>
-            <div className='flex justify-center pl-60 mt-36'>
-                <div className='relative flex items-center justify-center w-[700px] h-[450px]'>
-                    <div className='absolute top-14 left-5 right-5 text-2xl'>
+            <div className='pt-28 pl-5'>
+                <h2 className='text-3xl text-left'>집 정보 설정</h2>
+                <div className='grid grid-cols-1'>
+                    <div className='absolute top-40 bottom-24 right-1 left-[263px] text-3xl overflow-y-auto'>
                         {items.map((item, index) => (
-                            <>{isEditing && currentItemIndex === index ? 
-                                <div className='mt-5 py-2'><HomeInformationForm
+                            <>{isEditing && currentItemIndex === index ? (
+                                <HomeInformationForm
                                     item={currentItem}
                                     saveItem={(newItem) => editItem(index, newItem)}
                                     editMode={true}
-                                /></div> :
-                                <div className='items-center flex justify-center border-transparent bg-white shadow-[2px_4px_1px_#a5996e] rounded-[50px] my-5' 
-                                key={index}>{item.content}
-                                <button onClick={() => handleEdit(index)} className='p-2 text-2xl rounded-[50px] border-2 mx-2 my-3 border-black hover:scale-110'><FiEdit2 /></button>
-                                <button onClick={() => deleteItem(index)} className='p-2 text-2xl rounded-[50px] border-2 border-black hover:scale-110'><FiTrash2 /></button>
-                            </div>
-                            }</>
+                                />) : (
+                                <div className='items-center flex justify-center border-transparent bg-white shadow-[2px_4px_1px_#a5996e] rounded-[50px] ml-3 mr-7 my-5' 
+                                key={index}>
+                                    {item.content}
+                                    <button onClick={() => handleEdit(index)} className='p-2 text-2xl rounded-[50px] border-2 mx-2 my-2 border-black hover:scale-110'><FiEdit2 /></button>
+                                    <button onClick={() => deleteItem(index)} className='p-2 text-2xl rounded-[50px] border-2 border-black hover:scale-110'><FiTrash2 /></button>
+                                </div>
+                            )}</>
                         ))}
                     </div>
-                    <div className='absolute bottom-5 text-2xl'>
+                    <div className='absolute bottom-4 right-1 left-[263px]'>
                         <HomeInformationForm addItem={addItem}/>
                     </div>
                 </div>

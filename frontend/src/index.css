@@ -15,15 +15,15 @@ body {
   font-weight: bolder;
 }
 
-::-webkit-scrollbar {
+/* ::-webkit-scrollbar {
   display: none;
-}
+} */
 
-input::-webkit-inner-spin-button {
+/* input::-webkit-inner-spin-button {
   appearance: none;
   -moz-appearance: none;
   -webkit-appearance: none;
-}
+} */
 
 .input-box {
   @apply bg-secondary rounded-[50px] py-[8px] px-[20px] w-[365px] mb-[10px] border-secondary border-2

@@ -2,9 +2,7 @@ import React, { useState, useEffect } from 'react';
 import HomeInformationCheck from './HomeInformationCheck';
 
 const HomeInformationForm = ({ addItem, item, saveItem, editMode = false }) => {
-    const [data, setData] = useState({
-        content: '',
-    });
+    const [data, setData] = useState({ content: '', });
 
     const [homeInformationError, setHomeInformationError] = useState('');
 
@@ -18,12 +16,7 @@ const HomeInformationForm = ({ addItem, item, saveItem, editMode = false }) => {
 
     const submitData = () => {
         if (!homeInformationError) {
-            if (editMode) {
-                saveItem(data)
-            }
-            else {
-                addItem(data);
-            }
+            editMode ? saveItem(data) : addItem(data)
         } 
         setData({
             content: '',
@@ -37,22 +30,29 @@ const HomeInformationForm = ({ addItem, item, saveItem, editMode = false }) => {
     }, [editMode, item]);
 
     return (
-        <div className='relative flex justify-center'>
-            <input className='w-[380px] px-3 mr-2 rounded-[50px] bg-secondary border-2 border-transparent focus:border-white outline-none'
-                type='text'
-                name='content'
-                value={data.content}
-                onChange={inputData}
+        <div className='w-full text-3xl mt-6 pl-3 pr-7'>
+            <HomeInformationCheck 
+                data={data} 
+                homeInformationError={homeInformationError} 
+                setHomeInformationError={setHomeInformationError}
             />
-            <div className='group'>
-                <button className='p-2 rounded-[50px] bg-secondary border-2 border-transparent focus:border-white hover:scale-110' 
-                onClick={submitData}>{editMode ? '저장' : '추가'}
+            <div className='flex w-full'>
+                <input 
+                    className='flex-grow px-3 mr-3 rounded-[50px] bg-secondary border-2 border-transparent focus:border-white outline-none w-full'
+                    type='text'
+                    name='content'
+                    placeholder='예시) 도담아, 냉장고 안에 제육볶음 있어'
+                    value={data.content}
+                    onChange={inputData}
+                />
+                <button 
+                    className='p-2 w-24 rounded-[50px] bg-secondary border-2 border-transparent focus:border-white hover:scale-110' 
+                    onClick={submitData}
+                >
+                    {editMode ? '저장' : '추가'}
                 </button>
-                <div className='absolute -top-8 left-28 right-28 invisible group-hover:visible'>
-                    <HomeInformationCheck data={data} homeInformationError={homeInformationError} setHomeInformationError={setHomeInformationError}/>
-                </div>
             </div>
-        </div>
+        </div> 
     );
 };
 
