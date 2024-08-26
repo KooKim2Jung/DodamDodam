@@ -52,11 +52,11 @@ const DodamSettingsPage = () => {
     };
 
     return (
-        <div className='flex flex-col h-screen w-screen pl-[240px]'>
+        <div className='flex flex-col h-screen w-screen pl-[240px] overflow-x-hidden'>
             <Aside/>
             <div className='pt-28 pl-5'>
                 <h2 className='text-3xl text-left'>도담이 설정</h2>
-                <div className=''>
+                <div>
                     <div className='flex justify-center'>
                         <img className='h-60 w-56 my-7' src='./images/dodam_circle.png'/>
                     </div>
