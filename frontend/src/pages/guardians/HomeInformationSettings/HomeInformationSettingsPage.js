@@ -40,7 +40,8 @@ const HomeInformationSettingsPage = () => {
             <div className='pt-28 pl-5'>
                 <h2 className='text-3xl text-left'>집 정보 설정</h2>
                 <div className='grid grid-cols-1'>
-                    <div className='absolute top-40 bottom-48 sm:bottom-48 md:bottom-40 lg:bottom-32 right-28 left-[360px] overflow-y-auto bg-primary rounded-[60px] shadow-[6px_4px_10px_#a5996e] pl-8 py-5 pr-5'>
+                    <div className='absolute top-40 bottom-48 sm:bottom-48 md:bottom-40 lg:bottom-32 right-28 left-[360px] bg-tertiay rounded-[60px] shadow-[6px_4px_10px_#a5996e] pl-8 py-5 pr-7'>
+                        <div className='overflow-y-auto h-full w-full'>
                         {items.map((item, index) => (
                             <>{isEditing && currentItemIndex === index ? (
                                 <HomeInformationForm
@@ -48,7 +49,7 @@ const HomeInformationSettingsPage = () => {
                                     saveItem={(newItem) => editItem(index, newItem)}
                                     editMode={true}
                                 />) : (
-                                <div className='items-center flex justify-center border-transparent bg-white shadow-[2px_4px_1px_#a5996e] rounded-[50px] ml-3 mr-7 my-4 px-2' 
+                                <div className='items-center flex justify-center border-transparent bg-white shadow-[2px_4px_1px_#a5996e] rounded-[50px] ml-3 mr-5 my-4 px-2' 
                                 key={index}>
                                     {item.content}
                                     <button onClick={() => handleEdit(index)} className='p-2 text-2xl rounded-[50px] border-2 mx-2 my-2 border-black hover:scale-110'><FiEdit2 /></button>
@@ -56,6 +57,7 @@ const HomeInformationSettingsPage = () => {
                                 </div>
                             )}</>
                         ))}
+                        </div>
                     </div>
                     <div className='absolute bottom-4 right-3 left-[260px]'>
                         <HomeInformationForm addItem={addItem}/>

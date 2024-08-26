@@ -15,15 +15,18 @@ body {
   font-weight: bolder;
 }
 
-/* ::-webkit-scrollbar {
-  display: none;
-} */
+::-webkit-scrollbar {
+  width: 8px; 
+}
 
-/* input::-webkit-inner-spin-button {
-  appearance: none;
-  -moz-appearance: none;
-  -webkit-appearance: none;
-} */
+::-webkit-scrollbar-track {
+  background: #FEFAED;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #7F5B3D; 
+  border-radius: 6px;
+}
 
 .input-box {
   @apply bg-secondary rounded-[50px] py-[8px] px-[20px] w-[365px] mb-[10px] border-secondary border-2
