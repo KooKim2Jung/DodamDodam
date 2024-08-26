@@ -30,15 +30,15 @@ const HomeInformationForm = ({ addItem, item, saveItem, editMode = false }) => {
     }, [editMode, item]);
 
     return (
-        <div className='w-full text-3xl mt-6 pl-3 pr-7'>
+        <div className='w-full text-2xl mt-6 px-3'>
             <HomeInformationCheck 
                 data={data} 
                 homeInformationError={homeInformationError} 
                 setHomeInformationError={setHomeInformationError}
             />
-            <div className='flex w-full'>
+            <div className='flex flex-col md:flex-row w-full items-center space-y-3 md:space-y-0'>
                 <input 
-                    className='flex-grow px-3 mr-3 rounded-[50px] bg-secondary border-2 border-transparent focus:border-white outline-none w-full'
+                    className='flex-grow px-3 py-2 mr-0 md:mr-3 rounded-[50px] bg-secondary border-2 border-transparent focus:border-white outline-none w-full'
                     type='text'
                     name='content'
                     placeholder='예시) 도담아, 냉장고 안에 제육볶음 있어'
@@ -46,13 +46,13 @@ const HomeInformationForm = ({ addItem, item, saveItem, editMode = false }) => {
                     onChange={inputData}
                 />
                 <button 
-                    className='p-2 w-24 rounded-[50px] bg-secondary border-2 border-transparent focus:border-white hover:scale-110' 
+                    className='p-2 w-full md:w-16 rounded-[50px] bg-secondary border-2 border-transparent focus:border-white hover:scale-110 transition-all duration-150' 
                     onClick={submitData}
                 >
                     {editMode ? '저장' : '추가'}
                 </button>
             </div>
-        </div> 
+        </div>
     );
 };
 
