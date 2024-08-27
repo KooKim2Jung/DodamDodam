@@ -1,18 +1,19 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { FiLogIn, FiLogOut, FiUserPlus, FiToggleLeft, FiToggleRight, FiBook } from "react-icons/fi";
 import { useNavigate } from 'react-router-dom';
 import '../../Wave.css';
 import Toggle from '../../guardians/Guardian/Toggle/Toggle';
 import Help from '../../guardians/Guardian/Help/Help';
-import { AppContext } from '../../../App';
+import { AppContext } from '../../../AppContext';
 
 const Header = ({ pageAddress }) => {
-    const { isLoggedIn, setIsLoggedIn, isGuardian, isHelpOpen, setIsHelpOpen } = useContext(AppContext);
+    const { isLoggedIn, setIsLoggedIn, isGuardian, setIsGuardian, isHelpOpen, setIsHelpOpen } = useContext(AppContext);
 
     const navigate = useNavigate();
 
     const handleLogout = () => {
         setIsLoggedIn(false);
+        setIsGuardian(false);
         sessionStorage.removeItem('isLoggedIn');
         sessionStorage.removeItem('jwtToken');
         navigate('/');

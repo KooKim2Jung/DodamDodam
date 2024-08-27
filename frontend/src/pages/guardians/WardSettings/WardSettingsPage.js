@@ -1,9 +1,8 @@
 import React, { useContext, useState, useEffect } from 'react';
-import Aside from '../../../components/section/Aside/Aside';
 import WardSettingsForm from '../../../components/guardians/WardSettings/WardSettingsForm';
 import Guardian from '../../../components/guardians/Guardian/Guardian';
 import api from '../../../Service/Api';
-import { AppContext } from '../../../App';
+import { AppContext } from '../../../AppContext';
 
 const WardSettingsPage = () => {
     const { isEdit, setIsEdit, isWardSetting, setIsWardSetting, 
@@ -122,7 +121,6 @@ const WardSettingsPage = () => {
 
     return (
         <div className='flex flex-col h-screen w-screen pl-[240px]'>
-            <Aside/>
             <div className='pt-28 pl-5 z-40'>
                 <h2 className='text-3xl text-left'>피보호자 설정</h2>
                 {isHelpOpen ? (<>

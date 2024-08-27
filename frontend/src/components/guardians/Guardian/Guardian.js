@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import Modal from 'react-modal';
 import api from '../../../Service/Api';
 
-const Guardian = ({ isGuardian, setIsGuardian, isWardSetting }) => {
+const Guardian = ({ isGuardian, setIsGuardian, isWardSetting, setIsWardSetting, setIsEdit }) => {
     const [isOpen, setIsOpen] = useState(false);
     const [guardianPassword, setGuardianPassword] = useState('')
     const [errorMessage, setErrorMessage] = useState('');
@@ -21,6 +21,7 @@ const Guardian = ({ isGuardian, setIsGuardian, isWardSetting }) => {
         else {
             navigate('/ViewConversationPage');
         }
+
         setIsOpen(false);
     }
 
@@ -39,10 +40,10 @@ const Guardian = ({ isGuardian, setIsGuardian, isWardSetting }) => {
             const response = await api.post('/v1/auth/switch', {
                 password: guardianPassword,
             });
-            const check = response.data.check;
-            if (check) {
+            if (response.data.check) {
                 setIsGuardian(true);
                 closeModal();
+                checkWard();
             }
             else {
                 setErrorMessage('비밀번호가 일치하지 않습니다.');
@@ -52,10 +53,29 @@ const Guardian = ({ isGuardian, setIsGuardian, isWardSetting }) => {
         }
     }
 
+    const checkWard = async () => {
+        try {
+            const wardResponse = await api.get('/v1/profile/check');
+            if (wardResponse.data.check) {
+                setIsWardSetting(true);
+            }
+            else {
+                setIsEdit(true);
+                setIsWardSetting(false);
+            }
+        } catch (wardCheckError) {
+            console.error("피보호자 정보 요청 오류", wardCheckError);
+            setErrorMessage('피보호자 정보 요청 중 오류가 발생했습니다. 다시 시도해주세요.');
+        }
+    }
+
     useEffect(() => {
         resetForm();
         if (isGuardian === false) {
             openModal();
+        }
+        else {
+            closeModal();
         }
     }, [isGuardian])
 

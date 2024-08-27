@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import Modal from 'react-modal';
-import { AppContext } from '../../../App';
+import { AppContext } from '../../../AppContext';
 
 const ConversationSummary = ({ summary, testSummary }) => {
     const { isSummaryOpen, setIsSummaryOpen, isHelpOpen, helpStep } = useContext(AppContext);

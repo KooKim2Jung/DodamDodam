@@ -1,6 +1,6 @@
 import React, { useContext, useRef } from 'react';
 import { FiVolume2 } from "react-icons/fi";
-import { AppContext } from '../../../App';
+import { AppContext } from '../../../AppContext';
 
 const DodamVoiceForm = ({ voice, setVoice, voices }) => {
     const { isHelpOpen, helpStep } = useContext(AppContext);

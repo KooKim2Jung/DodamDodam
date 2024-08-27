@@ -3,7 +3,7 @@ import React, { useContext, useState } from 'react';
 import api from '../../../Service/Api';
 import LogInForm from '../../../components/user/LogIn/LogInForm';
 import LogInCheck from '../../../components/user/LogIn/LogInCheck';
-import { AppContext } from '../../../App';
+import { AppContext } from '../../../AppContext';
 
 const LogInPage = () => {
     const { setIsLoggedIn, setIsEdit, setIsWardSetting } = useContext(AppContext);
@@ -48,14 +48,11 @@ const LogInPage = () => {
     const checkWard = async () => {
         try {
             const wardResponse = await api.get('/v1/profile/check');
-            const check = wardResponse.data.check;
-            if (check) {
+            if (wardResponse.data.check) {
                 navigate('/WardPage');
                 setIsWardSetting(true);
             }
             else {
-                setIsEdit(true);
-                setIsWardSetting(false);
                 alert('피보호자 설정이 필요합니다.');
                 navigate('/WardSettingsPage');
             }
