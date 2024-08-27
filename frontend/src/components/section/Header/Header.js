@@ -25,25 +25,25 @@ const Header = ({ pageAddress }) => {
     return (
         <div>
         <header className='fixed top-0 left-0 h-[90px] w-screen shadow-[0px_2px_6px_#a5996e] z-[1000] bg-primary flex items-center justify-center'>
-            <h1 className='absolute left-1/2 transform -translate-x-1/2 flex items-center text-5xl'>
-                <img className='h-10 w-11 mr-1 hidden md:block' src='./images/middle_flower.png' />
+            <h1 className='absolute left-[35%] md:left-[45%] lg:left-1/2 transform -translate-x-1/2 flex items-center text-4xl md:text-5xl transition-all duration-400'>
+                <img className='h-10 w-11 mr-1 hidden lg:block' src='./images/middle_flower.png' alt="꽃"/>
                 <a href="/">도담도담</a>
-                <img className='h-10 w-11 ml-2 hidden md:block' src='./images/middle_flower.png' />
+                <img className='h-10 w-11 ml-2 hidden lg:block' src='./images/middle_flower.png' alt="꽃"/>
             </h1>
             <div className='absolute right-10 flex items-center'>
                 {isLoggedIn ? (<>
                     <div className='flex items-center wave'>
-                        <div className='relative hidden md:block mr-16'><Toggle /></div>
-                        <a className='block md:hidden relative mr-4 pb-1' href="/WardSettingsPage"><FiToggleRight size='30' /></a>
-                        <a className='block md:hidden relative mr-4 pb-1' href="/WardPage"><FiToggleLeft size='30' /></a>
+                        <div className='relative hidden lg:block mr-16'><Toggle /></div>
+                        <a className='block lg:hidden relative mr-4 pb-1' href="/WardSettingsPage"><FiToggleRight size='30' /></a>
+                        <a className='block lg:hidden relative mr-4 pb-1' href="/WardPage"><FiToggleLeft size='30' /></a>
                     </div>
                     <div className='flex items-center wave'>
                         {isGuardian && (<>
-                            <div className='relative text-middle-size hidden md:block mr-6 z-40'><Help pageAddress={pageAddress}></Help></div>
-                            <button className='block md:hidden relative mr-4 pb-1' onClick={handleHelp}><FiBook size='30'></FiBook></button>
+                            <div className='relative text-middle-size hidden lg:block mr-6 z-40'><Help pageAddress={pageAddress}></Help></div>
+                            <button className='block lg:hidden relative mr-4 pb-1' onClick={handleHelp}><FiBook size='30'></FiBook></button>
                         </>)}
-                        <button className='relative text-middle-size hidden md:block' onClick={handleLogout}>로그아웃</button>
-                        <button className='block md:hidden relative pb-1' onClick={handleLogout}><FiLogOut size='30' /></button>
+                        <button className='relative text-middle-size hidden lg:block' onClick={handleLogout}>로그아웃</button>
+                        <button className='block lg:hidden relative pb-1' onClick={handleLogout}><FiLogOut size='30' /></button>
                     </div>
                 </>) : (
                     <div className='flex items-center wave'>
