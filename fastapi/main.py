@@ -14,6 +14,7 @@ from jwt_utils import router as jwt_router
 from users.routes import router as users_router
 from talk.routes import router as talk_router
 from conversations.stt_connection import stt_authenticate
+from emotions.routes import router as emotion_router
 
 
 load_dotenv()
@@ -43,3 +44,4 @@ app.include_router(transcribe_router)
 app.include_router(jwt_router)
 app.include_router(users_router)
 app.include_router(talk_router)
+app.include_router(emotion_router)
