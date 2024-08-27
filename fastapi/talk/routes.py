@@ -16,31 +16,31 @@ admin_key = os.getenv("ADMIN_KEY")
 korea_timezone = pytz.timezone('Asia/Seoul')
 now_korea = datetime.utcnow().replace(tzinfo=pytz.utc).astimezone(korea_timezone)
 
-@router.get("/token")
+@router.get("/token", tags=["Talk"])
 async def get_token(authorize_code: str, db: Session = Depends(get_db)):
     token_data = await fetch_kakao_token(authorize_code, db, kakao_api_key, redirect_uri)
     return token_data
 
 #친구 목록
-@router.get("/friend")
+@router.get("/friend", tags=["Talk"])
 async def get_friend(db: Session = Depends(get_db)):
     friends_list = await fetch_friends_list(db)
     return friends_list
 
 # 카톡 보내기
-@router.post("/send")
+@router.post("/send", tags=["Talk"])
 async def send_message(text: str, db: Session = Depends(get_db)):
     response = await send_kakao_message(text, db)
     return response
 
 # refresh token으로 access token 재발급
-@router.get("/refresh")
+@router.get("/refresh", tags=["Talk"])
 async def refresh_access_token_route(db: Session = Depends(get_db)):
     new_tokens = await refresh_access_token(db, kakao_api_key)
     return new_tokens
 
 # #사용자 정보 가져오기
-# @router.get("/profile")
+# @router.get("/profile", tags=["Talk"])
 # async def get_user_profile(db: Session = Depends(get_db)):
 #     access_token = get_access_token(db)
 #     url = "https://kapi.kakao.com/v2/user/me"
@@ -56,6 +56,7 @@ async def refresh_access_token_route(db: Session = Depends(get_db)):
 #
 #         return response.json()
 #
+
 #여러 사용자 정보 가져오기
 @router.get("/users")
 async def get_app_users():

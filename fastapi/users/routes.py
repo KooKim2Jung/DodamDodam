@@ -13,7 +13,7 @@ router = APIRouter(prefix="/api/v1")
 
 # 피보호자 프로필 설정
 
-@router.get("/profile", response_model=ProfileRead)
+@router.get("/profile", response_model=ProfileRead, tags=["Profile"])
 async def get_profile(current_user_id: int = Depends(get_current_user), db: Session = Depends(get_db)):
     try:
         return ProfileService.read_profile(user=current_user_id, db=db)
@@ -22,7 +22,7 @@ async def get_profile(current_user_id: int = Depends(get_current_user), db: Sess
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-@router.post("/profile", response_model=str)
+@router.post("/profile", response_model=str, tags=["Profile"])
 async def create_profile(
         last_name: str = Form(...),
         name: str = Form(...),
@@ -47,7 +47,7 @@ async def create_profile(
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-@router.patch("/profile", response_model=str)
+@router.patch("/profile", response_model=str, tags=["Profile"])
 async def update_profile(
         last_name: Optional[str] = Form(None),
         name: Optional[str] = Form(None),
@@ -69,7 +69,7 @@ async def update_profile(
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-@router.get("/profile/check", response_model=ProfileCheckResponse)
+@router.get("/profile/check", response_model=ProfileCheckResponse, tags=["Profile"])
 async def check_profile(current_user_id: int = Depends(get_current_user), db: Session = Depends(get_db)):
     try:
         result = ProfileService.check_profile(user=current_user_id, db=db)
@@ -81,21 +81,21 @@ async def check_profile(current_user_id: int = Depends(get_current_user), db: Se
 
 # 도담이 설정
 
-@router.get("/setting", response_model=Setting)
+@router.get("/setting", response_model=Setting, tags=["Setting"])
 def read_dodam_setting(current_user_id: int = Depends(get_current_user), db: Session = Depends(get_db)):
     try:
         return SettingService.read_setting(current_user_id, db)
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-@router.post("/setting", response_model=str)
+@router.post("/setting", response_model=str, tags=["Setting"])
 async def create_dodam_setting(current_user_id: int = Depends(get_current_user), db: Session = Depends(get_db)):
     try:
         return SettingService.create_setting(current_user_id, db)
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-@router.put("/setting", response_model=str)
+@router.put("/setting", response_model=str, tags=["Setting"])
 async def update_dodam_setting(setting: Setting, current_user_id: int = Depends(get_current_user), db: Session = Depends(get_db)):
     try:
         return SettingService.update_setting(current_user_id, setting, db)

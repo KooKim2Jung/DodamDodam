@@ -1,5 +1,5 @@
 import { createContext, useState, useEffect } from 'react';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { Route, Routes, useLocation } from 'react-router-dom';
 import Modal from 'react-modal';
 import MainPage from './pages/Main/MainPage';
 import LogInPage from './pages/user/LogIn/LogInPage';
@@ -19,23 +19,22 @@ const AppContext = createContext();
 
 const AppProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
   const [isEdit, setIsEdit] = useState(false);
   const [isWardSetting, setIsWardSetting] = useState(false);
   const [isGuardian, setIsGuardian] = useState(false);
+  const [isHelpOpen, setIsHelpOpen] = useState(false);
+  const [isCalendarOpen, setIsCalendarOpen] = useState(false);
+  const [isSummaryOpen, setIsSummaryOpen] = useState(false);
+  const [helpStep, setHelpStep] = useState(0);
+  const [isEmojiSelected, setIsEmojiSelected] = useState(false);
 
   useEffect(() => {
     const storedLoggedInState = sessionStorage.getItem('isLoggedIn');
     if (storedLoggedInState === 'true') {
         setIsLoggedIn(true);
     }
-    setIsLoading(false);
 
   }, []);
-
-  if (isLoading) {
-    return null;
-  }
 
   return (
     <AppContext.Provider 
@@ -43,7 +42,12 @@ const AppProvider = ({ children }) => {
         isLoggedIn, setIsLoggedIn, 
         isEdit, setIsEdit, 
         isWardSetting, setIsWardSetting, 
-        isGuardian, setIsGuardian
+        isGuardian, setIsGuardian,
+        isHelpOpen, setIsHelpOpen,
+        isCalendarOpen, setIsCalendarOpen,
+        isSummaryOpen, setIsSummaryOpen,
+        helpStep, setHelpStep,
+        isEmojiSelected, setIsEmojiSelected,
       }}
     >
       {children}
@@ -52,11 +56,31 @@ const AppProvider = ({ children }) => {
 }
 
 function App() {
+  const location = useLocation();
+
+  const getPageAddress = () => {
+    
+    switch(location.pathname) {
+      case '/ViewConversationPage':
+        return 'ViewConversationPage';
+      case '/ViewEmotionAnalysisPage':
+        return 'ViewEmotionAnalysisPage';
+      case '/SchedulePage':
+        return 'SchedulePage';
+      case '/HomeInformationSettingsPage':
+        return 'HomeInformationSettingsPage';
+      case '/DodamSettingsPage':
+        return 'DodamSettingsPage';
+      case '/WardSettingsPage':
+        return 'WardSettingsPage';
+      default:
+        return null;
+    }
+  }
 
   return (
     <AppProvider>
-      <BrowserRouter>
-        <Header />
+        <Header pageAddress={getPageAddress()}/>
         <Routes>
           <Route path='/' element={<MainPage/>}/>
           <Route path='/LogInPage' element={<LogInPage/>}/>
@@ -69,7 +93,6 @@ function App() {
           <Route path='/DodamSettingsPage' element={<DodamSettingsPage/>}/>
           <Route path='/WardSettingsPage' element={<WardSettingsPage/>}/>
         </Routes>
-      </BrowserRouter>
     </AppProvider>
   );
 }
