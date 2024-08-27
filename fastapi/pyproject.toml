@@ -69,6 +69,7 @@ pydantic = "2.7.0"
 s3transfer = "^0.10.1"
 python-magic = "^0.4.27"
 pytz = "^2024.1"
+langserve = "^0.2.2"
 
 [build-system]
 requires = ["poetry-core"]
