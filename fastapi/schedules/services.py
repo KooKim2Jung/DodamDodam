@@ -2,6 +2,7 @@ from sqlalchemy.orm import Session
 from fastapi import HTTPException
 from .models import Schedule
 from .schemas import ScheduleCreate, ScheduleRead
+from .scheduler import add_or_update_job, remove_job
 
 
 # 스케줄 생성
@@ -15,6 +16,9 @@ def create_schedule(db: Session, schedule_data: ScheduleCreate, user_id: int):
     db.add(new_schedule)
     db.commit()
     db.refresh(new_schedule)
+
+    add_or_update_job(new_schedule, db)
+
     return new_schedule
 
 
@@ -39,6 +43,9 @@ def update_schedule(db: Session, schedule_id: int, schedule_data: ScheduleCreate
 
     db.commit()
     db.refresh(schedule)
+
+    add_or_update_job(schedule, db)
+
     return schedule
 
 
@@ -51,4 +58,7 @@ def delete_schedule(db: Session, schedule_id: int, user_id: int):
 
     db.delete(schedule)
     db.commit()
+
+    remove_job(schedule_id)
+
     return {"detail": "스케줄이 삭제되었습니다."}
