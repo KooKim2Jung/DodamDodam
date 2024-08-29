@@ -1,7 +1,7 @@
 import { useNavigate, useLocation } from 'react-router-dom';
 import React, { useContext, useEffect, useState } from 'react';
 import './Toggle.css';
-import { AppContext } from '../../../../AppContext';
+import { AppContext } from '../../../../AppProvider';
 
 const Toggle = () => {
     const { setIsGuardian } = useContext(AppContext);

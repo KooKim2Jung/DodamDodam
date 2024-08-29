@@ -3,7 +3,7 @@ import EmotionAnalysisGraph from '../../../components/guardians/EmotionAnalysis/
 import EmotionAnalysisBoard from '../../../components/guardians/EmotionAnalysis/EmotionAnalysisBoard';
 import Calendar from '../../../components/Calendar/Calendar';
 import Guardian from '../../../components/guardians/Guardian/Guardian';
-import { AppContext } from '../../../AppContext';
+import { AppContext } from '../../../AppProvider';
 
 const ViewEmotionAnalysisPage = () => {
     const { isGuardian, setIsGuardian, isWardSetting,

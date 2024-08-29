@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { AppContext } from '../../../AppContext';
+import { AppContext } from '../../../AppProvider';
 
 const convertToKST = (utcTime) => {
     const date = new Date(`1970-01-01T${utcTime}Z`);

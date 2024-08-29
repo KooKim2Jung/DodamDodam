@@ -2,7 +2,7 @@ import React, { useContext, useEffect } from 'react';
 import { FiXCircle, FiArrowLeftCircle, FiArrowRightCircle } from "react-icons/fi";
 import Modal from 'react-modal';
 import HelpContents from './HelpContents';
-import { AppContext } from '../../../../AppContext';
+import { AppContext } from '../../../../AppProvider';
 
 const Help = ({ pageAddress }) => {
     const { isHelpOpen, setIsHelpOpen, setIsCalendarOpen, 

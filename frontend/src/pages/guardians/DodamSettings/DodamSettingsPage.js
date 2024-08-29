@@ -2,7 +2,7 @@ import React, { useContext, useState, useEffect }  from 'react';
 import api from '../../../Service/Api';
 import DodamVoiceForm from '../../../components/guardians/DodamSettings/DodamVoiceForm';
 import Guardian from '../../../components/guardians/Guardian/Guardian';
-import { AppContext } from '../../../AppContext';
+import { AppContext } from '../../../AppProvider';
 
 const DodamSettingsPage = () => {
     const { isGuardian, setIsGuardian, isWardSetting } = useContext(AppContext);

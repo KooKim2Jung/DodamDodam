@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { AppContext } from '../../../AppContext';
+import { AppContext } from '../../../AppProvider';
 
 const WardCheck = ({isEdit, setIsEdit, wardInfo, errorMessage, 
     setErrorMessage, editWardSetting, isWardSetting, generateWardSetting}) => {

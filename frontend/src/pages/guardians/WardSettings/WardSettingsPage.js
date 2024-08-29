@@ -2,7 +2,7 @@ import React, { useContext, useState, useEffect } from 'react';
 import WardSettingsForm from '../../../components/guardians/WardSettings/WardSettingsForm';
 import Guardian from '../../../components/guardians/Guardian/Guardian';
 import api from '../../../Service/Api';
-import { AppContext } from '../../../AppContext';
+import { AppContext } from '../../../AppProvider';
 
 const WardSettingsPage = () => {
     const { isEdit, setIsEdit, isWardSetting, setIsWardSetting, 

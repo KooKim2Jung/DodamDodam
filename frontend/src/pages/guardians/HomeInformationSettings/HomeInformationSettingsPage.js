@@ -2,7 +2,7 @@ import React, { useState, useContext } from 'react';
 import { FiTrash2, FiEdit2 } from "react-icons/fi";
 import HomeInformationForm from '../../../components/guardians/HomeInformationSettings/HomeInformationModal/HomeInformationForm';
 import Guardian from '../../../components/guardians/Guardian/Guardian';
-import { AppContext } from '../../../AppContext';
+import { AppContext } from '../../../AppProvider';
 
 const HomeInformationSettingsPage = () => {
     const { isGuardian, setIsGuardian, isWardSetting } = useContext(AppContext);

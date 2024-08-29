@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { AppContext } from '../../../AppContext';
+import { AppContext } from '../../../AppProvider';
 
 const EmotionAnalysisGraph = ({ testGraph, realKey }) => {
     const { isHelpOpen, helpStep } = useContext(AppContext);

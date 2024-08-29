@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 import { Route, Routes, useLocation } from 'react-router-dom';
-import { AppContext } from './AppContext';
+import { AppContext } from './AppProvider';
 import Modal from 'react-modal';
 import MainPage from './pages/Main/MainPage';
 import LogInPage from './pages/user/LogIn/LogInPage';

@@ -6,7 +6,7 @@ import { registerLocale, setDefaultLocale } from 'react-datepicker';
 import ko from 'date-fns/locale/ko'; // 한국어 로케일 가져오기
 import 'react-datepicker/dist/react-datepicker.css';
 import './Calendar.css';
-import { AppContext } from '../../AppContext';
+import { AppContext } from '../../AppProvider';
 
 registerLocale('ko', ko); // 한국어 로케일 등록
 setDefaultLocale('ko'); // 기본 로케일을 한국어로 설정

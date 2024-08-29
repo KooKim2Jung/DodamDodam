@@ -4,7 +4,7 @@ import Calendar from '../../../components/Calendar/Calendar';
 import ConversationBoard from '../../../components/guardians/Conversation/ConversationBoard';
 import api from '../../../Service/Api';
 import Guardian from '../../../components/guardians/Guardian/Guardian';
-import { AppContext } from '../../../AppContext';
+import { AppContext } from '../../../AppProvider';
 
 const ViewConversationPage = () => {
     const { isGuardian, setIsGuardian, isWardSetting, 

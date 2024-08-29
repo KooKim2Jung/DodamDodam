@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import '../../Wave.css';
 import Toggle from '../../guardians/Guardian/Toggle/Toggle';
 import Help from '../../guardians/Guardian/Help/Help';
-import { AppContext } from '../../../AppContext';
+import { AppContext } from '../../../AppProvider';
 
 const Header = ({ pageAddress }) => {
     const { isLoggedIn, setIsLoggedIn, isGuardian, setIsGuardian, isHelpOpen, setIsHelpOpen } = useContext(AppContext);

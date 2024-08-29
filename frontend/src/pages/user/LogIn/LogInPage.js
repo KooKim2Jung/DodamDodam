@@ -3,7 +3,7 @@ import React, { useContext, useState } from 'react';
 import api from '../../../Service/Api';
 import LogInForm from '../../../components/user/LogIn/LogInForm';
 import LogInCheck from '../../../components/user/LogIn/LogInCheck';
-import { AppContext } from '../../../AppContext';
+import { AppContext } from '../../../AppProvider';
 
 const LogInPage = () => {
     const { setIsLoggedIn, setIsEdit, setIsWardSetting } = useContext(AppContext);
