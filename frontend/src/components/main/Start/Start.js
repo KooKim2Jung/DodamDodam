@@ -28,16 +28,22 @@ const Start = () => {
     };
 
     return (
-        <div className='flex items-center justify-center h-screen w-screen'>
-            <div className='flex justify-center items-center'>
-                <img className='absolute top-[160px] md:top-[160px] left-20 md:left-44 w-[200px] md:w-[390px] h-[230px] md:h-[440px] hover:scale-105' src="./images/dodam_basic.png" />
-                <div className='flex flex-col items-center'>
-                    <h1 className={`absolute text-5xl md:text-title-size md:left-[500px] top-[200px] left-[200px] md:top-52 hover:scale-105 ${animation.rightAnimation}`}>도담</h1>
-                    <h1 className={`absolute text-5xl md:text-title-size left-[440px] md:left-[905px] top-[250px] md:top-[355px] bg-transparent md:w-[250px] w-[100px] hover:scale-105 ${animation.leftAnimation}`}>도담</h1>
-                    <img className='absolute top-[195px] md:top-[200px] left-[380px] md:left-[860px] w-[60px] md:w-[150px] h-[50px] md:h-[140px] hover:scale-110' src="./images/large_flower.png" />
-                    <button className='absolute top-[310px] md:top-[510px] left-[355px] md:left-[820px] md:w-[240px] md:px-9 md:py-2 border-2 md:border-4
-                    border-black text-1xl md:text-basic-size rounded-full hover:border-4
-                    hover:border-secondary hover:text-borderColor hover:bg-white hover:scale-110 px-3 py-1' onClick={handlestart}>시작하기</button>
+        <div className='relative flex flex-row items-center justify-center w-screen h-screen pt-[60px] md:pt-[90px] overflow-hidden'>
+            <div className='relative flex items-center md:mr-5'>
+                <img className='w-[55vh] h-[60vh] object-contain hover:scale-105' src="./images/dodam_basic.png" />
+            </div>
+            <div className='flex flex-col'>
+                <div className='flex items-center'>
+                    <h1 className={`text-[12vh] md:text-[15vh] leading-none lg:text-[20vh] hover:scale-105 transition-all duration-300 mr-2 md:mr-5 ${animation.rightAnimation}`}>도담</h1>
+                    <img className='lg:-mt-2 w-[10vh] h-[15vh] md:w-[15vh] md:h-[20vh] lg:w-[20vh] lg:h-[25vh] object-contain hover:scale-110' src="./images/large_flower.png" />
+                </div>
+                <div className='lg:ml-24'>
+                    <h1 className={`text-[12vh] md:text-[15vh] leading-none lg:text-[20vh] bg-transparent hover:scale-105 transition-all duration-300 ${animation.leftAnimation}`}>도담</h1>
+                </div>
+                <div className='lg:ml-28'>
+                    <button className='w-[35vh] md:w-[40vh] h-[13vh] border-[0.7vh] m-3
+                    border-black text-[6vh] md:text-[7vh] lg:text-[8vh] rounded-full transition-all duration-300 hover:border-4
+                    hover:border-secondary hover:text-borderColor hover:bg-white hover:scale-110' onClick={handlestart}>시작하기</button>
                 </div>
             </div>
         </div>

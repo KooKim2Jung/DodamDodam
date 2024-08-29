@@ -25,7 +25,7 @@ const Header = ({ pageAddress }) => {
 
     return (
         <div>
-        <header className='fixed top-0 left-0 h-[90px] w-screen shadow-[0px_2px_6px_#a5996e] z-[1000] bg-primary flex items-center justify-center'>
+        <header className='fixed top-0 left-0 h-[60px] md:h-[90px] w-screen shadow-[0px_2px_6px_#a5996e] z-[1000] bg-primary flex items-center justify-center'>
             <h1 className='absolute left-[35%] md:left-[45%] lg:left-1/2 transform -translate-x-1/2 flex items-center text-4xl md:text-5xl transition-all duration-400'>
                 <img className='h-10 w-11 mr-1 hidden lg:block' src='./images/middle_flower.png' alt="꽃"/>
                 <a href="/">도담도담</a>
