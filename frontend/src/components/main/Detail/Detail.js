@@ -3,6 +3,7 @@ import EmotionalAnalysis from './detailForm/Emotionalanalysis/EmotionalAnalysis'
 import ConversationSummary from './detailForm/Conversationsummary/ConversationSummary';
 import Scheduling from './detailForm/Scheduling/Scheduling';
 import Settings from './detailForm/Settings/Settings';
+import HomeSettings from './detailForm/HomeSettings/HomeSettings';
 import './Detail.css';
 
 const Detail = () => {
@@ -36,6 +37,7 @@ const Detail = () => {
             <div className="swiper-slide"><EmotionalAnalysis /></div>
             <div className="swiper-slide"><ConversationSummary /></div>
             <div className="swiper-slide"><Scheduling /></div>
+            <div className="swiper-slide"><HomeSettings/></div>
             <div className="swiper-slide"><Settings /></div>
         </div>
         <div className="swiper-button-next"></div>
