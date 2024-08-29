@@ -35,13 +35,13 @@ const About = () => {
                 <h2 className='text-[6vh] mr-2'>도담도담</h2>
                 <h3 className='text-[3.5vh]'>: 어린아이가 탈 없이 잘 자라는 모양</h3>
             </div>
-            <div className='grid grid-cols-2 gap-10 lg:-mb-9 lg:gap-28'>
+            <div className='grid grid-cols-2 gap-10 lg:-mb-9 lg:gap-28 transition-all duration-300'>
                 {abouts.slice(0,2).map((about, index) => (
                     <div key={index}>
                         <div className='w-[20vh] md:w-[50vh] lg:w-[24vh] md:flex md:items-center lg:grid'>
                             <div className='relative z-0'>
                                 <img className='h-[20vh] w-[20vh] md:h-[24vh] md:w-[40vh] lg:h-[24vh] lg:w-[24vh]' src='./images/star.png' alt='노란색 별'/>
-                                <img className='h-[8vh] w-[8vh] sm:h-[9vh] sm:w-[9vh] md:h-[10vh] md:w-[10vh] mt-[2vh] absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2' src={about.image} alt='기능별 사진'/>
+                                <img className='h-[9vh] w-[9vh] md:h-[10vh] md:w-[10vh] mt-[2vh] absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2' src={about.image} alt='기능별 사진'/>
                             </div>
                             <div className='relative -mt-[2vh] md:-mt-[4vh] z-1'>
                                 <div className='text-[4vh] md:text-[4vh]'>{about.title}</div>
@@ -51,13 +51,13 @@ const About = () => {
                     </div>
                 ))}
             </div>
-            <div className='grid grid-cols-3 gap-10 md:gap-28'>
+            <div className='grid grid-cols-3 gap-10 md:gap-28 transition-all duration-300'>
                 {abouts.slice(2,5).map((about, index) => (
                     <div key={index}>
                         <div className='w-[20vh] md:w-[24vh]'>
                             <div className='relative'>
                                 <img className='h-[20vh] w-[20vh] md:h-[24vh] md:w-[24vh]' src='./images/star.png' alt='노란색 별'/>
-                                <img className='h-[8vh] w-[8vh] sm:h-[9vh] sm:w-[9vh] md:h-[10vh] md:w-[10vh] mt-[1vh] absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2' src={about.image} alt='기능별 사진'/>
+                                <img className='h-[9vh] w-[9vh] md:h-[10vh] md:w-[10vh] mt-[1vh] absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2' src={about.image} alt='기능별 사진'/>
                             </div>
                             <div className='relative -mt-[2vh] md:-mt-[4vh] z-1'>
                                 <div className='text-[4vh] md:text-[4vh]'>{about.title}</div>
