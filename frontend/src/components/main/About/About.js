@@ -30,12 +30,12 @@ const abouts = [
 
 const About = () => {
     return (
-        <div className='flex flex-col justify-center items-center h-screen pt-[60px] md:pt-[90px] w-screen'>
+        <div className='flex flex-col justify-center items-center h-screen pt-[60px] md:pt-[100px] w-screen'>
             <div className='hidden sm:flex md:pt-8 items-center absolute left-10 top-20 z-10'>
                 <h2 className='text-[6vh] mr-2'>도담도담</h2>
                 <h3 className='text-[3.5vh]'>: 어린아이가 탈 없이 잘 자라는 모양</h3>
             </div>
-            <div className='grid grid-cols-2 gap-10 lg:-mb-5 lg:gap-28'>
+            <div className='grid grid-cols-2 gap-10 lg:-mb-9 lg:gap-28'>
                 {abouts.slice(0,2).map((about, index) => (
                     <div key={index}>
                         <div className='w-[20vh] md:w-[50vh] lg:w-[24vh] md:flex md:items-center lg:grid'>
