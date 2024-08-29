@@ -6,7 +6,33 @@ from sqlalchemy.orm import Session
 from users.services import ProfileService
 from users.schemas import ProfileRead
 from typing import List, Dict, Tuple, Any
+from transformers import AutoTokenizer, AutoModel
+import torch
+import numpy as np
 
+
+def embed_text_with_hf(text: str) -> np.ndarray:
+    model_name = "BM-K/KoSimCSE-roberta-multitask"
+    tokenizer = AutoTokenizer.from_pretrained(model_name)
+    model = AutoModel.from_pretrained(model_name)
+
+    inputs = tokenizer(text, padding=True, truncation=True, return_tensors="pt", max_length=512)
+    with torch.no_grad():
+        outputs = model(**inputs)
+        embeddings = outputs.last_hidden_state.mean(dim=1).cpu().numpy().astype(np.float32)
+    return embeddings.squeeze()
+
+def search_documents(index, query: str, user_id: int) -> List[str]:
+    query_embedding = embed_text_with_hf(query)
+
+    index_result = index.query(
+        vector=query_embedding.tolist(),
+        top_k=4,
+        include_metadata=True,
+        filter={"user_id": user_id}  # 특정 user_id 필터링
+    )
+
+    return [match['metadata']['info'] for match in index_result['matches']]
 
 def chat_prompt_info(user_id: int, db: Session) -> str:
     profile: ProfileRead = ProfileService.read_profile(user=user_id, db=db)
@@ -36,7 +62,7 @@ def summarize_messages(messages: deque, prompt: str) -> deque:
     summarized_deque = deque([{"role": "system", "content": prompt}, {"role": "system", "content": summary_message}], maxlen=10)
     return summarized_deque
 
-def chat(message: str, user_id: int, db: Session, messages: deque) -> tuple[Any, deque]:
+def chat(message: str, user_id: int, db: Session, messages: deque, pinecone_index) -> tuple[Any, deque]:
     if not messages:  # deque가 비어있는 경우 초기 메시지 추가
         prompt = chat_prompt_info(user_id, db)
         messages.append({"role": "system", "content": prompt})
@@ -60,6 +86,11 @@ def chat(message: str, user_id: int, db: Session, messages: deque) -> tuple[Any,
     for m in messages:
         print(f"{m['role']}: {m['content']}")
 
+    # RAG를 위한 검색 - user_id를 포함하여 검색
+    related_texts = search_documents(pinecone_index, message, user_id)
+    combined_context = " ".join(related_texts)
+    messages.append({"role": "system", "content": combined_context})
+
     response = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
         messages=list(messages),  # deque를 list로 변환하여 전달
@@ -67,10 +98,11 @@ def chat(message: str, user_id: int, db: Session, messages: deque) -> tuple[Any,
         temperature=0.9,
     )
 
-    response_text = response.choices[0].message["content"]
+    response_text = response.choices[0]['message']['content']  # 올바른 응답 데이터 접근
     messages.append({"role": "assistant", "content": response_text})
 
     return response_text, messages
+
 
 def summary_prompt(user_id: int, db: Session) -> str:
     profile: ProfileRead = ProfileService.read_profile(user=user_id, db=db)
@@ -95,9 +127,14 @@ def summary(message: str, user_id: int, db: Session) -> str:
     )
     return response.choices[0].text.strip()
 
-def vectorize_message(message: str) -> list:
-    response = openai.Embedding.create(
-        input=message,
-        model="text-embedding-3-small"
-    )
-    return response['data'][0]['embedding']
+# Hugging Face 모델을 사용하여 텍스트를 벡터화
+def vectorize_message(text: str) -> np.ndarray:
+    model_name = "BM-K/KoSimCSE-roberta-multitask"  # Pinecone에 사용되는 모델로 변경
+    tokenizer = AutoTokenizer.from_pretrained(model_name)
+    model = AutoModel.from_pretrained(model_name)
+
+    inputs = tokenizer(text, padding=True, truncation=True, return_tensors="pt", max_length=512)
+    with torch.no_grad():
+        outputs = model(**inputs)
+        embeddings = outputs.last_hidden_state.mean(dim=1).cpu().numpy().astype(np.float32)
+    return embeddings.squeeze()
