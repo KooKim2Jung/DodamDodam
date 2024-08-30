@@ -14,13 +14,14 @@ const Detail = () => {
             grabCursor: false,
             centeredSlides: true,
             slidesPerView: 'auto',
+            spaceBetween: 300,
             parallax: true,
             speed: 600,
             coverflowEffect: {
                 rotate: 0,
-                stretch: -10,
+                stretch: 10,
                 depth: 50,
-                modifier: 7,
+                modifier: 5,
                 slideShadows: true,
             },
             navigation: {
@@ -32,8 +33,8 @@ const Detail = () => {
     }, []);
 
     return (
-    <div className="swiper detailSwiper w-screen h-screen bg-primary">
-        <div className="swiper-wrapper">
+    <div className="swiper detailSwiper w-screen h-screen">
+        <div className="swiper-wrapper w-screen pt-[25px] md:pt-[40px]">
             <div className="swiper-slide"><EmotionalAnalysis /></div>
             <div className="swiper-slide"><ConversationSummary /></div>
             <div className="swiper-slide"><Scheduling /></div>

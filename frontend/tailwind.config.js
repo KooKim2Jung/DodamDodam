@@ -11,7 +11,7 @@ module.exports = {
       colors: {
         primary: '#FEFAED',
         secondary: '#FEEBA4',
-        tertiay: '#FFF1C5',
+        tertiary: '#FFF1C5',
         borderColor: 'rgb(127, 91, 61)',
       },
       boxShadow: {
