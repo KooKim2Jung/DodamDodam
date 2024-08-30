@@ -37,11 +37,12 @@ const ViewConversationPage = () => {
     const getConversation = async (date) => { 
         try {
             const response = await api.get(`/v1/conversation/${date}`);
+            console.log(response.data)
             if (response.data) {
                 const conversations = response.data.map(conversation => ({ // speaker, content, voice, time을 복사
                     ...conversation,
                     date: conversation.time.split('T')[0], // 날짜 부분 저장
-                    time: conversation.time.split('T')[1] // 시간 부분 저장
+                    time: conversation.time.split('T')[1].split(':').slice(0,2).join(':'), // 시간 저장
                 }));
                 setConversations(conversations); // 배열로 대화 내용 설정
                 setIsSelected(true);
@@ -65,7 +66,7 @@ const ViewConversationPage = () => {
         }
     }
 
-     // 날짜를 YYYY-MM-DD 형식으로 변환하는 함수
+    // 날짜를 YYYY-MM-DD 형식으로 변환하는 함수
     const formatDate = (date) => {
         const year = date.getFullYear();
         const month = String(date.getMonth() + 1).padStart(2, '0'); // 월을 두 자리 숫자로
@@ -85,8 +86,8 @@ const ViewConversationPage = () => {
     };
 
     return (
-        <div className="flex flex-col h-screen w-screen pl-[240px] pr-5">
-            <div className="pt-28 pl-4 relative h-full">
+        <div className="flex flex-col h-screen w-screen pl-[240px] pr-1">
+            <div className="pt-20 md:pt-28 pl-4 relative h-full">
                 <div className="flex relative justify-between text-2xl mb-3 z-50">
                     <Calendar onDateChange={handleDateChange} />
                     {isHelpOpen && helpStep === 2 ? (

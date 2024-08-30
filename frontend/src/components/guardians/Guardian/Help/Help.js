@@ -51,30 +51,30 @@ const Help = ({ pageAddress }) => {
         const position = {
             ViewConversationPage:
             {
-                0 : { bottom: '6%', right: '32%' },
-                1 : { bottom: '15%', left: '15%' },
-                2 : { bottom: '6%', left: '32%' },
+                0 : { top: '5%', left: '1%' },
+                1 : { top: '-15%', left: '50%' },
+                2 : { top: '-10%', left: '68%' },
             },
             ViewEmotionAnalysisPage:
             {
-                0 : { bottom: '6%', right: '32%' },
-                1 : { bottom: '6%', right: '32%' },
+                0 : { top: '5%', left: '1%' },
+                1 : { top: '5%', left: '1%' },
             },
             SchedulePage: 
             {
-                0 : { top: '5%', left: '32%' },
+                0 : { top: '20%', left: '32%' },
                 1 : { top: '20%', left: '32%' },
             },
             DodamSettingsPage: 
             {
-                0 : { bottom: '6%', right: '30%' },
+                0 : { top: '5%', left: '9%' },
             },
             HomeInformationSettingsPage: 
             {},
             WardSettingsPage:
             {
-                0 : { top: '25%', right: '23%' },
-                1 : { top: '25%', right: '23%' },
+                0 : { top: '25%', left: '12%' },
+                1 : { top: '25%', left: '12%' },
             },
         }
         return position[pageAddress] && position[pageAddress][helpStep] ? position[pageAddress][helpStep] : {}
@@ -83,21 +83,21 @@ const Help = ({ pageAddress }) => {
     return (
         <div>
             <Modal
-            overlayClassName='fixed flex z-50 justify-center items-center inset-0 outline-none'
+            overlayClassName='fixed flex z-50 items-center inset-0 outline-none'
             isOpen={isHelpOpen} 
             onRequestClose={closeHelp}
             shouldCloseOnOverlayClick={false}
             style={{content : getHelpPosition()}}
-            className='relative outline-none w-[400px] h-[250px] flex shadow-[6px_5px_10px_#a5996e] justify-center items-center bg-primary rounded-[15px]'
+            className='flex flex-col relative outline-none w-[390px] p-6 shadow-[6px_5px_10px_#a5996e] items-center bg-primary rounded-[15px]'
             >
-                <div className='flex justify-between w-full top-0 absolute py-4 px-5'>
+                <div className='flex justify-between w-full -mt-3 mb-3'>
                     <div className='text-2xl'>{title}</div>
                     <button className='hover:scale-110' onClick={closeHelp}><FiXCircle size={30}/></button>
                 </div>
-                <div className='flex justify-center items-center absolute top-16 bottom-16 left-6 right-6 px-3 rounded-[10px] text-2xl bg-white'>
+                <div className='flex justify-center items-center p-4 rounded-[15px] h-auto text-2xl bg-white'>
                     {description}
                 </div>
-                <div className='flex right-5 bottom-4 absolute'>
+                <div className='flex w-full justify-end mt-3 -mb-3'>
                     <button className={`hover:scale-110 ${helpStep === 0 ? 'opacity-30' : ''}`} disabled={helpStep === 0} onClick={prevHelpStep}><FiArrowLeftCircle size={30}/></button>
                     <button className={`hover:scale-110 ${helpStep === howManySteps -1 ? 'opacity-30' : ''}`} disabled={helpStep === howManySteps - 1} onClick={nextHelpStep}><FiArrowRightCircle size={30}/></button>
                 </div>
