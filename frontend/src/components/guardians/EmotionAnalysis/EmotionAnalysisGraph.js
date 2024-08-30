@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { AppContext } from '../../../AppProvider';
 
-const EmotionAnalysisGraph = ({ testGraph, realKey }) => {
+const EmotionAnalysisGraph = ({ emotionAnalysis, testGraph, realKey }) => {
     const { isHelpOpen, helpStep } = useContext(AppContext);
     
     if (isHelpOpen && helpStep === 1 && testGraph) {
@@ -16,6 +16,13 @@ const EmotionAnalysisGraph = ({ testGraph, realKey }) => {
             </div>
         );
     }
+
+    // if (emotionAnalysis) {
+    //     const { happy, angry, sad, anxious, hurt, embrassed } = emotionAnalysis;
+    //     return (
+            
+    //     );
+    // }
 };
 
 export default EmotionAnalysisGraph;
