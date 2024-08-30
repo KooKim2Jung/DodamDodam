@@ -6,7 +6,7 @@ import LogInCheck from '../../../components/user/LogIn/LogInCheck';
 import { AppContext } from '../../../AppProvider';
 
 const LogInPage = () => {
-    const { setIsLoggedIn, setIsEdit, setIsWardSetting } = useContext(AppContext);
+    const { setIsLoggedIn, setIsEdit, setIsGuardianOpen, setIsWardSetting } = useContext(AppContext);
 
     const [user, setUser] = useState({
         email: '',
@@ -54,7 +54,7 @@ const LogInPage = () => {
             }
             else {
                 alert('피보호자 설정이 필요합니다.');
-                navigate('/WardSettingsPage');
+                setIsGuardianOpen(true);
             }
         } catch (wardCheckError) {
             console.error("피보호자 정보 요청 오류", wardCheckError);

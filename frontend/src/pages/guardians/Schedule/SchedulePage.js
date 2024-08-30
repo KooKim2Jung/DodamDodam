@@ -1,11 +1,10 @@
 import React, { useContext, useState } from 'react';
 import { FiEdit2, FiTrash2 } from "react-icons/fi";
 import ScheduleForm from '../../../components/guardians/Schedule/ScheduleForm';
-import Guardian from '../../../components/guardians/Guardian/Guardian';
 import { AppContext } from '../../../AppProvider';
 
 const SchedulePage = () => {
-    const { isGuardian, setIsGuardian, isWardSetting, isHelpOpen, helpStep } = useContext(AppContext);
+    const { isHelpOpen, helpStep } = useContext(AppContext);
     
     const [items, setItems] = useState([]);
     const [isEditing, setIsEditing] = useState(false);
@@ -86,7 +85,6 @@ const SchedulePage = () => {
                     </div>
                 ))}
             </>)}
-            <Guardian isGuardian={isGuardian} setIsGuardian={setIsGuardian} isWardSetting={isWardSetting}/>
         </div>
     );
 };

@@ -2,12 +2,10 @@ import React, { useContext } from 'react';
 import EmotionAnalysisGraph from '../../../components/guardians/EmotionAnalysis/EmotionAnalysisGraph';
 import EmotionAnalysisBoard from '../../../components/guardians/EmotionAnalysis/EmotionAnalysisBoard';
 import Calendar from '../../../components/Calendar/Calendar';
-import Guardian from '../../../components/guardians/Guardian/Guardian';
 import { AppContext } from '../../../AppProvider';
 
 const ViewEmotionAnalysisPage = () => {
-    const { isGuardian, setIsGuardian, isWardSetting,
-    isHelpOpen, helpStep } = useContext(AppContext);
+    const { isHelpOpen, helpStep } = useContext(AppContext);
     
     const testGraphs = [
         { testImage: './images/dodam_happy.png' },
@@ -32,7 +30,6 @@ const ViewEmotionAnalysisPage = () => {
                     <EmotionAnalysisBoard testBoard={testBoard}/>
                 </>) : null}
             </div>
-            <Guardian isGuardian={isGuardian} setIsGuardian={setIsGuardian} isWardSetting={isWardSetting}/>
         </div>
     );
 };

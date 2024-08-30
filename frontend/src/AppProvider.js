@@ -7,6 +7,7 @@ const AppProvider = ({ children }) => {
   const [isEdit, setIsEdit] = useState(false);
   const [isWardSetting, setIsWardSetting] = useState(false);
   const [isGuardian, setIsGuardian] = useState(false);
+  const [isGuardianOpen, setIsGuardianOpen] = useState(false);
   const [isHelpOpen, setIsHelpOpen] = useState(false);
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
   const [isSummaryOpen, setIsSummaryOpen] = useState(false);
@@ -28,6 +29,7 @@ const AppProvider = ({ children }) => {
         isEdit, setIsEdit, 
         isWardSetting, setIsWardSetting, 
         isGuardian, setIsGuardian,
+        isGuardianOpen, setIsGuardianOpen,
         isHelpOpen, setIsHelpOpen,
         isCalendarOpen, setIsCalendarOpen,
         isSummaryOpen, setIsSummaryOpen,

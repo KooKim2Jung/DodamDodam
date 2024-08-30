@@ -3,12 +3,10 @@ import ConversationSummary from '../../../components/guardians/Conversation/Conv
 import Calendar from '../../../components/Calendar/Calendar';
 import ConversationBoard from '../../../components/guardians/Conversation/ConversationBoard';
 import api from '../../../Service/Api';
-import Guardian from '../../../components/guardians/Guardian/Guardian';
 import { AppContext } from '../../../AppProvider';
 
 const ViewConversationPage = () => {
-    const { isGuardian, setIsGuardian, isWardSetting, 
-    isHelpOpen, helpStep } = useContext(AppContext);
+    const { isHelpOpen, helpStep } = useContext(AppContext);
     
     const [conversations, setConversations] = useState([]);
     const [summary, setSummary] = useState('');
@@ -113,9 +111,9 @@ const ViewConversationPage = () => {
                         ) : (
                             <div className="text-center text-2xl text-gray-400">{error}</div>
                         )}
-                    </>)}
+                    </>
+                )}
             </div>
-            <Guardian isGuardian={isGuardian} setIsGuardian={setIsGuardian} isWardSetting={isWardSetting}/>
         </div>
     );
 };

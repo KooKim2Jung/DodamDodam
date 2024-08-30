@@ -1,13 +1,14 @@
 import React, { useContext, useState, useEffect } from 'react';
 import WardSettingsForm from '../../../components/guardians/WardSettings/WardSettingsForm';
-import Guardian from '../../../components/guardians/Guardian/Guardian';
 import api from '../../../Service/Api';
 import { AppContext } from '../../../AppProvider';
+import { useNavigate } from 'react-router-dom';
 
 const WardSettingsPage = () => {
-    const { isEdit, setIsEdit, isWardSetting, setIsWardSetting, 
-    isGuardian, setIsGuardian, isHelpOpen, helpStep } = useContext(AppContext);
+    const { isEdit, setIsEdit, isWardSetting, setIsWardSetting, isHelpOpen, helpStep } = useContext(AppContext);
     
+    const navigate = useNavigate();
+
     const [wardInfo, setWardInfo] = useState({
         photo: 'https://dodambuket.s3.ap-northeast-2.amazonaws.com/%ED%94%84%EB%A1%9C%ED%95%84%EA%B8%B0%EB%B3%B8%EC%9D%B4%EB%AF%B8%EC%A7%80.png',
         name: '',
@@ -115,6 +116,7 @@ const WardSettingsPage = () => {
     useEffect(() => {
         if (isWardSetting === false) {
             setIsEdit(true);
+            
         }
         getWardSetting();
     }, []);
@@ -155,7 +157,6 @@ const WardSettingsPage = () => {
                     isWardSetting={isWardSetting} generateWardSetting={generateWardSetting}/>
                 )}
             </div>
-            <Guardian isGuardian={isGuardian} setIsGuardian={setIsGuardian} isWardSetting={isWardSetting}/>
         </div>
     )
 };

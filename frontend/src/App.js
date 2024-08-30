@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { Route, Routes, useLocation } from 'react-router-dom';
 import { AppContext } from './AppProvider';
 import Modal from 'react-modal';

@@ -1,28 +1,24 @@
-import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useContext, useEffect, useState } from 'react';
 import Modal from 'react-modal';
 import api from '../../../Service/Api';
+import { useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
+import { AppContext } from '../../../AppProvider';
 
-const Guardian = ({ isGuardian, setIsGuardian, isWardSetting, setIsWardSetting, setIsEdit }) => {
-    const [isOpen, setIsOpen] = useState(false);
+const Guardian = () => {
+    const { setIsGuardian, isGuardianOpen, setIsGuardianOpen, isWardSetting, setIsWardSetting } = useContext(AppContext)
     const [guardianPassword, setGuardianPassword] = useState('')
     const [errorMessage, setErrorMessage] = useState('');
 
     const navigate = useNavigate();
+    const location = useLocation();
 
     const openModal = () => {
-        setIsOpen(true);
+        setIsGuardianOpen(true);
     }
 
     const closeModal = () => {
-        if (isWardSetting === false) {
-            navigate('/WardSettingsPage');
-        }
-        else {
-            navigate('/ViewConversationPage');
-        }
-
-        setIsOpen(false);
+        setIsGuardianOpen(false);
     }
 
     const inputGuardian = (e) => {
@@ -42,7 +38,6 @@ const Guardian = ({ isGuardian, setIsGuardian, isWardSetting, setIsWardSetting, 
             });
             if (response.data.check) {
                 setIsGuardian(true);
-                closeModal();
                 checkWard();
             }
             else {
@@ -53,15 +48,19 @@ const Guardian = ({ isGuardian, setIsGuardian, isWardSetting, setIsWardSetting, 
         }
     }
 
+    // 서버에 피보호자 설정 유무 확인
     const checkWard = async () => {
         try {
             const wardResponse = await api.get('/v1/profile/check');
             if (wardResponse.data.check) {
                 setIsWardSetting(true);
+                navigate('/ViewConversationPage');
+                closeModal();
             }
             else {
-                setIsEdit(true);
                 setIsWardSetting(false);
+                navigate('/WardSettingsPage');
+                closeModal();
             }
         } catch (wardCheckError) {
             console.error("피보호자 정보 요청 오류", wardCheckError);
@@ -71,13 +70,23 @@ const Guardian = ({ isGuardian, setIsGuardian, isWardSetting, setIsWardSetting, 
 
     useEffect(() => {
         resetForm();
-        if (isGuardian === false) {
+        if (isGuardianOpen) {
             openModal();
-        }
-        else {
+        } else {
             closeModal();
         }
-    }, [isGuardian])
+    }, [isGuardianOpen]);
+
+    useEffect(() => {
+        const guardianPages = location.pathname === '/ViewConversationPage' || location.pathname === '/ViewEmotionAnalysisPage'
+        || location.pathname === '/SchedulePage' || location.pathname === '/HomeInformationSettingsPage' || location.pathname === '/DodamSettingsPage';
+        if (guardianPages) {
+            if (isWardSetting === false) {
+                navigate('/WardSettingsPage');
+                alert('피보호자 설정이 필요합니다.');
+            }
+        }
+    }, [location.pathname])
 
     const resetForm = () => {
         setErrorMessage('');
@@ -87,7 +96,7 @@ const Guardian = ({ isGuardian, setIsGuardian, isWardSetting, setIsWardSetting, 
     return (
         <Modal 
             overlayClassName='fixed flex z-50 justify-center items-center inset-0 bg-primary outline-none' 
-            isOpen={isOpen} 
+            isOpen={isGuardianOpen} 
             onRequestClose={closeModal}
             shouldCloseOnOverlayClick={false}
             className='outline-none w-[400px] h-[280px] pb-6 flex shadow-[6px_5px_10px_#a5996e] justify-center items-center bg-primary rounded-[15px]'>

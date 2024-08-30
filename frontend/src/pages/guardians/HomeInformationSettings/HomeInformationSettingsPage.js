@@ -1,12 +1,8 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import { FiTrash2, FiEdit2 } from "react-icons/fi";
 import HomeInformationForm from '../../../components/guardians/HomeInformationSettings/HomeInformationModal/HomeInformationForm';
-import Guardian from '../../../components/guardians/Guardian/Guardian';
-import { AppContext } from '../../../AppProvider';
 
 const HomeInformationSettingsPage = () => {
-    const { isGuardian, setIsGuardian, isWardSetting } = useContext(AppContext);
-
     const [items, setItems] = useState([]);
     const [isEditing, setIsEditing] = useState(false);
     const [currentItem, setCurrentItem] = useState(null);
@@ -62,7 +58,6 @@ const HomeInformationSettingsPage = () => {
                     </div>
                 </div>
             </div>
-            <Guardian isGuardian={isGuardian} setIsGuardian={setIsGuardian} isWardSetting={isWardSetting}/>
         </div>
     );
 };

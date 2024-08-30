@@ -1,10 +1,10 @@
 import { useNavigate, useLocation } from 'react-router-dom';
 import React, { useContext, useEffect, useState } from 'react';
-import './Toggle.css';
 import { AppContext } from '../../../../AppProvider';
+import './Toggle.css';
 
 const Toggle = () => {
-    const { setIsGuardian } = useContext(AppContext);
+    const { isGuardian, setIsGuardian, isGuardianOpen, setIsGuardianOpen } = useContext(AppContext);
     const [isToggled, setIsToggled] = useState('피보호자');
 
     const navigate = useNavigate();
@@ -20,8 +20,20 @@ const Toggle = () => {
     const modeChange = (e) => {
         const mode = e.target.value;
         setIsToggled(mode);
-        navigate(mode==='보호자' ? '/ViewConversationPage' : '/WardPage');
+        if (mode === '보호자') {
+            setIsGuardianOpen(true);
+        }
+        else {
+            navigate('/WardPage');
+            setIsGuardianOpen(false);
+        }
     };
+
+    useEffect(() => {
+        if (isGuardian || isGuardianOpen) {
+            setIsToggled('보호자');
+        }
+    }, [isGuardian, isGuardianOpen]);
 
     return (
         <div className='text-middle-size'>
