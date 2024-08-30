@@ -74,7 +74,7 @@ def create_message(user: int, content: str, voice_url: str, speaker: str, db: Se
     db.add(new_message)
     db.commit()
 
-    return "Message 저장 완료"
+    return new_message.id
 
 # def recent_messages(user: int, content: str, speaker: str)
 
