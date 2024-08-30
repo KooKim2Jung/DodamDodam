@@ -1,12 +1,10 @@
 import React, { useContext, useState } from 'react';
 import { FiEdit2, FiTrash2 } from "react-icons/fi";
-import Aside from '../../../components/section/Aside/Aside';
 import ScheduleForm from '../../../components/guardians/Schedule/ScheduleForm';
-import Guardian from '../../../components/guardians/Guardian/Guardian';
-import { AppContext } from '../../../App';
+import { AppContext } from '../../../AppProvider';
 
 const SchedulePage = () => {
-    const { isGuardian, setIsGuardian, isWardSetting, isHelpOpen, helpStep } = useContext(AppContext);
+    const { isHelpOpen, helpStep } = useContext(AppContext);
     
     const [items, setItems] = useState([]);
     const [isEditing, setIsEditing] = useState(false);
@@ -43,7 +41,6 @@ const SchedulePage = () => {
 
     return (
         <div className='flex flex-col h-screen w-screen pl-[240px]'>
-            <Aside />
             <div className={`mt-32 text-3xl ${isHelpOpen && helpStep === 0 ? 'bg-white z-40 rounded-[10px]' : ''}`}>
                 <div className='grid grid-cols-4 mb-4 text-center hidden lg:grid'>
                     <h2>날짜</h2>
@@ -88,7 +85,6 @@ const SchedulePage = () => {
                     </div>
                 ))}
             </>)}
-            <Guardian isGuardian={isGuardian} setIsGuardian={setIsGuardian} isWardSetting={isWardSetting}/>
         </div>
     );
 };

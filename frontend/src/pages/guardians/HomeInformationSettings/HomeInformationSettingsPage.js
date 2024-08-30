@@ -1,14 +1,9 @@
-import React, { useState, useContext, useEffect, version } from 'react';
-import Aside from '../../../components/section/Aside/Aside';
-import { AppContext } from '../../../App';
+import React, { useState, useContext } from 'react';
 import { FiTrash2, FiEdit2 } from "react-icons/fi";
 import HomeInformationForm from '../../../components/guardians/HomeInformationSettings/HomeInformationModal/HomeInformationForm';
-import Guardian from '../../../components/guardians/Guardian/Guardian';
 import api from '../../../Service/Api';
 
 const HomeInformationSettingsPage = () => {
-    const { isGuardian, setIsGuardian, isWardSetting } = useContext(AppContext);
-
     const [items, setItems] = useState([]);
     const [isEditing, setIsEditing] = useState(false);
     const [currentItem, setCurrentItem] = useState(null);
@@ -85,7 +80,6 @@ const HomeInformationSettingsPage = () => {
 
     return (
         <div className='flex flex-col h-screen w-screen pl-[240px] text-2xl'>
-            <Aside/>
             <div className='pt-28 pl-5'>
                 <h2 className='text-3xl text-left'>집 정보 설정</h2>
                 <div className='grid grid-cols-1'>
@@ -116,7 +110,6 @@ const HomeInformationSettingsPage = () => {
                     </div>
                 </div>
             </div>
-            <Guardian isGuardian={isGuardian} setIsGuardian={setIsGuardian} isWardSetting={isWardSetting}/>
         </div>
     );
 };

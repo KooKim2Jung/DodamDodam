@@ -1,15 +1,12 @@
 import React, { useContext, useState, useEffect } from 'react';
-import Aside from '../../../components/section/Aside/Aside';
 import ConversationSummary from '../../../components/guardians/Conversation/ConversationSummary';
 import Calendar from '../../../components/Calendar/Calendar';
 import ConversationBoard from '../../../components/guardians/Conversation/ConversationBoard';
 import api from '../../../Service/Api';
-import Guardian from '../../../components/guardians/Guardian/Guardian';
-import { AppContext } from '../../../App';
+import { AppContext } from '../../../AppProvider';
 
 const ViewConversationPage = () => {
-    const { isGuardian, setIsGuardian, isWardSetting, 
-    isHelpOpen, helpStep } = useContext(AppContext);
+    const { isHelpOpen, helpStep } = useContext(AppContext);
     
     const [conversations, setConversations] = useState([]);
     const [summary, setSummary] = useState('');
@@ -89,7 +86,6 @@ const ViewConversationPage = () => {
 
     return (
         <div className="flex flex-col h-screen w-screen pl-[240px] pr-5">
-            <Aside />
             <div className="pt-28 pl-4 relative h-full">
                 <div className="flex relative justify-between text-2xl mb-3 z-50">
                     <Calendar onDateChange={handleDateChange} />
@@ -115,9 +111,9 @@ const ViewConversationPage = () => {
                         ) : (
                             <div className="text-center text-2xl text-gray-400">{error}</div>
                         )}
-                    </>)}
+                    </>
+                )}
             </div>
-            <Guardian isGuardian={isGuardian} setIsGuardian={setIsGuardian} isWardSetting={isWardSetting}/>
         </div>
     );
 };
