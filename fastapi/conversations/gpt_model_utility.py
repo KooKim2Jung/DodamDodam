@@ -34,7 +34,7 @@ def search_documents(index, query: str, user_id: int) -> List[str]:
 
     return [match['metadata']['info'] for match in index_result['matches']]
 
-def chat_prompt_info(user_id: int, db: Session) -> str:
+def chat_prompt_info(user_id: int, db: Session, combined_context: str = "") -> str:
     profile: ProfileRead = ProfileService.read_profile(user=user_id, db=db)
     prompt = (
         f"Your name is 도담, and you are a friendly and casual assistant. "
@@ -50,8 +50,10 @@ def chat_prompt_info(user_id: int, db: Session) -> str:
         f"If a person talks to you with honorifics, you'd better talk with honorifics."
         f"But if you talk in a friendly way, you should talk in a friendly way, too."
         f"Even if a person speaks to you in a friendly way, if they ask you to speak in honorifics, you should speak in honorifics."
+        f"\n\nRelevant information based on previous context:\n{combined_context}"
     )
     return prompt
+
 
 def summarize_messages(messages: deque, prompt: str) -> deque:
     summary_message = "요약된 대화 내용: "
@@ -63,8 +65,12 @@ def summarize_messages(messages: deque, prompt: str) -> deque:
     return summarized_deque
 
 def chat(message: str, user_id: int, db: Session, messages: deque, pinecone_index) -> tuple[Any, deque]:
+    # RAG를 위한 검색 - user_id를 포함하여 검색
+    related_texts = search_documents(pinecone_index, message, user_id)
+    combined_context = " ".join(related_texts)
+
     if not messages:  # deque가 비어있는 경우 초기 메시지 추가
-        prompt = chat_prompt_info(user_id, db)
+        prompt = chat_prompt_info(user_id, db, combined_context)  # combined_context 전달
         messages.append({"role": "system", "content": prompt})
 
     messages.append({"role": "user", "content": message})
@@ -75,7 +81,7 @@ def chat(message: str, user_id: int, db: Session, messages: deque, pinecone_inde
 
     # 최대 토큰 수 제한을 초과할 경우 요약
     if total_tokens > 1500:  # 1500은 예시로, 실제 모델 토큰 제한을 고려하여 설정
-        prompt = chat_prompt_info(user_id, db)
+        prompt = chat_prompt_info(user_id, db, combined_context)  # combined_context 전달
         messages = summarize_messages(messages, prompt)
         total_tokens = sum(len(m["content"]) for m in messages)  # 요약 후 토큰 수 다시 계산
         print(f"요약된 내용: {messages}")
@@ -85,11 +91,6 @@ def chat(message: str, user_id: int, db: Session, messages: deque, pinecone_inde
     print("Sending the following messages to GPT-3.5 API:")
     for m in messages:
         print(f"{m['role']}: {m['content']}")
-
-    # RAG를 위한 검색 - user_id를 포함하여 검색
-    related_texts = search_documents(pinecone_index, message, user_id)
-    combined_context = " ".join(related_texts)
-    messages.append({"role": "system", "content": combined_context})
 
     response = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
