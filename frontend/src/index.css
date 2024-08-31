@@ -13,18 +13,19 @@ body {
   -ms-overflow-style: none;
   font-family: 'Gamja Flower', cursive;
   font-weight: bolder;
+  overflow-x: hidden;
 }
 
 ::-webkit-scrollbar {
-  width: 8px; 
+  width: 6px; 
 }
 
 ::-webkit-scrollbar-track {
-  background: #FEFAED;
+  background: none;
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: #7F5B3D; 
+  background-color: #FCE9CB;
   border-radius: 6px;
 }
 

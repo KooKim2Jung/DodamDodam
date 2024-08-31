@@ -1,6 +1,5 @@
 .react-datepicker {
-    border-radius: 10px; 
-    border-radius: 10px !important;
+    border-radius: 15px !important;
     border: 2px solid white;
 }
 
@@ -18,7 +17,7 @@
 
 .react-datepicker__month-container {
     font-size: 1.1rem; 
-    width: 440px;
+    width: 450px;
 }
 
 .react-datepicker__day-name,

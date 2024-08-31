@@ -65,7 +65,7 @@ const Header = ({ pageAddress }) => {
                 </div>
             </header>
             {isHelpOpen && (
-                <div className='fixed z-10 top-[90px] left-0 bg-black bg-opacity-50 w-screen h-[calc(100vh-90px)]'></div>
+                <div className='fixed z-10 left-0 bg-black bg-opacity-50 w-screen h-screen'></div>
             )}
         </div>
     );
