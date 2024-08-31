@@ -36,6 +36,10 @@ def classify_emotion(user_message: str, message_id: int, db: Session) -> str:
     for token in chain.stream({"messages": messages}):
         result += token.strip()
 
+    # 잘못된 감정 결과 수정
+    if result == "Haappy":
+        result = "Happy"
+
     # 현재 날짜 가져오기
     current_date = date.today()
 
@@ -49,6 +53,7 @@ def classify_emotion(user_message: str, message_id: int, db: Session) -> str:
     db.commit()
 
     return result
+
 
 
 def get_emotions_by_date(user_id: int, query_date: date, db: Session):
