@@ -104,7 +104,8 @@ async def send_kakao_message(text: str, db: Session):
         "Authorization": f"Bearer {access_token}"
     }
     data = {
-        "receiver_uuids": json.dumps(["Pws6Dz8GPgk6FiQQIxcgEiQULAAxADIDMwIyeQ", "Pw05CTwENwc2GisYKxwpECgaKAQ1BDYHNwY2ZQ"]),  # 대윤, 미현, 가은
+        "receiver_uuids": json.dumps(["Pws6Dz8GPgk6FiQQIxcgEiQULAAxADIDMwIyeQ", "Pw05CTwENwc2GisYKxwpECgaKAQ1BDYHNwY2ZQ"
+                                      , "PwszCjgNPgsnFCYXLxgoHiYSPg8-DD0NPAxW"]),  # 대윤, 미현, 가은
         "template_object": json.dumps({
             "object_type": "text",
             "text": text,
