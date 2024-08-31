@@ -32,8 +32,9 @@ async def job_function(schedule_id: int, content: str, date: datetime, user_id: 
 
         unique_filename = f"{uuid.uuid4()}.mp3"
         upload_result = upload_file_to_s3(speech_stream, unique_filename)
-        logger.info(f"Upload result: {upload_result}")  # 추가된 로그
-        return upload_result
+        mp3_url = upload_result.get("url")
+        logger.info(f"mp3_url: {mp3_url}")  # 추가된 로그
+        return {"mp3_url": mp3_url}
     except Exception as e:
         logger.error(f"Error in job_function: {str(e)}")  # 추가된 로그
         raise HTTPException(status_code=500, detail=str(e))
