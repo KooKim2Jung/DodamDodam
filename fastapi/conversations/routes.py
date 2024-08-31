@@ -14,6 +14,8 @@ from s3_connection import upload_file_to_s3
 from mysql_connection import get_db
 from jwt_utils import get_current_user
 from .gpt_model_utility import chat  # 수정: chat 임포트
+from emotions.services import classify_emotion
+from talk.services import send_kakao_message
 
 router = APIRouter(prefix="/api/v1")
 
@@ -50,8 +52,17 @@ async def chat_api(message: Chat, db: Session = Depends(get_db), current_user_id
 
         mp3_url = upload_result.get("url")
 
-        # response 텍스트와 mp3 URL을 데이터베이스에 저장
-        create_message(user=current_user_id, content=response_text, voice_url=mp3_url, speaker="dodam", db=db)
+        # response str과 mp3_url을 데이터베이스에 넣는 과정
+        message_id = create_message(user=current_user_id, content=response_text, voice_url=mp3_url, speaker="dodam",
+                                    db=db)
+#************************************************* 라마 서버 안켜져있을땐 여기 주석처리 start **********************
+        # 1. 감정 분류 처리
+        emotion_result = classify_emotion(message.message, message_id, db)
+
+        # 2. 카카오톡 전송: 감정 분류 결과와 원본 메시지, GPT 응답을 카카오톡으로 전송
+        combined_message = f"피보호자의 말: {message.message}\n\n도담이의 말: {response_text}\n\n감정: {emotion_result}"
+        kakao_response = await send_kakao_message(combined_message, db)
+#************************************************* end **********************
 
         # mp3 URL을 JSON 형식으로 반환
         return {"mp3_url": mp3_url}

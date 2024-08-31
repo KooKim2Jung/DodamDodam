@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 import { FiX, FiSmile } from "react-icons/fi";
 import Modal from 'react-modal';
 import EmojiPicker from 'emoji-picker-react';
-import { AppContext } from '../../../../../App';
+import { AppContext } from '../../../../../AppProvider';
 
 const IconPicker = ({ folder }) => {
     const { setIsEmojiSelected } = useContext(AppContext);

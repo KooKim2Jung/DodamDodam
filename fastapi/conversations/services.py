@@ -70,7 +70,7 @@ def create_message(user: int, content: str, voice_url: str, speaker: str, db: Se
     db.add(new_message)
     db.commit()
 
-    return "Message 저장 완료"
+    return new_message.id
 
 #사용자, 날짜 정보를 통해 대화 데이터를 반환
 def get_messages(db: Session, user: int, date: str):

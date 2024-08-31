@@ -11,7 +11,7 @@ module.exports = {
       colors: {
         primary: '#FEFAED',
         secondary: '#FEEBA4',
-        tertiay: '#FFF1C5',
+        tertiary: '#FFF1C5',
         borderColor: 'rgb(127, 91, 61)',
       },
       boxShadow: {
@@ -34,12 +34,12 @@ module.exports = {
       },
       keyframes: {
         translateRightDodam: {
-          '0%': { transform: 'translateX(0)' }, 
-          '100%': { transform: 'translateX(6rem)' }, 
+          '0%': { transform: 'translateX(-6rem)' }, 
+          '100%': { transform: 'translateX(0rem)' }, 
         },
         translateLeftDodam: {
-          '0%': { transform: 'translateX(0)' }, 
-          '100%': { transform: 'translateX(-6rem)' }, 
+          '0%': { transform: 'translateX(6rem)' }, 
+          '100%': { transform: 'translateX(0rem)' }, 
         },
       },
     },

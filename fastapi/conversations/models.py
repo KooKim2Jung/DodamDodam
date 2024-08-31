@@ -12,6 +12,7 @@ class Conversation(Base):
     user = Column(Integer, nullable=False)
     date = Column(Date, nullable=False)
     summary = Column(String, nullable=True)
+    total_emotion = Column(String, nullable=True)
 
     messages = relationship("Message", back_populates="conversation")
 
@@ -27,6 +28,7 @@ class Message(Base):
     voice = Column(String, nullable=True)
 
     conversation = relationship("Conversation", back_populates="messages")
+    emotions = relationship("Emotion", back_populates="message", uselist=False)  # 1:1 관계를 위해 uselist=False 설정
 
 class HomeInfo(Base):
     __tablename__ = "home_info"
