@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { FiCamera } from "react-icons/fi";
 import WardCheck from './WardCheck';
-import { AppContext } from '../../../App';
+import { AppContext } from '../../../AppProvider';
 
 const WardSettingsForm = ({ isEdit, setIsEdit, wardInfo, setWardInfo, editWardSetting, 
     setPhotoUpdated, previewUrl, setPreviewUrl, isWardSetting, generateWardSetting }) => {

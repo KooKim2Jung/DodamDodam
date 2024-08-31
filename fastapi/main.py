@@ -19,11 +19,11 @@ from talk.routes import router as talk_router
 from members.routes import router as member_router
 from schedules.routes import router as schedules_router
 from conversations.stt_connection import stt_authenticate
+from emotions.routes import router as emotions_router
 
 import logging
 import sys
 import time
-
 
 load_dotenv()
 openai.api_key = os.getenv("OPENAI_API_KEY")
@@ -58,6 +58,7 @@ app.include_router(users_router)
 app.include_router(talk_router)
 app.include_router(member_router)
 app.include_router(schedules_router)
+app.include_router(emotions_router)
 
 # 서버 시작 시 APScheduler 스케줄러 실행
 @app.on_event("startup")

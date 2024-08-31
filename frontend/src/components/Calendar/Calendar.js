@@ -6,7 +6,7 @@ import { registerLocale, setDefaultLocale } from 'react-datepicker';
 import ko from 'date-fns/locale/ko'; // 한국어 로케일 가져오기
 import 'react-datepicker/dist/react-datepicker.css';
 import './Calendar.css';
-import { AppContext } from '../../App';
+import { AppContext } from '../../AppProvider';
 
 registerLocale('ko', ko); // 한국어 로케일 등록
 setDefaultLocale('ko'); // 기본 로케일을 한국어로 설정
@@ -39,12 +39,12 @@ const Calendar = ({ onDateChange, selectedDates }) => {
             isOpen={isCalendarOpen}
             onRequestClose={closeModal}
             shouldCloseOnOverlayClick={false}
-            className="w-[500px] bg-primary rounded-[10px] shadow-[2px_4px_10px_#a5996e]"
+            className="flex flex-col items-center w-[500px] bg-primary p-6 rounded-[15px] shadow-[2px_4px_10px_#a5996e]"
             >
-                <div className='flex justify-end mt-2 mr-6'>
+                <div className='flex justify-end w-full -mt-3 mb-3'>
                     <button className='hover:scale-110' onClick={closeModal}><FiXCircle size={30}/></button>
                 </div>
-                <div className="flex justify-center items-center mt-2 mb-9">
+                <div className="flex justify-center items-center h-auto w-auto">
                     <DatePicker
                         locale="ko"
                         selected={selectedDate}

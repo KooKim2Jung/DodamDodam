@@ -1,13 +1,8 @@
-import React, { useContext, useState, useEffect }  from 'react';
-import Aside from '../../../components/section/Aside/Aside';
+import React, { useState, useEffect }  from 'react';
 import api from '../../../Service/Api';
 import DodamVoiceForm from '../../../components/guardians/DodamSettings/DodamVoiceForm';
-import Guardian from '../../../components/guardians/Guardian/Guardian';
-import { AppContext } from '../../../App';
 
 const DodamSettingsPage = () => {
-    const { isGuardian, setIsGuardian, isWardSetting } = useContext(AppContext);
-
     const [voice, setVoice] = useState('다정');
     const voices = [
         { name: "다정", mp3: '/mp3/Dajeong.mp3'}, // 하준
@@ -52,11 +47,10 @@ const DodamSettingsPage = () => {
     };
 
     return (
-        <div className='flex flex-col h-screen w-screen pl-[240px]'>
-            <Aside/>
+        <div className='flex flex-col h-screen w-screen pl-[240px] overflow-x-hidden'>
             <div className='pt-28 pl-5'>
                 <h2 className='text-3xl text-left'>도담이 설정</h2>
-                <div className=''>
+                <div>
                     <div className='flex justify-center'>
                         <img className='h-60 w-56 my-7' src='./images/dodam_circle.png'/>
                     </div>
@@ -66,7 +60,6 @@ const DodamSettingsPage = () => {
                     </div>
                 </div>
             </div>
-            <Guardian isGuardian={isGuardian} setIsGuardian={setIsGuardian} isWardSetting={isWardSetting}/>
         </div>
     );
 };

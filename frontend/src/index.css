@@ -13,16 +13,20 @@ body {
   -ms-overflow-style: none;
   font-family: 'Gamja Flower', cursive;
   font-weight: bolder;
+  overflow-x: hidden;
 }
 
 ::-webkit-scrollbar {
-  display: none;
+  width: 6px; 
 }
 
-input::-webkit-inner-spin-button {
-  appearance: none;
-  -moz-appearance: none;
-  -webkit-appearance: none;
+::-webkit-scrollbar-track {
+  background: none;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #FCE9CB;
+  border-radius: 6px;
 }
 
 .input-box {

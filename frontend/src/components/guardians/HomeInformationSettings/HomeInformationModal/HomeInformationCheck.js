@@ -1,17 +1,22 @@
-// import React, { useEffect } from 'react';
+import React, { useEffect } from 'react';
 
-// const HomeInformationCheck = ({ data, homeInformationError, setHomeInformationError }) => {
-//     const homeInformationCheck = () => {
-//         setHomeInformationError(!data.content ? '값을 입력해 주세요.' : '');
-//     }
+const HomeInformationCheck = ({ isEditing, info, editInfo, infoError, setInfoError, editInfoError, setEditInfoError }) => {
+    const homeInformationCheck = () => {
+        if (isEditing) {
+            setEditInfoError(!editInfo ? '값을 입력해 주세요.' : '')
+        }
+        else {
+            setInfoError(!info?.data ? '값을 입력해 주세요.' : '')
+        }
+    }
     
-//     useEffect(() => {
-//         homeInformationCheck();
-//     }, [data]);
+    useEffect(() => {
+        homeInformationCheck();
+    }, [info?.data, editInfo]);
 
-//     return (
-//         <div className='text-2xl bg-primary rounded-[70px] text-gray-400'>{homeInformationError}</div>
-//     );
-// };
+    return (
+        <div className='text-2xl w-full bg-transparent rounded-[50px] text-gray-400 mb-2'>{editInfoError || infoError}</div>
+    );
+};
 
-// export default HomeInformationCheck;
+export default HomeInformationCheck;
