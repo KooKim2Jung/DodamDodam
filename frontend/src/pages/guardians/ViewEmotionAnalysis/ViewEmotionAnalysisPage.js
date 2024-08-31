@@ -8,7 +8,7 @@ import api from '../../../Service/Api';
 const ViewEmotionAnalysisPage = () => {
     const { isHelpOpen, helpStep } = useContext(AppContext);
 
-    const [emotionAnalysis, setEmotionAnalysis] = useState([]);
+    const [emotionAnalysis, setEmotionAnalysis] = useState(null);
     const [isSelected, setIsSelected] = useState(true);
     const [date, setDate] = useState('');
     const [error, setError] = useState('');
@@ -26,15 +26,19 @@ const ViewEmotionAnalysisPage = () => {
     // 특정 날짜에 대한 감정 분석 가져오기
     const getEmotionAnalysis = async (date) => { 
         try {
-            const response = await api.get(`/v1/emotions/${date}`);
+            const response = await api.get(`/v1/emotions/?date=${date}`);
             if (response.data) {
-                const emotionAnalysis = response.data.map(emotion => ({ // 감정들, total을 복사
-                    ...emotion,
-                }));
-                setEmotionAnalysis(emotionAnalysis); // 배열로 감정 분석 저장
-                setIsSelected(true);
-                setError('');
-            } 
+                const emotionData = response.data;
+                const isEmotionNull = Object.values(emotionData).every(value => value === 0);
+                if (isEmotionNull) {
+                    setIsSelected(false);
+                    setError('해당 날짜에 대한 감정 분석이 존재하지 않습니다.');
+                } else {
+                    setEmotionAnalysis(response.data); // 배열로 감정 분석 저장
+                    setIsSelected(true);
+                    setError('');
+                }
+            }
         } catch (error) {
             setIsSelected(false);
             setError('해당 날짜에 대한 감정 분석이 존재하지 않습니다.');
@@ -72,14 +76,12 @@ const ViewEmotionAnalysisPage = () => {
                     ))}
                     <EmotionAnalysisBoard testEmotionAnalysis={testEmotionAnalysis}/>
                 </>) : null}
-                {isSelected ? (
-                    <div className='z-50'>
-                        {emotionAnalysis.map((emotionAnalysis, index) => (<>
-                            <EmotionAnalysisBoard key={index} emotionAnalysis={emotionAnalysis} date={date} />
-                            <EmotionAnalysisGraph key={index} emotionAnalysis={emotionAnalysis} />
-                        </>))}
+                {isSelected && emotionAnalysis ? (
+                    <div className='z-50 px-5 pb-5'>
+                        <EmotionAnalysisGraph emotionAnalysis={emotionAnalysis} />
+                        <EmotionAnalysisBoard emotionAnalysis={emotionAnalysis} date={date} />
                     </div>
-                    ) : (
+                ) : (
                     <div className="text-center text-2xl text-gray-400 mt-3">{error}</div>
                 )}
             </div>

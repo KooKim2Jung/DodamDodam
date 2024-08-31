@@ -1,33 +1,9 @@
-import React, { useEffect, useContext } from 'react';
+import React, { useContext } from 'react';
 import { Bar } from "react-chartjs-2";
 import { AppContext } from '../../../AppProvider';
 import 'chart.js/auto';
 
 const EmotionAnalysisGraph = ({ emotionAnalysis, testGraph, realKey }) => {
-    const imageMap = {
-        happy: new Image(),
-        angry: new Image(),
-        sad: new Image(),
-        anxious: new Image(),
-        hurt: new Image(),
-        embarrassed: new Image(),
-    };
-
-    imageMap.happy.src = './images/dodam_happy.png';
-    imageMap.angry.src = './images/dodam_angry.png';
-    imageMap.sad.src = './images/dodam_sad.png';
-    imageMap.anxious.src = './images/dodam_anxious.png';
-    imageMap.hurt.src = './images/dodam_hurt';
-    imageMap.embarrassed.src = './images/dodam_embarrassed.png';
-
-    useEffect(() => {
-        Object.values(imageMap).forEach(image => {
-            image.onload = () => {
-                console.log('Image loaded');
-            };
-        });
-    }, []);
-
     const { isHelpOpen, helpStep } = useContext(AppContext);
     
     if (isHelpOpen && helpStep === 1 && testGraph) {
@@ -44,10 +20,15 @@ const EmotionAnalysisGraph = ({ emotionAnalysis, testGraph, realKey }) => {
     }
 
     if (emotionAnalysis) {
-        const { happy, angry, sad, anxious, hurt, embarrassed } = emotionAnalysis;
+        const lowerCaseAnalysis = Object.keys(emotionAnalysis).reduce((acc, key) => {
+            acc[key.toLowerCase()] = emotionAnalysis[key];
+            return acc;
+        }, {});
+
+        const { happy = 0, angry = 0, sad = 0, anxious = 0, hurt = 0, embarrassed = 0 } = lowerCaseAnalysis;
 
         const data = {
-            labels: ['Happy', 'Angry', 'Sad', 'Anxious', 'Hurt', 'embarrassed'],
+            labels: ['행복', '화남', '슬픔', '불안', '상처', '당황'],
             datasets: [
                 {
                     label: 'Emotion Counts',
@@ -68,7 +49,7 @@ const EmotionAnalysisGraph = ({ emotionAnalysis, testGraph, realKey }) => {
                         'rgba(153, 102, 255, 1)',
                         'rgba(255, 159, 64, 1)'
                     ],
-                    borderWidth: 1
+                    borderWidth: 2
                 }
             ]
         };
@@ -77,11 +58,30 @@ const EmotionAnalysisGraph = ({ emotionAnalysis, testGraph, realKey }) => {
             responsive: true,
             plugins: {
                 legend: {
-                    position: 'top'
+                    display: false,
+                    position: 'top',
+                    labels: {
+                        font: {
+                            size: 20
+                        }
+                }   }
+            },
+            scales: {
+                x: {
+                    ticks: {
+                        font: {
+                            size: 20  // x축 라벨 글씨 크기 설정
+                        }
+                    }
                 },
-                title: {
-                    display: true,
-                    text: 'Emotion Analysis'
+                y: {
+                    ticks: {
+                        font: {
+                            size: 20  // y축 라벨 글씨 크기 설정
+                        },
+                        stepSize: 1
+                    },
+                    beginAtZero: true
                 }
             }
         };
