@@ -59,9 +59,11 @@ async def chat_api(message: Chat, db: Session = Depends(get_db), current_user_id
         # 1. 감정 분류 처리
         emotion_result = classify_emotion(message.message, message_id, db)
 
-        # 2. 카카오톡 전송: 감정 분류 결과와 원본 메시지, GPT 응답을 카카오톡으로 전송
-        combined_message = f"피보호자의 말: {message.message}\n\n도담이의 말: {response_text}\n\n감정: {emotion_result}"
-        kakao_response = await send_kakao_message(combined_message, db)
+        # 2. 감정 분류 결과가 Sad, Angry, Hurt일 경우에만 카카오톡 전송
+        if emotion_result in ["Sad", "Angry", "Hurt"]:
+            # 감정 분류 결과와 원본 메시지, GPT 응답을 카카오톡으로 전송
+            combined_message = f"피보호자의 말: {message.message}\n\n도담이의 말: {response_text}\n\n감정: {emotion_result}"
+            kakao_response = await send_kakao_message(combined_message, db)
 #************************************************* end **********************
 
         # mp3 URL을 JSON 형식으로 반환
