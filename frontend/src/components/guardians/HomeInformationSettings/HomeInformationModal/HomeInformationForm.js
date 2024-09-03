@@ -79,7 +79,7 @@ const HomeInformationForm = ({ addItem, currentItem, saveItem, isEditing, info, 
                 <input 
                     className='flex-grow px-3 py-2 mr-0 md:mr-3 rounded-[50px] bg-secondary border-2 border-transparent focus:border-white outline-none w-full'
                     type='text'
-                    placeholder='예시) 도담아, 냉장고 안에 제육볶음 있어'
+                    placeholder='예시) 냉장고 안에 제육볶음 있어.'
                     value={isEditing ? editInfo : info.data}
                     onChange={isEditing ? inputEditData : inputData}
                 />
