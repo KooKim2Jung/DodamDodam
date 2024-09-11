@@ -99,7 +99,7 @@ const Guardian = () => {
             isOpen={isGuardianOpen} 
             onRequestClose={closeModal}
             shouldCloseOnOverlayClick={false}
-            className='outline-none w-[400px] h-[280px] pb-6 flex shadow-[6px_5px_10px_#a5996e] justify-center items-center bg-primary rounded-[15px]'>
+            className='outline-none mt-16 w-[400px] h-[280px] pb-6 flex shadow-[6px_5px_10px_#a5996e] justify-center items-center bg-primary rounded-[15px]'>
             <form onSubmit={goGuardian}>
                 <div className='flex-col flex mt-8 text-3xl'>
                     <h2>비밀번호</h2>
