@@ -65,8 +65,8 @@ const ViewEmotionAnalysisPage = () => {
     };
 
     return (
-        <div className='flex flex-col h-screen w-screen pl-[240px] pr-10'>
-            <div className='pt-28 pl-4 relative h-full'>
+        <div className='flex flex-col h-screen w-screen md:pl-[240px] pr-2'>
+            <div className='pt-20 md:pt-28 md:pl-4 relative h-full'>
                 <div className='flex justify-between text-2xl z-40'>
                     <Calendar onDateChange={handleDateChange}/>
                 </div>

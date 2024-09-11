@@ -122,9 +122,9 @@ const WardSettingsPage = () => {
     }, []);
 
     return (
-        <div className='flex flex-col h-screen w-screen pl-[240px]'>
-            <div className='pt-28 pl-5 z-40'>
-                <h2 className='text-3xl text-left'>피보호자 설정</h2>
+        <div className='flex flex-col h-screen w-screen md:pl-[240px]'>
+            <div className='pt-20 md:pt-28 z-40'>
+                <h2 className='text-3xl text-left pl-8'>피보호자 설정</h2>
                 {isHelpOpen ? (<>
                     {helpStep === 0 ? (
                         <WardSettingsForm 
