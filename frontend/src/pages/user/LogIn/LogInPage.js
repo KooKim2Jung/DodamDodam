@@ -83,16 +83,20 @@ const LogInPage = () => {
 
     return (
         <form onSubmit={submitLogIn}>
-            <div className='flex items-center justify-center bg-primary mt-[120px] mb-[25px] 
+            <div className='flex items-center justify-center bg-primary mt-16 md:mt-20 
             w-[700px] h-[450px] rounded-[50px] shadow-[6px_4px_10px_#a5996e]'>
-                <div className='flex mx-10 pl-4'>
-                    <img src='/images/dodam_basic.png' className='w-[205px] h-[235px] relative top-[70px]'/>
-                    <div>
+                <div className='grid grid-cols-1 md:grid-cols-5 p-5'>
+                    <div className='col-span-2  flex items-center justify-center'>
+                        <img src='/images/dodam_basic.png' className='hidden md:block w-[205px] h-[235px]'/>
+                    </div>
+                    <div className='col-span-3 flex-col pr-4'>
                         <h1 className='text-basic-size'>로그인</h1>
                         <LogInForm user={user} setUser={setUser}/>
                         <LogInCheck errorMessage={errorMessage}/>
-                        <button className='btn' type='submit' >로그인하기</button>
-                        <button className='btn' type='button' onClick={handleSignUp}>회원 가입하기</button>
+                        <div className='flex flex-col items-center'>
+                            <button className='btn' type='submit' >로그인하기</button>
+                            <button className='btn' type='button' onClick={handleSignUp}>회원 가입하기</button>
+                        </div>
                     </div>
                 </div>
             </div>
