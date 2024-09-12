@@ -77,7 +77,7 @@ const ScheduleForm = ({ addItem, item, saveItem, editMode = false }) => {
                     value={schedule.time}
                     onChange={inputSchedule}
                 />
-                <div className='flex flex-col justify-center rounded-[50px] bg-secondary border-2 border-transparent md:flex-row items-center md:col-span-2'>
+                <div className='flex justify-center rounded-[50px] bg-secondary border-2 border-transparent md:flex-row items-center md:col-span-2'>
                     {days.map((day) => (
                         <label key={day} className="flex items-center mr-3">
                             <input
@@ -95,7 +95,7 @@ const ScheduleForm = ({ addItem, item, saveItem, editMode = false }) => {
             </div>
             <div className='mt-4 w-full flex'>
                 <input
-                    className='flex-grow py-2 px-3 mr-3 rounded-[50px] bg-secondary border-2 border-transparent focus:border-white outline-none sm:max-w-[100%] max-w-[80%]'
+                    className='flex-grow py-2 px-3 mr-3 rounded-[50px] bg-secondary border-2 border-transparent focus:border-white outline-none'
                     type="text"
                     name="note"
                     value={schedule.note}

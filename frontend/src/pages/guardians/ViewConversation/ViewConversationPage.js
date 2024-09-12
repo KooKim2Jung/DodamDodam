@@ -86,8 +86,8 @@ const ViewConversationPage = () => {
     };
 
     return (
-        <div className="flex flex-col h-screen w-screen pl-[240px] pr-1">
-            <div className="pt-20 md:pt-28 pl-4 relative h-full">
+        <div className="flex flex-col h-screen w-screen md:pl-[240px] pr-2">
+            <div className="pt-20 md:pt-28 md:pl-4 relative h-full">
                 <div className="flex relative justify-between text-2xl mb-3 z-50">
                     <Calendar onDateChange={handleDateChange} />
                     {isHelpOpen && helpStep === 2 ? (

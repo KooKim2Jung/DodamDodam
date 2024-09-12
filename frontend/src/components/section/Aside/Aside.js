@@ -47,7 +47,7 @@ const Aside = () => {
     };
 
     return (
-        <aside className='fixed left-0 top-0 h-screen shadow-[1px_0px_6px_#a5996e] z-2 bg-primary overflow-auto'>
+        <aside className='fixed hidden md:block left-0 top-0 h-screen shadow-[1px_0px_6px_#a5996e] z-2 bg-primary overflow-auto'>
             <nav className='flex flex-col items-start justify-between mt-[80px] h-[90vh]'>
                 {menu.map((menu, index) => (
                     <Link key={index} to={menu.url}> 
