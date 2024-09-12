@@ -75,7 +75,7 @@ const HomeInformationForm = ({ addItem, currentItem, saveItem, isEditing, info, 
                 info={info} infoError={infoError} setInfoError={setInfoError}
             />
             )}
-            <div className='flex w-full items-center'>
+            <div className='flex items-center'>
                 <input 
                     className='flex-grow px-3 py-2 mr-3 rounded-[50px] bg-secondary border-2 border-transparent focus:border-white outline-none'
                     type='text'
