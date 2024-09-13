@@ -1,8 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import HomeInformationCheck from './HomeInformationCheck';
 import api from '../../../../Service/Api';
+import { AppContext } from '../../../../AppProvider';
 
 const HomeInformationForm = ({ addItem, currentItem, saveItem, isEditing, info, setInfo, items, index }) => {
+    const { helpStep } = useContext(AppContext);
     const [infoError, setInfoError] = useState('');
     const [editInfoError, setEditInfoError] = useState('');
     const [editInfo, setEditInfo] = useState(currentItem?.data)
@@ -75,7 +77,7 @@ const HomeInformationForm = ({ addItem, currentItem, saveItem, isEditing, info, 
                 info={info} infoError={infoError} setInfoError={setInfoError}
             />
             )}
-            <div className='flex items-center'>
+            <div className={`flex items-center relative ${helpStep === 0 ? 'z-[1000]' : ''}`}>
                 <input 
                     className='flex-grow px-3 py-2 mr-3 rounded-[50px] bg-secondary border-2 border-transparent focus:border-white outline-none'
                     type='text'

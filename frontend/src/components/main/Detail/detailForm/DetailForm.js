@@ -1,6 +1,6 @@
 import React from "react";
 
-const DetailForm = ({ title, description, icon }) => {
+const DetailForm = ({ title, description, icon, image }) => {
     return (
         <div className="relative flex flex-col justify-center">
             <div className="flex justify-start items-center">
@@ -10,9 +10,11 @@ const DetailForm = ({ title, description, icon }) => {
                 </div>
                 <div className="text-[5vh]">{title}</div>
             </div>
-            <div className="grid grid-rows-8 p-4 w-[80vw] md:w-[70vh] lg:w-[90vh] h-[60vh] md:h-[70vh] bg-secondary rounded-[20px]">
-                <div className="row-span-6 rounded-[20px] bg-tertiary"></div>
-                <div className="row-span-2 text-[2.9vh] md:text-[3.5vh] pt-[1vh] h-full">{description}</div>
+            <div className="grid grid-rows-8 p-4 w-[79vw] md:w-[69vh] lg:w-[89vh] h-[60vh] md:h-[70vh] bg-secondary rounded-[20px]">
+                <div className="row-span-6">
+                    <img className="object-fit w-full h-full rounded-[20px]" src={image} alt="이미지" />
+                </div>
+                <div className="row-span-2 flex items-center text-[2.9vh] md:text-[3.5vh] pt-[1vh] h-full">{description}</div>
             </div>
         </div>
     );

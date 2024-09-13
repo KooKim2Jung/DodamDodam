@@ -50,7 +50,7 @@ const ViewConversationPage = () => {
             } 
         } catch (error) {
             setIsSelected(false);
-            setError('해당 날짜에 대한 대화 데이터가 존재하지 않습니다.');
+            setError('해당 날짜에 대한 대화 데이터가 존재하지 않아요.');
         }
     };
 
@@ -62,7 +62,7 @@ const ViewConversationPage = () => {
                 setSummary(response.data.summary); // 요약 내용을 상태에 저장
             }
         } catch (error) {
-            setSummary('해당 날짜에 대한 대화 요약이 존재하지 않습니다.');
+            setSummary('해당 날짜에 대한 대화 요약이 존재하지 않아요.');
         }
     }
 

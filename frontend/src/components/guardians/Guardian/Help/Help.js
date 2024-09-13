@@ -70,7 +70,10 @@ const Help = ({ pageAddress }) => {
                 0 : { top: '5%', left: '9%' },
             },
             HomeInformationSettingsPage: 
-            {},
+            {
+                0 : { top: '10%', left: '22%' },
+                1 : { top: '5%', left: '32%' },
+            },
             WardSettingsPage:
             {
                 0 : { top: '25%', left: '12%' },
