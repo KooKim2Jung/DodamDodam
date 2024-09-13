@@ -59,7 +59,7 @@ const ViewEmotionAnalysisPage = () => {
             }
         } catch (error) {
             setIsSelected(false);
-            setError('해당 날짜에 대한 감정 분석이 존재하지 않습니다.');
+            setError('해당 날짜에 대한 감정 분석이 존재하지 않아요.');
         }
     };
 
