@@ -35,8 +35,8 @@ const Detail = () => {
     return (
     <div className="swiper detailSwiper w-screen h-screen">
         <div className="swiper-wrapper w-screen pt-[25px] md:pt-[40px]">
-            <div className="swiper-slide"><EmotionalAnalysis /></div>
             <div className="swiper-slide"><ConversationSummary /></div>
+            <div className="swiper-slide"><EmotionalAnalysis /></div>
             <div className="swiper-slide"><Scheduling /></div>
             <div className="swiper-slide"><HomeSettings/></div>
             <div className="swiper-slide"><Settings /></div>
