@@ -24,12 +24,12 @@ const DodamVoiceForm = ({ voice, setVoice, voices }) => {
     const selectedVoice = voices.find(v => v.name === voice) // voices의 이름과 voice의 이름이 같은지 찾기
 
     return (
-        <div>
-            <div className={`pr-7 py-1 ${isHelpOpen && helpStep === 0 ? 'bg-white z-[2000] rounded-[14px]' : ''}`}>
+        <div className='flex flex-col justify-center items-center'>
+            <div className={`py-1 w-[500px] ${isHelpOpen && helpStep === 0 ? 'bg-white z-[1000] rounded-[14px]' : ''}`}>
                 {voices.map((voices) => (
-                <label key={voices.name}>
+                <label key={voices.name} className='mr-5'>
                     <input 
-                        className='ml-8 mr-3 radio-box checked:bg-secondary border-white shadow-custom1'
+                        className='mx-3 radio-box checked:bg-secondary border-white shadow-custom1'
                         type='radio' 
                         value={voices.name} 
                         checked={voice===voices.name}

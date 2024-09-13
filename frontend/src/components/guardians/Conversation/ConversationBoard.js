@@ -15,7 +15,7 @@ const ConversationBoard = ({ conversation, testConversation }) => {
                         <img
                             src="./images/dodam_circle.png"
                             alt="도담"
-                            className="hidden lg:block lg:w-[90px] lg:h-[98px]"
+                            className="hidden lg:block lg:w-[93px] lg:h-[98px]"
                         />
                     </div>
                 )}
@@ -44,7 +44,7 @@ const ConversationBoard = ({ conversation, testConversation }) => {
                         <img
                             src="./images/dodam_circle.png"
                             alt="도담"
-                            className="hidden lg:block lg:w-[90px] lg:h-[98px]"
+                            className="hidden lg:block lg:w-[93px] lg:h-[98px]"
                         />
                     </div>
                 )}
@@ -55,6 +55,10 @@ const ConversationBoard = ({ conversation, testConversation }) => {
             </div>
         );
     };
+
+    if (helpStep === 0) {
+        return null; 
+    }
 
 };
 
