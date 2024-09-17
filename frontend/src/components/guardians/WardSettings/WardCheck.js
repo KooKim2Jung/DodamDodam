@@ -19,7 +19,8 @@ const WardCheck = ({isEdit, setIsEdit, wardInfo, errorMessage,
     };
 
     useEffect(() => {
-        updateErrorMessage('name', wardInfo.last_name && wardInfo.name ? (/\d/.test(wardInfo.name) ? '이름은 영어 또는 한글로 입력해 주세요.' : '') : '필수항목입니다.');
+        updateErrorMessage('last_name', wardInfo.last_name ? (/\d/.test(wardInfo.name) ? '이름은 영어 또는 한글로 입력해 주세요.' : '') : '필수항목입니다.');
+        updateErrorMessage('name', wardInfo.name ? (/\d/.test(wardInfo.name) ? '이름은 영어 또는 한글로 입력해 주세요.' : '') : '필수항목입니다.');
         updateErrorMessage('gender', wardInfo.gender ? '' : '필수항목입니다.');
         updateErrorMessage('age', wardInfo.age ? (validAge ? '' : '1~100 사이의 정수만 입력해 주세요.') : '필수항목입니다.')
         updateErrorMessage('remark', wardInfo.remark ? '' : '필수항목입니다.')

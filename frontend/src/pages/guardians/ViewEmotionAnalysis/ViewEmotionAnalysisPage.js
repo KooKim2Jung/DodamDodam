@@ -13,10 +13,22 @@ const ViewEmotionAnalysisPage = () => {
     const [date, setDate] = useState('');
     const [error, setError] = useState('');
 
-    const testGraphs = [
-        { testImage: './images/dodam_happy.png' },
-        { testImage: './images/dodam_hurt.png' },
-        { testImage: './images/dodam_sad.png' }
+    const dodamGraph = [
+        { label: '행복', image: './images/dodam_happy.png', count: 0 },
+        { label: '화남', image: './images/dodam_angry.png', count: 0 },
+        { label: '슬픔', image: './images/dodam_sad.png', count: 0 },
+        { label: '불안', image: './images/dodam_anxious.png', count: 0 },
+        { label: '상처', image: './images/dodam_hurt.png', count: 0 },
+        { label: '당황', image: './images/dodam_embarrassed.png', count: 0 },
+    ]
+
+    const testGraph = [
+        { label: '행복', image: './images/dodam_happy.png', count: 2 },
+        { label: '화남', image: './images/dodam_angry.png', count: 0 },
+        { label: '슬픔', image: './images/dodam_sad.png', count: 1 },
+        { label: '불안', image: './images/dodam_anxious.png', count: 0 },
+        { label: '상처', image: './images/dodam_hurt.png', count: 1 },
+        { label: '당황', image: './images/dodam_embarrassed.png', count: 0 },
     ]
 
     const testEmotionAnalysis = {
@@ -29,19 +41,25 @@ const ViewEmotionAnalysisPage = () => {
             const response = await api.get(`/v1/emotions/?date=${date}`);
             if (response.data) {
                 const emotionData = response.data;
+                dodamGraph[0].count = emotionData.Happy;
+                dodamGraph[1].count = emotionData.Angry;
+                dodamGraph[2].count = emotionData.Sad;
+                dodamGraph[3].count = emotionData.Anxious;
+                dodamGraph[4].count = emotionData.Hurt;
+                dodamGraph[5].count = emotionData.Embarrassed;
                 const isEmotionNull = Object.values(emotionData).every(value => value === 0);
                 if (isEmotionNull) {
                     setIsSelected(false);
-                    setError('해당 날짜에 대한 감정 분석이 존재하지 않습니다.');
+                    setError('해당 날짜에 대한 감정 분석이 존재하지 않아요.');
                 } else {
-                    setEmotionAnalysis(response.data); // 배열로 감정 분석 저장
+                    setEmotionAnalysis(dodamGraph); // 배열로 감정 분석 저장
                     setIsSelected(true);
                     setError('');
                 }
             }
         } catch (error) {
             setIsSelected(false);
-            setError('해당 날짜에 대한 감정 분석이 존재하지 않습니다.');
+            setError('해당 날짜에 대한 감정 분석이 존재하지 않아요.');
         }
     };
 
@@ -62,28 +80,31 @@ const ViewEmotionAnalysisPage = () => {
     const handleDateChange = (date) => {
         const formattedDate = formatDate(new Date(date));
         getEmotionAnalysis(formattedDate); // 선택된 날짜로 감정 분석 가져오기
+        setDate(formattedDate);
     };
 
     return (
-        <div className='flex flex-col h-screen w-screen pl-[240px] pr-10'>
-            <div className='pt-28 pl-4 relative h-full'>
+        <div className='flex flex-col h-screen w-screen md:pl-[240px] pr-2'>
+            <div className='pt-20 md:pt-28 md:pl-4 relative h-full'>
                 <div className='flex justify-between text-2xl z-40'>
                     <Calendar onDateChange={handleDateChange}/>
                 </div>
-                {isHelpOpen && helpStep === 1 ? (<>
-                    {testGraphs.map((testGraph, index) => (
-                        <EmotionAnalysisGraph key={index} realKey={index} testGraph={testGraph}/>
-                    ))}
-                    <EmotionAnalysisBoard testEmotionAnalysis={testEmotionAnalysis}/>
-                </>) : null}
-                {isSelected && emotionAnalysis ? (
+                {isHelpOpen ? (
                     <div className='z-50 px-5 pb-5'>
-                        <EmotionAnalysisGraph emotionAnalysis={emotionAnalysis} />
-                        <EmotionAnalysisBoard emotionAnalysis={emotionAnalysis} date={date} />
+                        <EmotionAnalysisGraph testGraph={testGraph}/>
+                        <EmotionAnalysisBoard testEmotionAnalysis={testEmotionAnalysis}/>
                     </div>
-                ) : (
-                    <div className="text-center text-2xl text-gray-400 mt-3">{error}</div>
-                )}
+                ) : (<>
+                    {isSelected && emotionAnalysis ? (
+                        <div className='z-50 px-5 pb-5'>
+                            <EmotionAnalysisGraph emotionAnalysis={emotionAnalysis} />
+                            <EmotionAnalysisBoard emotionAnalysis={emotionAnalysis} date={date} />
+                        </div>
+                    ) : (<>
+                        <div className='flex justify-center mt-3 mb-2'><img className='h-[120px] w-[105px]' src='./images/dodam_nodata.png'/></div>
+                        <div className="text-center text-2xl text-gray-400">{error}</div>
+                    </>)}
+                </>)}
             </div>
         </div>
     );

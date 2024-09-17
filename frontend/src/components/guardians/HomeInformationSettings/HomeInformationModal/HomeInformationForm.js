@@ -1,8 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import HomeInformationCheck from './HomeInformationCheck';
 import api from '../../../../Service/Api';
+import { AppContext } from '../../../../AppProvider';
 
 const HomeInformationForm = ({ addItem, currentItem, saveItem, isEditing, info, setInfo, items, index }) => {
+    const { helpStep } = useContext(AppContext);
     const [infoError, setInfoError] = useState('');
     const [editInfoError, setEditInfoError] = useState('');
     const [editInfo, setEditInfo] = useState(currentItem?.data)
@@ -75,16 +77,16 @@ const HomeInformationForm = ({ addItem, currentItem, saveItem, isEditing, info, 
                 info={info} infoError={infoError} setInfoError={setInfoError}
             />
             )}
-            <div className='flex flex-col md:flex-row w-full items-center space-y-3 md:space-y-0'>
+            <div className={`flex items-center relative ${helpStep === 0 ? 'z-[1000]' : ''}`}>
                 <input 
-                    className='flex-grow px-3 py-2 mr-0 md:mr-3 rounded-[50px] bg-secondary border-2 border-transparent focus:border-white outline-none w-full'
+                    className='flex-grow px-3 py-2 mr-3 rounded-[50px] bg-secondary border-2 border-transparent focus:border-white outline-none'
                     type='text'
-                    placeholder='예시) 도담아, 냉장고 안에 제육볶음 있어'
+                    placeholder='예시) 냉장고 안에 제육볶음 있어.'
                     value={isEditing ? editInfo : info.data}
                     onChange={isEditing ? inputEditData : inputData}
                 />
                 <button 
-                    className='p-2 w-full md:w-16 rounded-[50px] bg-secondary border-2 border-transparent focus:border-white hover:scale-110 transition-all duration-150' 
+                    className='p-2 rounded-[50px] bg-secondary border-2 border-transparent focus:border-white hover:scale-110 transition-all duration-150' 
                     onClick={isEditing ? () => saveData(items[index].vectorId): submitData}
                 >
                     {isEditing ? '저장' : '추가'}

@@ -47,16 +47,16 @@ const DodamSettingsPage = () => {
     };
 
     return (
-        <div className='flex flex-col h-screen w-screen pl-[240px] overflow-x-hidden'>
-            <div className='pt-28 pl-5'>
-                <h2 className='text-3xl text-left'>도담이 설정</h2>
+        <div className='flex flex-col h-screen w-screen md:pl-[240px] overflow-x-hidden'>
+            <div className='pt-20 md:pt-28'>
+                <h2 className='text-3xl text-left pl-8'>도담이 설정</h2>
                 <div>
                     <div className='flex justify-center'>
                         <img className='h-60 w-56 my-7' src='./images/dodam_circle.png'/>
                     </div>
-                    <div className="text-xl md:text-3xl relative z-[1000]">
+                    <div className="text-3xl relative z-[1000]">
                         <DodamVoiceForm voice={voice} setVoice={setVoice} voices={voices} />
-                        <button className='input-box2 p-2 w-40 mt-14 mb-9 hover:scale-110 bg-secondary border-transparent' onClick={voiceSetting}>확인</button>
+                        <button className='input-box2 p-2 w-40 mt-7 mb-9 hover:scale-110 bg-secondary border-transparent' onClick={voiceSetting}>확인</button>
                     </div>
                 </div>
             </div>

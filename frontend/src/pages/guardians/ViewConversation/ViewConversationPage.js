@@ -50,7 +50,7 @@ const ViewConversationPage = () => {
             } 
         } catch (error) {
             setIsSelected(false);
-            setError('해당 날짜에 대한 대화 데이터가 존재하지 않습니다.');
+            setError('해당 날짜에 대한 대화 데이터가 존재하지 않아요.');
         }
     };
 
@@ -62,7 +62,7 @@ const ViewConversationPage = () => {
                 setSummary(response.data.summary); // 요약 내용을 상태에 저장
             }
         } catch (error) {
-            setSummary('해당 날짜에 대한 대화 요약이 존재하지 않습니다.');
+            setSummary('해당 날짜에 대한 대화 요약이 존재하지 않아요.');
         }
     }
 
@@ -86,8 +86,8 @@ const ViewConversationPage = () => {
     };
 
     return (
-        <div className="flex flex-col h-screen w-screen pl-[240px] pr-1">
-            <div className="pt-20 md:pt-28 pl-4 relative h-full">
+        <div className="flex flex-col h-screen w-screen md:pl-[240px] pr-2">
+            <div className="pt-20 md:pt-28 md:pl-4 relative h-full">
                 <div className="flex relative justify-between text-2xl mb-3 z-50">
                     <Calendar onDateChange={handleDateChange} />
                     {isHelpOpen && helpStep === 2 ? (
@@ -109,9 +109,10 @@ const ViewConversationPage = () => {
                                     <ConversationBoard key={index} conversation={conversation} />
                                 ))}
                             </div>
-                        ) : (
+                        ) : (<>
+                            <div className='flex justify-center mb-2'><img className='h-[120px] w-[105px]' src='./images/dodam_nodata.png'/></div>
                             <div className="text-center text-2xl text-gray-400">{error}</div>
-                        )}
+                        </>)}
                     </>
                 )}
             </div>
