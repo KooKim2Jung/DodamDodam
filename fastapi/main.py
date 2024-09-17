@@ -20,6 +20,7 @@ from members.routes import router as member_router
 from schedules.routes import router as schedules_router
 from conversations.stt_connection import stt_authenticate
 from emotions.routes import router as emotions_router
+from sse_manager import router as sse_manager_router
 
 import logging
 import sys
@@ -59,6 +60,7 @@ app.include_router(talk_router)
 app.include_router(member_router)
 app.include_router(schedules_router)
 app.include_router(emotions_router)
+app.include_router(sse_manager_router)
 
 # 서버 시작 시 APScheduler 스케줄러 실행
 @app.on_event("startup")

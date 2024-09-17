@@ -5,6 +5,7 @@ from datetime import datetime, timezone
 from conversations.tts_connection import text_to_speech
 from fastapi import HTTPException
 from s3_connection import upload_file_to_s3
+from sse_manager import send_sse_message
 import logging
 import sys
 import pytz
@@ -26,14 +27,15 @@ async def job_function(schedule_id: int, content: str, date: datetime, user_id: 
 
     try:
         speech_stream = text_to_speech(gpt_message=content, user=user_id, db=db)
-        logger.info(f"Generated speech stream: {speech_stream}")  # 추가된 로그
         if not speech_stream:
             raise HTTPException(status_code=500, detail="Failed to generate speech")
 
         unique_filename = f"{uuid.uuid4()}.mp3"
         upload_result = upload_file_to_s3(speech_stream, unique_filename)
         mp3_url = upload_result.get("url")
-        logger.info(f"mp3_url: {mp3_url}")  # 추가된 로그
+
+        await send_sse_message(user_id, mp3_url)
+
         return {"mp3_url": mp3_url}
     except Exception as e:
         logger.error(f"Error in job_function: {str(e)}")  # 추가된 로그
