@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import ScheduleCheck from './ScheduleCheck';
+import api from '../../../Service/Api';
 
-const ScheduleForm = ({ addItem, item, saveItem, editMode = false }) => {
+const ScheduleForm = ({ addItem, item, isEditing, setIsEditing, editItem, setError, items, index }) => {
 
     const [schedule, setSchedule] = useState({
         date: '',
         time: '',
         repeat: [],
-        note: '',
+        content: '',
     });
 
     const [scheduleError, setScheduleError] = useState('');
@@ -15,10 +16,15 @@ const ScheduleForm = ({ addItem, item, saveItem, editMode = false }) => {
     const days = ['월', '화', '수', '목', '금', '토', '일'];
 
     useEffect(() => {
-        if (editMode && item) {
-            setSchedule(item);
+        if (isEditing && item) {
+            const [date, time] = item.date.split('T');
+            setSchedule({
+                ...item,
+                date: date,
+                time: time.slice(0, 5),
+            });
         }
-    }, [editMode, item]);
+    }, [isEditing, item]);
 
     const inputSchedule = (e) => {
         const { name, value } = e.target;
@@ -40,24 +46,52 @@ const ScheduleForm = ({ addItem, item, saveItem, editMode = false }) => {
         });
     };
 
-    const submitSchedule = () => {
+    const submitSchedule = async (index) => {
         if (!scheduleError) {
-            if (editMode) {
-                saveItem(schedule);
-                console.log('스케줄 수정 성공!');
+            const dateTime = `${schedule.date}T${schedule.time}:00`;
+
+            if (isEditing) {
+                try {
+                    const response = await api.put(`/v1/schedule/${items[index].id}`, {
+                        date: dateTime,
+                        repeat: schedule.repeat,
+                        content: schedule.content,
+                    })
+                    if (response.data) {
+                        editItem(index, response.data);
+                    }
+                    setIsEditing(false);
+                    setSchedule({
+                    date: '',
+                    time: '',
+                    repeat: [],
+                    content: ''
+                });
+                } catch (error) {
+                    console.error(error.response.data.detail);
+                }
             } else {
-                addItem(schedule);
-                console.log('스케줄 입력 성공!');
+                try {
+                    const response = await api.post('v1/schedule', {
+                        date: dateTime,
+                        repeat: schedule.repeat,
+                        content: schedule.content,
+                    })
+                    if (response.data) {
+                        addItem(response.data);
+                    }
+                    setSchedule({
+                    date: '',
+                    time: '',
+                    repeat: [],
+                    content: ''
+                });
+                } catch (error) {
+                    console.error('스케줄 요청 오류', error);
+                    setError('잠시후에 다시 입력해 주세요.')
+                }
             }
-            setSchedule({
-                date: '',
-                time: '',
-                repeat: [],
-                note: '',
-            });
-        } else {
-            console.log('스케줄 입력 실패!');
-        }
+        } 
     };
 
     return (
@@ -97,23 +131,23 @@ const ScheduleForm = ({ addItem, item, saveItem, editMode = false }) => {
                 <input
                     className='flex-grow py-2 px-3 mr-3 rounded-[50px] bg-secondary border-2 border-transparent focus:border-white outline-none'
                     type="text"
-                    name="note"
-                    value={schedule.note}
+                    name="content"
+                    value={schedule.content}
                     onChange={inputSchedule}
                     placeholder="내용 입력"
                 />
                 <button
-                    onClick={submitSchedule}
+                    onClick={() => submitSchedule(index)}
                     className='p-2 rounded-[50px] bg-secondary border-2 border-transparent focus:border-white hover:scale-110'
                 >
-                    {editMode ? '저장' : '추가'}
+                    {isEditing ? '저장' : '추가'}
                 </button>
             </div>
             <ScheduleCheck
                 schedule={schedule}
                 setScheduleError={setScheduleError}
                 scheduleError={scheduleError}
-                editMode={editMode}
+                isEditing={isEditing}
             />
         </div>
     );

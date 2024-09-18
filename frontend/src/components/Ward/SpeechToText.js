@@ -1,9 +1,11 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useContext } from 'react';
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
 import api from '../../Service/Api';
 import Spinner from '../Spinner/Spinner';
+import { AppContext } from '../../AppProvider';
 
 const SpeechToText = () => {
+    const { SSEVoiceUrl } = useContext(AppContext);
     const contentRef = useRef(''); // 음성 인식 텍스트 저장
     const [isDetected, setIsDetected] = useState(false); // "도담아"라는 말이 감지되었는지 여부
     const [isRecording, setIsRecording] = useState(false); // 녹음 중인지 여부
@@ -14,7 +16,7 @@ const SpeechToText = () => {
     const [audioBlob, setAudioBlob] = useState(null); // 녹음된 오디오 Blob 저장
     const timerRef = useRef(null); 
 
-    const [voiceUrl, setVoiceUrl] = useState('')
+    const [dodamVoiceUrl, setDodamVoiceUrl] = useState('')
     const audioRef = useRef(null);
     const [isLoading, setIsLoading] = useState(false); // 스피너 상태 추가
 
@@ -134,10 +136,10 @@ const SpeechToText = () => {
     const chatDodam = async () => {
         try {
             setIsLoading(true); // 스피너 시작
-            setVoiceUrl(''); // 기존 음성 URL 제거
+            setDodamVoiceUrl(''); // 기존 음성 URL 제거
             const response = await api.post('/v1/chat/dodam', { message: contentRef.current });
             const data = response.data;
-            setVoiceUrl(data.mp3_url);
+            setDodamVoiceUrl(data.mp3_url);
         } catch (error) {
             console.error('Error delivering recording:', error);
             alert('녹음 전달을 실패하였습니다.');
@@ -146,19 +148,26 @@ const SpeechToText = () => {
         }
     }
 
-    // voiceUrl이 변경될 때 오디오 자동 재생
     useEffect(() => {
-        if (voiceUrl && audioRef.current) {
+        if (dodamVoiceUrl && audioRef.current) {
+            audioRef.current.src = dodamVoiceUrl;
+            audioRef.current.play();
+        } else if (SSEVoiceUrl && audioRef.current) {
+            audioRef.current.src = SSEVoiceUrl;
             audioRef.current.play();
         }
-    }, [voiceUrl]);
+    }, [dodamVoiceUrl, SSEVoiceUrl]);
 
     return (
         <div className='flex justify-center'>
             {isLoading && <Spinner />}
-            {!isLoading && voiceUrl && (<div className='flex-col flex'>
+            {!isLoading && dodamVoiceUrl && (<div className='flex-col flex'>
                 <div className='flex justify-center mb-3'><img className='w-64' src='./images/dodam_basic.png'/></div>
-                <audio autoPlay controls ref={audioRef} src={voiceUrl}/></div>
+                <audio autoPlay controls ref={audioRef} src={dodamVoiceUrl}/></div>
+            )}
+            {!isLoading && SSEVoiceUrl && (<div className='flex-col flex'>
+                <div className='flex justify-center mb-3'><img className='w-64' src='./images/dodam_basic.png'/></div>
+                <audio autoPlay controls ref={audioRef} src={SSEVoiceUrl}/></div>
             )}
             <textarea readOnly
                 className='w-9/12 resize-none overflow-hidden absolute bottom-8 px-4 pt-3 pb-1 bg-secondary border-2 rounded-[20px] border-black text-middle-size shadow-[3px_4px_1px_#a5996e]'
