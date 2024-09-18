@@ -5,7 +5,7 @@ from .schemas import ScheduleCreate, ScheduleRead
 from mysql_connection import get_db
 from jwt_utils import get_current_user
 from .services import create_schedule, get_schedules, update_schedule, delete_schedule
-from .scheduler import get_schedules
+from .scheduler import get_schedules as get_scheduler
 
 router = APIRouter(prefix="/api/v1/schedule", tags=["Schedule"])
 
@@ -34,4 +34,4 @@ async def delete_schedule_route(schedule_id: int, current_user_id: int = Depends
 
 @router.get("/jobs")
 async def get_registered_jobs():
-    get_schedules()
+    get_scheduler()
