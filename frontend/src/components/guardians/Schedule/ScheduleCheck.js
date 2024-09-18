@@ -5,7 +5,7 @@ const ScheduleCheck = ({ schedule, scheduleError, setScheduleError }) => {
     const scheduleCheck = () => {
         let today = new Date().toISOString().split('T')[0];
 
-        if (!schedule.date || !schedule.time || !schedule.note) {
+        if (!schedule.date || !schedule.time || !schedule.content) {
             setScheduleError('모든 항목을 입력해 주세요.');
         }
         else if(schedule.date < today) {
