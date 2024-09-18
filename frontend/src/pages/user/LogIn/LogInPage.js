@@ -6,7 +6,7 @@ import LogInCheck from '../../../components/user/LogIn/LogInCheck';
 import { AppContext } from '../../../AppProvider';
 
 const LogInPage = () => {
-    const { setIsLoggedIn, setIsEdit, setIsGuardianOpen, setIsWardSetting } = useContext(AppContext);
+    const { setIsLoggedIn, setIsGuardianOpen, setIsWardSetting, getSSE } = useContext(AppContext);
 
     const [user, setUser] = useState({
         email: '',
@@ -19,6 +19,7 @@ const LogInPage = () => {
     const handleLogIn = () => {
         setIsLoggedIn(true);
         sessionStorage.setItem('isLoggedIn', 'true');
+        getSSE();
     }
 
     const handleSignUp = () => {
@@ -36,6 +37,7 @@ const LogInPage = () => {
                 const token = response.data.token; 
                 sessionStorage.setItem('jwtToken', token);
                 handleLogIn();
+                getSSE();
                 checkWard();
             } catch (logInError) {
                 console.error("로그인 요청 오류", logInError);
@@ -60,7 +62,7 @@ const LogInPage = () => {
             console.error("피보호자 정보 요청 오류", wardCheckError);
             setErrorMessage('피보호자 정보 요청 중 오류가 발생했습니다. 다시 시도해주세요.');
         }
-    }
+    }   
 
     const validateForm = () => {
         resetForm();
