@@ -9,16 +9,16 @@ import Guardian from '../../guardians/Guardian/Guardian';
 
 const Header = ({ pageAddress }) => {
     const { isLoggedIn, setIsLoggedIn, isGuardian, setIsGuardian,
-        setIsGuardianOpen, isHelpOpen, setIsHelpOpen } = useContext(AppContext);
+        setIsGuardianOpen, isHelpOpen, setIsHelpOpen, setIsWardSet } = useContext(AppContext);
 
     const navigate = useNavigate();
 
     const handleLogout = () => {
         setIsLoggedIn(false);
         setIsGuardian(false);
-        setIsGuardianOpen(false)
-        sessionStorage.removeItem('isLoggedIn');
-        sessionStorage.removeItem('jwtToken');
+        setIsGuardianOpen(false);
+        setIsWardSet(false);
+        sessionStorage.clear();
         navigate('/');
     }
 

@@ -2,12 +2,9 @@ import React, { useContext, useState, useEffect } from 'react';
 import WardSettingsForm from '../../../components/guardians/WardSettings/WardSettingsForm';
 import api from '../../../Service/Api';
 import { AppContext } from '../../../AppProvider';
-import { useNavigate } from 'react-router-dom';
 
 const WardSettingsPage = () => {
-    const { isEdit, setIsEdit, isWardSetting, setIsWardSetting, isHelpOpen, helpStep } = useContext(AppContext);
-    
-    const navigate = useNavigate();
+    const { isEdit, setIsEdit, isWardSet, setIsWardSet, isHelpOpen, helpStep } = useContext(AppContext);
 
     const [wardInfo, setWardInfo] = useState({
         photo: 'https://dodambuket.s3.ap-northeast-2.amazonaws.com/%ED%94%84%EB%A1%9C%ED%95%84%EA%B8%B0%EB%B3%B8%EC%9D%B4%EB%AF%B8%EC%A7%80.png',
@@ -42,7 +39,7 @@ const WardSettingsPage = () => {
         formData.append('gender', wardInfo.gender);
         formData.append('age', wardInfo.age);
         formData.append('remark', wardInfo.remark);
-        setIsWardSetting(true)
+        setIsWardSet(true)
         try {
             const response = await api.post('/v1/profile', formData);
             alert(response.data);
@@ -114,9 +111,8 @@ const WardSettingsPage = () => {
     };
 
     useEffect(() => {
-        if (isWardSetting === false) {
+        if (!sessionStorage.getItem('isWardSet')) {
             setIsEdit(true);
-            
         }
         getWardSetting();
     }, []);
@@ -137,7 +133,7 @@ const WardSettingsPage = () => {
                                 last_name: '',}} 
                             setWardInfo={setWardInfo} isEdit={isEdit} setIsEdit={setIsEdit} 
                             setPhotoUpdated={setPhotoUpdated} previewUrl={testInfo.testPhoto} setPreviewUrl={setPreviewUrl} 
-                            isWardSetting={isWardSetting} />
+                            isWardSet={isWardSet} />
                     ) : (
                         <WardSettingsForm 
                             wardInfo={{
@@ -149,12 +145,12 @@ const WardSettingsPage = () => {
                                 last_name: testInfo.testLastName,}}
                             setWardInfo={setWardInfo} isEdit={isEdit} setIsEdit={setIsEdit} 
                             editWardSetting={editWardSetting} setPhotoUpdated={setPhotoUpdated} previewUrl={testInfo.testPhoto} setPreviewUrl={setPreviewUrl} 
-                            isWardSetting={isWardSetting} />
+                            isWardSet={isWardSet} />
                     )}
                 </>) : (
                     <WardSettingsForm wardInfo={wardInfo} setWardInfo={setWardInfo} isEdit={isEdit} setIsEdit={setIsEdit} 
                     editWardSetting={editWardSetting} setPhotoUpdated={setPhotoUpdated} previewUrl={previewUrl} setPreviewUrl={setPreviewUrl} 
-                    isWardSetting={isWardSetting} generateWardSetting={generateWardSetting}/>
+                    isWardSet={isWardSet} generateWardSetting={generateWardSetting}/>
                 )}
             </div>
         </div>

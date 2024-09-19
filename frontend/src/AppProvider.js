@@ -5,7 +5,7 @@ const AppContext = createContext();
 const AppProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
-  const [isWardSetting, setIsWardSetting] = useState(false);
+  const [isWardSet, setIsWardSet] = useState(false);
   const [isGuardian, setIsGuardian] = useState(false);
   const [isGuardianOpen, setIsGuardianOpen] = useState(false);
   const [isHelpOpen, setIsHelpOpen] = useState(false);
@@ -18,9 +18,17 @@ const AppProvider = ({ children }) => {
 
   useEffect(() => {
     const storedLoggedInState = sessionStorage.getItem('isLoggedIn');
+    const storedIsWardSetState = sessionStorage.getItem('isWardSet');
+    const storedIsGuardianState = sessionStorage.getItem('isGuardian');
     if (storedLoggedInState === 'true') {
-        setIsLoggedIn(true);
-        getSSE();
+      setIsLoggedIn(true);
+      getSSE();
+    }
+    if (storedIsWardSetState === 'true') {
+      setIsWardSet(true);
+    }
+    if (storedIsGuardianState === 'true') {
+      setIsGuardian(true);
     }
   }, []);
 
@@ -82,7 +90,7 @@ const AppProvider = ({ children }) => {
       value={{
         isLoggedIn, setIsLoggedIn, 
         isEdit, setIsEdit, 
-        isWardSetting, setIsWardSetting, 
+        isWardSet, setIsWardSet, 
         isGuardian, setIsGuardian,
         isGuardianOpen, setIsGuardianOpen,
         isHelpOpen, setIsHelpOpen,

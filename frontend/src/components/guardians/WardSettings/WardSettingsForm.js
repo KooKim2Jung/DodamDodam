@@ -4,7 +4,7 @@ import WardCheck from './WardCheck';
 import { AppContext } from '../../../AppProvider';
 
 const WardSettingsForm = ({ isEdit, setIsEdit, wardInfo, setWardInfo, editWardSetting, 
-    setPhotoUpdated, previewUrl, setPreviewUrl, isWardSetting, generateWardSetting }) => {
+    setPhotoUpdated, previewUrl, setPreviewUrl, isWardSet, generateWardSetting }) => {
     const { isHelpOpen, helpStep } = useContext(AppContext);
 
     const [errorMessage, setErrorMessage] = useState({
@@ -157,7 +157,7 @@ const WardSettingsForm = ({ isEdit, setIsEdit, wardInfo, setWardInfo, editWardSe
             </div>
             <div className='flex justify-center items-center lg:col-span-3 mb-9'>
             <WardCheck wardInfo={wardInfo} errorMessage={errorMessage} setErrorMessage={setErrorMessage}
-            editWardSetting={editWardSetting} isEdit={isEdit} setIsEdit={setIsEdit} isWardSetting={isWardSetting}
+            editWardSetting={editWardSetting} isEdit={isEdit} setIsEdit={setIsEdit} isWardSet={isWardSet}
             generateWardSetting={generateWardSetting}/>
             </div>
         </div>
