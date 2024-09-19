@@ -111,7 +111,7 @@ const WardSettingsPage = () => {
     };
 
     useEffect(() => {
-        if (!sessionStorage.getItem('isWardSet')) {
+        if (!isWardSet) {
             setIsEdit(true);
         }
         getWardSetting();

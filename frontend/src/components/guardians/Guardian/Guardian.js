@@ -6,7 +6,7 @@ import { useLocation } from 'react-router-dom';
 import { AppContext } from '../../../AppProvider';
 
 const Guardian = () => {
-    const { setIsGuardian, isGuardianOpen, setIsGuardianOpen, isWardSet } = useContext(AppContext)
+    const { setIsGuardian, isGuardianOpen, setIsGuardianOpen, isWardSet, isLoggedIn, isLoading } = useContext(AppContext)
     const [guardianPassword, setGuardianPassword] = useState('')
     const [errorMessage, setErrorMessage] = useState('');
 
@@ -70,17 +70,24 @@ const Guardian = () => {
     }, [isGuardianOpen]);
 
     useEffect(() => {
-        const guardianPages = location.pathname === '/ViewConversationPage' || location.pathname === '/ViewEmotionAnalysisPage'
-        || location.pathname === '/SchedulePage' || location.pathname === '/HomeInformationSettingsPage' || location.pathname === '/DodamSettingsPage';
+        if (!isLoading) {
+            const guardianPages = location.pathname === '/ViewConversationPage' || location.pathname === '/ViewEmotionAnalysisPage'
+            || location.pathname === '/SchedulePage' || location.pathname === '/HomeInformationSettingsPage' || location.pathname === '/DodamSettingsPage';
 
-        if (guardianPages && !sessionStorage.getItem('isWardSet')) {
+            if (guardianPages && !isWardSet) {
                 alert('피보호자 설정이 필요합니다..');
                 navigate('/WardSettingsPage');
+            }
+            if (isLoggedIn && !guardianPages && location.pathname !== '/WardSettingsPage') {
+                sessionStorage.setItem('isGuardian', 'false');
+                setIsGuardian(false);
+            }
         }
-        if (sessionStorage.getItem('isLoggedIn') &&!guardianPages && location.pathname !== '/WardSettingsPage') {
-            sessionStorage.setItem('isGuardian', 'false')
+    }, [location.pathname, isLoading])
+
+    if (isLoading) {
+        return null;
     }
-    }, [location.pathname])
 
     const resetForm = () => {
         setErrorMessage('');

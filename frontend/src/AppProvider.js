@@ -1,4 +1,5 @@
 import { createContext, useState, useEffect } from 'react';
+import Spinner from './components/Spinner/Spinner';
 
 const AppContext = createContext();
 
@@ -15,21 +16,21 @@ const AppProvider = ({ children }) => {
   const [isEmojiSelected, setIsEmojiSelected] = useState(false);
   const [SSEVoiceUrl, setSSEVoiceUrl] = useState('');
   const [eventSource, setEventSource] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const storedLoggedInState = sessionStorage.getItem('isLoggedIn');
-    const storedIsWardSetState = sessionStorage.getItem('isWardSet');
-    const storedIsGuardianState = sessionStorage.getItem('isGuardian');
-    if (storedLoggedInState === 'true') {
-      setIsLoggedIn(true);
+    const storedLoggedInState = sessionStorage.getItem('isLoggedIn') === 'true';
+    const storedIsWardSetState = sessionStorage.getItem('isWardSet') === 'true';
+    const storedIsGuardianState = sessionStorage.getItem('isGuardian') === 'true';
+
+    setIsLoggedIn(storedLoggedInState);
+    setIsWardSet(storedIsWardSetState);
+    setIsGuardian(storedIsGuardianState);
+
+    if (storedLoggedInState) {
       getSSE();
     }
-    if (storedIsWardSetState === 'true') {
-      setIsWardSet(true);
-    }
-    if (storedIsGuardianState === 'true') {
-      setIsGuardian(true);
-    }
+    setIsLoading(false);
   }, []);
 
   const getSSE = async () => {
@@ -100,9 +101,10 @@ const AppProvider = ({ children }) => {
         isEmojiSelected, setIsEmojiSelected,
         SSEVoiceUrl, setSSEVoiceUrl,
         getSSE,
+        isLoading, setIsLoading
       }}
     >
-      {children}
+      { isLoading ? <Spinner/> : children}
     </AppContext.Provider>
   );
 }
