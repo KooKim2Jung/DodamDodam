@@ -84,27 +84,29 @@ const ViewEmotionAnalysisPage = () => {
     };
 
     return (
-        <div className='flex flex-col h-screen w-screen md:pl-[240px] pr-2'>
-            <div className='pt-20 md:pt-28 md:pl-4 relative h-full'>
-                <div className='flex justify-between text-2xl z-40'>
+        <div className='flex flex-col h-screen w-screen md:pl-[248px] overflow-hidden'>
+            <div className='pt-20 md:pt-28 relative h-full w-full'>
+                <div className='flex fixed top-[60px] w-full p-[13px_5px_3px_5px] md:top-[92px] md:w-[calc(100%-239px)] justify-between text-2xl z-50'>
                     <Calendar onDateChange={handleDateChange}/>
                 </div>
-                {isHelpOpen ? (
-                    <div className='z-50 px-5 pb-5'>
-                        <EmotionAnalysisGraph testGraph={testGraph}/>
-                        <EmotionAnalysisBoard testEmotionAnalysis={testEmotionAnalysis}/>
-                    </div>
-                ) : (<>
-                    {isSelected && emotionAnalysis ? (
+                <div className='mt-9 z-50 h-[calc(100vh-100px)] md:h-[calc(100vh-130px)] py-4 overflow-y-auto px-2'>
+                    {isHelpOpen ? (
                         <div className='z-50 px-5 pb-5'>
-                            <EmotionAnalysisGraph emotionAnalysis={emotionAnalysis} />
-                            <EmotionAnalysisBoard emotionAnalysis={emotionAnalysis} date={date} />
+                            <EmotionAnalysisGraph testGraph={testGraph}/>
+                            <EmotionAnalysisBoard testEmotionAnalysis={testEmotionAnalysis}/>
                         </div>
                     ) : (<>
-                        <div className='flex justify-center mt-3 mb-2'><img className='h-[120px] w-[105px]' src='./images/dodam_nodata.png'/></div>
-                        <div className="text-center text-2xl text-gray-400">{error}</div>
+                        {isSelected && emotionAnalysis ? (
+                            <div className='z-50 px-5 pb-5'>
+                                <EmotionAnalysisGraph emotionAnalysis={emotionAnalysis} />
+                                <EmotionAnalysisBoard emotionAnalysis={emotionAnalysis} date={date} />
+                            </div>
+                        ) : (<>
+                            <div className='flex justify-center mb-2'><img className='h-[120px] w-[105px]' src='./images/dodam_nodata.png'/></div>
+                            <div className="text-center text-2xl text-gray-400">{error}</div>
+                        </>)}
                     </>)}
-                </>)}
+                </div>
             </div>
         </div>
     );
