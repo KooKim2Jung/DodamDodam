@@ -107,7 +107,7 @@ const ViewConversationPage = () => {
                                 <ConversationBoard key={index} conversation={conversation} />
                             ))
                         ) : (<>
-                            <div className='flex justify-center mt-3 mb-2'><img className='h-[120px] w-[105px]' src='./images/dodam_nodata.png'/></div>
+                            <div className='flex justify-center mb-2'><img className='h-[120px] w-[105px]' src='./images/dodam_nodata.png'/></div>
                             <div className="text-center text-2xl text-gray-400">{error}</div>
                         </>)}
                     </>)}

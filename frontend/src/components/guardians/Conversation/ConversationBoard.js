@@ -11,7 +11,7 @@ const ConversationBoard = ({ conversation, testConversation }) => {
         return (
             <div className={`flex text-left z-40 ${talker === 'user' ? 'justify-end' : 'justify-start'}`}>
                 {isDodam && (
-                    <div className={`relative flex items-center -mt-4 mx-2 ${helpStep === 1 ? 'z-[50]' : ''}`}>
+                    <div className={`relative flex items-center -mt-4 md:mx-2 ${helpStep === 1 ? 'z-[50]' : ''}`}>
                         <img
                             src="./images/dodam_circle.png"
                             alt="도담"
@@ -40,7 +40,7 @@ const ConversationBoard = ({ conversation, testConversation }) => {
         return (
             <div className={`flex items-center text-left z-40 ${speaker === 'user' ? 'justify-end' : 'justify-start'}`}>
                 {isDodam && (
-                    <div className={`relative flex items-center -mt-4 mx-2 ${helpStep === 1 ? 'z-[50]' : ''}`}>
+                    <div className={`relative flex items-center -mt-4 md:mx-2 ${helpStep === 1 ? 'z-[50]' : ''}`}>
                         <img
                             src="./images/dodam_circle.png"
                             alt="도담"
