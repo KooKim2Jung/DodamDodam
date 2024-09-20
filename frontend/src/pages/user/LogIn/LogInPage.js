@@ -6,7 +6,7 @@ import LogInCheck from '../../../components/user/LogIn/LogInCheck';
 import { AppContext } from '../../../AppProvider';
 
 const LogInPage = () => {
-    const { setIsLoggedIn, setIsGuardianOpen, setIsWardSetting, getSSE } = useContext(AppContext);
+    const { setIsLoggedIn, setIsGuardianOpen, setIsWardSet, getSSE } = useContext(AppContext);
 
     const [user, setUser] = useState({
         email: '',
@@ -52,10 +52,12 @@ const LogInPage = () => {
             const wardResponse = await api.get('/v1/profile/check');
             if (wardResponse.data.check) {
                 navigate('/WardPage');
-                setIsWardSetting(true);
+                sessionStorage.setItem('isWardSet', 'true');
+                setIsWardSet(true);
             }
             else {
                 alert('피보호자 설정이 필요합니다.');
+                sessionStorage.setItem('isWardSet', 'false');
                 setIsGuardianOpen(true);
             }
         } catch (wardCheckError) {

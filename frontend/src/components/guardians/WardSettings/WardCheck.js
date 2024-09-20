@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import { AppContext } from '../../../AppProvider';
 
 const WardCheck = ({isEdit, setIsEdit, wardInfo, errorMessage, 
-    setErrorMessage, editWardSetting, isWardSetting, generateWardSetting}) => {
+    setErrorMessage, editWardSetting, isWardSet, generateWardSetting}) => {
     const { isHelpOpen, helpStep } = useContext(AppContext);
 
     const [btn, setBtn] = useState('완료')
@@ -29,7 +29,7 @@ const WardCheck = ({isEdit, setIsEdit, wardInfo, errorMessage,
     const infoCheck = () => {
         if (validAge && validInfo && errorMessage.name === '' && errorMessage.gender === '' 
         && errorMessage.age === '' && errorMessage.remark === '') {
-            if (isWardSetting===false) {
+            if (isWardSet===false) {
                 generateWardSetting(wardInfo.photo, wardInfo.last_name, wardInfo.name, wardInfo.gender, wardInfo.age, wardInfo.remark)
             }
             else {

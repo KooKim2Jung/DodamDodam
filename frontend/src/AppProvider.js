@@ -1,11 +1,12 @@
 import { createContext, useState, useEffect } from 'react';
+import Spinner from './components/Spinner/Spinner';
 
 const AppContext = createContext();
 
 const AppProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
-  const [isWardSetting, setIsWardSetting] = useState(false);
+  const [isWardSet, setIsWardSet] = useState(false);
   const [isGuardian, setIsGuardian] = useState(false);
   const [isGuardianOpen, setIsGuardianOpen] = useState(false);
   const [isHelpOpen, setIsHelpOpen] = useState(false);
@@ -15,13 +16,21 @@ const AppProvider = ({ children }) => {
   const [isEmojiSelected, setIsEmojiSelected] = useState(false);
   const [SSEVoiceUrl, setSSEVoiceUrl] = useState('');
   const [eventSource, setEventSource] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const storedLoggedInState = sessionStorage.getItem('isLoggedIn');
-    if (storedLoggedInState === 'true') {
-        setIsLoggedIn(true);
-        getSSE();
+    const storedLoggedInState = sessionStorage.getItem('isLoggedIn') === 'true';
+    const storedIsWardSetState = sessionStorage.getItem('isWardSet') === 'true';
+    const storedIsGuardianState = sessionStorage.getItem('isGuardian') === 'true';
+
+    setIsLoggedIn(storedLoggedInState);
+    setIsWardSet(storedIsWardSetState);
+    setIsGuardian(storedIsGuardianState);
+
+    if (storedLoggedInState) {
+      getSSE();
     }
+    setIsLoading(false);
   }, []);
 
   const getSSE = async () => {
@@ -82,7 +91,7 @@ const AppProvider = ({ children }) => {
       value={{
         isLoggedIn, setIsLoggedIn, 
         isEdit, setIsEdit, 
-        isWardSetting, setIsWardSetting, 
+        isWardSet, setIsWardSet, 
         isGuardian, setIsGuardian,
         isGuardianOpen, setIsGuardianOpen,
         isHelpOpen, setIsHelpOpen,
@@ -92,9 +101,10 @@ const AppProvider = ({ children }) => {
         isEmojiSelected, setIsEmojiSelected,
         SSEVoiceUrl, setSSEVoiceUrl,
         getSSE,
+        isLoading, setIsLoading
       }}
     >
-      {children}
+      { isLoading ? <Spinner/> : children}
     </AppContext.Provider>
   );
 }

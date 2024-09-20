@@ -6,7 +6,7 @@ import { useLocation } from 'react-router-dom';
 import { AppContext } from '../../../AppProvider';
 
 const Guardian = () => {
-    const { setIsGuardian, isGuardianOpen, setIsGuardianOpen, isWardSetting, setIsWardSetting } = useContext(AppContext)
+    const { setIsGuardian, isGuardianOpen, setIsGuardianOpen, isWardSet, isLoggedIn, isLoading } = useContext(AppContext)
     const [guardianPassword, setGuardianPassword] = useState('')
     const [errorMessage, setErrorMessage] = useState('');
 
@@ -26,7 +26,7 @@ const Guardian = () => {
     }
 
     // 서버에 보호자 모드 로그인 요청
-    const goGuardian = async (event) => {
+    const isGuardian = async (event) => {
         event.preventDefault();
         if (!guardianPassword) {
             setErrorMessage('비밀번호를 입력해 주세요.');
@@ -38,7 +38,8 @@ const Guardian = () => {
             });
             if (response.data.check) {
                 setIsGuardian(true);
-                checkWard();
+                sessionStorage.setItem('isGuardian', 'true')
+                goGuardian();
             }
             else {
                 setErrorMessage('비밀번호가 일치하지 않습니다.');
@@ -49,23 +50,14 @@ const Guardian = () => {
     }
 
     // 서버에 피보호자 설정 유무 확인
-    const checkWard = async () => {
-        try {
-            const wardResponse = await api.get('/v1/profile/check');
-            if (wardResponse.data.check) {
-                setIsWardSetting(true);
-                navigate('/ViewConversationPage');
-                closeModal();
-            }
-            else {
-                setIsWardSetting(false);
-                navigate('/WardSettingsPage');
-                closeModal();
-            }
-        } catch (wardCheckError) {
-            console.error("피보호자 정보 요청 오류", wardCheckError);
-            setErrorMessage('피보호자 정보 요청 중 오류가 발생했습니다. 다시 시도해주세요.');
+    const goGuardian = () => {
+        if (isWardSet) {
+            navigate('/ViewConversationPage');
         }
+        else {
+            navigate('/WardSettingsPage');
+        }
+        closeModal();
     }
 
     useEffect(() => {
@@ -78,15 +70,24 @@ const Guardian = () => {
     }, [isGuardianOpen]);
 
     useEffect(() => {
-        const guardianPages = location.pathname === '/ViewConversationPage' || location.pathname === '/ViewEmotionAnalysisPage'
-        || location.pathname === '/SchedulePage' || location.pathname === '/HomeInformationSettingsPage' || location.pathname === '/DodamSettingsPage';
-        if (guardianPages) {
-            if (isWardSetting === false) {
+        if (!isLoading) {
+            const guardianPages = location.pathname === '/ViewConversationPage' || location.pathname === '/ViewEmotionAnalysisPage'
+            || location.pathname === '/SchedulePage' || location.pathname === '/HomeInformationSettingsPage' || location.pathname === '/DodamSettingsPage';
+
+            if (guardianPages && !isWardSet) {
+                alert('피보호자 설정이 필요합니다..');
                 navigate('/WardSettingsPage');
-                alert('피보호자 설정이 필요합니다.');
+            }
+            if (isLoggedIn && !guardianPages && location.pathname !== '/WardSettingsPage') {
+                sessionStorage.setItem('isGuardian', 'false');
+                setIsGuardian(false);
             }
         }
-    }, [location.pathname])
+    }, [location.pathname, isLoading])
+
+    if (isLoading) {
+        return null;
+    }
 
     const resetForm = () => {
         setErrorMessage('');
@@ -100,7 +101,7 @@ const Guardian = () => {
             onRequestClose={closeModal}
             shouldCloseOnOverlayClick={false}
             className='outline-none mt-16 w-[400px] h-[280px] pb-6 flex shadow-[6px_5px_10px_#a5996e] justify-center items-center bg-primary rounded-[15px]'>
-            <form onSubmit={goGuardian}>
+            <form onSubmit={isGuardian}>
                 <div className='flex-col flex mt-8 text-3xl'>
                     <h2>비밀번호</h2>
                     <input className='input-box mt-5 mx-20' type='password' value={guardianPassword} placeholder='비밀번호 (로그인 비밀번호)' onChange={inputGuardian}/>
