@@ -33,7 +33,7 @@ services:
       - /frontend/node_modules
 
   mysqldb:
-    image: mysql:8
+    image: mysql:latest
     env_file:
       - .env
     ports:
@@ -52,6 +52,24 @@ services:
       PMA_ARBITRARY: 1
       PMA_HOST: mysqldb
       PMA_PORT: 3306
+
+  rabbitmq:
+    image: "rabbitmq:management"
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    restart: always
+
+  celery_worker:
+    build:
+      context: ./fastapi
+      dockerfile: Dockerfile
+    command: celery -A celery_app worker --loglevel=info
+    restart: always
+    depends_on:
+      - rabbitmq
+    environment:
+      - CELERY_BROKER_URL=amqp://guest@rabbitmq//
 
 #  mongodb:
 #    image: mongo:latest
@@ -81,6 +99,8 @@ services:
 #      ME_CONFIG_BASICAUTH_PASSWORD: ${ME_CONFIG_BASICAUTH_PASSWORD}
 #    depends_on:
 #      - mongodb
+
+
 
 volumes:
   mysqldb-data:
