@@ -75,6 +75,7 @@ apscheduler = "^3.10.4"
 transformers = "^4.44.2"
 torch = "^2.4.0"
 langserve = "^0.2.2"
+celery = "^5.4.0"
 
 [build-system]
 requires = ["poetry-core"]
