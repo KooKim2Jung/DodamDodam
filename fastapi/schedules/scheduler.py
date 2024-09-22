@@ -3,6 +3,7 @@ from sqlalchemy.orm import Session
 from .models import Schedule
 from datetime import datetime, timezone
 from conversations.tts_connection import text_to_speech
+from conversations.gpt_model_utility import schedule
 from fastapi import HTTPException
 from s3_connection import upload_file_to_s3
 from sse_manager import send_sse_message
@@ -25,8 +26,11 @@ async def job_function(schedule_id: int, content: str, date: datetime, user_id: 
     current_time = datetime.now(KST)  # 한국 시간으로 현재 시간 출력
     logger.info(f"스케줄 ID: {schedule_id}, 내용: {content}, 저장된 스케줄 시간: {date}, 현재 시간: {current_time}")
 
+    schedule_content = schedule(content, user_id, db)
+    logger.info(f"알림 내용: {schedule_content}")
+
     try:
-        speech_stream = text_to_speech(gpt_message=content, user=user_id, db=db)
+        speech_stream = text_to_speech(gpt_message=schedule_content, user=user_id, db=db)
         if not speech_stream:
             raise HTTPException(status_code=500, detail="Failed to generate speech")
 

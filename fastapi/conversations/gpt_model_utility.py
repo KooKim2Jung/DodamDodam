@@ -139,3 +139,30 @@ def vectorize_message(text: str) -> np.ndarray:
         outputs = model(**inputs)
         embeddings = outputs.last_hidden_state.mean(dim=1).cpu().numpy().astype(np.float32)
     return embeddings.squeeze()
+
+def schedule_prompt(message: str, user_id: int, db: Session) -> str:
+    # profile: ProfileRead = ProfileService.read_profile(user=user_id, db=db)
+    prompt = (
+        # f"The user's name is {profile.name}. Please generate a reminder message in Korean "
+         f"The user input the following schedule: '{message}'.\n"
+        f"Generate a reminder message in Korean.\n"
+        f"Modify the schedule input to a natural phrase if necessary.\n"
+        f"Use the format: '지금 [변환된 내용] 시간이야.'\n"
+        f"Example inputs and outputs:\n"
+        f"- Input: '잠자기', Output: '지금 잘 시간이야.'\n"
+        f"- Input: '밥 먹기', Output: '지금 밥 먹을 시간이야.'\n"
+        f"- Input: '학원 가기', Output: '지금 학원 갈 시간이야.'\n"
+        f"Please make sure the response is concise and uses the appropriate verb form based on the input."
+    )
+    return prompt
+
+def schedule(message: str, user_id: int, db: Session) -> str:
+    content = schedule_prompt(message, user_id, db)
+
+    response = openai.Completion.create(
+        model="gpt-3.5-turbo-instruct",
+        prompt=content,
+        max_tokens=500,
+        temperature=0.5
+    )
+    return response.choices[0].text.strip()
