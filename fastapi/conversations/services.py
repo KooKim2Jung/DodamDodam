@@ -216,27 +216,37 @@ def add_home_info(user_id: int, info: str, db: Session) -> HomeInfo:
     return home_info
 
 # Pinecone에서 MySQL의 user_id를 기반으로 집 정보를 가져오는 함수
-def get_home_info(user_id: int, db: Session) -> dict:
-    # MySQL에서 벡터 ID를 가져옴
-    home_info = db.query(HomeInfo).filter(HomeInfo.user_id == user_id).first()
-    if not home_info:
-        return None
+def get_home_info(user_id: int, db: Session) -> list:
+    # MySQL에서 user_id에 해당하는 모든 집 정보를 가져옴
+    home_infos = db.query(HomeInfo).filter(HomeInfo.user_id == user_id).all()
+    if not home_infos:
+        return []
 
-    vector_id = home_info.pinecone_vector_id
+    home_info_list = []
 
-    # Pinecone에서 user_id를 기반으로 벡터 검색
-    query_vector = vectorize_message(home_info.info)
-    result = pinecone_index.query(
-        vector=query_vector.tolist(),
-        top_k=1,
-        include_metadata=True,
-        filter={"user_id": user_id}  # user_id 필터 적용
-    )
+    for home_info in home_infos:
+        # Pinecone에서 각 집 정보에 대해 벡터 검색
+        query_vector = vectorize_message(home_info.info)
+        result = pinecone_index.query(
+            vector=query_vector.tolist(),
+            top_k=1,
+            include_metadata=True,
+            filter={"user_id": user_id}  # user_id 필터 적용
+        )
 
-    if result['matches']:
-        return {"info": result['matches'][0]['metadata']['info']}
-    else:
-        return {"info": "No matching home info found for the user."}
+        if result['matches']:
+            home_info_list.append({
+                "info": result['matches'][0]['metadata']['info'],
+                "user_id": user_id  # user_id 추가
+            })
+        else:
+            home_info_list.append({
+                "info": "No matching home info found for the user.",
+                "user_id": user_id  # user_id 추가
+            })
+
+    return home_info_list
+
 
 # Pinecone에서 MySQL의 user_id를 기반으로 집 정보를 수정하는 함수
 def update_home_info(user_id: int, info: str, vector_id: str, db: Session):
