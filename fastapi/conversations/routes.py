@@ -197,9 +197,9 @@ async def add_home_info_route(home_info: HomeInfoRequest, db: Session = Depends(
 async def get_home_info_route(db: Session = Depends(get_db), current_user_id: int = Depends(get_current_user)):
     try:
         # Pinecone 및 MySQL에서 집 정보 검색
-        home_info = get_home_info(user_id=current_user_id, db=db)
-        if home_info:
-            return {"home_info": home_info}
+        home_info_list = get_home_info(user_id=current_user_id, db=db)
+        if home_info_list:
+            return {"home_info_list": home_info_list}
         else:
             return {"message": "No home information found for the current user."}
     except Exception as e:
