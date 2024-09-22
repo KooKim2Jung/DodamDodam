@@ -17,7 +17,8 @@ MYSQL_PORT = os.getenv("MYSQL_PORT")
 MYSQL_DB = os.getenv("MYSQL_DATABASE")
 
 # SQLAlchemy 데이터베이스 URL 설정
-SQLALCHEMY_DATABASE_URL = f"mysql+pymysql://{MYSQL_USER}:{MYSQL_PASSWORD}@{MYSQL_HOST}:{MYSQL_PORT}/{MYSQL_DB}"
+#SQLALCHEMY_DATABASE_URL = f"mysql+pymysql://{MYSQL_USER}:{MYSQL_PASSWORD}@{MYSQL_HOST}:{MYSQL_PORT}/{MYSQL_DB}"
+SQLALCHEMY_DATABASE_URL = "mysql+pymysql://dodam:1234@mysqldb:3306/dodam"
 
 # 엔진 및 세션 설정
 engine = create_engine(SQLALCHEMY_DATABASE_URL)
