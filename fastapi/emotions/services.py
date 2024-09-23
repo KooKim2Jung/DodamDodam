@@ -24,7 +24,7 @@ def classify_emotion(user_message: str, message_id: int, db: Session) -> str:
     )
 
     # 환경 변수에서 URL을 가져옴
-    api_url = os.environ.get("REMOTE_API_URL")
+    api_url = "https://briefly-hip-eft.ngrok-free.app/chat/"
     chain = RemoteRunnable(api_url)
 
     # 프롬프트를 HumanMessage에 전달
