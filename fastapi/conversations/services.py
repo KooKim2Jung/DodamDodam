@@ -237,12 +237,14 @@ def get_home_info(user_id: int, db: Session) -> list:
         if result['matches']:
             home_info_list.append({
                 "info": result['matches'][0]['metadata']['info'],
-                "user_id": user_id  # user_id 추가
+                "user_id": user_id,  # user_id 추가
+                "vector_id": home_info.pinecone_vector_id  # pinecone_vector_id 추가
             })
         else:
             home_info_list.append({
                 "info": "No matching home info found for the user.",
-                "user_id": user_id  # user_id 추가
+                "user_id": user_id,  # user_id 추가
+                "vector_id": home_info.pinecone_vector_id  # pinecone_vector_id 추가
             })
 
     return home_info_list
