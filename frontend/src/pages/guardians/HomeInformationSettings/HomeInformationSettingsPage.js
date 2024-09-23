@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import { FiTrash2, FiEdit2 } from "react-icons/fi";
 import HomeInformationForm from '../../../components/guardians/HomeInformationSettings/HomeInformationModal/HomeInformationForm';
 import api from '../../../Service/Api';
+import Spinner from '../../../components/Spinner/Spinner';
 import { AppContext } from '../../../AppProvider';
 
 const HomeInformationSettingsPage = () => {
@@ -10,6 +11,7 @@ const HomeInformationSettingsPage = () => {
     const [isEditing, setIsEditing] = useState(false);
     const [currentItem, setCurrentItem] = useState(null);
     const [currentItemIndex, setCurrentItemIndex] = useState(null);
+    const [isLoading, setIsLoading] = useState(false);
 
     const [error, setError] = useState('');
     const [info, setInfo] = useState({
@@ -43,35 +45,36 @@ const HomeInformationSettingsPage = () => {
     };
 
     const getHomeInformation = async () => {
-        const response = await api.get('/v1/home/info');
-        if (response.data.message) {
-            console.log(response.data.message);
-        }
         try {
-            if (response.data && Array.isArray(response.data.home_info)) {
-                response.data.home_info.forEach(({ info, vector_id }) => {
-                  setInfo(preInfo => ({
-                    ...preInfo,
-                    data: info || '',
-                    vectorId: vector_id || ''
-                  }));
-                  addItem({
-                    data: info,
-                    vectorId: vector_id
-                  })
-                })
-            } setInfo({ data: '', vector_id: '' })
+            setIsLoading(true);
+            setError('');
+            setInfo({ data: '', vectorId: '' });
+    
+            const response = await api.get('/v1/home/info');
+            
+            if (response.data && Array.isArray(response.data.home_info_list)) {
+                if (response.data.home_info_list.length > 0) {
+                    response.data.home_info_list.forEach(({ info, vector_id }) => {
+                        addItem({
+                            data: info || '',
+                            vectorId: vector_id || '' 
+                        });
+                    });
+                }
+            } else {
+                setError('아직 집 정보가 존재하지 않아요.');
+            }
         } catch (error) {
             console.log(error);
-            setError('아직 집 정보가 존재하지 않습니다.');
+            setError('집 정보를 불러오는 중 오류가 발생했어요.');
+        } finally {
+            setIsLoading(false);
         }
-    }
+    };
 
     const deleteHomeInformation = async (index, vector_id) => {
         try {
-            const response = await api.delete(`/v1/home/info/${vector_id}`, {
-                vector_id: items[index].vectorId
-            })
+            const response = await api.delete(`/v1/home/info/${vector_id}`)
             if (response.data) {
                 deleteItem(index);
                 console.log(response.data.message);
@@ -92,33 +95,46 @@ const HomeInformationSettingsPage = () => {
                 <div className='flex flex-col m-5'>
                     <div className='bg-primary rounded-[60px] shadow-[6px_4px_10px_#a5996e] p-[3vh] h-[63vh] md:h-[59vh] min-h-[300px]'>
                         <div className='overflow-y-auto h-[57vh] md:h-[54vh] overflow-x-hidden'>
-                            <div className='text-2xl w-full my-3 text-gray-400'>{error}</div>
                             {isHelpOpen ? (<>
-                                {helpStep === 1 ? (
+                                {helpStep === 1 && (
                                     <div className='z-[10] relative items-center flex justify-center border-transparent bg-white shadow-[2px_4px_1px_#a5996e] rounded-[50px] m-5'>
                                         <div>{testHomeSettings.information}</div>
                                         <button className='p-2 text-2xl rounded-[50px] border-2 mx-2 my-2 border-black hover:scale-110'><FiEdit2 /></button>
                                         <button className='p-2 text-2xl rounded-[50px] border-2 border-black hover:scale-110'><FiTrash2 /></button>
                                     </div>
-                                ) : null}
-                            </>) : (<>
-                            {items.map((item, index) => (
-                            <>{isEditing && currentItemIndex === index ? (
-                                <HomeInformationForm
-                                    currentItem={currentItem}
-                                    saveItem={(newItem) => editItem(index, newItem)}
-                                    isEditing={isEditing}
-                                    items={items}
-                                    index={index}
-                                />) : (
-                                <div className='items-center flex justify-center border-transparent bg-white shadow-[2px_4px_1px_#a5996e] rounded-[50px] m-5' 
-                                key={index}>
-                                    {item.data}
-                                    <button onClick={() => handleEdit(index)} className='p-2 text-2xl rounded-[50px] border-2 mx-2 my-2 border-black hover:scale-110'><FiEdit2 /></button>
-                                    <button onClick={() => deleteHomeInformation(index, items[index].vectorId)} className='p-2 text-2xl rounded-[50px] border-2 border-black hover:scale-110'><FiTrash2 /></button>
-                                </div>
-                            )}</>
-                            ))}</>)}
+                                )}
+                                </>) : (<>
+                                        {isLoading ? (
+                                            <div className='flex justify-center mt-20'><Spinner /></div>
+                                        ) : (<>
+                                            {items.length === 0 && error ? (
+                                                <div className='mt-20'>
+                                                    <div className='flex justify-center mb-2'><img className='h-[120px] w-[105px]' src='./images/dodam_nodata.png'/></div>
+                                                    <div className="text-center text-2xl text-gray-400">{error}</div>
+                                                </div>
+                                            ) : (<>
+                                                {items.map((item, index) => (
+                                                    <div key={index}>
+                                                        {isEditing && currentItemIndex === index ? (
+                                                            <HomeInformationForm
+                                                                currentItem={currentItem}
+                                                                saveItem={(newItem) => editItem(index, newItem)}
+                                                                isEditing={isEditing}
+                                                                items={items}
+                                                                index={index}
+                                                            />
+                                                        ) : (
+                                                            <div className='items-center flex justify-center border-transparent bg-white shadow-[2px_4px_1px_#a5996e] rounded-[50px] m-5'>
+                                                                {item.data}
+                                                                <button onClick={() => handleEdit(index)} className='p-2 text-2xl rounded-[50px] border-2 mx-2 my-2 border-black hover:scale-110'><FiEdit2 /></button>
+                                                                <button onClick={() => deleteHomeInformation(index, item.vectorId)} className='p-2 text-2xl rounded-[50px] border-2 border-black hover:scale-110'><FiTrash2 /></button>
+                                                            </div>
+                                                        )}
+                                                    </div>
+                                                ))}
+                                            </>)}
+                                    </>)}
+                            </>)}
                         </div>
                     </div>
                     <div className='absolute bottom-3 md:left-[250px] right-1 left-0'>
