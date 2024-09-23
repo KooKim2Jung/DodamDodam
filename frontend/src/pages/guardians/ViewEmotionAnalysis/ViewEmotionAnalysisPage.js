@@ -99,7 +99,7 @@ const ViewEmotionAnalysisPage = () => {
                         {isSelected && emotionAnalysis ? (
                             <div className='z-50 px-5 pb-5'>
                                 <EmotionAnalysisGraph emotionAnalysis={emotionAnalysis} />
-                                <EmotionAnalysisBoard emotionAnalysis={emotionAnalysis} date={date} />
+                                {/* <EmotionAnalysisBoard emotionAnalysis={emotionAnalysis} date={date} /> */}
                             </div>
                         ) : (<>
                             <div className='flex justify-center mb-2'><img className='h-[120px] w-[105px]' src='./images/dodam_nodata.png'/></div>

@@ -25,9 +25,9 @@ const EmotionAnalysisBoard = ({ emotionAnalysis, testEmotionAnalysis, date }) =>
 
         return (
             <div className='flex justify-center items-center relative z-40'>
-                <div className='bg-white border-2 border-black w-full px-4 py-4 rounded-[15px] text-2xl text-left'>
+                {/* <div className='bg-white border-2 border-black w-full px-4 py-4 rounded-[15px] text-2xl text-left'>
                 <p>{newDate}</p><p>전체적인 감정 분석:</p>{total}
-                </div>
+                </div> */}
             </div>
         );
     }
