@@ -39,7 +39,8 @@ const WardSettingsPage = () => {
         formData.append('gender', wardInfo.gender);
         formData.append('age', wardInfo.age);
         formData.append('remark', wardInfo.remark);
-        setIsWardSet(true)
+        setIsWardSet(true);
+        sessionStorage.setItem('isWardSet', 'true');
         try {
             const response = await api.post('/v1/profile', formData);
             alert(response.data);
