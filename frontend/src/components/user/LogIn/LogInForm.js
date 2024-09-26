@@ -1,31 +1,36 @@
 import React from 'react';
+import { useForm } from 'react-hook-form';
 
-const LogInForm = ({ user, setUser }) => {
-    const submitUser = (e) => {
-        const { name, value } = e.target;
-        setUser(user => ({
-            ...user,
-            [name]: value
-        }))
-    }
+const LogInForm = ({ onSubmit, errorMessage }) => {
+    const { register, handleSubmit, formState: { isSubmitting, errors } } = useForm();
 
     return (
-        <div>
+        <form onSubmit={handleSubmit(onSubmit)}>
             <input className='input-box'
                 type="text"
                 name='email'
-                value={user.email}
                 placeholder='이메일'
-                onChange={submitUser}
+                {...register('email', {
+                    required: '이메일을 입력해 주세요.',
+                })}
             />
+            {errors.email && <div className='mb-2'>{errors.email.message}</div>}
             <input className='input-box'
                 type="password"
                 name='password'
-                value={user.password}
                 placeholder='비밀번호'
-                onChange={submitUser}
+                {...register('password', {
+                    required: '비밀번호를 입력해 주세요',
+                })}
             />
-        </div>
+            {errors.password && <div className='mb-2'>{errors.password.message}</div>}
+            {errorMessage && (
+                <div className="mb-2">
+                    {errorMessage}
+                </div>
+            )}
+            <button className='btn' type='submit' disabled={isSubmitting} >로그인하기</button>
+        </form>
     );
 };
 
