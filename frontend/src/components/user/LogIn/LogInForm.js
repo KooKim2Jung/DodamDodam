@@ -1,18 +1,18 @@
-import React, { useState } from 'react';
+import React, { useContext } from 'react';
 import { useForm } from 'react-hook-form';
-import { FiAlertCircle } from "react-icons/fi";
+import { FiAlertCircle, FiCheck } from "react-icons/fi";
+import { AppContext } from '../../../AppProvider';
 
 const LogInForm = ({ onSubmit, errorMessage }) => {
-    const { register, handleSubmit, formState: { isSubmitting, errors } } = useForm();
-    const [emailFocus, setEmailFocus] = useState(false);
-    const [passwordFocus, setPasswordFocus] = useState(false);
+    const { emailFocus, passwordFocus, setEmailFocus, setPasswordFocus } = useContext(AppContext);
+    const { register, handleSubmit, formState: { isSubmitting, isSubmitted, errors } } = useForm();
 
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
             <div className='relative flex items-center justify-end mb-3'>
                 <input
                     className={`bg-secondary rounded-[50px] py-[8px] pl-4 pr-12 w-[365px] border-2 text-middle-size focus:outline-none transition-colors duration-300 ease-in-out
-                    ${errors.email ? (emailFocus ? 'border-red-500' : 'border-red-300') : (emailFocus ? 'border-white' : 'border-secondary')}`}
+                    ${isSubmitted ? (errors.email ? (emailFocus ? 'border-red-500' : 'border-red-300') : (emailFocus ? 'border-blue-500' : 'border-blue-300')) : (emailFocus ? 'border-white' : 'border-secondary')}`}
                     type="text"
                     name='email'
                     placeholder='이메일'
@@ -26,32 +26,30 @@ const LogInForm = ({ onSubmit, errorMessage }) => {
                     onFocus={() => setEmailFocus(true)}
                     onBlur={() => setEmailFocus(false)}
                 />
-                {errors.email && <FiAlertCircle color='red' className='absolute right-4' />}
+                {isSubmitted ? (errors.email ? <FiAlertCircle color='red' className='absolute right-4' /> : <FiCheck color='blue' className='absolute right-4'/>)
+                : null}
             </div>
             {errors.email && <div className='text-red-500 text-xl'>{errors.email.message}</div>}
 
             <div className='relative flex items-center justify-center my-3'>
                 <input
                     className={`bg-secondary rounded-[50px] py-[8px] pl-4 pr-12 w-[365px] border-2 text-middle-size focus:outline-none transition-colors duration-300 ease-in-out
-                    ${errors.password ? (passwordFocus ? 'border-red-500' : 'border-red-300') : (passwordFocus ? 'border-white' : 'border-secondary')}`}
+                    ${isSubmitted ? (errors.password ? (passwordFocus ? 'border-red-500' : 'border-red-300') : (passwordFocus ? 'border-blue-500' : 'border-blue-300')) : (passwordFocus ? 'border-white' : 'border-secondary')}`}
                     type="password"
                     name='password'
                     placeholder='비밀번호'
                     {...register('password', {
                         required: '비밀번호를 입력해 주세요',
-                        minLength: {
-                            value: 8,
-                            message: "비밀번호는 8자 이상이어야 합니다."
-                        },
-                        maxLength: {
-                            value: 16,
-                            message: "비밀번호는 16자 이하여야 합니다."
+                        pattern: {
+                            value: /^.{8,16}$/,
+                            message: '비밀번호는 8자 이상 16자 이하여야 합니다.'
                         }
                     })}
                     onFocus={() => setPasswordFocus(true)}
                     onBlur={() => setPasswordFocus(false)}
                 />
-                {errors.password && <FiAlertCircle color='red' className='absolute right-4' />}
+                {isSubmitted ? (errors.password ? <FiAlertCircle color='red' className='absolute right-4' /> : <FiCheck color='blue' className='absolute right-4'/>)
+                : null}
             </div>
             {errors.password && <div className='text-red-500 text-xl'>{errors.password.message}</div>}
 
