@@ -32,6 +32,20 @@ services:
       - ./frontend:/frontend
       - /frontend/node_modules
 
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    restart: always
+    depends_on:
+      - fastapi
+      - react
+    ports:
+      - 80:80
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./frontend/build:/var/www/frontend
+
   mysqldb:
     image: mysql:latest
     env_file:
