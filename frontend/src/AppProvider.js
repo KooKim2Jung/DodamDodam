@@ -17,6 +17,9 @@ const AppProvider = ({ children }) => {
   const [SSEVoiceUrl, setSSEVoiceUrl] = useState('');
   const [eventSource, setEventSource] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [emailFocus, setEmailFocus] = useState(false);
+  const [passwordFocus, setPasswordFocus] = useState(false);
+  const [phoneNumberFocus, setPhoneNumberFocus] = useState(false);
 
   useEffect(() => {
     const storedLoggedInState = sessionStorage.getItem('isLoggedIn') === 'true';
@@ -101,7 +104,10 @@ const AppProvider = ({ children }) => {
         isEmojiSelected, setIsEmojiSelected,
         SSEVoiceUrl, setSSEVoiceUrl,
         getSSE,
-        isLoading, setIsLoading
+        isLoading, setIsLoading,
+        emailFocus, setEmailFocus,
+        passwordFocus, setPasswordFocus,
+        phoneNumberFocus, setPhoneNumberFocus,
       }}
     >
       { isLoading ? <Spinner/> : children}

@@ -29,6 +29,12 @@ body {
   border-radius: 6px;
 }
 
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
 .input-box {
   @apply bg-secondary rounded-[50px] py-[8px] px-[20px] w-[365px] mb-[10px] border-secondary border-2
   focus:outline-none focus:border-2 focus:border-white  text-middle-size;
