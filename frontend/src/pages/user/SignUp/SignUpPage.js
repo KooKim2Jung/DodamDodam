@@ -7,32 +7,24 @@ const SignUpPage = () => {
     const navigate = useNavigate();
     const [errorMessage, setErrorMessage] = useState('')    
 
-    const resetForm = () => {
-        setErrorMessage('');
-    }
-
     const handleLogIn = () => {
         navigate('/LogInPage');
     }
 
-    // const submitSignUp  = async (event) => {
-    //     event.preventDefault();
-    //     if (validateForm()) {
-    //         try {
-    //             const response = await api.post('/v1/auth/join', {
-    //                 email: welcomeUser.email,
-    //                 password: welcomeUser.password,
-    //                 phone_number: welcomeUser.phoneNumber
-    //             });
-    //             alert(response.data.message);
-    //             handleLogIn();
-    //         } catch (signUpError) {
-    //             console.log("회원가입 요청 오류", signUpError);
-    //             const message = signUpError.response.data.detail;
-    //             setErrorMessage(message);
-    //         }
-    //     }
-    // };
+    const submitSignUp  = async (data) => {
+        try {
+            const response = await api.post('/v1/auth/join', {
+                email: data.email,
+                password: data.password,
+                phone_number: data.phoneNumber
+            });
+            alert(response.data.message);
+            handleLogIn();
+        } catch (error) {
+            console.log("회원가입 요청 오류", error);;
+            setErrorMessage(error.response.data.detail);
+        }
+    };
 
     return (
         <div className='relative flex justify-center items-center mt-[120px] mb-[25px] 
@@ -40,8 +32,7 @@ const SignUpPage = () => {
             <img src='/images/dodam_signup.png' className='w-[440px] h-[600px]'/>
             <div className='absolute mt-40 w-[360px] z-10'>
                 <h1 className='text-basic-size'>회원가입</h1>
-                <SignUpForm />
-                <button className='btn -mt-4' type='submit'>가입하기</button>
+                <SignUpForm onSubmit={submitSignUp} errorMessage={errorMessage}/>
             </div>
         </div>
     );
