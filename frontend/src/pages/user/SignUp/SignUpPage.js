@@ -29,7 +29,7 @@ const SignUpPage = () => {
     return (
         <div className='relative flex justify-center items-center mt-[120px] mb-[25px] 
         w-[560px] h-[680px] rounded-[50px] shadow-[6px_4px_10px_#a5996e]'>
-            <img src='/images/dodam_signup.png' className='w-[440px] h-[600px]'/>
+            <img src='/images/dodam_signup.png' className='w-[440px] h-[640px]'/>
             <div className='absolute mt-40 w-[360px] z-10'>
                 <h1 className='text-basic-size'>회원가입</h1>
                 <SignUpForm onSubmit={submitSignUp} errorMessage={errorMessage}/>
