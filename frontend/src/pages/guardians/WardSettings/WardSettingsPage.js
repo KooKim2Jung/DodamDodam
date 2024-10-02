@@ -8,11 +8,12 @@ const WardSettingsPage = () => {
     const { isEdit, setIsEdit, isWardSet, setIsWardSet, isHelpOpen, helpStep } = useContext(AppContext);
 
     const [photo, setPhoto] = useState('https://dodambuket.s3.ap-northeast-2.amazonaws.com/%ED%94%84%EB%A1%9C%ED%95%84%EA%B8%B0%EB%B3%B8%EC%9D%B4%EB%AF%B8%EC%A7%80.png')
-    const { register, handleSubmit, trigger, setValue } = useForm();
+    const { register, handleSubmit, trigger, setValue, watch, formState: { errors, isSubmitting } } = useForm({ mode: 'onChange' });
 
-    const [initialWardInfo, setInitialWardInfo] = useState({});
     const [photoUpdated, setPhotoUpdated] = useState(false); // 사용자의 사진 업데이트 여부
     const [previewUrl, setPreviewUrl] = useState(photo); // 미리보기 URL 상태
+
+    const [btn, setBtn] = useState('');
 
     const testInfo = { 
         testPhoto: 'https://dodambuket.s3.ap-northeast-2.amazonaws.com/%ED%94%84%EB%A1%9C%ED%95%84%EA%B8%B0%EB%B3%B8%EC%9D%B4%EB%AF%B8%EC%A7%80.png',
@@ -40,8 +41,8 @@ const WardSettingsPage = () => {
             const response = await api.post('/v1/profile', formData);
             alert(response.data);
             try {
-                const dodamVoiceResponse = await api.post('/v1/setting');
-                alert(dodamVoiceResponse.data);
+                const response = await api.post('/v1/setting');
+                alert(response.data);
                 setIsEdit(false);
             } catch (error) {
                 console.error('도담이 정보 생성 요청 오류', error);
@@ -62,13 +63,15 @@ const WardSettingsPage = () => {
                 setPhoto(response.data.photo);
                 setPhotoUpdated(false); 
                 setPreviewUrl(response.data.photo);
-                setInitialWardInfo(response.data);
                 setValue('last_name', response.data.last_name);
                 setValue('name', response.data.name);
                 setValue('gender', response.data.gender);
                 setValue('age', response.data.age);
                 setValue('photo', response.data.photo);
                 setValue('remark', response.data.remark);
+
+                trigger();
+                trigger('gender');
             }
             else {
                 console.log('피보호자 정보가 없습니다.')
@@ -79,40 +82,31 @@ const WardSettingsPage = () => {
     };
 
     // 피보호자 정보 수정
-    // const editWardSetting = async () => {
-    //     const formData = new FormData();
-        
-    //     if (photoUpdated && wardInfo.photo !== initialWardInfo.photo) {
-    //         formData.append('photo', wardInfo.photo);
-    //     }
-    //     else if (wardInfo.last_name !== initialWardInfo.last_name) {
-    //         formData.append('last_name', wardInfo.last_name);
-    //     }
-    //     else if (wardInfo.name !== initialWardInfo.name) {
-    //         formData.append('name', wardInfo.name);
-    //     }
-    //     else if (wardInfo.gender !== initialWardInfo.gender) {
-    //         formData.append('gender', wardInfo.gender);
-    //     }
-    //     else if (wardInfo.age !== initialWardInfo.age) {
-    //         formData.append('age', wardInfo.age);
-    //     }
-    //     else if (wardInfo.remark !== initialWardInfo.remark) {
-    //         formData.append('remark', wardInfo.remark);
-    //     }
-    //     else {
-    //         alert('수정된 부분이 없습니다.');
-    //         return;
-    //     }
-    //     try {
-    //         const response = await api.patch('/v1/profile', formData);
-    //         alert(response.data);
-    //     } catch (error) {
-    //         console.error('피보호자 정보 수정 요청 오류', error);
-    //         alert('피보호자 정보 수정을 실패하였습니다.');
-    //         setIsEdit(true);
-    //     }
-    // };
+    const editWardSetting = async (data) => {
+        if (btn === '완료') {
+            const formData = new FormData();
+            
+            if (photoUpdated) {
+                formData.append('photo', photo);
+            }
+            formData.append('last_name', data.last_name);
+            formData.append('name', data.name);
+            formData.append('gender', data.gender);
+            formData.append('age', data.age);
+            formData.append('remark', data.remark);
+            try {
+                const response = await api.patch('/v1/profile', formData);
+                alert(response.data);
+                setIsEdit(false);
+            } catch (error) {
+                console.error('피보호자 정보 수정 요청 오류', error);
+                alert('피보호자 정보 수정을 실패하였습니다.');
+                setIsEdit(true);
+            }
+        } else {
+            setIsEdit(true);
+        }
+    };
 
     useEffect(() => {
         if (!isWardSet) {
@@ -121,12 +115,13 @@ const WardSettingsPage = () => {
         getWardSetting();
     }, []);
 
-    const onSubmit = () => {
+    const onSubmit = (data) => {
         if (!isWardSet) {
-            generateWardSetting();
+            generateWardSetting(data);
         }
         else {
-            getWardSetting();
+            setIsEdit(true);
+            editWardSetting(data);
         }
     };
 
@@ -134,7 +129,7 @@ const WardSettingsPage = () => {
         <div className='flex flex-col h-screen w-screen md:pl-[240px]'>
             <div className='pt-20 md:pt-28 z-40'>
                 <h2 className='text-3xl text-left pl-8'>피보호자 설정</h2>
-                <WardSettingsForm onSubmit={onSubmit} isEdit={isEdit} photo={photo} setPhoto={setPhoto} register={register} handleSubmit={handleSubmit} trigger={trigger}/>
+                <WardSettingsForm onSubmit={onSubmit} photo={photo} setPhoto={setPhoto} register={register} handleSubmit={handleSubmit} trigger={trigger} errors={errors} isSubmitting={isSubmitting} watch={watch} btn={btn} setBtn={setBtn}/>
                 {/* {isHelpOpen ? (<>
                     {helpStep === 0 ? (
                         <WardSettingsForm 

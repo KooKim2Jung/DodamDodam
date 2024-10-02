@@ -1,15 +1,17 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { FiCamera } from "react-icons/fi";
 import { AppContext } from '../../../AppProvider';
-import { useForm } from 'react-hook-form';
 
-const WardSettingsForm = ({ isEdit, setPhotoUpdated, previewUrl, setPreviewUrl, onSubmit, photo, setPhoto, register, handleSubmit, trigger }) => {
-    const { isHelpOpen, helpStep } = useContext(AppContext);
-    const { formState: { errors, isSubmitting } } = useForm({ mode: 'onChange' });
+const WardSettingsForm = ({ setPhotoUpdated, previewUrl, setPreviewUrl, onSubmit, photo, setPhoto, register, handleSubmit, trigger, errors, isSubmitting, watch, btn, setBtn }) => {
+    const { isEdit, isHelpOpen, helpStep } = useContext(AppContext);
 
     useEffect(() => {
         trigger()
     }, [trigger]);
+
+    useEffect(() => {
+        setBtn(isEdit ? '완료' : '수정');
+    }, [isEdit]);
 
     const photoUpdate = (e) => {
         if (e.target.files[0]) {
@@ -55,7 +57,7 @@ const WardSettingsForm = ({ isEdit, setPhotoUpdated, previewUrl, setPreviewUrl, 
                                 type='text'
                                 name='last_name'
                                 id='last_name'
-                                readOnly={isEdit===false}
+                                readOnly={!isEdit}
                                 {...register('last_name', {
                                     required: '필수항목입니다.',
                                     pattern: {
@@ -76,7 +78,7 @@ const WardSettingsForm = ({ isEdit, setPhotoUpdated, previewUrl, setPreviewUrl, 
                                 type='text'
                                 name='name'
                                 id='name'
-                                readOnly={isEdit===false}
+                                readOnly={!isEdit}
                                 {...register('name', {
                                     required: '필수항목입니다.',
                                     pattern: {
@@ -100,10 +102,9 @@ const WardSettingsForm = ({ isEdit, setPhotoUpdated, previewUrl, setPreviewUrl, 
                                     type='radio'
                                     name='gender'
                                     value='여자'
-                                    disabled={isEdit===false}
-                                    {...register('gender', {
-                                        required: '필수항목입니다.'
-                                    })}
+                                    disabled={!isEdit}
+                                    checked={watch('gender') === '여자'}
+                                    {...register('gender')}
                                 />여자
                             </label>
                             <label>
@@ -113,10 +114,9 @@ const WardSettingsForm = ({ isEdit, setPhotoUpdated, previewUrl, setPreviewUrl, 
                                     type='radio' 
                                     name='gender' 
                                     value='남자' 
-                                    disabled={isEdit===false}
-                                    {...register('gender', {
-                                        required: '필수항목입니다.'
-                                    })}
+                                    disabled={!isEdit}
+                                    checked={watch('gender') === '남자'}
+                                    {...register('gender')}
                                 />남자
                             </label>
                         </div>
@@ -132,11 +132,11 @@ const WardSettingsForm = ({ isEdit, setPhotoUpdated, previewUrl, setPreviewUrl, 
                             type='number' 
                             name='age'
                             id='age' 
-                            readOnly={isEdit===false}
+                            readOnly={!isEdit}
                             {...register('age', {
                                 required: '필수항목입니다.',
                                 pattern: {
-                                    value: /^(200|[1-9]?[1-9]|1[1-9]{2})$/,
+                                    value: /^(200|1?[0-9]{1,2})$/,
                                     message: '1과 200사이의 숫자만 입력해야 합니다.'
                                 }
                             })}
@@ -153,7 +153,7 @@ const WardSettingsForm = ({ isEdit, setPhotoUpdated, previewUrl, setPreviewUrl, 
                             type='text' 
                             name='remark'
                             id='remark'
-                            readOnly={isEdit===false}
+                            readOnly={!isEdit}
                             {...register('remark', {
                                 required: '필수항목입니다.'
                             })}
@@ -161,9 +161,9 @@ const WardSettingsForm = ({ isEdit, setPhotoUpdated, previewUrl, setPreviewUrl, 
                     </div>
                 </div>
             </div>
-            <button type='submit' disabled={isSubmitting} className={`input-box2 border-borderColor p-2 w-40 text-3xl hover:scale-110
+            <button type='submit' disabled={isSubmitting} className={`input-box2 border-borderColor p-2 w-40 text-3xl mb-7 hover:scale-110
             ${isEdit || isHelpOpen && helpStep === 0 ? 'border-transparent bg-secondary' : 'border-transparent bg-white shadow-[2px_4px_1px_#a5996e]'}
-            `}>{isEdit ? '완료' : '수정'}</button>
+            `}>{btn}</button>
         </form>
     );
 };
