@@ -29,16 +29,16 @@ const WardSettingsPage = () => {
     }
 
     // 피보호자 정보 생성 & 도담이 정보 생성
-    const generateWardSetting = async () => {
+    const generateWardSetting = async (data) => {
         const formData = new FormData();
         if (photoUpdated) {
-            formData.append('photo', wardInfo.photo); // 파일 객체 추가
+            formData.append('photo', data.photo); // 파일 객체 추가
         }
-        formData.append('last_name', wardInfo.last_name); 
-        formData.append('name', wardInfo.name);
-        formData.append('gender', wardInfo.gender);
-        formData.append('age', wardInfo.age);
-        formData.append('remark', wardInfo.remark);
+        formData.append('last_name', data.last_name); 
+        formData.append('name', data.name);
+        formData.append('gender', data.gender);
+        formData.append('age', data.age);
+        formData.append('remark', data.remark);
         setIsWardSet(true);
         sessionStorage.setItem('isWardSet', 'true');
         try {
@@ -47,6 +47,7 @@ const WardSettingsPage = () => {
             try {
                 const dodamVoiceResponse = await api.post('/v1/setting');
                 alert(dodamVoiceResponse.data);
+                setIsEdit(false);
             } catch (error) {
                 console.error('도담이 정보 생성 요청 오류', error);
                 alert('도담이 정보 생성을 실패하였습니다.');
@@ -122,7 +123,8 @@ const WardSettingsPage = () => {
         <div className='flex flex-col h-screen w-screen md:pl-[240px]'>
             <div className='pt-20 md:pt-28 z-40'>
                 <h2 className='text-3xl text-left pl-8'>피보호자 설정</h2>
-                {isHelpOpen ? (<>
+                <WardSettingsForm onSubmit={generateWardSetting} isEdit={isEdit}/>
+                {/* {isHelpOpen ? (<>
                     {helpStep === 0 ? (
                         <WardSettingsForm 
                             wardInfo={{
@@ -152,7 +154,7 @@ const WardSettingsPage = () => {
                     <WardSettingsForm wardInfo={wardInfo} setWardInfo={setWardInfo} isEdit={isEdit} setIsEdit={setIsEdit} 
                     editWardSetting={editWardSetting} setPhotoUpdated={setPhotoUpdated} previewUrl={previewUrl} setPreviewUrl={setPreviewUrl} 
                     isWardSet={isWardSet} generateWardSetting={generateWardSetting}/>
-                )}
+                )} */}
             </div>
         </div>
     )
