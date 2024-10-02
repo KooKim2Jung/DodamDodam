@@ -3,49 +3,45 @@ import { FiCamera } from "react-icons/fi";
 import { AppContext } from '../../../AppProvider';
 import { useForm } from 'react-hook-form';
 
-const WardSettingsForm = ({ isEdit, setIsEdit, wardInfo, setWardInfo, editWardSetting, 
-    setPhotoUpdated, previewUrl, setPreviewUrl, isWardSet, generateWardSetting, onSubmit }) => {
+const WardSettingsForm = ({ isEdit, setPhotoUpdated, previewUrl, setPreviewUrl, onSubmit, photo, setPhoto, register, handleSubmit, trigger }) => {
     const { isHelpOpen, helpStep } = useContext(AppContext);
-    const { register, handleSubmit, trigger, formState: { errors, isSubmitting } } = useForm({ mode: 'onChange' });
+    const { formState: { errors, isSubmitting } } = useForm({ mode: 'onChange' });
 
     useEffect(() => {
         trigger()
     }, [trigger]);
-    
-    // const photoUpdate = (e) => {
-    //     if (e.target.files[0]) {
-    //         const file = e.target.files[0];
 
-    //         // 미리보기 URL 설정
-    //         const previewURL = URL.createObjectURL(file);
-    //         setPreviewUrl(previewURL);
+    const photoUpdate = (e) => {
+        if (e.target.files[0]) {
+            const file = e.target.files[0];
 
-    //         setWardInfo((prevState) => ({
-    //             ...prevState,
-    //             photo: file,
-    //         }));
-    //         setPhotoUpdated(true);
+            // 미리보기 URL 설정
+            const previewURL = URL.createObjectURL(file);
+            setPreviewUrl(previewURL);
 
-    //         // 기존 URL 객체 해제
-    //         return () => URL.revokeObjectURL(previewURL);
-    //     }
-    // };
+            setPhoto(file);
+            setPhotoUpdated(true);
+
+            // 기존 URL 객체 해제
+            return () => URL.revokeObjectURL(previewURL);
+        }
+    };
 
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
             <div className={`grid grid-cols-1 lg:grid-cols-3 z-40 rounded-[15px] ${isHelpOpen ? 'bg-white' : ''}`}>
-                {/* <div className='lg:col-span-1 flex justify-center items-center lg:-mt-6 py-9 transition-all duration-500 ease-out'>
+                <div className='lg:col-span-1 flex justify-center items-center lg:-mt-6 py-9 transition-all duration-500 ease-out'>
                     <label htmlFor='file'>
                         <div className='flex justify-center items-center'>
                             <img 
                                 className={`w-[220px] h-[235px] ${isEdit ? '' : 'shadow-[3px_5px_1px_#a5996e]'} rounded-[10px]`} 
-                                src={previewUrl || wardInfo.photo} 
+                                src={previewUrl || photo} 
                             />
                             {((isHelpOpen && helpStep === 0) || isEdit && helpStep === 0) && (<FiCamera className='flex absolute' color='rgb(128, 128, 128)' size={45}/>)}
                         </div>
                         {isEdit && (<input className='hidden' id='file' type='file' name='image' onChange={photoUpdate} />)}
                     </label>
-                </div> */}
+                </div>
                 <div className='col-span-2 text-3xl px-10 lg:px-0 lg:pr-10'>
                     <div className='grid grid-cols-1 lg:grid-cols-2 mb-7'>
                         <div className='flex flex-col w-full mr-5 mb-7 lg:mb-0'>
@@ -165,7 +161,7 @@ const WardSettingsForm = ({ isEdit, setIsEdit, wardInfo, setWardInfo, editWardSe
                     </div>
                 </div>
             </div>
-            <button type='submit' className={`input-box2 border-borderColor p-2 w-40 text-3xl hover:scale-110
+            <button type='submit' disabled={isSubmitting} className={`input-box2 border-borderColor p-2 w-40 text-3xl hover:scale-110
             ${isEdit || isHelpOpen && helpStep === 0 ? 'border-transparent bg-secondary' : 'border-transparent bg-white shadow-[2px_4px_1px_#a5996e]'}
             `}>{isEdit ? '완료' : '수정'}</button>
         </form>
