@@ -35,9 +35,9 @@ const SchedulePage = () => {
     //     setCurrentItemIndex(null); 
     // };
 
-    // const deleteItem = (index) => {
-    //     setItems(prevItems => prevItems.filter((_, i) => i !== index));
-    // };
+    const deleteItem = (index) => {
+        setItems(prevItems => prevItems.filter((_, i) => i !== index));
+    };
 
     // const handleEdit = (index, id) => {
     //     setCurrentItem(items[index]);
@@ -57,17 +57,17 @@ const SchedulePage = () => {
         }
     }
 
-    // const deleteSchedule = async (index) => {
-    //     try {
-    //         const response = await api.delete(`/v1/schedule/${items[index].id}`)
-    //         if (response.data) {
-    //             deleteItem(index);
-    //             console.log(response.data.detail);
-    //         }
-    //     } catch (error) {
-    //         console.log(error.response.data.detail);
-    //     }
-    // }
+    const deleteSchedule = async (index) => {
+        try {
+            const response = await api.delete(`/v1/schedule/${items[index].id}`)
+            if (response.data) {
+                deleteItem(index);
+                console.log(response.data.detail);
+            }
+        } catch (error) {
+            console.log(error.response.data.detail);
+        }
+    }
 
     const onSubmit = (data) => {
         if (!data.date || !data.time || !data.content) {
@@ -180,7 +180,7 @@ const SchedulePage = () => {
                                 <div className='flex md:col-span-2 items-center justify-center'>
                                     <div>{item.content}</div>
                                     <button  className='p-2 text-2xl rounded-[50px] border-2 mx-2 my-2 border-black hover:scale-110'><FiEdit2 /></button>
-                                    <button className='p-2 text-2xl rounded-[50px] border-2 border-black hover:scale-110'><FiTrash2 /></button>
+                                    <button onClick={() => deleteSchedule(index)} className='p-2 text-2xl rounded-[50px] border-2 border-black hover:scale-110'><FiTrash2 /></button>
                                 </div>
                             </div>
                         }
