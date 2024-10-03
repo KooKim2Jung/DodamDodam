@@ -1,115 +1,45 @@
-import React, { useState, useEffect } from 'react';
-import ScheduleCheck from './ScheduleCheck';
-import api from '../../../Service/Api';
+import React, { useEffect } from 'react';
 
-const ScheduleForm = ({ addItem, item, isEditing, setIsEditing, editItem, setError, items, index }) => {
-
-    const [schedule, setSchedule] = useState({
-        date: '',
-        time: '',
-        repeat: [],
-        content: '',
-    });
-
-    const [scheduleError, setScheduleError] = useState('');
+const ScheduleForm = ({ addItem, item, isEditing, setIsEditing, editItem, items, index, handleSubmit, onSubmit, register, isSubmitting, trigger, errors, repeat, setRepeat }) => {
+    useEffect(() => {
+        trigger();
+    }, [trigger]);
 
     const days = ['월', '화', '수', '목', '금', '토', '일'];
 
-    useEffect(() => {
-        if (isEditing && item) {
-            const [date, time] = item.date.split('T');
-            setSchedule({
-                ...item,
-                date: date,
-                time: time.slice(0, 5),
-            });
-        }
-    }, [isEditing, item]);
-
-    const inputSchedule = (e) => {
-        const { name, value } = e.target;
-        setSchedule(schedule => ({
-            ...schedule,
-            [name]: value
-        }));
-    };
+    // useEffect(() => {
+    //     if (isEditing && item) {
+    //         const [date, time] = item.date.split('T');
+    //         setSchedule({
+    //             ...item,
+    //             date: date,
+    //             time: time.slice(0, 5),
+    //         });
+    //     }
+    // }, [isEditing, item]);
 
     const inputRepeat = (e) => {
         const { value, checked } = e.target;
-        setSchedule(schedule => {
-            if (checked) {
-                const updateRepeat = [...schedule.repeat, value]
-                return { ...schedule, repeat: updateRepeat.sort((a,b) => days.indexOf(a) - days.indexOf(b))};
-            } else {
-                return { ...schedule, repeat: schedule.repeat.filter(day => day !== value) }
-            }
-        });
-    };
-
-    const submitSchedule = async (index) => {
-        if (!scheduleError) {
-            const dateTime = `${schedule.date}T${schedule.time}:00`;
-
-            if (isEditing) {
-                try {
-                    const response = await api.put(`/v1/schedule/${items[index].id}`, {
-                        date: dateTime,
-                        repeat: schedule.repeat,
-                        content: schedule.content,
-                    })
-                    if (response.data) {
-                        editItem(index, response.data);
-                    }
-                    setIsEditing(false);
-                    setSchedule({
-                    date: '',
-                    time: '',
-                    repeat: [],
-                    content: ''
-                });
-                } catch (error) {
-                    console.error(error.response.data.detail);
-                }
-            } else {
-                try {
-                    const response = await api.post('v1/schedule', {
-                        date: dateTime,
-                        repeat: schedule.repeat,
-                        content: schedule.content,
-                    })
-                    if (response.data) {
-                        addItem(response.data);
-                    }
-                    setSchedule({
-                    date: '',
-                    time: '',
-                    repeat: [],
-                    content: ''
-                });
-                } catch (error) {
-                    console.error('스케줄 요청 오류', error);
-                    setError('잠시후에 다시 입력해 주세요.')
-                }
-            }
-        } 
+        if (checked) {
+            setRepeat((prevRepeat) => [...prevRepeat, value].sort((a, b) => days.indexOf(a) - days.indexOf(b)));
+        } else {
+            setRepeat((prevRepeat) => prevRepeat.filter((day) => day !== value));
+        }
     };
 
     return (
-        <div className="w-full px-6 py-2 text-2xl">
+        <form onSubmit={handleSubmit(onSubmit)}>
+            <div className="w-full px-6 py-2 text-2xl">
             <div className='grid grid-cols-1 lg:grid-cols-4 gap-4'>
                 <input
                     className='py-2 px-3 rounded-[50px] bg-secondary border-2 border-transparent focus:border-white outline-none'
                     type="date"
-                    name="date"
-                    value={schedule.date}
-                    onChange={inputSchedule}
+                    {...register('date')}
                 />
                 <input
                     className='py-2 px-3 rounded-[50px] bg-secondary border-2 border-transparent focus:border-white outline-none'
                     type="time"
-                    name="time"
-                    value={schedule.time}
-                    onChange={inputSchedule}
+                    {...register('time')}
                 />
                 <div className='flex justify-center rounded-[50px] bg-secondary border-2 border-transparent md:flex-row items-center md:col-span-2'>
                     {days.map((day) => (
@@ -119,7 +49,7 @@ const ScheduleForm = ({ addItem, item, isEditing, setIsEditing, editItem, setErr
                                 type='checkbox'
                                 name='repeat'
                                 value={day}
-                                checked={schedule.repeat.includes(day)}
+                                checked={repeat.includes(day)}
                                 onChange={inputRepeat}
                             />
                             <span>{day}</span>
@@ -131,25 +61,16 @@ const ScheduleForm = ({ addItem, item, isEditing, setIsEditing, editItem, setErr
                 <input
                     className='flex-grow py-2 px-3 mr-3 rounded-[50px] bg-secondary border-2 border-transparent focus:border-white outline-none'
                     type="text"
-                    name="content"
-                    value={schedule.content}
-                    onChange={inputSchedule}
                     placeholder="내용 입력"
+                    {...register('content')}
                 />
-                <button
-                    onClick={() => submitSchedule(index)}
-                    className='p-2 rounded-[50px] bg-secondary border-2 border-transparent focus:border-white hover:scale-110'
-                >
+                <button type='submit' disabled={isSubmitting} className='p-2 rounded-[50px] bg-secondary border-2 border-transparent focus:border-white hover:scale-110'>
                     {isEditing ? '저장' : '추가'}
                 </button>
             </div>
-            <ScheduleCheck
-                schedule={schedule}
-                setScheduleError={setScheduleError}
-                scheduleError={scheduleError}
-                isEditing={isEditing}
-            />
-        </div>
+            {errors.formError && <div className='text-2xl w-full my-3 text-gray-400'>{errors.formError.message}</div>}
+            </div>
+        </form>
     );
 };
 
