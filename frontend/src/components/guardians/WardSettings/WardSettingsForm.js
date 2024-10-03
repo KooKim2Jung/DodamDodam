@@ -2,12 +2,12 @@ import React, { useContext, useEffect } from 'react';
 import { FiCamera } from "react-icons/fi";
 import { AppContext } from '../../../AppProvider';
 
-const WardSettingsForm = ({ setPhotoUpdated, previewUrl, setPreviewUrl, onSubmit, photo, setPhoto, register, handleSubmit, trigger, errors, isSubmitting, watch, btn, setBtn }) => {
+const WardSettingsForm = ({ setPhotoUpdated, previewUrl, setPreviewUrl, onSubmit, photo, setPhoto, register, handleSubmit, trigger, errors, isSubmitting, btn, setBtn }) => {
     const { isEdit, isHelpOpen, helpStep } = useContext(AppContext);
 
     useEffect(() => {
-        trigger()
-    }, [trigger]);
+        trigger();
+    }, []);
 
     useEffect(() => {
         setBtn(isEdit ? '완료' : '수정');
@@ -55,7 +55,6 @@ const WardSettingsForm = ({ setPhotoUpdated, previewUrl, setPreviewUrl, onSubmit
                                 className={`px-3 py-2 border-2 input-box2 lg:w-4/5
                                 ${isEdit || isHelpOpen && helpStep === 0 ? 'border-transparent bg-secondary' : 'border-transparent bg-white shadow-[2px_4px_1px_#a5996e]'}`}
                                 type='text'
-                                name='last_name'
                                 id='last_name'
                                 readOnly={!isEdit}
                                 {...register('last_name', {
@@ -76,7 +75,6 @@ const WardSettingsForm = ({ setPhotoUpdated, previewUrl, setPreviewUrl, onSubmit
                                 className={`px-3 py-2 border-2 input-box2 lg:w-4/5
                                 ${isEdit || isHelpOpen && helpStep === 0 ? 'border-transparent bg-secondary' : 'border-transparent bg-white shadow-[2px_4px_1px_#a5996e]'}`}
                                 type='text'
-                                name='name'
                                 id='name'
                                 readOnly={!isEdit}
                                 {...register('name', {
@@ -94,17 +92,16 @@ const WardSettingsForm = ({ setPhotoUpdated, previewUrl, setPreviewUrl, onSubmit
                             <div className='p-1'>성별</div>
                             {errors.gender && <div className='text-small-size flex items-center ml-3'>{errors.gender.message}</div>}
                         </div>
-                        <div className='flex items-center justify-between w-3/5 lg:w-2/5'>
+                        <div className={`flex items-center justify-between w-3/5 lg:w-2/5 ${!isEdit ? 'pointer-events-none' : ''}`}>
                             <label>
                                 <input 
                                     className={`radio-box mr-3
                                     ${isEdit || isHelpOpen && helpStep === 0 ? 'checked:bg-secondary border-white shadow-custom1 ' : ' bg-white border-white checked:bg-black shadow-[2px_4px_1px_#a5996e]'}`} 
                                     type='radio'
-                                    name='gender'
                                     value='여자'
-                                    disabled={!isEdit}
-                                    checked={watch('gender') === '여자'}
-                                    {...register('gender')}
+                                    {...register('gender', {
+                                        required: '필수항목입니다.'
+                                    })}
                                 />여자
                             </label>
                             <label>
@@ -112,11 +109,10 @@ const WardSettingsForm = ({ setPhotoUpdated, previewUrl, setPreviewUrl, onSubmit
                                     className={`radio-box mr-3 ml-5
                                     ${isEdit || isHelpOpen && helpStep === 0 ? 'checked:bg-secondary border-white shadow-custom1' : ' bg-white border-white checked:bg-black shadow-[2px_4px_1px_#a5996e]'}`} 
                                     type='radio' 
-                                    name='gender' 
                                     value='남자' 
-                                    disabled={!isEdit}
-                                    checked={watch('gender') === '남자'}
-                                    {...register('gender')}
+                                    {...register('gender', {
+                                        required: '필수항목입니다.'
+                                    })}
                                 />남자
                             </label>
                         </div>
@@ -130,7 +126,6 @@ const WardSettingsForm = ({ setPhotoUpdated, previewUrl, setPreviewUrl, onSubmit
                             className={`px-3 py-2 border-2 input-box2 lg:w-2/5
                             ${isEdit || isHelpOpen && helpStep === 0 ? 'border-transparent bg-secondary' : 'border-transparent bg-white shadow-[2px_4px_1px_#a5996e]'}`} 
                             type='number' 
-                            name='age'
                             id='age' 
                             readOnly={!isEdit}
                             {...register('age', {
@@ -151,7 +146,6 @@ const WardSettingsForm = ({ setPhotoUpdated, previewUrl, setPreviewUrl, onSubmit
                             className={`px-3 py-2 border-2 input-box2 h-[95px] resize-none 
                             ${isEdit || isHelpOpen && helpStep === 0 ? 'border-transparent bg-secondary' : 'border-transparent bg-white shadow-[2px_4px_1px_#a5996e]'}`} 
                             type='text' 
-                            name='remark'
                             id='remark'
                             readOnly={!isEdit}
                             {...register('remark', {

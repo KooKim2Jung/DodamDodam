@@ -8,7 +8,7 @@ const WardSettingsPage = () => {
     const { isEdit, setIsEdit, isWardSet, setIsWardSet, isHelpOpen, helpStep } = useContext(AppContext);
 
     const [photo, setPhoto] = useState('https://dodambuket.s3.ap-northeast-2.amazonaws.com/%ED%94%84%EB%A1%9C%ED%95%84%EA%B8%B0%EB%B3%B8%EC%9D%B4%EB%AF%B8%EC%A7%80.png')
-    const { register, handleSubmit, trigger, setValue, watch, formState: { errors, isSubmitting } } = useForm({ mode: 'onChange' });
+    const { register, handleSubmit, trigger, setValue, formState: { errors, isSubmitting } } = useForm({ mode: 'onChange' });
 
     const [photoUpdated, setPhotoUpdated] = useState(false); // 사용자의 사진 업데이트 여부
     const [previewUrl, setPreviewUrl] = useState(photo); // 미리보기 URL 상태
@@ -70,8 +70,7 @@ const WardSettingsPage = () => {
                 setValue('photo', response.data.photo);
                 setValue('remark', response.data.remark);
 
-                trigger();
-                trigger('gender');
+                trigger('');
             }
             else {
                 console.log('피보호자 정보가 없습니다.')
@@ -129,7 +128,7 @@ const WardSettingsPage = () => {
         <div className='flex flex-col h-screen w-screen md:pl-[240px]'>
             <div className='pt-20 md:pt-28 z-40'>
                 <h2 className='text-3xl text-left pl-8'>피보호자 설정</h2>
-                <WardSettingsForm onSubmit={onSubmit} photo={photo} setPhoto={setPhoto} register={register} handleSubmit={handleSubmit} trigger={trigger} errors={errors} isSubmitting={isSubmitting} watch={watch} btn={btn} setBtn={setBtn}/>
+                <WardSettingsForm setPhotoUpdated={setPhotoUpdated} previewUrl={previewUrl} setPreviewUrl={setPreviewUrl} onSubmit={onSubmit} photo={photo} setPhoto={setPhoto} register={register} handleSubmit={handleSubmit} trigger={trigger} errors={errors} isSubmitting={isSubmitting} btn={btn} setBtn={setBtn}/>
                 {/* {isHelpOpen ? (<>
                     {helpStep === 0 ? (
                         <WardSettingsForm 
