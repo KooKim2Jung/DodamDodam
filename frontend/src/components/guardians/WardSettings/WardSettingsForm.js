@@ -2,7 +2,8 @@ import React, { useContext, useEffect } from 'react';
 import { FiCamera } from "react-icons/fi";
 import { AppContext } from '../../../AppProvider';
 
-const WardSettingsForm = ({ setPhotoUpdated, previewUrl, setPreviewUrl, onSubmit, photo, setPhoto, register, handleSubmit, trigger, errors, isSubmitting, btn, setBtn }) => {
+const WardSettingsForm = ({ setPhotoUpdated, previewUrl, setPreviewUrl, 
+    onSubmit, photo, setPhoto, register, handleSubmit, trigger, errors, isSubmitting, btn, setBtn }) => {
     const { isEdit, isHelpOpen, helpStep } = useContext(AppContext);
 
     useEffect(() => {
@@ -10,8 +11,12 @@ const WardSettingsForm = ({ setPhotoUpdated, previewUrl, setPreviewUrl, onSubmit
     }, []);
 
     useEffect(() => {
-        setBtn(isEdit ? '완료' : '수정');
-    }, [isEdit]);
+        if (isHelpOpen && helpStep === 0) {
+            setBtn('완료');
+        } else {
+            setBtn(isEdit ? '완료' : '수정');
+        }
+    }, [isEdit, isHelpOpen, helpStep]);
 
     const photoUpdate = (e) => {
         if (e.target.files[0]) {
@@ -154,10 +159,12 @@ const WardSettingsForm = ({ setPhotoUpdated, previewUrl, setPreviewUrl, onSubmit
                         />
                     </div>
                 </div>
+                <div className='lg:col-span-3 grid place-items-center'>
+                    <button type='submit' disabled={isSubmitting} className={`input-box2 border-borderColor p-2 w-40 text-3xl mb-7 hover:scale-110
+                    ${isEdit || isHelpOpen && helpStep === 0 ? 'border-transparent bg-secondary' : 'border-transparent bg-white shadow-[2px_4px_1px_#a5996e]'}
+                    `}>{btn}</button>
+                </div>
             </div>
-            <button type='submit' disabled={isSubmitting} className={`input-box2 border-borderColor p-2 w-40 text-3xl mb-7 hover:scale-110
-            ${isEdit || isHelpOpen && helpStep === 0 ? 'border-transparent bg-secondary' : 'border-transparent bg-white shadow-[2px_4px_1px_#a5996e]'}
-            `}>{btn}</button>
         </form>
     );
 };

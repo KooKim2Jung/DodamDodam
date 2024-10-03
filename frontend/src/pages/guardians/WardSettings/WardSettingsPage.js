@@ -108,6 +108,31 @@ const WardSettingsPage = () => {
     };
 
     useEffect(() => {
+        if (isHelpOpen) {
+            if (helpStep === 0) {
+                setValue('last_name', '');
+                setValue('name', '');
+                setValue('gender', '');
+                setValue('age', '');
+                setValue('remark', '');
+
+                trigger();
+            }
+            if (helpStep === 1) {
+                setValue('last_name', testInfo.testLastName);
+                setValue('name', testInfo.testName);
+                setValue('gender', testInfo.testGender);
+                setValue('age', testInfo.testAge);
+                setValue('remark', testInfo.testRemark);
+
+                trigger();
+            }
+        } else {
+            getWardSetting();
+        }
+    }, [isHelpOpen, helpStep]);
+
+    useEffect(() => {
         if (!isWardSet) {
             setIsEdit(true);
         }
@@ -128,36 +153,30 @@ const WardSettingsPage = () => {
         <div className='flex flex-col h-screen w-screen md:pl-[240px]'>
             <div className='pt-20 md:pt-28 z-40'>
                 <h2 className='text-3xl text-left pl-8'>피보호자 설정</h2>
-                <WardSettingsForm setPhotoUpdated={setPhotoUpdated} previewUrl={previewUrl} setPreviewUrl={setPreviewUrl} onSubmit={onSubmit} photo={photo} setPhoto={setPhoto} register={register} handleSubmit={handleSubmit} trigger={trigger} errors={errors} isSubmitting={isSubmitting} btn={btn} setBtn={setBtn}/>
-                {/* {isHelpOpen ? (<>
+                {isHelpOpen ? (<>
                     {helpStep === 0 ? (
                         <WardSettingsForm 
-                            wardInfo={{
-                                photo: testInfo.testPhoto,
-                                name: '',
-                                gender: '',
-                                age: '',
-                                remark: '',
-                                last_name: '',}} 
-                            setWardInfo={setWardInfo} isEdit={isEdit} setIsEdit={setIsEdit} 
                             setPhotoUpdated={setPhotoUpdated} previewUrl={testInfo.testPhoto} setPreviewUrl={setPreviewUrl} 
-                            isWardSet={isWardSet} />
+                            onSubmit={onSubmit} register={register} 
+                            handleSubmit={handleSubmit} trigger={trigger} errors={errors} isSubmitting={isSubmitting} 
+                            btn={btn} setBtn={setBtn}
+                        />
                     ) : (
                         <WardSettingsForm 
-                            wardInfo={{
-                                photo: testInfo.testPhoto,
-                                name: testInfo.testName,
-                                gender: testInfo.testGender,
-                                age: testInfo.testAge,
-                                remark: testInfo.testRemark,
-                                last_name: testInfo.testLastName,}}
-                            setWardInfo={setWardInfo} isEdit={isEdit} setIsEdit={setIsEdit} 
-                            editWardSetting={editWardSetting} setPhotoUpdated={setPhotoUpdated} previewUrl={testInfo.testPhoto} setPreviewUrl={setPreviewUrl} 
-                            isWardSet={isWardSet} />
+                            setPhotoUpdated={setPhotoUpdated} previewUrl={testInfo.testPhoto} setPreviewUrl={setPreviewUrl}
+                            onSubmit={onSubmit} register={register} 
+                            handleSubmit={handleSubmit} trigger={trigger} errors={errors} isSubmitting={isSubmitting} 
+                            btn={btn} setBtn={setBtn}
+                        />
                     )}
                 </>) : (
-                    <WardSettingsForm isEdit={isEdit} setPhotoUpdated={setPhotoUpdated} previewUrl={previewUrl} setPreviewUrl={setPreviewUrl} />
-                )} */}
+                    <WardSettingsForm 
+                        setPhotoUpdated={setPhotoUpdated} previewUrl={previewUrl} setPreviewUrl={setPreviewUrl}
+                        onSubmit={onSubmit} photo={photo} setPhoto={setPhoto} register={register} 
+                        handleSubmit={handleSubmit} trigger={trigger} errors={errors} isSubmitting={isSubmitting} 
+                        btn={btn} setBtn={setBtn}
+                    />
+                )}
             </div>
         </div>
     )
