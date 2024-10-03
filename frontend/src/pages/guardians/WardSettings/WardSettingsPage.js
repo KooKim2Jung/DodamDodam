@@ -28,7 +28,7 @@ const WardSettingsPage = () => {
     const generateWardSetting = async (data) => {
         const formData = new FormData();
         if (photoUpdated) {
-            formData.append('photo', data.photo); // 파일 객체 추가
+            formData.append('photo', photo); // 파일 객체 추가
         }
         formData.append('last_name', data.last_name); 
         formData.append('name', data.name);
