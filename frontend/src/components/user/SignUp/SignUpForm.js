@@ -18,10 +18,10 @@ const SignUpForm = ({ onSubmit, errorMessage }) => {
                     placeholder='이메일'
                     {...register('email', {
                         required: '이메일은 필수항목입니다.',
-                        pattern: {
-                            value: /\S+@\S+\.\S+/,
-                            message: "유효한 이메일 형식이어야 합니다."
-                        }
+                        // pattern: {
+                        //     value: /\S+@\S+\.\S+/,
+                        //     message: "유효한 이메일 형식이어야 합니다."
+                        // }
                     })}
                     onFocus={() => setEmailFocus(true)}
                     onBlur={() => setEmailFocus(false)}
@@ -39,10 +39,10 @@ const SignUpForm = ({ onSubmit, errorMessage }) => {
                     placeholder='비밀번호(8~16자 영문자, 특수문자 포함)'
                     {...register('password', {
                         required: '비밀번호는 필수항목입니다.',
-                        pattern: {
-                            value: /^(?=.*[A-Za-z])(?=.*[!@#$%^&*(),.?":{}|<>]).{8,16}$/,
-                            message: '비밀번호는 8~16자 사이이며, 최소 한 개의 영문자와 특수문자를 포함해야 합니다.'
-                        }                    
+                        // pattern: {
+                        //     value: /^(?=.*[A-Za-z])(?=.*[!@#$%^&*(),.?":{}|<>]).{8,16}$/,
+                        //     message: '비밀번호는 8~16자 사이이며, 최소 한 개의 영문자와 특수문자를 포함해야 합니다.'
+                        // }                    
                     })}
                     onFocus={() => setPasswordFocus(true)}
                     onBlur={() => setPasswordFocus(false)}
@@ -60,14 +60,14 @@ const SignUpForm = ({ onSubmit, errorMessage }) => {
                     placeholder='전화번호(11자리, -제외)'
                     {...register('phoneNumber', {
                         required: '전화번호는 필수항목입니다.',
-                        minLength: {
-                            value: 11,
-                            message: '전화번호는 숫자 11자리여야 합니다.'
-                        },
-                        maxLength: {
-                            value: 11,
-                            message: '전화번호는 숫자 11자리여야 합니다.'
-                        }
+                        // minLength: {
+                        //     value: 11,
+                        //     message: '전화번호는 숫자 11자리여야 합니다.'
+                        // },
+                        // maxLength: {
+                        //     value: 11,
+                        //     message: '전화번호는 숫자 11자리여야 합니다.'
+                        // }
                     })}
                     onFocus={() => setPhoneNumberFocus(true)}
                     onBlur={() => setPhoneNumberFocus(false)}
