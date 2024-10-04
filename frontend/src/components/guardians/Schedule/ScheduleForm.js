@@ -22,16 +22,16 @@ const ScheduleForm = ({ handleSubmit, register, setValue, isSubmitting, errors, 
                     <input
                         className='py-2 px-3 rounded-[50px] bg-secondary border-2 border-transparent focus:border-white outline-none'
                         type="date"
-                        {...register('datePart')}
+                        {...register('datePart', { required: true })}
                     />
                     <input
                         className='py-2 px-3 rounded-[50px] bg-secondary border-2 border-transparent focus:border-white outline-none'
                         type="time"
-                        {...register('timePart')}
+                        {...register('timePart', { required: true })}
                     />
-                    <div className='flex justify-center rounded-[50px] bg-secondary border-2 border-transparent md:flex-row items-center md:col-span-2'>
+                    <div className='flex py-2 justify-center rounded-[50px] bg-secondary border-2 border-transparent md:flex-row items-center md:col-span-2'>
                         {days.map((day) => (
-                            <label key={day} className="flex items-center mr-3">
+                            <label key={day} className="flex items-center mr-2">
                                 <input
                                     className='rounded-[50px] radio-box bg-primary checked:bg-secondary border-white shadow-custom1 m-1'
                                     type='checkbox'
@@ -50,13 +50,13 @@ const ScheduleForm = ({ handleSubmit, register, setValue, isSubmitting, errors, 
                         className='flex-grow py-2 px-3 mr-3 rounded-[50px] bg-secondary border-2 border-transparent focus:border-white outline-none'
                         type="text"
                         placeholder="내용 입력"
-                        {...register('content')}
+                        {...register('content', { required: true })}
                     />
                     <button type='submit' disabled={isSubmitting} className='p-2 rounded-[50px] bg-secondary border-2 border-transparent focus:border-white hover:scale-110'>
                         {buttonText}
                     </button>
                 </div>
-                {errors.formError && <div className='text-2xl w-full my-3 text-gray-400'>{errors.formError.message}</div>}
+                {(errors.datePart || errors.timePart || errors.content) && <div className='text-2xl w-full mt-3 text-gray-400'>날짜, 시간, 내용은 필수항목입니다.</div>}
             </div>
         </form>
     );

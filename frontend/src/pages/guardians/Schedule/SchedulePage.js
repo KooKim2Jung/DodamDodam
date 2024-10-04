@@ -7,7 +7,9 @@ import { useForm } from 'react-hook-form';
 
 const SchedulePage = () => {
     const { isHelpOpen, helpStep } = useContext(AppContext);
-    const { register: registerAdd, handleSubmit: handleSubmitAdd, setValue: setValueAdd, isSubmitting: isSubmittingAdd, setError: setErrorAdd, reset: resetAdd, watch: watchAdd, formState: { errors: errorsAdd } } = useForm({
+    const { register: registerAdd, handleSubmit: handleSubmitAdd, 
+        setValue: setValueAdd, isSubmitting: isSubmittingAdd, 
+        reset: resetAdd, watch: watchAdd, formState: { errors: errorsAdd } } = useForm({
         mode: 'onChange',
         defaultValues: {
             datePart: '', 
@@ -17,8 +19,9 @@ const SchedulePage = () => {
         }
     });
 
-    // 수정폼 useForm 훅
-    const { register: registerEdit, handleSubmit: handleSubmitEdit, setValue: setValueEdit, isSubmitting: isSubmittingEdit, setError: setErrorEdit, reset: resetEdit, watch: watchEdit, formState: { errors: errorsEdit } } = useForm({
+    const { register: registerEdit, handleSubmit: handleSubmitEdit, 
+        setValue: setValueEdit, isSubmitting: isSubmittingEdit, 
+        reset: resetEdit, watch: watchEdit, formState: { errors: errorsEdit } } = useForm({
         mode: 'onChange',
         defaultValues: {
             datePart: '', 
@@ -31,7 +34,6 @@ const SchedulePage = () => {
     const [items, setItems] = useState([]);
     const [isEditing, setIsEditing] = useState(false);
     const [currentItemIndex, setCurrentItemIndex] = useState(null);
-
     const [serverError, setServerError] = useState('');
 
     const testSchedule = {
@@ -89,28 +91,6 @@ const SchedulePage = () => {
             console.log(error.response.data.detail);
         }
     }
-
-    const onSubmitAdd = (data) => {
-        if (!data.datePart || !data.timePart || !data.content) {
-            setErrorAdd('formError', {
-                type: "manual",
-                message: "날짜, 시간, 내용은 필수항목입니다."
-            });
-        } else {
-            submitSchedule(data);
-        }
-    };
-
-    const onSubmitEdit = (data) => {
-        if (!data.datePart || !data.timePart || !data.content) {
-            setErrorEdit('formError', {
-                type: "manual",
-                message: "날짜, 시간, 내용은 필수항목입니다."
-            });
-        } else {
-            editSchedule(currentItemIndex, data);
-        }
-    };
     
     const submitSchedule = async (data) => {
         const dateTime = `${data.datePart}T${data.timePart}`;
@@ -126,9 +106,9 @@ const SchedulePage = () => {
             setIsEditing(false);
             resetAdd();
         } catch (error) {
-            console.error('스케줄 요청 오류', error);
+            console.error(error.response.data.detail);
             setServerError('잠시후에 다시 입력해 주세요.')
-        }
+        } 
     };
 
     const editSchedule = async (index, data) => {
@@ -143,8 +123,10 @@ const SchedulePage = () => {
                 editItem(index, response.data);
             }
             setIsEditing(false);
+            resetEdit();
         } catch (error) {
             console.error(error.response.data.detail);
+            setServerError('잠시후에 다시 입력해 주세요.')
         }
     }
 
@@ -161,7 +143,7 @@ const SchedulePage = () => {
                     <h2 className='col-span-2'>반복</h2>
                 </div>
                 <ScheduleForm
-                    handleSubmit={handleSubmitAdd(onSubmitAdd)} 
+                    handleSubmit={handleSubmitAdd(submitSchedule)} 
                     register={registerAdd} 
                     errors={errorsAdd}
                     isSubmitting={isSubmittingAdd}
@@ -170,7 +152,7 @@ const SchedulePage = () => {
                     setValue={setValueAdd}
                 />
                 {items.length === 0 && serverError && helpStep !== 1 ? (<>
-                    <div className='flex justify-center mb-2'><img className='h-[120px] w-[105px]' src='./images/dodam_nodata.png'/></div>
+                    <div className='flex justify-center mt-2'><img className='h-[120px] w-[105px]' src='./images/dodam_nodata.png'/></div>
                     <div className='text-center text-2xl text-gray-400'>{serverError}</div>
                 </>) : null}
             </div>
@@ -192,7 +174,7 @@ const SchedulePage = () => {
                     <div key={index} className='text-2xl'>
                         {isEditing && currentItemIndex === index ?
                             <ScheduleForm 
-                            handleSubmit={handleSubmitEdit(onSubmitEdit)} 
+                            handleSubmit={handleSubmitEdit(editSchedule)} 
                             register={registerEdit} 
                             errors={errorsEdit}
                             isSubmitting={isSubmittingEdit}
