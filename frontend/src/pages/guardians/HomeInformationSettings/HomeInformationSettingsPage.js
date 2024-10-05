@@ -4,33 +4,16 @@ import HomeInformationForm from '../../../components/guardians/HomeInformationSe
 import api from '../../../Service/Api';
 import Spinner from '../../../components/Spinner/Spinner';
 import { AppContext } from '../../../AppProvider';
-import { useForm } from 'react-hook-form';
 
 const HomeInformationSettingsPage = () => {
     const { isHelpOpen, helpStep } = useContext(AppContext);
-    const { register: registerAdd, handleSubmit: handleSubmitAdd, 
-        setValue: setValueAdd, trigger: triggerAdd, reset: resetAdd, formState: { errors: errorsAdd, isSubmitting: isSubmittingAdd } } = useForm({ 
-        mode: 'onChange', 
-        defaultValues: {
-            info: ''
-        }
-    });
-
-    const { register: registerEdit, handleSubmit: handleSubmitEdit, 
-        setValue: setValueEdit, trigger: triggerEdit, reset: resetEdit, formState: { errors: errorsEdit, isSubmitting: isSubmittingEdit } } = useForm({ 
-        mode: 'onChange', 
-        defaultValues: {
-            info: ''
-        }
-    });
-
     const [items, setItems] = useState([]);
     const [isEditing, setIsEditing] = useState(false);
     const [currentItem, setCurrentItem] = useState(null);
     const [currentItemIndex, setCurrentItemIndex] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
 
-    const [serverError, setServerError] = useState('');
+    const [error, setError] = useState('');
     const [info, setInfo] = useState({
         data: '',
         vectorId: '',
@@ -59,13 +42,12 @@ const HomeInformationSettingsPage = () => {
         setCurrentItem(items[index]);
         setCurrentItemIndex(index);
         setIsEditing(true);
-        setValueEdit('info', items[index].data);
     };
 
     const getHomeInformation = async () => {
         try {
             setIsLoading(true);
-            setServerError('');
+            setError('');
             setInfo({ data: '', vectorId: '' });
     
             const response = await api.get('/v1/home/info');
@@ -80,18 +62,17 @@ const HomeInformationSettingsPage = () => {
                     });
                 }
             } else {
-                setServerError('아직 집 정보가 존재하지 않아요.');
+                setError('아직 집 정보가 존재하지 않아요.');
             }
         } catch (error) {
             console.log(error);
-            setServerError('집 정보를 불러오는 중 오류가 발생했어요.');
+            setError('집 정보를 불러오는 중 오류가 발생했어요.');
         } finally {
             setIsLoading(false);
         }
     };
 
     const deleteHomeInformation = async (index, vector_id) => {
-        console.log(index, vector_id)
         try {
             const response = await api.delete(`/v1/home/info/${vector_id}`)
             if (response.data) {
@@ -102,46 +83,6 @@ const HomeInformationSettingsPage = () => {
             console.log(error);
         }
     }
-
-    const editHomeInformation = async (data) => {
-        if (isEditing) {
-            try {
-                const response = await api.put(`/v1/home/info/${currentItem.vectorId}`, {
-                    info: data.info,
-                    vector_id: currentItem.vectorId
-                });
-                if (response.data) {
-                    editItem(currentItemIndex, {
-                        data: data.info,
-                        vectorId: currentItem.vectorId
-                    });
-                    console.log(response.data.message);
-                    setIsEditing(false);
-                }
-            } catch (error) {
-                console.log(error)
-            }
-        }
-    };
-
-    const submitHomeInformation = async (data) => {
-        try {
-            const response = await api.post('/v1/home/info', {
-                info: data.info
-            })
-            if (response.data) {
-                addItem({
-                    data: data.info,
-                    vectorId: response.data.vector_id
-                });
-                resetAdd();
-                console.log(response.data.message);
-            }
-        } catch (error) {
-            console.log(error.response.detail);
-        }
-        setInfo({ data: '', vectorId: '' });
-    };
 
     useEffect(() => {
         getHomeInformation();
@@ -166,23 +107,21 @@ const HomeInformationSettingsPage = () => {
                                         {isLoading ? (
                                             <div className='flex justify-center mt-20'><Spinner /></div>
                                         ) : (<>
-                                            {items.length === 0 && serverError ? (
+                                            {items.length === 0 && error ? (
                                                 <div className='mt-20'>
                                                     <div className='flex justify-center mb-2'><img className='h-[120px] w-[105px]' src='./images/dodam_nodata.png'/></div>
-                                                    <div className="text-center text-2xl text-gray-400">{serverError}</div>
+                                                    <div className="text-center text-2xl text-gray-400">{error}</div>
                                                 </div>
                                             ) : (<>
                                                 {items.map((item, index) => (
                                                     <div key={index}>
                                                         {isEditing && currentItemIndex === index ? (
-                                                            <HomeInformationForm 
-                                                                register={registerEdit} 
-                                                                handleSubmit={handleSubmitEdit(editHomeInformation)}
-                                                                trigger={triggerEdit}
-                                                                setValue={setValueEdit}
-                                                                isSubmitting={isSubmittingEdit}
-                                                                errors={errorsEdit}
-                                                                buttonText='저장'
+                                                            <HomeInformationForm
+                                                                currentItem={currentItem}
+                                                                saveItem={(newItem) => editItem(index, newItem)}
+                                                                isEditing={isEditing}
+                                                                items={items}
+                                                                index={index}
                                                             />
                                                         ) : (
                                                             <div className='items-center flex justify-center border-transparent bg-white shadow-[2px_4px_1px_#a5996e] rounded-[50px] m-5'>
@@ -199,15 +138,7 @@ const HomeInformationSettingsPage = () => {
                         </div>
                     </div>
                     <div className='absolute bottom-3 md:left-[250px] right-1 left-0'>
-                        <HomeInformationForm 
-                            register={registerAdd} 
-                            handleSubmit={handleSubmitAdd(submitHomeInformation)}
-                            trigger={triggerAdd}
-                            setValue={setValueAdd}
-                            isSubmitting={isSubmittingAdd}
-                            errors={errorsAdd}
-                            buttonText='추가'
-                        />
+                        <HomeInformationForm addItem={addItem} info={info} setInfo={setInfo}/>
                     </div>
                 </div>
             </div>
