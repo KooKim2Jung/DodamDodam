@@ -1,98 +1,32 @@
-import React, { useState, useEffect, useContext } from 'react';
-import HomeInformationCheck from './HomeInformationCheck';
-import api from '../../../../Service/Api';
+import React, { useEffect, useContext } from 'react';
 import { AppContext } from '../../../../AppProvider';
 
-const HomeInformationForm = ({ addItem, currentItem, saveItem, isEditing, info, setInfo, items, index }) => {
+const HomeInformationForm = ({ register, handleSubmit, trigger, setValue, isSubmitting, errors, buttonText }) => {
     const { helpStep } = useContext(AppContext);
-    const [infoError, setInfoError] = useState('');
-    const [editInfoError, setEditInfoError] = useState('');
-    const [editInfo, setEditInfo] = useState(currentItem?.data)
-
-    const inputData = (e) => {
-        setInfo(preInfo => ({
-            ...preInfo,
-            data: e.target.value
-        }));
-    };
-
-    const inputEditData = (e) => {
-        setEditInfo(e.target.value);
-    };
-
-    const saveData = async (vector_id) => {
-        if (!editInfoError && isEditing) {
-            try {
-                const response = await api.put(`/v1/home/info/${vector_id}`, {
-                    info: editInfo,
-                    vector_id: currentItem.vectorId
-                });
-                if (response.data) {
-                    saveItem({
-                        data: editInfo,
-                        vectorId: currentItem.vectorId
-                    });
-                    console.log(response.data.message);
-                }
-            } catch (error) {
-                console.log(error.response.detail)
-            }
-        }
-    };
-
-    const submitData = async () => {
-        if (!infoError) {
-            try {
-                const response = await api.post('/v1/home/info', {
-                    info: info.data
-                })
-                if (response.data) {
-                    addItem({
-                        data: info.data,
-                        vectorId: response.data.vector_id
-                    });
-                    console.log(response.data.message);
-                }
-            } catch (error) {
-                console.log(error.response.detail);
-            }
-        } 
-        setInfo({ data: '', vectorId: '' });
-    };
 
     useEffect(() => {
-        if (isEditing && currentItem) {
-            setEditInfo(currentItem.data);
-        }
-    }, [isEditing, currentItem]);
+        trigger();
+    }, []);
 
     return (
-        <div className='w-full text-2xl mt-6 px-3'>
-            {isEditing ? (
-                <HomeInformationCheck 
-                isEditing={isEditing} editInfo={editInfo} editInfoError={editInfoError} setEditInfoError={setEditInfoError}
-            />
-            ) : (
-                <HomeInformationCheck 
-                info={info} infoError={infoError} setInfoError={setInfoError}
-            />
-            )}
-            <div className={`flex items-center relative ${helpStep === 0 ? 'z-[1000]' : ''}`}>
-                <input 
-                    className='flex-grow px-3 py-2 mr-3 rounded-[50px] bg-secondary border-2 border-transparent focus:border-white outline-none'
-                    type='text'
-                    placeholder='예시) 냉장고 안에 제육볶음 있어.'
-                    value={isEditing ? editInfo : info.data}
-                    onChange={isEditing ? inputEditData : inputData}
-                />
-                <button 
-                    className='p-2 rounded-[50px] bg-secondary border-2 border-transparent focus:border-white hover:scale-110 transition-all duration-150' 
-                    onClick={isEditing ? () => saveData(items[index].vectorId): submitData}
-                >
-                    {isEditing ? '저장' : '추가'}
-                </button>
+        <form onSubmit={handleSubmit}>
+            <div className='w-full text-2xl mt-6 px-3'>
+            {errors.info && <div className='text-2xl w-full mb-2 text-gray-400'>{errors.info.message}</div>}
+                <div className={`flex items-center relative ${helpStep === 0 ? 'z-[1000]' : ''}`}>
+                    <input 
+                        className='flex-grow px-3 py-2 mr-3 rounded-[50px] bg-secondary border-2 border-transparent focus:border-white outline-none'
+                        type='text'
+                        placeholder='예시) 냉장고 안에 제육볶음 있어.'
+                        {...register('info', {
+                            required: '값을 입력해 주세요.'
+                        })}
+                    />
+                    <button type='submit' disabled={isSubmitting} className='p-2 rounded-[50px] bg-secondary border-2 border-transparent focus:border-white hover:scale-110 transition-all duration-150'> 
+                        {buttonText}
+                    </button>
+                </div>
             </div>
-        </div>
+        </form>
     );
 };
 

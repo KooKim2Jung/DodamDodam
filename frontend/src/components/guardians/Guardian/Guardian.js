@@ -75,7 +75,7 @@ const Guardian = () => {
             || location.pathname === '/SchedulePage' || location.pathname === '/HomeInformationSettingsPage' || location.pathname === '/DodamSettingsPage';
 
             if (guardianPages && !isWardSet) {
-                alert('피보호자 설정이 필요합니다..');
+                alert('피보호자 설정이 필요합니다.');
                 navigate('/WardSettingsPage');
             }
             if (isLoggedIn && !guardianPages && location.pathname !== '/WardSettingsPage') {

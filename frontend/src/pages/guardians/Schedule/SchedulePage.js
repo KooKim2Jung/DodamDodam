@@ -3,16 +3,38 @@ import { FiEdit2, FiTrash2 } from "react-icons/fi";
 import ScheduleForm from '../../../components/guardians/Schedule/ScheduleForm';
 import { AppContext } from '../../../AppProvider';
 import api from '../../../Service/Api';
+import { useForm } from 'react-hook-form';
 
 const SchedulePage = () => {
     const { isHelpOpen, helpStep } = useContext(AppContext);
-    
+    const { register: registerAdd, handleSubmit: handleSubmitAdd, 
+        setValue: setValueAdd, isSubmitting: isSubmittingAdd, 
+        reset: resetAdd, watch: watchAdd, formState: { errors: errorsAdd } } = useForm({
+        mode: 'onChange',
+        defaultValues: {
+            datePart: '', 
+            timePart: '',
+            repeat: [],
+            content: ''
+        }
+    });
+
+    const { register: registerEdit, handleSubmit: handleSubmitEdit, 
+        setValue: setValueEdit, isSubmitting: isSubmittingEdit, 
+        reset: resetEdit, watch: watchEdit, formState: { errors: errorsEdit } } = useForm({
+        mode: 'onChange',
+        defaultValues: {
+            datePart: '', 
+            timePart: '',
+            repeat: [],
+            content: ''
+        }
+    });
+
     const [items, setItems] = useState([]);
     const [isEditing, setIsEditing] = useState(false);
-    const [currentItem, setCurrentItem] = useState(null);
     const [currentItemIndex, setCurrentItemIndex] = useState(null);
-
-    const [error, setError] = useState('');
+    const [serverError, setServerError] = useState('');
 
     const testSchedule = {
         testDate: '2024-01-01',
@@ -28,18 +50,22 @@ const SchedulePage = () => {
     const editItem = (index, newItem) => {
         setItems(prevItems => prevItems.map((item, i) => i === index ? newItem : item));
         setIsEditing(false);
-        setCurrentItem(null); 
         setCurrentItemIndex(null); 
+        resetEdit();
     };
 
     const deleteItem = (index) => {
         setItems(prevItems => prevItems.filter((_, i) => i !== index));
     };
 
-    const handleEdit = (index, id) => {
-        setCurrentItem(items[index]);
+    const handleEdit = (index) => {
+        const [datePart, timePart] = items[index].date.split('T');
         setCurrentItemIndex(index);
         setIsEditing(true);
+        setValueEdit('datePart', datePart);
+        setValueEdit('timePart', timePart.slice(0, 5));
+        setValueEdit('repeat', items[index].repeat);
+        setValueEdit('content', items[index].content);
     };
 
     const getSchedule = async () => {
@@ -50,7 +76,7 @@ const SchedulePage = () => {
             }
         } catch (error) {
             console.log(error.response.data.detail);
-            setError('스케줄을 찾을 수 없어요');
+            setServerError('스케줄을 찾을 수 없어요');
         }
     }
 
@@ -63,6 +89,44 @@ const SchedulePage = () => {
             }
         } catch (error) {
             console.log(error.response.data.detail);
+        }
+    }
+    
+    const submitSchedule = async (data) => {
+        const dateTime = `${data.datePart}T${data.timePart}`;
+        try {
+            const response = await api.post('v1/schedule', {
+                date: dateTime,
+                repeat: data.repeat,
+                content: data.content,
+            })
+            if (response.data) {
+                addItem(response.data);
+            }
+            setIsEditing(false);
+            resetAdd();
+        } catch (error) {
+            console.error(error.response.data.detail);
+            setServerError('잠시후에 다시 입력해 주세요.')
+        } 
+    };
+
+    const editSchedule = async (data) => {
+        const dateTime = `${data.datePart}T${data.timePart}`;
+        try {
+            const response = await api.put(`/v1/schedule/${items[currentItemIndex].id}`, {
+                date: dateTime,
+                repeat: data.repeat,
+                content: data.content,
+            })
+            if (response.data) {
+                editItem(currentItemIndex, response.data);
+            }
+            setIsEditing(false);
+            resetEdit();
+        } catch (error) {
+            console.error(error.response.data.detail);
+            setServerError('잠시후에 다시 입력해 주세요.')
         }
     }
 
@@ -78,10 +142,18 @@ const SchedulePage = () => {
                     <h2>시간</h2>
                     <h2 className='col-span-2'>반복</h2>
                 </div>
-                <ScheduleForm addItem={addItem} setError={setError}/>
-                {items.length === 0 && error ? (<>
-                    <div className='flex justify-center mb-2'><img className='h-[120px] w-[105px]' src='./images/dodam_nodata.png'/></div>
-                    <div className='text-center text-2xl text-gray-400'>{error}</div>
+                <ScheduleForm
+                    handleSubmit={handleSubmitAdd(submitSchedule)} 
+                    register={registerAdd} 
+                    errors={errorsAdd}
+                    isSubmitting={isSubmittingAdd}
+                    buttonText="추가"
+                    watch={watchAdd}
+                    setValue={setValueAdd}
+                />
+                {items.length === 0 && serverError && helpStep !== 1 ? (<>
+                    <div className='flex justify-center mt-2'><img className='h-[120px] w-[105px]' src='./images/dodam_nodata.png'/></div>
+                    <div className='text-center text-2xl text-gray-400'>{serverError}</div>
                 </>) : null}
             </div>
             {isHelpOpen ? (<>
@@ -102,22 +174,22 @@ const SchedulePage = () => {
                     <div key={index} className='text-2xl'>
                         {isEditing && currentItemIndex === index ?
                             <ScheduleForm 
-                                items={items}
-                                index={index}
-                                item={currentItem}
-                                editItem={editItem}
-                                isEditing={isEditing}
-                                setIsEditing={setIsEditing}
-                                setError={setError}
-                            />:
+                            handleSubmit={handleSubmitEdit(editSchedule)} 
+                            register={registerEdit} 
+                            errors={errorsEdit}
+                            isSubmitting={isSubmittingEdit}
+                            buttonText="저장"
+                            watch={watchEdit}
+                            setValue={setValueEdit}
+                        />:
                             <div className='grid grid-cols-1 md:grid-cols-5 items-center border-transparent bg-white shadow-[2px_4px_1px_#a5996e] rounded-[50px] my-2 mx-6'>
                                 <div className='my-2'>{item.date.split('T')[0]}</div>
                                 <div className='my-2'>{item.date.split('T')[1].slice(0, 5)}</div>
                                 <div className='my-2'>{item.repeat.join(', ')}</div>
                                 <div className='flex md:col-span-2 items-center justify-center'>
                                     <div>{item.content}</div>
-                                    <button onClick={() => handleEdit(index, items[index].id)} className='p-2 text-2xl rounded-[50px] border-2 mx-2 my-2 border-black hover:scale-110'><FiEdit2 /></button>
-                                    <button onClick={() => deleteSchedule(index, items[index].id)} className='p-2 text-2xl rounded-[50px] border-2 border-black hover:scale-110'><FiTrash2 /></button>
+                                    <button onClick={() => handleEdit(index)} className='p-2 text-2xl rounded-[50px] border-2 mx-2 my-2 border-black hover:scale-110'><FiEdit2 /></button>
+                                    <button onClick={() => deleteSchedule(index)} className='p-2 text-2xl rounded-[50px] border-2 border-black hover:scale-110'><FiTrash2 /></button>
                                 </div>
                             </div>
                         }
