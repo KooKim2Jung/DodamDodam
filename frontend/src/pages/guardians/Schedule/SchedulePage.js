@@ -111,16 +111,16 @@ const SchedulePage = () => {
         } 
     };
 
-    const editSchedule = async (index, data) => {
+    const editSchedule = async (data) => {
         const dateTime = `${data.datePart}T${data.timePart}`;
         try {
-            const response = await api.put(`/v1/schedule/${items[index].id}`, {
+            const response = await api.put(`/v1/schedule/${items[currentItemIndex].id}`, {
                 date: dateTime,
                 repeat: data.repeat,
                 content: data.content,
             })
             if (response.data) {
-                editItem(index, response.data);
+                editItem(currentItemIndex, response.data);
             }
             setIsEditing(false);
             resetEdit();
