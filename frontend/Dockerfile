@@ -18,7 +18,7 @@ COPY . ./
 
 CMD ["yarn", "start"]
 # 디버그 개발용 실행
-# RUN yarm dev
+# RUN yarn dev
 
 # 아래는 배포용
 # RUN yarn build
