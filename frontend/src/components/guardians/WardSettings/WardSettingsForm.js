@@ -130,7 +130,7 @@ const WardSettingsForm = ({ setPhotoUpdated, previewUrl, setPreviewUrl,
                         <input 
                             className={`px-3 py-2 border-2 input-box2 lg:w-2/5
                             ${isEdit || isHelpOpen && helpStep === 0 ? 'border-transparent bg-secondary' : 'border-transparent bg-white shadow-[2px_4px_1px_#a5996e]'}`} 
-                            type='number' 
+                            type='text' 
                             id='age' 
                             readOnly={!isEdit}
                             {...register('age', {
