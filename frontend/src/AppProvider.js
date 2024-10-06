@@ -1,4 +1,5 @@
 import { createContext, useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Spinner from './components/Spinner/Spinner';
 
 const AppContext = createContext();
@@ -20,6 +21,8 @@ const AppProvider = ({ children }) => {
   const [emailFocus, setEmailFocus] = useState(false);
   const [passwordFocus, setPasswordFocus] = useState(false);
   const [phoneNumberFocus, setPhoneNumberFocus] = useState(false);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const storedLoggedInState = sessionStorage.getItem('isLoggedIn') === 'true';
@@ -68,6 +71,10 @@ const AppProvider = ({ children }) => {
             try {
               const parsedData = JSON.parse(jsonData);
               setSSEVoiceUrl(parsedData.mp3_url);
+
+              if (parsedData.mp3_url) {
+                navigate('/WardPage');
+              }
             } catch (error) {
               console.error('JSON 파싱 오류:', error);
             }
