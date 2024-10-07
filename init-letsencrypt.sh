@@ -7,7 +7,7 @@ fi
 
 compose_file="docker-compose.yml"
 
-domains=(15.164.184.14)
+domains=(dodam.site)
 rsa_key_size=4096
 data_path="./certbot"
 email="kookim2jung@gmail.com" # Adding a valid address is strongly recommended

@@ -4,7 +4,7 @@ const api = axios.create();
 
 api.interceptors.request.use((config) => {
     const token = sessionStorage.getItem("jwtToken");
-    config.baseURL = "http://15.164.184.14/api";
+    config.baseURL = "http://dodam.site/api";
 
     // 회원가입 및 로그인 요청일 경우 Authorization 헤더를 추가하지 않음
     if (token && !config.url.endsWith('/auth/join') && !config.url.endsWith('/auth/login')) {
