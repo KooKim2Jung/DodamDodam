@@ -20,5 +20,3 @@ COPY . ./
 RUN yarn build
 
 CMD ["yarn", "start"]
-# 디버그 개발용 실행
-# RUN yarm dev

@@ -12,7 +12,7 @@ const LogInForm = ({ onSubmit, errorMessage }) => {
             <div className='relative flex items-center justify-end mb-3'>
                 <input
                     className={`bg-secondary rounded-[50px] py-[8px] pl-4 pr-12 w-[365px] border-2 text-middle-size focus:outline-none transition-colors duration-300 ease-in-out
-                    ${isSubmitted ? (errors.email ? (emailFocus ? 'border-red-500' : 'border-red-300') : (emailFocus ? 'border-blue-500' : 'border-blue-300')) : (emailFocus ? 'border-white' : 'border-secondary')}`}
+                    ${isSubmitted ? (errors.email || errorMessage ? (emailFocus ? 'border-red-500' : 'border-red-300') : (emailFocus ? 'border-blue-500' : 'border-blue-300')) : (emailFocus ? 'border-white' : 'border-secondary')}`}
                     type="text"
                     name='email'
                     placeholder='이메일'
@@ -26,7 +26,7 @@ const LogInForm = ({ onSubmit, errorMessage }) => {
                     onFocus={() => setEmailFocus(true)}
                     onBlur={() => setEmailFocus(false)}
                 />
-                {isSubmitted ? (errors.email ? <FiAlertCircle color='red' className='absolute right-4' /> : <FiCheck color='blue' className='absolute right-4'/>)
+                {isSubmitted ? (errors.email || errorMessage ? <FiAlertCircle color='red' className='absolute right-4' /> : <FiCheck color='blue' className='absolute right-4'/>)
                 : null}
             </div>
             {errors.email && <div className='text-red-500 text-xl'>{errors.email.message}</div>}
@@ -34,7 +34,7 @@ const LogInForm = ({ onSubmit, errorMessage }) => {
             <div className='relative flex items-center justify-center my-3'>
                 <input
                     className={`bg-secondary rounded-[50px] py-[8px] pl-4 pr-12 w-[365px] border-2 text-middle-size focus:outline-none transition-colors duration-300 ease-in-out
-                    ${isSubmitted ? (errors.password ? (passwordFocus ? 'border-red-500' : 'border-red-300') : (passwordFocus ? 'border-blue-500' : 'border-blue-300')) : (passwordFocus ? 'border-white' : 'border-secondary')}`}
+                    ${isSubmitted ? (errors.password || errorMessage ? (passwordFocus ? 'border-red-500' : 'border-red-300') : (passwordFocus ? 'border-blue-500' : 'border-blue-300')) : (passwordFocus ? 'border-white' : 'border-secondary')}`}
                     type="password"
                     name='password'
                     placeholder='비밀번호'
@@ -48,7 +48,7 @@ const LogInForm = ({ onSubmit, errorMessage }) => {
                     onFocus={() => setPasswordFocus(true)}
                     onBlur={() => setPasswordFocus(false)}
                 />
-                {isSubmitted ? (errors.password ? <FiAlertCircle color='red' className='absolute right-4' /> : <FiCheck color='blue' className='absolute right-4'/>)
+                {isSubmitted ? (errors.password || errorMessage ? <FiAlertCircle color='red' className='absolute right-4' /> : <FiCheck color='blue' className='absolute right-4'/>)
                 : null}
             </div>
             {errors.password && <div className='text-red-500 text-xl'>{errors.password.message}</div>}

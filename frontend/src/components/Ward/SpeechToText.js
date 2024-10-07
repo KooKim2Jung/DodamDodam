@@ -5,7 +5,7 @@ import Spinner from '../Spinner/Spinner';
 import { AppContext } from '../../AppProvider';
 
 const SpeechToText = () => {
-    const { SSEVoiceUrl } = useContext(AppContext);
+    const { SSEVoiceUrl, setSSEVoiceUrl } = useContext(AppContext);
     const contentRef = useRef(''); // 음성 인식 텍스트 저장
     const [isDetected, setIsDetected] = useState(false); // "도담아"라는 말이 감지되었는지 여부
     const [isRecording, setIsRecording] = useState(false); // 녹음 중인지 여부
@@ -17,6 +17,7 @@ const SpeechToText = () => {
     const timerRef = useRef(null); 
 
     const [dodamVoiceUrl, setDodamVoiceUrl] = useState('')
+    const [prevDodamVoiceUrl, setPrevDodamVoiceUrl] = useState(''); // 이전 dodamVoiceUrl 저장
     const audioRef = useRef(null);
     const [isLoading, setIsLoading] = useState(false); // 스피너 상태 추가
 
@@ -40,7 +41,7 @@ const SpeechToText = () => {
     // 음성 인식 설정
     useEffect(() => {
         if (transcript.includes("도담아") && !isDetected) {
-            console.log('음성을 인식 하였습니다.');
+            console.log('음성을 인식하였습니다.');
             setIsDetected(true);
             resetTranscript(); // "도담아" 감지 후 초기화
         } else if (isDetected && !isRecording) {
@@ -149,15 +150,40 @@ const SpeechToText = () => {
     }
 
     useEffect(() => {
-        if (dodamVoiceUrl && audioRef.current) {
-            audioRef.current.src = dodamVoiceUrl;
-            audioRef.current.play();
-        } else if (SSEVoiceUrl && audioRef.current) {
-            audioRef.current.src = SSEVoiceUrl;
-            audioRef.current.play();
+        const playAudio = (url, onEndCallback) => {
+            if (audioRef.current) {
+                // 오디오가 재생 중이면 중지하고 초기화
+                audioRef.current.pause();
+                audioRef.current.currentTime = 0;
+    
+                // 새로운 URL로 오디오 설정 및 재생
+                audioRef.current.src = url;
+                audioRef.current.load(); // 오디오 엘리먼트의 load() 호출
+                audioRef.current.play().catch((error) => {
+                    console.error('Audio play interrupted: ', error);
+                });
+    
+                // 오디오 재생이 끝났을 때의 콜백 설정
+                audioRef.current.onended = () => {
+                    if (onEndCallback) {
+                        onEndCallback();
+                    }
+                };
+            }
+        };
+    
+        if (dodamVoiceUrl && dodamVoiceUrl !== prevDodamVoiceUrl) {
+            setPrevDodamVoiceUrl(dodamVoiceUrl);
+            setSSEVoiceUrl('');
+            playAudio(dodamVoiceUrl);
+        } else if (SSEVoiceUrl) {
+            setDodamVoiceUrl('');
+            playAudio(SSEVoiceUrl);
         }
     }, [dodamVoiceUrl, SSEVoiceUrl]);
-
+    
+    
+    
     return (
         <div className='flex justify-center'>
             {isLoading && <Spinner />}
