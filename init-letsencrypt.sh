@@ -5,7 +5,7 @@ if ! [ -x "$(command -v docker-compose)" ]; then
   exit 1
 fi
 
-compose_file="docker-compose.prod.yml"
+compose_file="docker-compose.yml"
 
 domains=(15.164.184.14)
 rsa_key_size=4096
