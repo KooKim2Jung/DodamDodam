@@ -16,9 +16,7 @@ RUN yarn install
 # /frontend에 있는 모든 파일들을 복사 (소스 코드)
 COPY . ./
 
-CMD ["yarn", "start"]
-# 디버그 개발용 실행
-# RUN yarn dev
-
 # 아래는 배포용
-# RUN yarn build
+RUN yarn build
+
+CMD ["yarn", "start"]
