@@ -1,7 +1,7 @@
 # node.js 20 버전을 사용하겠다는 의미
 FROM node:20-alpine
 
-# 컨테이터 내부 현 디렉토리를 frontend로 설정
+# 컨테이너 내부 현 디렉토리를 frontend로 설정
 WORKDIR /frontend
 
 # /frontend/node_modules/.bin 디렉토리를 PATH 환경 변수에 추가
@@ -16,7 +16,11 @@ RUN yarn install
 # /frontend에 있는 모든 파일들을 복사 (소스 코드)
 COPY . ./
 
-# 아래는 배포용
+# 환경 변수 설정 (호스트 허용)
+ENV HOST 0.0.0.0
+
+# 배포용 빌드
 RUN yarn build
 
+# React 개발 서버 실행
 CMD ["yarn", "start"]
