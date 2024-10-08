@@ -23,4 +23,4 @@ ENV HOST 0.0.0.0
 RUN yarn build
 
 # React 개발 서버 실행
-CMD ["yarn", "start"]
+CMD ["yarn", "start", "--disableHostCheck", "true"]
