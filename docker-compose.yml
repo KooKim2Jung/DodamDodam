@@ -30,6 +30,8 @@ services:
       dockerfile: Dockerfile
     ports:
       - 3000:3000
+    environment:
+      - HOST=0.0.0.0  # 호스트 환경 변수 설정
     volumes:
       - ./frontend:/frontend
       - /frontend/node_modules
