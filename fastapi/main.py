@@ -38,7 +38,9 @@ app = FastAPI()
 # CORS 설정
 origins = [
     "http://localhost:3000",
-    "http://15.164.184.14",  # 공용 IP 추가
+    "http://15.164.184.14",
+    "http://dodam.site",
+    "https://dodam.site"
 ]
 
 app.add_middleware(
