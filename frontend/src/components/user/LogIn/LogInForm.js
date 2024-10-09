@@ -18,10 +18,10 @@ const LogInForm = ({ onSubmit, errorMessage }) => {
                     placeholder='이메일'
                     {...register('email', {
                         required: '이메일을 입력해 주세요.',
-                        pattern: {
-                            value: /\S+@\S+\.\S+/,
-                            message: "이메일 형식에 맞지 않습니다."
-                        }
+                        // pattern: {
+                        //     value: /\S+@\S+\.\S+/,
+                        //     message: "이메일 형식에 맞지 않습니다."
+                        // }
                     })}
                     onFocus={() => setEmailFocus(true)}
                     onBlur={() => setEmailFocus(false)}
@@ -40,10 +40,10 @@ const LogInForm = ({ onSubmit, errorMessage }) => {
                     placeholder='비밀번호'
                     {...register('password', {
                         required: '비밀번호를 입력해 주세요',
-                        pattern: {
-                            value: /^.{8,16}$/,
-                            message: '비밀번호는 8자 이상 16자 이하여야 합니다.'
-                        }
+                        // pattern: {
+                        //     value: /^.{8,16}$/,
+                        //     message: '비밀번호는 8자 이상 16자 이하여야 합니다.'
+                        // }
                     })}
                     onFocus={() => setPasswordFocus(true)}
                     onBlur={() => setPasswordFocus(false)}
