@@ -44,7 +44,7 @@ const AppProvider = ({ children }) => {
     if (!token) return;
 
     try {
-      const response = await fetch('http://localhost:8080/api/v1/sse', {
+      const response = await fetch('https://dodam.site/api/v1/sse', {
         headers: {
           'Authorization': `Bearer ${token}`,
         },
