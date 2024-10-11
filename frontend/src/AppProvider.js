@@ -39,40 +39,54 @@ const AppProvider = ({ children }) => {
     setIsLoading(false);
   }, []);
 
-  const getSSE = () => {
+  const getSSE = async () => {
     const token = sessionStorage.getItem('jwtToken');
     if (!token) return;
-  
-    const source = new EventSource(`https://dodam.site/api/v1/sse?token=${token}`);
-  
-    source.onmessage = (event) => {
-      console.log('SSE 메시지 수신:', event.data);
-      try {
-        const parsedData = JSON.parse(event.data);
-        setSSEVoiceUrl(parsedData.mp3_url);
-  
-        if (parsedData.mp3_url) {
-          navigate('/WardPage');
+
+    try {
+      const response = await fetch('https://dodam.site/api/v1/sse', {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        },
+        method: 'GET',
+      });
+
+      const reader = response.body.getReader();
+      const decoder = new TextDecoder();
+
+      while(true) {
+        const { done, value } = await reader.read();
+        if (done) {
+          console.log('SSE 스트림이 종료되었습니다.');
+          break;
         }
-      } catch (error) {
-        console.error('JSON 파싱 오류:', error);
+        const chunk = decoder.decode(value, { stream: true });
+        console.log('SSE 메시지 수신:', chunk);
+
+        // JSON 파싱 후 처리
+        if (chunk.startsWith("data: ")) {
+          const jsonData = chunk.replace("data: ", "").trim();
+
+          if (jsonData.startsWith("{") && jsonData.endsWith("}")) {
+            try {
+              const parsedData = JSON.parse(jsonData);
+              setSSEVoiceUrl(parsedData.mp3_url);
+
+              if (parsedData.mp3_url) {
+                navigate('/WardPage');
+              }
+            } catch (error) {
+              console.error('JSON 파싱 오류:', error);
+            }
+          } else {
+            console.log('텍스트 메시지 수신:', jsonData);
+          }
+        }
       }
-    };
-  
-    source.onerror = (error) => {
+    } catch (error) {
       console.error('SSE 연결 오류:', error);
-      // 자동 재연결 시 source.close()는 불필요
-    };
-  
-    return () => {
-      source.close();  // 컴포넌트 언마운트 시 연결 종료
-    };
+    }
   };
-  
-  useEffect(() => {
-    const cleanup = getSSE();
-    return cleanup;  // 컴포넌트 언마운트 시 SSE 종료
-  }, []);  
 
   return (
     <AppContext.Provider 
