@@ -24,20 +24,21 @@ router = APIRouter(prefix="/api/v1")
 pinecone_index = init_pinecone()
 
 # 사용자별 대화 내역 저장을 위한 전역 변수 초기화
-user_conversations = {}
+# user_conversations = {}
 
 @router.post("/chat/dodam")
 async def chat_api(message: Chat, db: Session = Depends(get_db), current_user_id: int = Depends(get_current_user)):
     try:
         # 사용자별 대화 내역 가져오기, 없으면 deque 생성
-        if current_user_id not in user_conversations:
-            user_conversations[current_user_id] = deque(maxlen=10)
+        # if current_user_id not in user_conversations:
+        #     user_conversations[current_user_id] = deque(maxlen=10)
 
         # chat 함수 호출 시 current_user_id와 db, 그리고 대화 내역을 전달합니다.
-        response_text, updated_messages = chat(message.message, current_user_id, db, user_conversations[current_user_id], pinecone_index)
+        # response_text, updated_messages = chat(message.message, current_user_id, db, user_conversations[current_user_id], pinecone_index)
+        response_text, _ = chat(message.message, current_user_id, db, deque(maxlen=10), pinecone_index)
 
         # 대화 내역 업데이트
-        user_conversations[current_user_id] = updated_messages
+        # user_conversations[current_user_id] = updated_messages
 
         # response를 TTS화 하는 과정
         speech_stream = text_to_speech(gpt_message=response_text, user=current_user_id, db=db)
@@ -61,6 +62,7 @@ async def chat_api(message: Chat, db: Session = Depends(get_db), current_user_id
             args=(message.message, message_id, response_text)
         )
 
+
 #************************************************* 라마 서버 안켜져있을땐 여기 주석처리 start **********************
         # 1. 감정 분류 처리
         emotion_result = classify_emotion(message.message, message_id, db)
@@ -71,6 +73,7 @@ async def chat_api(message: Chat, db: Session = Depends(get_db), current_user_id
             combined_message = f"피보호자의 말: {message.message}\n\n도담이의 말: {response_text}\n\n감정: {emotion_result}"
             kakao_response = await send_kakao_message(combined_message, db)
 #************************************************* end **********************
+
 
         # mp3 URL을 JSON 형식으로 반환
         return {"mp3_url": mp3_url}
