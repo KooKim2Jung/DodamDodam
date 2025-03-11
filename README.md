@@ -40,7 +40,8 @@
 - 피보호자의 음성 -> 
 React(React-Speech-Recognition) STT화 -> GPT 요청 -> GPT 응답 -> CLOVA VOICE TTS 화 -> GPT 음성 대화
 
-- GPT 응답 과정 <img width="605" alt="Image" src="https://github.com/user-attachments/assets/e7159d76-b47a-4771-b0c3-37286cfbd3df" />
+- GPT 응답 과정 
+    <img width="605" alt="Image" src="https://github.com/user-attachments/assets/e7159d76-b47a-4771-b0c3-37286cfbd3df" />
     - 보호자는 돌봄의 장소인 집을 도메인 삼아 집에 있는 정보를 입력할 수 있습니다.<br> ex) 구급약의 위치, 반찬의 위치, 청소기의 위치 등
     - 집에 있는 정보가 입력되면 AI에게 해당 정보가 prompt로 전달이 됩니다.
     - 피보호자의 요청이 들어올 때 임베딩 과정을 통해 RAG 데이터에 맞는 알맞은 응답을 제공합니다. <br> ex) 구급약의 위치는 ~~에 있어!
