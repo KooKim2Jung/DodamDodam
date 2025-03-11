@@ -50,9 +50,11 @@ React(React-Speech-Recognition) STT화 -> GPT 요청 -> GPT 응답 -> CLOVA VOIC
 
 - 감정 분석한 내용을 바탕으로 보호자에게 하루 전체적인 감정 상태를 공유할 수 있습니다.
 <img width="450" alt="Image" src="https://github.com/user-attachments/assets/47f5ced1-125d-4740-b858-c3401e447598" />
+
 - 특정 감정(우울, 분노, 두려움)에 대한 감정 분석이 진행된 경우 카카오톡 알림을 통해 긴급 알람을 보호자에게 전달합니다.
 - 피보호자가 발화한 문장을 감정 분석하여 부정적인 감정(분노, 슬픔 등)이 감지될 경우, 보호자의 카카오톡 계정으로 알림을 보내줍니다.
 <img width="450" alt="Image" src="https://github.com/user-attachments/assets/d9b65e8f-c61c-43e2-80c4-e6979bb7fb8a" />
+
 - 무료 사용이 가능한 Llama3 모델은 자체 커스터마이징에 유리합니다. AWS S3와 AWS Lambda를 통해 자동으로 파인 튜닝이 되도록 개발하면서 API 비용 절감 및 더 세밀한 감정 분석이 가능하도록 할 수 있습니다.
 
 ### 보호자의 스케줄링 설정
